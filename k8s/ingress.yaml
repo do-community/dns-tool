@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: rethinkdb-ingress
+  name: do-prototype-ingress
   annotations:
     ingress.kubernetes.io/ssl-redirect: "true"
     kubernetes.io/tls-acme: "true"
