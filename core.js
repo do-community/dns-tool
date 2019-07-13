@@ -15,6 +15,7 @@ const records = {
     MX: {
         info: "A mail exchanger record (MX record) specifies the mail server responsible for accepting email messages on behalf of a domain name.",
         url: "https://en.wikipedia.org/wiki/MX_record",
+        additionalDataParsing: data => data.endsWith(".") ? data.slice(0, -1) : data,
     },
     AAAA: {
         info: "AAAA records behave the same as A records but for IPv6. They are used to point a domain or subdomain to a IPv6 address.",
@@ -28,6 +29,7 @@ const records = {
     NS: {
         info: "NS stands for \"name server\" and this record indicates which DNS server is authoritative for that domain (which server contains the actual DNS records). A domain will often have multiple NS records which can indicate primary and backup name servers for that domain.",
         url: "https://www.cloudflare.com/learning/dns/dns-records/dns-ns-record/",
+        additionalDataParsing: data => data.endsWith(".") ? data.slice(0, -1) : data,
     },
     SRV: {
         info: "A Service record (SRV record) is a specification of data in the Domain Name System defining the location, i.e. the hostname and port number, of servers for specified services. It is defined in RFC 2782, and its type code is 33.",
