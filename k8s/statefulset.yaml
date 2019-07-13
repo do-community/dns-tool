@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: do-prototype
-        image: registry.jakegealer.me/do-prototype
+        image: registry.gitlab.com/jakemakesstuff/dns-prototype
         imagePullPolicy: "Always"
         ports:
         - containerPort: 80
@@ -32,4 +32,4 @@ spec:
           initialDelaySeconds: 3
           periodSeconds: 3
       imagePullSecrets:
-      - name: private-registry
+      - name: gitlab
