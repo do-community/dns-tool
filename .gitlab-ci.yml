@@ -28,5 +28,5 @@ deploy:
     - "chmod +x ./kubectl"
     - "mv ./kubectl /usr/local/bin/kubectl"
     - "wget --header \"Content-Type: application/json\" --header \"Authorization: Bearer $DIGITALOCEAN_TOKEN\" \"https://api.digitalocean.com/v2/kubernetes/clusters/e7e5e2f5-971e-4d09-8ed8-ac5c4c02be0d/kubeconfig\""
-    - "kubectl --kubeconfig=./kubeconfig rollout restart statefulset/discordcount-api"
+    - "kubectl --kubeconfig=./kubeconfig rollout restart statefulset/do-prototype"
   stage: deploy
