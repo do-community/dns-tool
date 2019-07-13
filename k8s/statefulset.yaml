@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: do-prototype
+spec:
+  replicas: 2
+  serviceName: do-prototype
+  selector:
+    matchLabels:
+      run: do-prototype
+  template:
+    metadata:
+      labels:
+        run: do-prototype
+    spec:
+      containers:
+      - name: do-prototype
+        image: registry.jakegealer.me/do-prototype
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 80
+        readinessProbe:
+          httpGet:
+            port: 80
+            path: /
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        livenessProbe:
+          httpGet:
+            port: 80
+            path: /
+          initialDelaySeconds: 3
+          periodSeconds: 3
+      imagePullSecrets:
+      - name: private-registry
