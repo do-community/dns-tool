@@ -310,6 +310,9 @@ const getDNSRecord = async (key, text) => {
                         whois += `<hr style="margin: 5px"><span id="${mxSpanId}"><p style="font-size: 11px"><i>Loading MX blacklist data...</i></p></span>`
                         mxLookup(mxSpanId, item, ip)
                     }
+                    if (item !== ip) {
+                        item = `${item} (${ip})`
+                    }
                 }
                 row += `<td>${sanitize(item)}${whois}</td>`
             }
