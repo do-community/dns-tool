@@ -5,7 +5,7 @@ const records = {
     A: {
         info: "A records are the most basic type of DNS record and are used to point a domain or subdomain to an IPv4 address.",
         url: "https://kb.pressable.com/article/dns-record-types-explained/",
-        expectsIp: true,
+        expectsHost: true,
     },
     TXT: {
         info: "TXT records are a type of DNS record that contains text information for sources outside of your domain.",
@@ -16,11 +16,12 @@ const records = {
         info: "A mail exchanger record (MX record) specifies the mail server responsible for accepting email messages on behalf of a domain name.",
         url: "https://en.wikipedia.org/wiki/MX_record",
         additionalDataParsing: data => data.endsWith(".") ? data.slice(0, -1) : data,
+        expectsHost: true,
     },
     AAAA: {
         info: "AAAA records behave the same as A records but for IPv6. They are used to point a domain or subdomain to a IPv6 address.",
         url: "https://help.fasthosts.co.uk/app/answers/detail/a_id/1548/~/dns-aaaa-records",
-        expectsIp: true,
+        expectsHost: true,
     },
     CAA: {
         info: "CAA records allow domain owners to specify which Certificate Authorities (CAs) are permitted to issue certificates.",
@@ -30,11 +31,143 @@ const records = {
         info: "NS stands for \"name server\" and this record indicates which DNS server is authoritative for that domain (which server contains the actual DNS records). A domain will often have multiple NS records which can indicate primary and backup name servers for that domain.",
         url: "https://www.cloudflare.com/learning/dns/dns-records/dns-ns-record/",
         additionalDataParsing: data => data.endsWith(".") ? data.slice(0, -1) : data,
+        expectsHost: true,
     },
     SRV: {
         info: "A Service record (SRV record) is a specification of data in the Domain Name System defining the location, i.e. the hostname and port number, of servers for specified services. It is defined in RFC 2782, and its type code is 33.",
         url: "https://en.wikipedia.org/wiki/SRV_record",
     },
+}
+
+// Defines all included IP blacklists.
+const ipBlacklists = [
+    "zen.spamhaus.org",
+    "sbl.spamhaus.org",
+    "xbl.spamhaus.org",
+    "dnsbl.spfbl.net",
+    "spam.spamrats.com",
+]
+
+// Defines all included domain blacklists.
+const domainBlacklists = [
+    "dbl.spamhaus.org",
+    "0spam.org",
+    "dbl.suomispam.net",
+]
+
+// Reverses the IP address for DNSBL lookups.
+const reverseIp = ip => ip.split(".").reverse().join(".")
+
+// Gets any blacklists that the IP/domain is in.
+const getBlacklists = async (ip, domain) => {
+    const blacklists = {
+        ip: [],
+        domain: [],
+    }
+
+    const promises = []
+
+    for (const blacklist of ipBlacklists) {
+        promises.push((async() => {
+            const res = await fetch(
+                `https://cloudflare-dns.com/dns-query?name=${reverseIp(ip)}.${blacklist}&type=A`,
+                {
+                    headers: {
+                        Accept: "application/dns-json",
+                    },
+                }
+            )
+            if (!res.ok) {
+                return
+            }
+            if ((await res.json()).Answer) {
+                blacklists.ip.push(blacklist)
+            }
+            return res
+        })())
+    }
+
+    if (domain) {
+        for (const domainBlacklist of domainBlacklists) {
+            promises.push((async() => {
+                const res = await fetch(
+                    `https://cloudflare-dns.com/dns-query?name=${domain}.${domainBlacklist}&type=A`,
+                    {
+                        headers: {
+                            Accept: "application/dns-json",
+                        },
+                    }
+                )
+                if (!res.ok) {
+                    return
+                }
+                if ((await res.json()).Answer) {
+                    blacklists.domain.push(domainBlacklist)
+                }
+                return res
+            })())
+        }
+    }
+
+    await Promise.all(promises)
+    return blacklists
+}
+
+// Gets the IP address for a hostname.
+const getIpFromHostname = async hostname => {
+    const isHostname = /.*\.[a-z]+/
+    for (;;) {
+        if (!hostname.match(isHostname)) {
+            return hostname
+        }
+
+        const res = await fetch(
+            `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(hostname)}&type=A`,
+            {
+                headers: {
+                    Accept: "application/dns-json"
+                }
+            }
+        )
+
+        if (!res.ok) {
+            throw new Error()
+        }
+
+        const json = await res.json()
+        if (!json.Answer) {
+            throw new Error()
+        }
+
+        return json.Answer[0].data
+    }
+}
+
+// Runs a MX lookup.
+const mxLookup = async (spanId, domain, ip) => {
+    let html = ""
+
+    const blacklists = await getBlacklists(ip, domain)
+    for (const domainBlacklist of blacklists.domain) {
+        html += `<p style="font-size: 11px"><b>Domain blacklisted by ${domainBlacklist}</b></p>`
+    }
+    for (const ipBlacklist of blacklists.ip) {
+        html += `<p style="font-size: 11px"><b>Domain blacklisted by ${ipBlacklist}</b></p>`
+    }
+
+    if ("" === html) {
+        html += `<p style="font-size: 11px"><b>IP is not blacklisted.</b></p>`
+    }
+
+    const setLoop = () => {
+        const span = document.getElementById(spanId)
+        if (span) {
+            span.innerHTML = html
+        } else {
+            setTimeout(setLoop, 100)
+        }
+    }
+    setLoop()
 }
 
 // Sanitizes the external input. Never trust external input!
@@ -109,8 +242,10 @@ const getDNSRecord = async (key, text) => {
         if (key === "MX") {
             for (const record of json.Answer) {
                 const dataSplit = record.data.split(" ")
-                record.data = dataSplit[1]
-                record.priority = Number(dataSplit[0])
+                if (dataSplit.length === 2) {
+                    record.data = dataSplit[1]
+                    record.priority = Number(dataSplit[0])
+                }
             }
         }
         json.Answer.sort((a, b) => {
@@ -165,10 +300,16 @@ const getDNSRecord = async (key, text) => {
                     item = item.toString()
                 }
                 let whois = ""
-                if (records[key].expectsIp && collectionKey === "Data") {
-                    const spanId = Math.random().toString()
-                    whoisLookup(spanId, item)
-                    whois = `<hr style="margin: 5px"><span id="${spanId}"><p style="font-size: 11px"><i>Loading WHOIS data...</i></p></span>`
+                if (records[key].expectsHost && collectionKey === "Data") {
+                    const ip = await getIpFromHostname(item)
+                    const whoisSpanId = Math.random().toString()
+                    whoisLookup(whoisSpanId, ip)
+                    whois = `<hr style="margin: 5px"><span id="${whoisSpanId}"><p style="font-size: 11px"><i>Loading WHOIS data...</i></p></span>`
+                    if (key === "MX") {
+                        const mxSpanId = Math.random().toString()
+                        whois += `<hr style="margin: 5px"><span id="${mxSpanId}"><p style="font-size: 11px"><i>Loading MX blacklist data...</i></p></span>`
+                        mxLookup(mxSpanId, item, ip)
+                    }
                 }
                 row += `<td>${sanitize(item)}${whois}</td>`
             }
