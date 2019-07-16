@@ -205,7 +205,7 @@ const whoisLookup = async (spanId, ip) => {
     const rdapFetchJson = await rdapFetch.json()
     let remarks = ""
     for (const remark of rdapFetchJson.remarks ? rdapFetchJson.remarks : []) {
-        remarks += `<p style="font-size: 11px">${remark.description}</p>`
+        remarks += `<p style="font-size: 11px">${sanitize(remark.description)}</p>`
     }
     let owner = rdapFetchJson.name
     if (rdapFetchJson.entities[0]) {
@@ -213,7 +213,7 @@ const whoisLookup = async (spanId, ip) => {
     }
     document.getElementById(spanId).innerHTML = `
         <p style="font-size: 11px"><b>Owner:</b> ${sanitize(owner)}</p>
-        ${sanitize(remarks)}
+        ${remarks}
     `
 }
 
