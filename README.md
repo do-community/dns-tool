@@ -11,3 +11,8 @@ Prototyping stuff.
     - PTR verificaion
     - MX blacklist lookups (domain/IP)
 - Any information that is slow to get should have a `Loading X...` prompt. It should **NOT** hold up the loading of the page.
+
+## Demo information
+**Host:** https://gerwggwerhgreherhre.jakegealer.me/
+**Username:** do
+**Password:** 5bf0eb73
