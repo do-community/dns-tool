@@ -39,6 +39,23 @@ const records = {
     },
 }
 
+// Defines TXT fragments and what they mean.
+const globalsign = "This TXT record is used so that GlobalSign can verify that they are issuing certificates to the domain owner."
+const txtFragments = {
+    "google-site-verification": "TXT records related to Google site verification are used by Google as validation to link a domain to a user for various domain-related Google services.",
+    "mailru-verification": "TXT records related to mail.ru are used to tie a domain to a user. This allows you to check statistics for your domain related to mail.ru users.",
+    "MS": "This TXT record is used for Office 365 domain verification.",
+    "keybase-site-verification": "This TXT record is commonly used to verify that a Keybase user is in ownership of a domain.",
+    "_globalsign-domain-verification": globalsign,
+    "globalsign-domain-verification": globalsign,
+    "bugcrowd-verification": "This TXT record is used so that Bugcrowd can verify the domain owner.",
+    "status-page-domain-verification": "This is used so that Statuspage.io can verify the domain owner.",
+    "segment-site-verification": "This is used so that Segment.com can verify the domain owner.",
+    "logmein-verification-code": "This is used so that LogMeIn can verify the domain owner.",
+    "facebook-domain-verification": "This is used so that Facebook can verify the domain owner so they can provide domain statistics.",
+    "v": "This is a SPF record which is used to handle spam e-mails.",
+}
+
 // Defines all included IP blacklists.
 const ipBlacklists = [
     "zen.spamhaus.org",
@@ -299,22 +316,28 @@ const getDNSRecord = async (key, text) => {
                 } else {
                     item = item.toString()
                 }
-                let whois = ""
+                let extra = ""
                 if (records[key].expectsHost && collectionKey === "Data") {
                     const ip = await getIpFromHostname(item)
                     const whoisSpanId = Math.random().toString()
                     whoisLookup(whoisSpanId, ip)
-                    whois = `<hr style="margin: 5px"><span id="${whoisSpanId}"><p style="font-size: 11px"><i>Loading WHOIS data...</i></p></span>`
+                    extra = `<hr style="margin: 5px"><span id="${whoisSpanId}"><p style="font-size: 11px"><i>Loading WHOIS data...</i></p></span>`
                     if (key === "MX") {
                         const mxSpanId = Math.random().toString()
-                        whois += `<hr style="margin: 5px"><span id="${mxSpanId}"><p style="font-size: 11px"><i>Loading MX blacklist data...</i></p></span>`
+                        extra += `<hr style="margin: 5px"><span id="${mxSpanId}"><p style="font-size: 11px"><i>Loading MX blacklist data...</i></p></span>`
                         mxLookup(mxSpanId, item, ip)
                     }
                     if (item !== ip) {
                         item = `${item} (${ip})`
                     }
+                } else if (key === "TXT") {
+                    const txtSplit = /=|:/
+                    const equalSplit = item.split(txtSplit)
+                    if (equalSplit.length > 1 && txtFragments[equalSplit[0]]) {
+                        extra += `<hr style="margin: 5px"><p style="font-size: 11px"><b>${txtFragments[equalSplit[0]]}</b></p>`
+                    }
                 }
-                row += `<td>${sanitize(item)}${whois}</td>`
+                row += `<td>${sanitize(item)}${extra}</td>`
             }
             row += "</tr>"
             body += row
