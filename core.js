@@ -156,7 +156,7 @@ const mxLookup = async (spanId, domain, ip) => {
     }
 
     if ("" === html) {
-        html += `<p style="font-size: 11px"><b>IP is not blacklisted.</b></p>`
+        html += `<p style="font-size: 11px"><b>Domain/IP is not blacklisted.</b></p>`
     }
 
     const setLoop = () => {
@@ -212,8 +212,8 @@ const whoisLookup = async (spanId, ip) => {
         owner = `${rdapFetchJson.entities[0].vcardArray[1][1][3]} (${owner})`
     }
     document.getElementById(spanId).innerHTML = `
-        <p style="font-size: 11px"><b>Owner:</b> ${owner}</p>
-        ${remarks}
+        <p style="font-size: 11px"><b>Owner:</b> ${sanitize(owner)}</p>
+        ${sanitize(remarks)}
     `
 }
 
