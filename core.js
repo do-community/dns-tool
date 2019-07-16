@@ -3,7 +3,7 @@
 // Sets record information.
 const records = {
     A: {
-        info: "A records are the most basic type of DNS record and are used to point a domain or subdomain to an IPv4 address.",
+        info: "A records are the most basic type of DNS record and are used to point a domain or subdomain to an IPv4 address. <b>These do NOT act as MX records, to receive e-mail, you need to set a MX record.</b>",
         url: "https://kb.pressable.com/article/dns-record-types-explained/",
         expectsHost: true,
     },
