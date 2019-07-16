@@ -334,7 +334,19 @@ const getDNSRecord = async (key, text) => {
 
 // Does the main DNS searching.
 const searchDNS = async() => {
-    const text = domainInput.value
+    const text = domainInput.value.toLowerCase()
+    const isHostname = /.*\.[a-z]+/
+    if (!text.match(isHostname)) {
+        alert("Invalid domain.")
+        return
+    }
+    // const domainLookup = await fetch(
+    //     `https://whoisjs.com/api/v1/${encodeURIComponent(text)}`
+    // )
+    // if (!(await domainLookup.json()).domain) {
+    //     alert("Invalid domain.")
+    //     return
+    // }
     const promises = []
     for (const key of Object.keys(records)) {
         promises.push(getDNSRecord(key, text))
