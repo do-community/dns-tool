@@ -77,6 +77,10 @@ const domainBlacklists = [
 // Reverses the IP address for DNSBL lookups.
 const reverseIp = ip => ip.split(".").reverse().join(".")
 
+// Defines the core regex.
+const isHostname = /.*\.[a-z]+/
+const txtSplit = /=|:/
+
 // Gets any blacklists that the IP/domain is in.
 const getBlacklists = async (ip, domain) => {
     const blacklists = {
@@ -134,7 +138,6 @@ const getBlacklists = async (ip, domain) => {
 
 // Gets the IP address for a hostname.
 const getIpFromHostname = async hostname => {
-    const isHostname = /.*\.[a-z]+/
     for (;;) {
         if (!hostname.match(isHostname)) {
             return hostname
@@ -275,8 +278,22 @@ const getDNSRecord = async (key, text) => {
                 return b.TTL - a.TTL
             }
         })
+        const txtRecordFragments = {}
         for (const record of json.Answer) {
             delete record.type
+            if (key === "TXT") {
+                const recordDataSplit = record.data.split(txtSplit)
+                if (recordDataSplit.length > 1) {
+                    const consumableRecord = `${recordDataSplit[0]}%${record.name}%${record.TTL}`
+                    if (txtRecordFragments[consumableRecord]) {
+                        txtRecordFragments[consumableRecord] += `\n${record.data}`
+                    } else {
+                        txtRecordFragments[consumableRecord] = record.data
+                    }
+                    delete json.Answer[record]
+                    continue
+                }
+            }
             const recordKeys = Object.keys(record)
             for (const recordKeyOrigin of recordKeys) {
                 const recordKey = `${recordKeyOrigin[0].toUpperCase()}${recordKeyOrigin.substr(1)}`
@@ -284,6 +301,24 @@ const getDNSRecord = async (key, text) => {
                     recordsJoined[recordKey].push(record[recordKeyOrigin])
                 } else {
                     recordsJoined[recordKey] = [record[recordKeyOrigin]]
+                }
+            }
+        }
+        for (const fragmentKey of Object.keys(txtRecordFragments)) {
+            const fragSplit = fragmentKey.split(/%/g)
+            const name = fragSplit[1]
+            const ttl = fragSplit[2]
+            const fullRecord = txtRecordFragments[fragmentKey]
+            const recordObject = {
+                Name: name,
+                TTL: ttl,
+                Data: fullRecord,
+            }
+            for (const recordKey of Object.keys(recordObject)) {
+                if (recordsJoined[recordKey]) {
+                    recordsJoined[recordKey].push(recordObject[recordKey])
+                } else {
+                    recordsJoined[recordKey] = [recordObject[recordKey]]
                 }
             }
         }
@@ -309,7 +344,12 @@ const getDNSRecord = async (key, text) => {
                 if (item === undefined) {
                     item = "--"
                 } else if (collectionKey === "Data") {
-                    item = records[key].additionalDataParsing ? records[key].additionalDataParsing(item.toString()) : item.toString()
+                    const newLineSplit = item.toString().split(/\n/g)
+                    const newParts = []
+                    for (const splitPart of newLineSplit) {
+                        newParts.push(records[key].additionalDataParsing ? sanitize(records[key].additionalDataParsing(splitPart)) : sanitize(splitPart))
+                    }
+                    item = newParts.join("<br>")
                 } else if (collectionKey === "Name") {
                     const last = item[item.length - 1]
                     if (last === ".") {
@@ -333,13 +373,12 @@ const getDNSRecord = async (key, text) => {
                         item = `${item} (${ip})`
                     }
                 } else if (key === "TXT") {
-                    const txtSplit = /=|:/
                     const equalSplit = item.split(txtSplit)
                     if (equalSplit.length > 1 && txtFragments[equalSplit[0]]) {
                         extra += `<hr style="margin: 5px"><p style="font-size: 11px"><b>${txtFragments[equalSplit[0]]}</b></p>`
                     }
                 }
-                row += `<td>${sanitize(item)}${extra}</td>`
+                row += `<td>${item}${extra}</td>`
             }
             row += "</tr>"
             body += row
@@ -360,7 +399,6 @@ const getDNSRecord = async (key, text) => {
 // Does the main DNS searching.
 const searchDNS = async() => {
     const text = domainInput.value.toLowerCase()
-    const isHostname = /.*\.[a-z]+/
     if (!text.match(isHostname)) {
         alert("Invalid domain.")
         return
