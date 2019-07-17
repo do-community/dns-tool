@@ -363,13 +363,13 @@ const searchDNS = async() => {
         alert("Invalid domain.")
         return
     }
-    // const domainLookup = await fetch(
-    //     `https://whoisjs.com/api/v1/${encodeURIComponent(text)}`
-    // )
-    // if (!(await domainLookup.json()).domain) {
-    //     alert("Invalid domain.")
-    //     return
-    // }
+    const domainLookup = await fetch(
+        `https://whoisjs.com/api/v1/${encodeURIComponent(text)}`
+    )
+    if (!(await domainLookup.json()).domain) {
+        alert("Invalid domain.")
+        return
+    }
     const promises = []
     for (const key of Object.keys(records)) {
         promises.push(getDNSRecord(key, text))
