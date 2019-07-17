@@ -245,7 +245,7 @@ const whoisLookup = async (spanId, ip) => {
 // Gets the DNS record.
 const getDNSRecord = async (key, text) => {
     let html = `
-        <h3 class="title is-3">${key} Records</h3>
+        <h3 class="title is-3" id="${key}-Records">${key} Records <a href="#${key}-Records"><i class="fas fa-link" style="color: black; font-size: 50%;"></i></a></h3>
         <p>${records[key].info} <a href="${records[key].url}">Learn more</a></p>
     `
     const fetchRes = await fetch(
@@ -399,6 +399,15 @@ const getDNSRecord = async (key, text) => {
     return html
 }
 
+// Defines the URL params.
+const params = new URLSearchParams(window.location.search)
+
+// Defines if the user has linked to a domain.
+const linked = params.get("domain")
+
+// Defines the URL fragment.
+const urlFragment = window.location.hash === "" ? null : window.location.hash.substr(1)
+
 // Does the main DNS searching.
 const searchDNS = async() => {
     const text = domainInput.value.toLowerCase()
@@ -413,23 +422,25 @@ const searchDNS = async() => {
         alert("Invalid domain.")
         return
     }
-    window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
+    if (!linked) {
+        window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
+    }
     const promises = []
     for (const key of Object.keys(records)) {
         promises.push(getDNSRecord(key, text))
     }
     const allHtml = await Promise.all(promises)
     document.getElementById("content").innerHTML = allHtml.join("")
+    if (urlFragment) {
+        const el = document.getElementById(urlFragment)
+        if (el) {
+            el.scrollIntoView()
+        }
+    }
 }
 
 // Gets the search button element.
 const searchButton = document.getElementById("SearchButton")
-
-// Defines the URL params.
-const params = new URLSearchParams(window.location.search)
-
-// Defines if the user has linked to a domain.
-const linked = params.get("domain")
 
 // Defines if a search is running.
 let running = false
