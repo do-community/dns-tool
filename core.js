@@ -287,7 +287,7 @@ const getDNSRecord = async (key, text) => {
             if (key === "TXT") {
                 const recordDataSplit = record.data.split(txtSplit)
                 if (recordDataSplit.length > 1) {
-                    const consumableRecord = `${recordDataSplit[0]}%${record.name}%${record.TTL}`
+                    const consumableRecord = `${recordDataSplit[0].substr(1).startsWith("_") ? recordDataSplit[0].substr(2) : recordDataSplit[0].substr(1)}%${record.name}%${record.TTL}`
                     if (txtRecordFragments[consumableRecord]) {
                         txtRecordFragments[consumableRecord] += `\n${record.data}`
                     } else {
