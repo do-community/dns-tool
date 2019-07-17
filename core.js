@@ -178,7 +178,10 @@ const mxLookup = async (spanId, domain, ip) => {
     }
 
     if ("" === html) {
-        html += `<p style="font-size: 11px"><b>Domain/IP is not blacklisted.</b></p>`
+        html += `
+            <p style="font-size: 11px"><b>Domain/IP is not blacklisted.</b></p>
+            <p style="font-size: 11px"><a href="https://www.techwalla.com/articles/what-does-it-mean-if-an-email-address-is-blacklisted">What does a mailing blacklist mean?</a></p>
+        `
     }
 
     const setLoop = () => {
