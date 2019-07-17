@@ -413,6 +413,7 @@ const searchDNS = async() => {
         alert("Invalid domain.")
         return
     }
+    window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
     const promises = []
     for (const key of Object.keys(records)) {
         promises.push(getDNSRecord(key, text))
@@ -424,8 +425,11 @@ const searchDNS = async() => {
 // Gets the search button element.
 const searchButton = document.getElementById("SearchButton")
 
-// Focuses the domain text box.
-window.onload = () => domainInput.focus()
+// Defines the URL params.
+const params = new URLSearchParams(window.location.search)
+
+// Defines if the user has linked to a domain.
+const linked = params.get("domain")
 
 // Defines if a search is running.
 let running = false
@@ -442,6 +446,16 @@ const searchDNSEvent = async() => {
         searchButton.classList.remove("is-loading")
     } finally {
         running = false
+    }
+}
+
+// Focuses the domain text box or runs the search from query params.
+window.onload = () => {
+    if (linked) {
+        domainInput.value = linked
+        searchDNSEvent()
+    } else {
+        domainInput.focus()
     }
 }
 
