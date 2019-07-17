@@ -53,6 +53,8 @@ const txtFragments = {
     "segment-site-verification": "This is used so that Segment.com can verify the domain owner.",
     "logmein-verification-code": "This is used so that LogMeIn can verify the domain owner.",
     "facebook-domain-verification": "This is used so that Facebook can verify the domain owner so they can provide domain statistics.",
+    "yandex-verification": "This is used so that Yandex can verify the domain owner.",
+    "loaderio": "This is used so that Loader.io can verify the domain owner.",
     "v": "This is a SPF record which is used to identify trusted sources for transmitted e-mail. This makes it easier for recievers to tell if a e-mail is spam.",
 }
 
