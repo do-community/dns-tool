@@ -352,7 +352,7 @@ const getDNSRecord = async (key, text) => {
                     for (const splitPart of newLineSplit) {
                         newParts.push(records[key].additionalDataParsing ? sanitize(records[key].additionalDataParsing(splitPart)) : sanitize(splitPart))
                     }
-                    item = newParts.join("<br>")
+                    item = newParts.join(`<hr style="margin: 5px">`)
                 } else if (collectionKey === "Name") {
                     const last = item[item.length - 1]
                     if (last === ".") {
