@@ -79,7 +79,7 @@ const reverseIp = ip => ip.split(".").reverse().join(".")
 
 // Defines the core regex.
 const isHostname = /.*\.[a-z]+/
-const txtSplit = /=|:/
+const txtSplit = /=|:| /
 
 // Gets any blacklists that the IP/domain is in.
 const getBlacklists = async (ip, domain) => {
@@ -344,13 +344,34 @@ const getDNSRecord = async (key, text) => {
             let row = "<tr>"
             for (const collectionKey of keys) {
                 let item = recordsJoined[collectionKey][i]
+                let tSplit
                 if (item === undefined) {
                     item = "--"
                 } else if (collectionKey === "Data") {
                     const newLineSplit = item.toString().split(/\n/g)
                     const newParts = []
                     for (const splitPart of newLineSplit) {
-                        newParts.push(records[key].additionalDataParsing ? sanitize(records[key].additionalDataParsing(splitPart)) : sanitize(splitPart))
+                        let part = records[key].additionalDataParsing ? sanitize(records[key].additionalDataParsing(splitPart)) : sanitize(splitPart)
+                        if (key === "TXT" && part.length > 20) {
+                            const truncateId = Math.random().toString()
+                            tSplit = part.split(txtSplit)
+                            let truncated
+                            if (tSplit.length > 1) {
+                                truncated = tSplit[0]
+                            } else {
+                                truncated = part.substr(0, 30)
+                            }
+                            part = `
+                                <span id="${truncateId}-trunc">
+                                    ${truncated}
+                                </span>
+                                <span id="${truncateId}-untrunc" style="display: none">
+                                    ${part}
+                                </span>
+                                <a href="javascript:toggleTruncation('${truncateId}')" id="${truncateId}-handler">Show more</a>
+                            `
+                        }
+                        newParts.push(part)
                     }
                     item = newParts.join(`<hr style="margin: 5px">`)
                 } else if (collectionKey === "Name") {
@@ -376,9 +397,8 @@ const getDNSRecord = async (key, text) => {
                         item = `${item} (${ip})`
                     }
                 } else if (key === "TXT") {
-                    const equalSplit = item.split(txtSplit)
-                    if (equalSplit.length > 1 && txtFragments[equalSplit[0]]) {
-                        extra += `<hr style="margin: 5px"><p style="font-size: 11px"><b>${txtFragments[equalSplit[0]]}</b></p>`
+                    if (tSplit && tSplit.length > 1 && txtFragments[tSplit[0]]) {
+                        extra += `<hr style="margin: 5px"><p style="font-size: 11px"><b>${txtFragments[tSplit[0]]}</b></p>`
                     }
                 }
                 row += `<td>${item}${extra}</td>`
@@ -476,3 +496,13 @@ domainInput.addEventListener("keyup", event => {
         searchDNSEvent()
     }
 })
+
+// Toggles the span class.
+const toggleTruncation = spanId => {
+    const trunc = document.getElementById(`${spanId}-trunc`)
+    const untrunc = document.getElementById(`${spanId}-untrunc`)
+    const show = untrunc.style.display === "none"
+    trunc.style.display = show ? "none" : ""
+    untrunc.style.display = show ? "" : "none"
+    document.getElementById(`${spanId}-handler`).textContent = show ? "Show less" : "Show more"
+}
