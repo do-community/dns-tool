@@ -419,6 +419,23 @@ const linked = params.get("domain")
 // Defines the URL fragment.
 const urlFragment = window.location.hash === "" ? null : window.location.hash.substr(1)
 
+// Glues all the HTML together.
+const glueHtml = parts => {
+    const columns = [`<div class="column is-half">`, `<div class="column is-half">`]
+    let index = 1
+    for (const part of parts) {
+        if (index === columns.length) {
+            index = 0
+        }
+        columns[index] += part
+        index++
+    }
+    for (const c in columns) {
+        columns[c] += "</div>"
+    }
+    return `<div class="columns">${columns.join("")}</div>`
+}
+
 // Does the main DNS searching.
 const searchDNS = async() => {
     const text = domainInput.value.toLowerCase()
@@ -441,7 +458,7 @@ const searchDNS = async() => {
         promises.push(getDNSRecord(key, text))
     }
     const allHtml = await Promise.all(promises)
-    document.getElementById("content").innerHTML = allHtml.join("")
+    document.getElementById("content").innerHTML = glueHtml(allHtml)
     if (urlFragment) {
         const el = document.getElementById(urlFragment)
         if (el) {
