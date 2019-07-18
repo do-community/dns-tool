@@ -34,7 +34,7 @@ const records = {
         expectsHost: true,
     },
     SRV: {
-        info: "A Service record (SRV record) is a specification of data in the Domain Name System defining the location, i.e. the hostname and port number, of servers for specified services.\nIt is defined in RFC 2782, and its type code is 33.",
+        info: "A Service record (SRV record) is a specification of data in the Domain Name System defining the location, i.e. the hostname and port number, of servers for specified services.",
         url: "https://en.wikipedia.org/wiki/SRV_record",
     },
 }
