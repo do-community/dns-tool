@@ -349,7 +349,11 @@ const getDNSRecord = async (key, text) => {
                             tSplit = part.split(txtSplit)
                             let truncated
                             if (tSplit.length > 1) {
-                                truncated = tSplit[0]
+                                if (tSplit[0] === "v" && tSplit[1] === "spf1") {
+                                    truncated = `${tSplit[0]}=${tSplit[1]}`
+                                } else {
+                                    truncated = tSplit[0]
+                                }
                             } else {
                                 truncated = part.substr(0, 30)
                             }
