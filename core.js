@@ -366,6 +366,16 @@ const getDNSRecord = async (key, text) => {
                                 </span>
                                 <a href="javascript:toggleTruncation('${truncateId}')" id="${truncateId}-handler">Show more</a>
                             `
+                        } else if (key === "NS") {
+                            if (!item.endsWith(".digitalocean.com") && !item.endsWith(".digitalocean.com.")) {
+                                document.getElementById("NS-Extra").innerHTML = `
+                                    <p><b>This domain is not using DigitalOcean DNS.</b> <a href="https://www.digitalocean.com/docs/networking/dns/">Learn more about DigitalOcean DNS.</a></p>
+                                `
+                            } else {
+                                document.getElementById("NS-Extra").innerHTML = `
+                                    <p><b>This domain is using DigitalOcean DNS.</b> <a href="https://www.digitalocean.com/docs/networking/dns/">Learn more about DigitalOcean DNS.</a></p>
+                                `
+                            }
                         }
                         newParts.push(part)
                     }
@@ -474,7 +484,7 @@ const searchDNS = async() => {
         parts.push(`<span id="${key}-base"></span>`)
         promises.push(parallelRender(`${key}-base`, getDNSRecord(key, text)))
     }
-    document.getElementById("content").innerHTML = glueHtml(parts)
+    document.getElementById("content").innerHTML = `<span id="NS-Extra"><p><i>Loading NS record information...</i></p></span><hr>${glueHtml(parts)}`
     await Promise.all(promises)
     if (urlFragment) {
         const el = document.getElementById(urlFragment)
