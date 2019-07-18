@@ -225,7 +225,7 @@ const whoisLookup = async (spanId, ip) => {
     const geoIpJson = await geoIpRes.json()
     const countryCode = geoIpJson.country_code.toLowerCase()
     const html = `
-        <p style="font-size: 11px"><a id="${expandId}-handler" href="javascript:toggleWhoisExtra('${expandId}')"><b>Owner:</b> ${sanitize(json.results[0].netname)} <span title="${geoIpJson.country}" class="flag-icon flag-icon-${countryCode}"></span></a></p>
+        <p style="font-size: 11px"><b>Owner:</b> <a id="${expandId}-handler" href="javascript:toggleWhoisExtra('${expandId}')">${sanitize(json.results[0].netname)}</a> <span title="${geoIpJson.country}" class="flag-icon flag-icon-${countryCode}"></span></p>
         <span id="${expandId}" style="display: none">
             <p style="font-size: 11px"><b>ASN:</b> ${json.results[0].asn}</p>
             <p style="font-size: 11px"><b>CIDR:</b> ${json.results[0].cidr}</p>
