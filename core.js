@@ -221,8 +221,11 @@ const whoisLookup = async (spanId, ip) => {
     )
     const json = await fetchRes.json()
     const expandId = Math.random().toString()
+    const geoIpRes = await fetch(`https://get.geojs.io/v1/ip/geo/${ip}.json`)
+    const geoIpJson = await geoIpRes.json()
+    const countryCode = geoIpJson.country_code.toLowerCase()
     const html = `
-        <p style="font-size: 11px"><b>Owner:</b> ${sanitize(json.results[0].netname)} (ASN: ${json.results[0].asn})</p>
+        <p style="font-size: 11px"><b>Owner:</b> ${sanitize(json.results[0].netname)} (ASN: ${json.results[0].asn})  <span title="${geoIpJson.country}" class="flag-icon flag-icon-${countryCode}"></span></p>
         <span id="${expandId}" style="display: none">
             <p style="font-size: 11px"><b>CIDR:</b> ${json.results[0].cidr}</p>
             <p style="font-size: 11px"><b>Abuse Contact:</b> ${sanitize(json.results[0].services.abusix[0])}</p>
