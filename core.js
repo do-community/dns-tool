@@ -189,7 +189,7 @@ const mxLookup = async (spanId, domain, ip) => {
         if (span) {
             span.innerHTML = html
         } else {
-            setTimeout(setLoop, 100)
+            setTimeout(setLoop, 10)
         }
     }
     setLoop()
@@ -210,7 +210,7 @@ const domainInput = document.getElementById("DomainInput")
 
 // Runs the WHOIS lookup.
 const whoisLookup = async (spanId, ip) => {
-    const url = `https://whois.arin.net/rest/ip/${ip}.json`
+    const url = `https://cfwho.com/get/${ip}`
     const fetchRes = await fetch(
         url, {
             headers: {
@@ -219,27 +219,18 @@ const whoisLookup = async (spanId, ip) => {
         }
     )
     const json = await fetchRes.json()
-    const noWhoisData = "<p>No WHOIS data found.</p>"
-    if (!json.net.rdapRef.$) {
-        return noWhoisData
-    }
-    const rdapFetch = await fetch(json.net.rdapRef.$)
-    if (!rdapFetch.ok) {
-        return noWhoisData
-    }
-    const rdapFetchJson = await rdapFetch.json()
-    let remarks = ""
-    for (const remark of rdapFetchJson.remarks ? rdapFetchJson.remarks : []) {
-        remarks += `<p style="font-size: 11px">${sanitize(remark.description)}</p>`
-    }
-    let owner = rdapFetchJson.name
-    if (rdapFetchJson.entities[0]) {
-        owner = `${rdapFetchJson.entities[0].vcardArray[1][1][3]} (${owner})`
-    }
-    document.getElementById(spanId).innerHTML = `
-        <p style="font-size: 11px"><b>Owner:</b> ${sanitize(owner)}</p>
-        ${remarks}
+    const html = `
+        <p style="font-size: 11px"><b>Owner:</b> ${sanitize(json.results[0].netname)}</p>
     `
+    const setLoop = () => {
+        const span = document.getElementById(spanId)
+        if (span) {
+            span.innerHTML = html
+        } else {
+            setTimeout(setLoop, 10)
+        }
+    }
+    setLoop()
 }
 
 // Gets the DNS record.
