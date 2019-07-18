@@ -9,7 +9,9 @@
         <div id="top" class="has-text-centered" style="padding-left: 30%; padding-right: 30%; margin-top: 10px">
             <h2 class="title is-2">Name here</h2>
             <h5 class="title is-5">Description here</h5>
-            <input class="input" type="text" placeholder="Domain" id="DomainInput">
+            <form autocomplete="on" onsubmit="return false">
+                <input class="input" type="text" placeholder="Domain" id="DomainInput">
+            </form>
             <a class="button is-link" href="javascript:searchDNSEvent()" style="margin-top: 20px" id="SearchButton">Search DNS Records</a>
         </div>
         <hr>
