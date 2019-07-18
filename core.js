@@ -221,7 +221,9 @@ const whoisLookup = async (spanId, ip) => {
     )
     const json = await fetchRes.json()
     const html = `
-        <p style="font-size: 11px"><b>Owner:</b> ${sanitize(json.results[0].netname)}</p>
+        <p style="font-size: 11px"><b>Owner:</b> ${sanitize(json.results[0].netname)} (ASN: ${json.results[0].asn})</p>
+        <p style="font-size: 11px"><b>CIDR:</b> ${json.results[0].cidr}</p>
+        <p style="font-size: 11px"><b>Abuse Contact:</b> ${sanitize(json.results[0].services.abusix[0])}</p>
     `
     const setLoop = () => {
         const span = document.getElementById(spanId)
