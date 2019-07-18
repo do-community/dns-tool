@@ -441,6 +441,16 @@ const glueHtml = parts => {
     return `<div class="columns">${columns.join("")}</div>`
 }
 
+// Does the parallel HTML rendering.
+const parallelRender = async (spanId, promise) => {
+    try {
+        const promiseRes = await promise
+        document.getElementById(spanId).innerHTML = promiseRes
+    } catch (e) {
+        console.error(e)
+    }
+}
+
 // Does the main DNS searching.
 const searchDNS = async() => {
     const text = domainInput.value.toLowerCase()
@@ -458,12 +468,14 @@ const searchDNS = async() => {
     if (!linked) {
         window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
     }
+    const parts = []
     const promises = []
     for (const key of Object.keys(records)) {
-        promises.push(getDNSRecord(key, text))
+        parts.push(`<span id="${key}-base"></span>`)
+        promises.push(parallelRender(`${key}-base`, getDNSRecord(key, text)))
     }
-    const allHtml = await Promise.all(promises)
-    document.getElementById("content").innerHTML = glueHtml(allHtml)
+    document.getElementById("content").innerHTML = glueHtml(parts)
+    await Promise.all(promises)
     if (urlFragment) {
         const el = document.getElementById(urlFragment)
         if (el) {
