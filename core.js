@@ -429,7 +429,7 @@ const getDNSRecord = async (key, text) => {
 const params = new URLSearchParams(window.location.search)
 
 // Defines if the user has linked to a domain.
-const linked = params.get("domain")
+let linked = params.get("domain")
 
 // Defines the URL fragment.
 const urlFragment = window.location.hash === "" ? null : window.location.hash.substr(1)
@@ -519,6 +519,7 @@ const searchDNSEvent = async() => {
 window.onload = () => {
     if (linked) {
         domainInput.value = linked
+        linked = null
         searchDNSEvent()
     } else {
         domainInput.focus()
