@@ -225,12 +225,12 @@ const whoisLookup = async (spanId, ip) => {
     const geoIpJson = await geoIpRes.json()
     const countryCode = geoIpJson.country_code.toLowerCase()
     const html = `
-        <p style="font-size: 11px"><b>Owner:</b> ${sanitize(json.results[0].netname)} (ASN: ${json.results[0].asn})  <span title="${geoIpJson.country}" class="flag-icon flag-icon-${countryCode}"></span></p>
+        <p style="font-size: 11px"><a id="${expandId}-handler" href="javascript:toggleWhoisExtra('${expandId}')"><b>Owner:</b> ${sanitize(json.results[0].netname)} <span title="${geoIpJson.country}" class="flag-icon flag-icon-${countryCode}"></span></a></p>
         <span id="${expandId}" style="display: none">
+            <p style="font-size: 11px"><b>ASN:</b> ${json.results[0].asn}</p>
             <p style="font-size: 11px"><b>CIDR:</b> ${json.results[0].cidr}</p>
             <p style="font-size: 11px"><b>Abuse Contact:</b> ${sanitize(json.results[0].services.abusix[0])}</p>
         </span>
-        <p style="font-size: 11px"><a id="${expandId}-handler" href="javascript:toggleWhoisExtra('${expandId}')">Show more</a></p>
     `
     const setLoop = () => {
         const span = document.getElementById(spanId)
@@ -557,5 +557,4 @@ const toggleWhoisExtra = spanId => {
     const el = document.getElementById(spanId)
     const show = el.style.display === "none"
     el.style.display = show ? "" : "none"
-    document.getElementById(`${spanId}-handler`).textContent = show ? "Show less" : "Show more"
 }
