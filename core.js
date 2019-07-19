@@ -299,6 +299,7 @@ const getDNSRecord = async (key, text) => {
                 for (const newSplit of dataSplit) {
                     if (!newSplit.startsWith("v")) {
                         newRecords.push({
+                            name: record.name,
                             data: newSplit,
                             TTL: record.TTL,
                             type: undefined,
