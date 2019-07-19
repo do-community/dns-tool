@@ -37,6 +37,10 @@ const records = {
         info: "A Service record (SRV record) is a specification of data in the Domain Name System defining the location, i.e. the hostname and port number, of servers for specified services.",
         url: "https://en.wikipedia.org/wiki/SRV_record",
     },
+    DMARC: {
+        info: "The goal of DMARC is to build on this system of senders and receivers collaborating to improve mail authentication practices of senders and enable receivers to reject unauthenticated messages.",
+        url: "https://dmarc.org/overview/",
+    },
 }
 
 // Defines TXT fragments and what they mean.
@@ -259,8 +263,13 @@ const getDNSRecord = async (key, text) => {
         <h3 class="title is-3" id="${key}-Records">${key} Records <a href="#${key}-Records"><i class="fas fa-link" style="color: black; font-size: 50%;"></i></a></h3>
         <p>${records[key].info.replace(/\n/g, "<br>")} <a href="${records[key].url}">Learn more</a></p>
     `
+    let changedKey = key
+    if (key === "DMARC") {
+        text = `_dmarc.${text}`
+        changedKey = "TXT"
+    }
     const fetchRes = await fetch(
-        `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(text)}&type=${key}`,
+        `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(text)}&type=${changedKey}`,
         {
             headers: {
                 Accept: "application/dns-json",
@@ -283,6 +292,21 @@ const getDNSRecord = async (key, text) => {
                     record.priority = Number(dataSplit[0])
                 }
             }
+        } else if (key === "DMARC") {
+            const newRecords = []
+            for (const record of json.Answer) {
+                const dataSplit = record.data.substr(1).slice(0, -1).split(";")
+                for (const newSplit of dataSplit) {
+                    if (!newSplit.startsWith("v")) {
+                        newRecords.push({
+                            data: newSplit,
+                            TTL: record.TTL,
+                            type: undefined,
+                        })
+                    }
+                }
+            }
+            json.Answer = newRecords
         }
         json.Answer.sort((a, b) => {
             if (a.priority) {
