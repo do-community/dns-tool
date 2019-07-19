@@ -223,9 +223,13 @@ const whoisLookup = async (spanId, ip) => {
     const expandId = Math.random().toString()
     const geoIpRes = await fetch(`https://get.geojs.io/v1/ip/geo/${ip}.json`)
     const geoIpJson = await geoIpRes.json()
-    const countryCode = geoIpJson.country_code.toLowerCase()
+    const countryCode = geoIpJson.country_code ? geoIpJson.country_code.toLowerCase() : ""
+    const countryInfo = geoIpJson.city ? `${geoIpJson.city}, ${geoIpJson.country}` : geoIpJson.country
     const html = `
-        <p style="font-size: 11px"><b>Owner:</b> <a id="${expandId}-handler" href="javascript:toggleWhoisExtra('${expandId}')">${sanitize(json.results[0].netname)}</a> <span title="${geoIpJson.country}" class="flag-icon flag-icon-${countryCode}"></span></p>
+        <p style="font-size: 11px">
+            <b>Owner:</b> <a id="${expandId}-handler" href="javascript:toggleWhoisExtra('${expandId}')">${sanitize(json.results[0].netname)}</a>
+            <span id="countryInfo" class="flag-icon flag-icon-${countryCode}"></span>
+        </p>
         <span id="${expandId}" style="display: none">
             <p style="font-size: 11px"><b>ASN:</b> ${json.results[0].asn}</p>
             <p style="font-size: 11px"><b>CIDR:</b> ${json.results[0].cidr}</p>
@@ -236,6 +240,12 @@ const whoisLookup = async (spanId, ip) => {
         const span = document.getElementById(spanId)
         if (span) {
             span.innerHTML = html
+            tippy("#countryInfo", {
+                content: countryInfo,
+                animation: "scale",
+                arrow: true,
+                theme: "dark",
+            })
         } else {
             setTimeout(setLoop, 10)
         }
