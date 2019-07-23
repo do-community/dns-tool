@@ -333,12 +333,5 @@ window.onload = () => {
     }
 }
 
-// Run the searchDNSEvent function when ENTER is detected in the text box.
-domainInput!.addEventListener("keyup", event => {
-    if (event.key === "Enter") {
-        searchDNSEvent()
-    }
-})
-
 // Handles truncation/extra info.
 htmlWindow.toggleExtra = toggles
