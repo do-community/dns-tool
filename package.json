@@ -2,7 +2,10 @@
   "name": "dns-lookup",
   "version": "1.0.0",
   "description": "A fast and easy to use DNS lookup tool.",
-  "scripts": {},
+  "scripts": {
+    "build": "parcel build ./src/index.html",
+    "dev": "parcel ./src/index.html"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JakeMakesStuff/DNS-Prototype.git"
@@ -16,6 +19,6 @@
   },
   "homepage": "https://github.com/JakeMakesStuff/DNS-Prototype#readme",
   "dependencies": {
-    "webpack": "^4.37.0"
+    "parcel-bundler": "1.12.3"
   }
 }
