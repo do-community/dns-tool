@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/JakeMakesStuff/DNS-Prototype#readme",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "parcel-bundler": "1.12.3"
   }
 }

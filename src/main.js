@@ -1,3 +1,5 @@
+import "babel-polyfill";
+
 const records = require('./data/records');
 const txtFragments = require('./data/txt');
 const { ipBlacklists, domainBlacklists } = require('./data/blacklists');
