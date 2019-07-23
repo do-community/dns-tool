@@ -1,3 +1,5 @@
+import 'babel-polyfill'
+
 import records from './data/records';
 import txtFragments from './data/txt';
 import cfDNS from './utils/cfDNS';
