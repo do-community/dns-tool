@@ -1,68 +1,11 @@
 const records = require('./data/records');
 const txtFragments = require('./data/txt');
-const { ipBlacklists, domainBlacklists } = require('./data/blacklists');
-
-// Reverses the IP address for DNSBL lookups.
-const reverseIp = ip => ip.split(".").reverse().join(".")
+const getBlacklists = require('./blacklists');
+const cfDNS = require('./utils/cfDNS');
 
 // Defines the core regex.
 const isHostname = /.*\.[a-z]+/
 const txtSplit = /=|:| /
-
-// Gets any blacklists that the IP/domain is in.
-const getBlacklists = async (ip, domain) => {
-    const blacklists = {
-        ip: [],
-        domain: [],
-    }
-
-    const promises = []
-
-    for (const blacklist of ipBlacklists) {
-        promises.push((async() => {
-            const res = await fetch(
-                `https://cloudflare-dns.com/dns-query?name=${reverseIp(ip)}.${blacklist}&type=A`,
-                {
-                    headers: {
-                        Accept: "application/dns-json",
-                    },
-                }
-            )
-            if (!res.ok) {
-                return
-            }
-            if ((await res.json()).Answer) {
-                blacklists.ip.push(blacklist)
-            }
-            return res
-        })())
-    }
-
-    if (domain) {
-        for (const domainBlacklist of domainBlacklists) {
-            promises.push((async() => {
-                const res = await fetch(
-                    `https://cloudflare-dns.com/dns-query?name=${domain}.${domainBlacklist}&type=A`,
-                    {
-                        headers: {
-                            Accept: "application/dns-json",
-                        },
-                    }
-                )
-                if (!res.ok) {
-                    return
-                }
-                if ((await res.json()).Answer) {
-                    blacklists.domain.push(domainBlacklist)
-                }
-                return res
-            })())
-        }
-    }
-
-    await Promise.all(promises)
-    return blacklists
-}
 
 // Gets the IP address for a hostname.
 const getIpFromHostname = async hostname => {
@@ -71,14 +14,7 @@ const getIpFromHostname = async hostname => {
             return hostname
         }
 
-        const res = await fetch(
-            `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(hostname)}&type=A`,
-            {
-                headers: {
-                    Accept: "application/dns-json"
-                }
-            }
-        )
+        const res = await cfDNS(hostname, 'A');
 
         if (!res.ok) {
             throw new Error()
@@ -192,17 +128,8 @@ const getDNSRecord = async (key, text) => {
         text = `_dmarc.${text}`
         changedKey = "TXT"
     }
-    const fetchRes = await fetch(
-        `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(text)}&type=${changedKey}`,
-        {
-            headers: {
-                Accept: "application/dns-json",
-            },
-        }
-    )
-    if (!fetchRes.ok) {
-        throw fetchRes
-    }
+    const fetchRes = await cfDNS(text, changedKey);
+    if (!fetchRes.ok) throw fetchRes;
     const json = await fetchRes.json()
     if (!json.Answer) {
         html += "<p><b>Could not find any records of this type.</b></p>"
