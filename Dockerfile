@@ -1,3 +1,7 @@
+FROM node:12 AS builder
+WORKDIR /build
+RUN npm i
+RUN npm run build
+
 FROM jakemakesstuff/apache2-php-docker
-COPY . /var/www/public
-RUN rm -rf /var/www/public/k8s
+COPY --from=builder /build/dist /var/www/public
