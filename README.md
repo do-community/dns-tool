@@ -2,15 +2,15 @@
 Prototyping stuff.
 
 ## User flow
-The goal for this website is to allow users to lookup DNS records.
+The goal for this website is to allow users to lookup DNS records. For example, if a user wants to lookup a A record to check that users can access their droplet from their domain properly, they would go to the DNS lookup page, search the record, get the record and close the page. If the user wanted to share a record type with other people, they could click the link button next to the record type and then copy the URL to their current page. When someone was linked it, they would be pointed to that exact record type for that domain. 
 
 When you visit the page, you should be directed to the page with the textbox active if the domain is not part of the URL query argument. This is so that you can easily just start typing:
 
 ![](https://i.imgur.com/ab9kZK7.png)
 
-If the user has a domain as part of the URL query, the textbox should not be focused and it should act like the "Search DNS Records" button has been clicked. Clicking ENTER in the textbox should do the same thing.
+Pressing the "Search DNS Records" button or hitting ENTER in the text box will call a JavaScript function which will allow for the searching of records. If the user has a domain as part of the URL query, the textbox should not be focused, the textbox should be populated with the HTTP query and it should act like the "Search DNS Records" button has been clicked.
 
-If the user has not searched anything, we will have a lot of room underneath. We could use this for a large FAQ part (?) or something useful to the user that will take up a large amount of space. This will be removed when the user does a search:
+There is currently a lot of unused space on the main page. This space is automatically removed and replaced with the records when the user does a search:
 
 ![](https://i.imgur.com/l9PbwIR.png)
 
