@@ -13,7 +13,7 @@ const txtSplit = /[=: ]/;
 const htmlWindow = (window as any)
 
 // Gets the IP address for a hostname.
-const getIpFromHostname = async(hostname: string) => {
+const getIpFromHostname = async (hostname: string) => {
     if (!hostname.match(isHostname)) return hostname;
 
     const res = await cfDNS(hostname, 'A');
