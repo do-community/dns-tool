@@ -4,6 +4,7 @@ import cfDNS from './utils/cfDNS';
 import whoisJS from './utils/whoisJS';
 import sanitize from './utils/sanitize';
 import { whoisLookup, mxLookup } from './lookups';
+import toggles from './utils/toggles';
 
 // Defines the core regex.
 const isHostname = /.*\.[a-z]+/;
@@ -340,15 +341,4 @@ domainInput!.addEventListener("keyup", event => {
 })
 
 // Handles truncation/extra info.
-htmlWindow.toggleExtra = (showTogglingSpanId: string, spanId2: string | undefined, handlerId: string | undefined) => {
-    const showToggler = document.getElementById(showTogglingSpanId) as HTMLDivElement
-    const show = showToggler!.style.display === "none"
-    if (spanId2) {
-        const spanInfo2 = document.getElementById(spanId2) as HTMLDivElement
-        spanInfo2.style.display = show ? "none" : ""
-    }
-    showToggler.style.display = show ? "" : "none"
-    if (handlerId) {
-        document.getElementById(handlerId)!.textContent = show ? "Show less" : "Show more"
-    }
-}
+htmlWindow.toggleExtra = toggles
