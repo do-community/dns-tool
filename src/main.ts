@@ -5,6 +5,11 @@ import whoisJS from './utils/whoisJS';
 import sanitize from './utils/sanitize';
 import { whoisLookup, mxLookup } from './lookups';
 import toggles from './utils/toggles';
+import standardiseRecords from './standardise_records';
+import joinTxtSameHostTtl from './txt_join'
+import { createHeadings, getLargestRecordPart } from './table'
+import displayIfDigitalOceanDns from './utils/dodns_display'
+import truncatedRecordHandling from './truncated_record_handling'
 
 // Defines the core regex.
 const isHostname = /.*\.[a-z]+/;
@@ -48,98 +53,13 @@ const getDNSRecord = async (key: string, text: string) => {
         html += "<p><b>Could not find any records of this type.</b></p>"
     } else {
         const recordsJoined = {} as any
-        if (key === "MX") {
-            for (const record of json.Answer) {
-                const dataSplit = record.data.split(" ")
-                if (dataSplit.length === 2) {
-                    record.data = dataSplit[1]
-                    record.priority = Number(dataSplit[0])
-                }
-            }
-        } else if (key === "DMARC") {
-            const newRecords = []
-            for (const record of json.Answer) {
-                const dataSplit = record.data.substr(1).slice(0, -1).split(";")
-                for (const newSplit of dataSplit) {
-                    if (!newSplit.startsWith("v")) {
-                        newRecords.push({
-                            name: record.name,
-                            data: newSplit,
-                            TTL: record.TTL,
-                            type: undefined,
-                        })
-                    }
-                }
-            }
-            json.Answer = newRecords
-        }
-        json.Answer.sort((a: any, b: any) => {
-            if (a.priority) {
-                return a.priority - b.priority
-            }
-            if (a.TTL) {
-                return b.TTL - a.TTL
-            }
-        })
         const txtRecordFragments = {} as any
-        for (const record of json.Answer) {
-            delete record.type
-            if (key === "TXT") {
-                const recordDataSplit = record.data.split(txtSplit)
-                if (recordDataSplit.length > 1) {
-                    const consumableRecord = `${recordDataSplit[0].substr(1).startsWith("_") ? recordDataSplit[0].substr(2) : recordDataSplit[0].substr(1)}%${record.name}%${record.TTL}`
-                    if (txtRecordFragments[consumableRecord]) {
-                        txtRecordFragments[consumableRecord] += `\n${record.data}`
-                    } else {
-                        txtRecordFragments[consumableRecord] = record.data
-                    }
-                    delete json.Answer[record]
-                    continue
-                }
-            }
-            const recordKeys = Object.keys(record)
-            for (const recordKeyOrigin of recordKeys) {
-                const recordKey = `${recordKeyOrigin[0].toUpperCase()}${recordKeyOrigin.substr(1)}`
-                if (recordsJoined[recordKey]) {
-                    recordsJoined[recordKey].push(record[recordKeyOrigin])
-                } else {
-                    recordsJoined[recordKey] = [record[recordKeyOrigin]]
-                }
-            }
-        }
-        for (const fragmentKey of Object.keys(txtRecordFragments)) {
-            const fragSplit = fragmentKey.split(/%/g)
-            const name = fragSplit[1]
-            const ttl = fragSplit[2]
-            const fullRecord = txtRecordFragments[fragmentKey]
-            const recordObject = {
-                Name: name,
-                TTL: ttl,
-                Data: fullRecord,
-            }
-            for (const recordKey of Object.keys(recordObject)) {
-                if (recordsJoined[recordKey]) {
-                    recordsJoined[recordKey].push((recordObject as any)[recordKey])
-                } else {
-                    recordsJoined[recordKey] = [(recordObject as any)[recordKey]]
-                }
-            }
-        }
+        standardiseRecords(key, json, txtRecordFragments, recordsJoined, txtSplit)
+        joinTxtSameHostTtl(recordsJoined, txtRecordFragments)
         const keys = Object.keys(recordsJoined)
-        let headings = "<thead><tr>"
-        for (const heading of keys) {
-            headings += `
-                <th>${heading}</th>
-            `
-        }
-        headings += "</tr></thead>"
+        const headings = createHeadings(keys)
+        const largestRecordPart = getLargestRecordPart(Object.values(recordsJoined))
         let body = "<tbody>"
-        let largestRecordPart = 0
-        for (const part of Object.values(recordsJoined)) {
-            if ((part as string).length > largestRecordPart) {
-                largestRecordPart = (part as string).length
-            }
-        }
         for (let i = 0; i < largestRecordPart; i++) {
             let row = "<tr>"
             for (const collectionKey of keys) {
@@ -151,39 +71,15 @@ const getDNSRecord = async (key: string, text: string) => {
                     const newLineSplit = item.toString().split(/\n/g)
                     const newParts = []
                     for (const splitPart of newLineSplit) {
+                        // This long line parses data and makes sure it is sanitized.
                         let part = (records as any)[key].additionalDataParsing ? sanitize((records as any)[key].additionalDataParsing(splitPart)) : sanitize(splitPart)
+
                         if (key === "TXT" && part.length > 20) {
-                            const truncateId = Math.random().toString()
-                            tSplit = part.split(txtSplit)
-                            let truncated
-                            if (tSplit.length > 1) {
-                                if (tSplit[0] === "v" && tSplit[1] === "spf1") {
-                                    truncated = `${tSplit[0]}=${tSplit[1]}`
-                                } else {
-                                    truncated = tSplit[0]
-                                }
-                            } else {
-                                truncated = part.substr(0, 30)
-                            }
-                            part = `
-                                <span id="${truncateId}-trunc">
-                                    ${truncated}
-                                </span>
-                                <span id="${truncateId}-untrunc" style="display: none">
-                                    ${part}
-                                </span>
-                                <a href="javascript:toggleExtra('${truncateId}-untrunc', '${truncateId}-trunc', '${truncateId}-handler')" id="${truncateId}-handler">Show more</a>
-                            `
+                            const parts = truncatedRecordHandling(tSplit, part, txtSplit)
+                            tSplit = parts[0]
+                            part = parts[1] as string
                         } else if (key === "NS") {
-                            if (!item.endsWith(".digitalocean.com") && !item.endsWith(".digitalocean.com.")) {
-                                document.getElementById("NS-Extra")!.innerHTML = `
-                                    <p><b>This domain is not using DigitalOcean DNS.</b> <a href="https://www.digitalocean.com/docs/networking/dns/">Learn more about DigitalOcean DNS.</a></p>
-                                `
-                            } else {
-                                document.getElementById("NS-Extra")!.innerHTML = `
-                                    <p><b>This domain is using DigitalOcean DNS.</b> <a href="https://www.digitalocean.com/docs/networking/dns/">Learn more about DigitalOcean DNS.</a></p>
-                                `
-                            }
+                            displayIfDigitalOceanDns(item)
                         }
                         newParts.push(part)
                     }
