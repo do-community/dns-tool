@@ -1,5 +1,6 @@
 FROM node:12 AS builder
 WORKDIR /build
+COPY . .
 RUN npm i
 RUN npm run build
 
