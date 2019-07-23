@@ -7,84 +7,67 @@ const geoJS = require('./utils/geoJS');
 const whoisJS = require('./utils/whoisJS');
 
 // Defines the core regex.
-const isHostname = /.*\.[a-z]+/
-const txtSplit = /=|:| /
+const isHostname = /.*\.[a-z]+/;
+const txtSplit = /[=: ]/;
 
 // Gets the IP address for a hostname.
 const getIpFromHostname = async hostname => {
-    for (;;) {
-        if (!hostname.match(isHostname)) {
-            return hostname
-        }
+    if (!hostname.match(isHostname)) return hostname;
 
-        const res = await cfDNS(hostname, 'A');
+    const res = await cfDNS(hostname, 'A');
 
-        if (!res.ok) {
-            throw new Error()
-        }
+    if (!res.ok) throw new Error();
 
-        const json = await res.json()
-        if (!json.Answer) {
-            throw new Error()
-        }
+    const json = await res.json();
+    if (!json.Answer) throw new Error();
 
-        return json.Answer[0].data
-    }
-}
+    return json.Answer[0].data
+};
 
 // Runs a MX lookup.
 const mxLookup = async (spanId, domain, ip) => {
-    let html = ""
+    const html = [];
+    const blacklists = await getBlacklists(ip, domain);
 
-    const blacklists = await getBlacklists(ip, domain)
-    for (const domainBlacklist of blacklists.domain) {
-        html += `<p style="font-size: 11px"><b>Domain blacklisted by ${domainBlacklist}</b></p>`
-    }
-    for (const ipBlacklist of blacklists.ip) {
-        html += `<p style="font-size: 11px"><b>Domain blacklisted by ${ipBlacklist}</b></p>`
-    }
+    for (const domainBlacklist of blacklists.domain)
+        html.push(`<p style="font-size: 11px"><b>Domain blacklisted by ${domainBlacklist}</b></p>`);
+    for (const ipBlacklist of blacklists.ip)
+        html.push(`<p style="font-size: 11px"><b>Domain blacklisted by ${ipBlacklist}</b></p>`);
 
-    if ("" === html) {
-        html += `
-            <p style="font-size: 11px"><b>Domain/IP is not blacklisted.</b></p>
-        `
-    }
-
-    html += `<p style="font-size: 11px"><a href="https://www.techwalla.com/articles/what-does-it-mean-if-an-email-address-is-blacklisted">What does a mailing blacklist mean?</a></p>`
+    if (html.length === 0) html.push(`<p style="font-size: 11px"><b>Domain/IP is not blacklisted.</b></p>`);
+    html.push(`<p style="font-size: 11px"><a href="https://www.techwalla.com/articles/what-does-it-mean-if-an-email-address-is-blacklisted">What does a mailing blacklist mean?</a></p>`);
 
     const setLoop = () => {
-        const span = document.getElementById(spanId)
+        const span = document.getElementById(spanId);
         if (span) {
-            span.innerHTML = html
+            span.innerHTML = html.join('\n');
         } else {
             setTimeout(setLoop, 10)
         }
-    }
+    };
     setLoop()
-}
+};
 
 // Sanitizes the external input. Never trust external input!
 const sanitize = data => {
-    const lt = /</g,
-        gt = />/g,
-        ap = /'/g,
-        ic = /"/g
-
-    return data.toString().replace(lt, "&lt;").replace(gt, "&gt;").replace(ap, "&#39;").replace(ic, "&#34;")
-}
+    return data.toString()
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/'/g, '&#39;')
+        .replace(/"/g, '&#34;')
+};
 
 // Gets the domain input element.
-const domainInput = document.getElementById("DomainInput")
+const domainInput = document.getElementById('DomainInput');
 
 // Runs the WHOIS lookup.
 const whoisLookup = async (spanId, ip) => {
-    const fetchRes = await cfWHO(ip);
-    const json = await fetchRes.json()
-    const expandId = Math.random().toString()
-    const geoIpRes = await geoJS(ip);
-    const geoIpJson = await geoIpRes.json()
-    const countryCode = geoIpJson.country_code ? geoIpJson.country_code.toLowerCase() : ""
-    const countryInfo = geoIpJson.city ? `${geoIpJson.city}, ${geoIpJson.country}` : geoIpJson.country
+    const json = await (await cfWHO(ip)).json();
+    const geoIpJson = await (await geoJS(ip)).json();
+    const countryCode = geoIpJson.country_code ? geoIpJson.country_code.toLowerCase() : '';
+    const countryInfo = geoIpJson.city ? `${geoIpJson.city}, ${geoIpJson.country}` : geoIpJson.country;
+
+    const expandId = Math.random().toString();
     const html = `
         <p style="font-size: 11px">
             <b>Owner:</b> <a id="${expandId}-handler" href="javascript:toggleWhoisExtra('${expandId}')">${sanitize(json.results[0].netname)}</a>
@@ -95,11 +78,12 @@ const whoisLookup = async (spanId, ip) => {
             <p style="font-size: 11px"><b>CIDR:</b> ${json.results[0].cidr}</p>
             <p style="font-size: 11px"><b>Abuse Contact:</b> ${sanitize(json.results[0].services.abusix[0])}</p>
         </span>
-    `
+    `;
+
     const setLoop = () => {
-        const span = document.getElementById(spanId)
+        const span = document.getElementById(spanId);
         if (span) {
-            span.innerHTML = html
+            span.innerHTML = html;
             tippy("#countryInfo", {
                 content: countryInfo,
                 animation: "scale",
@@ -109,9 +93,11 @@ const whoisLookup = async (spanId, ip) => {
         } else {
             setTimeout(setLoop, 10)
         }
-    }
+    };
     setLoop()
-}
+};
+
+// TODO: refactor beyond here
 
 // Gets the DNS record.
 const getDNSRecord = async (key, text) => {
@@ -353,7 +339,7 @@ const parallelRender = async (spanId, promise) => {
 }
 
 // Does the main DNS searching.
-const searchDNS = async() => {
+const searchDNS = async () => {
     const text = domainInput.value.toLowerCase()
     if (!text.match(isHostname)) {
         alert("Invalid domain.")
@@ -390,7 +376,7 @@ const searchButton = document.getElementById("SearchButton")
 let running = false
 
 // Runs the main code block to get DNS results.
-const searchDNSEvent = async() => {
+const searchDNSEvent = async () => {
     if (running) {
         return
     }
