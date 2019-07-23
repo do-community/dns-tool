@@ -1,22 +1,24 @@
-import "babel-polyfill";
-
-const records = require('./data/records');
-const txtFragments = require('./data/txt');
-const { ipBlacklists, domainBlacklists } = require('./data/blacklists');
+import records from "./data/records"
+import txtFragments from "./data/txt"
+import { ipBlacklists, domainBlacklists } from "./data/blacklists"
+import { sanitize } from "./utils"
 
 // Reverses the IP address for DNSBL lookups.
-const reverseIp = ip => ip.split(".").reverse().join(".")
+const reverseIp = (ip: string) => ip.split(".").reverse().join(".")
 
 // Defines the core regex.
 const isHostname = /.*\.[a-z]+/
 const txtSplit = /=|:| /
 
+// The HTML window. Used for buttons.
+const htmlWindow = (window as any)
+
 // Gets any blacklists that the IP/domain is in.
-const getBlacklists = async (ip, domain) => {
+const getBlacklists = async (ip: string, domain: string) => {
     const blacklists = {
         ip: [],
         domain: [],
-    }
+    } as any
 
     const promises = []
 
@@ -67,36 +69,34 @@ const getBlacklists = async (ip, domain) => {
 }
 
 // Gets the IP address for a hostname.
-const getIpFromHostname = async hostname => {
-    for (;;) {
-        if (!hostname.match(isHostname)) {
-            return hostname
-        }
-
-        const res = await fetch(
-            `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(hostname)}&type=A`,
-            {
-                headers: {
-                    Accept: "application/dns-json"
-                }
-            }
-        )
-
-        if (!res.ok) {
-            throw new Error()
-        }
-
-        const json = await res.json()
-        if (!json.Answer) {
-            throw new Error()
-        }
-
-        return json.Answer[0].data
+const getIpFromHostname = async(hostname: string) => {
+    if (!hostname.match(isHostname)) {
+        return hostname
     }
+
+    const res = await fetch(
+        `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(hostname)}&type=A`,
+        {
+            headers: {
+                Accept: "application/dns-json"
+            }
+        }
+    )
+
+    if (!res.ok) {
+        throw new Error()
+    }
+
+    const json = await res.json()
+    if (!json.Answer) {
+        throw new Error()
+    }
+
+    return json.Answer[0].data
 }
 
 // Runs a MX lookup.
-const mxLookup = async (spanId, domain, ip) => {
+const mxLookup = async (spanId: string, domain: string, ip: string) => {
     let html = ""
 
     const blacklists = await getBlacklists(ip, domain)
@@ -126,21 +126,11 @@ const mxLookup = async (spanId, domain, ip) => {
     setLoop()
 }
 
-// Sanitizes the external input. Never trust external input!
-const sanitize = data => {
-    const lt = /</g,
-        gt = />/g,
-        ap = /'/g,
-        ic = /"/g
-
-    return data.toString().replace(lt, "&lt;").replace(gt, "&gt;").replace(ap, "&#39;").replace(ic, "&#34;")
-}
-
 // Gets the domain input element.
-const domainInput = document.getElementById("DomainInput")
+const domainInput = document.getElementById("DomainInput") as HTMLInputElement
 
 // Runs the WHOIS lookup.
-const whoisLookup = async (spanId, ip) => {
+const whoisLookup = async (spanId: string, ip: string) => {
     const url = `https://cfwho.com/get/${ip}`
     const fetchRes = await fetch(
         url, {
@@ -157,7 +147,7 @@ const whoisLookup = async (spanId, ip) => {
     const countryInfo = geoIpJson.city ? `${geoIpJson.city}, ${geoIpJson.country}` : geoIpJson.country
     const html = `
         <p style="font-size: 11px">
-            <b>Owner:</b> <a id="${expandId}-handler" href="javascript:toggleWhoisExtra('${expandId}')">${sanitize(json.results[0].netname)}</a>
+            <b>Owner:</b> <a id="${expandId}-handler" href="javascript:toggleExtra('${expandId}')">${sanitize(json.results[0].netname)}</a>
             <span id="countryInfo" class="flag-icon flag-icon-${countryCode}"></span>
         </p>
         <span id="${expandId}" style="display: none">
@@ -170,6 +160,7 @@ const whoisLookup = async (spanId, ip) => {
         const span = document.getElementById(spanId)
         if (span) {
             span.innerHTML = html
+            // @ts-ignore
             tippy("#countryInfo", {
                 content: countryInfo,
                 animation: "scale",
@@ -184,10 +175,10 @@ const whoisLookup = async (spanId, ip) => {
 }
 
 // Gets the DNS record.
-const getDNSRecord = async (key, text) => {
+const getDNSRecord = async (key: string, text: string) => {
     let html = `
         <h3 class="title is-3" id="${key}-Records">${key} Records <a href="#${key}-Records"><i class="fas fa-link" style="color: black; font-size: 50%;"></i></a></h3>
-        <p>${records[key].info.replace(/\n/g, "<br>")} <a href="${records[key].url}">Learn more</a></p>
+        <p>${(records as any)[key].info.replace(/\n/g, "<br>")} <a href="${(records as any)[key].url}">Learn more</a></p>
     `
     let changedKey = key
     if (key === "DMARC") {
@@ -209,7 +200,7 @@ const getDNSRecord = async (key, text) => {
     if (!json.Answer) {
         html += "<p><b>Could not find any records of this type.</b></p>"
     } else {
-        const recordsJoined = {}
+        const recordsJoined = {} as any
         if (key === "MX") {
             for (const record of json.Answer) {
                 const dataSplit = record.data.split(" ")
@@ -235,7 +226,7 @@ const getDNSRecord = async (key, text) => {
             }
             json.Answer = newRecords
         }
-        json.Answer.sort((a, b) => {
+        json.Answer.sort((a: any, b: any) => {
             if (a.priority) {
                 return a.priority - b.priority
             }
@@ -243,7 +234,7 @@ const getDNSRecord = async (key, text) => {
                 return b.TTL - a.TTL
             }
         })
-        const txtRecordFragments = {}
+        const txtRecordFragments = {} as any
         for (const record of json.Answer) {
             delete record.type
             if (key === "TXT") {
@@ -281,9 +272,9 @@ const getDNSRecord = async (key, text) => {
             }
             for (const recordKey of Object.keys(recordObject)) {
                 if (recordsJoined[recordKey]) {
-                    recordsJoined[recordKey].push(recordObject[recordKey])
+                    recordsJoined[recordKey].push((recordObject as any)[recordKey])
                 } else {
-                    recordsJoined[recordKey] = [recordObject[recordKey]]
+                    recordsJoined[recordKey] = [(recordObject as any)[recordKey]]
                 }
             }
         }
@@ -298,8 +289,8 @@ const getDNSRecord = async (key, text) => {
         let body = "<tbody>"
         let largestRecordPart = 0
         for (const part of Object.values(recordsJoined)) {
-            if (part.length > largestRecordPart) {
-                largestRecordPart = part.length
+            if ((part as string).length > largestRecordPart) {
+                largestRecordPart = (part as string).length
             }
         }
         for (let i = 0; i < largestRecordPart; i++) {
@@ -313,7 +304,7 @@ const getDNSRecord = async (key, text) => {
                     const newLineSplit = item.toString().split(/\n/g)
                     const newParts = []
                     for (const splitPart of newLineSplit) {
-                        let part = records[key].additionalDataParsing ? sanitize(records[key].additionalDataParsing(splitPart)) : sanitize(splitPart)
+                        let part = (records as any)[key].additionalDataParsing ? sanitize((records as any)[key].additionalDataParsing(splitPart)) : sanitize(splitPart)
                         if (key === "TXT" && part.length > 20) {
                             const truncateId = Math.random().toString()
                             tSplit = part.split(txtSplit)
@@ -334,15 +325,15 @@ const getDNSRecord = async (key, text) => {
                                 <span id="${truncateId}-untrunc" style="display: none">
                                     ${part}
                                 </span>
-                                <a href="javascript:toggleTruncation('${truncateId}')" id="${truncateId}-handler">Show more</a>
+                                <a href="javascript:toggleExtra('${truncateId}-untrunc', '${truncateId}-trunc', '${truncateId}-handler')" id="${truncateId}-handler">Show more</a>
                             `
                         } else if (key === "NS") {
                             if (!item.endsWith(".digitalocean.com") && !item.endsWith(".digitalocean.com.")) {
-                                document.getElementById("NS-Extra").innerHTML = `
+                                document.getElementById("NS-Extra")!.innerHTML = `
                                     <p><b>This domain is not using DigitalOcean DNS.</b> <a href="https://www.digitalocean.com/docs/networking/dns/">Learn more about DigitalOcean DNS.</a></p>
                                 `
                             } else {
-                                document.getElementById("NS-Extra").innerHTML = `
+                                document.getElementById("NS-Extra")!.innerHTML = `
                                     <p><b>This domain is using DigitalOcean DNS.</b> <a href="https://www.digitalocean.com/docs/networking/dns/">Learn more about DigitalOcean DNS.</a></p>
                                 `
                             }
@@ -359,7 +350,7 @@ const getDNSRecord = async (key, text) => {
                     item = item.toString()
                 }
                 let extra = ""
-                if (records[key].expectsHost && collectionKey === "Data") {
+                if ((records as any)[key].expectsHost && collectionKey === "Data") {
                     const ip = await getIpFromHostname(item)
                     const whoisSpanId = Math.random().toString()
                     whoisLookup(whoisSpanId, ip)
@@ -373,8 +364,8 @@ const getDNSRecord = async (key, text) => {
                         item = `${item} (${ip})`
                     }
                 } else if (key === "TXT") {
-                    if (tSplit && tSplit.length > 1 && txtFragments[tSplit[0]]) {
-                        extra += `<hr style="margin: 5px"><p style="font-size: 11px"><b>${txtFragments[tSplit[0]].replace(/\n/g, "<br>")}</b></p>`
+                    if (tSplit && tSplit.length > 1 && (txtFragments as any)[tSplit[0]]) {
+                        extra += `<hr style="margin: 5px"><p style="font-size: 11px"><b>${(txtFragments as any)[tSplit[0]].replace(/\n/g, "<br>")}</b></p>`
                     }
                 }
                 row += `<td>${item}${extra}</td>`
@@ -405,7 +396,7 @@ let linked = params.get("domain")
 const urlFragment = window.location.hash === "" ? null : window.location.hash.substr(1)
 
 // Glues all the HTML together.
-const glueHtml = parts => {
+const glueHtml = (parts: string[]) => {
     const columns = [`<div class="column is-half">`, `<div class="column is-half">`]
     let index = 1
     for (const part of parts) {
@@ -422,10 +413,10 @@ const glueHtml = parts => {
 }
 
 // Does the parallel HTML rendering.
-const parallelRender = async (spanId, promise) => {
+const parallelRender = async (spanId: string, promise: Promise<string>) => {
     try {
         const promiseRes = await promise
-        document.getElementById(spanId).innerHTML = promiseRes
+        document.getElementById(spanId)!.innerHTML = promiseRes
     } catch (e) {
         console.error(e)
     }
@@ -454,7 +445,7 @@ const searchDNS = async() => {
         parts.push(`<span id="${key}-base"></span>`)
         promises.push(parallelRender(`${key}-base`, getDNSRecord(key, text)))
     }
-    document.getElementById("content").innerHTML = `<span id="NS-Extra"><p><i>Loading NS record information...</i></p></span><hr>${glueHtml(parts)}`
+    document.getElementById("content")!.innerHTML = `<span id="NS-Extra"><p><i>Loading NS record information...</i></p></span><hr>${glueHtml(parts)}`
     await Promise.all(promises)
     if (urlFragment) {
         const el = document.getElementById(urlFragment)
@@ -465,7 +456,7 @@ const searchDNS = async() => {
 }
 
 // Gets the search button element.
-const searchButton = document.getElementById("SearchButton")
+const searchButton = document.getElementById("SearchButton") as HTMLInputElement
 
 // Defines if a search is running.
 let running = false
@@ -484,38 +475,36 @@ const searchDNSEvent = async() => {
         running = false
     }
 }
+htmlWindow.searchDNSEvent = searchDNSEvent
 
 // Focuses the domain text box or runs the search from query params.
 window.onload = () => {
     if (linked) {
-        domainInput.value = linked
+        domainInput!.value = linked
         linked = null
         searchDNSEvent()
     } else {
-        domainInput.focus()
+        domainInput!.focus()
     }
 }
 
 // Run the searchDNSEvent function when ENTER is detected in the text box.
-domainInput.addEventListener("keyup", event => {
+domainInput!.addEventListener("keyup", event => {
     if (event.key === "Enter") {
         searchDNSEvent()
     }
 })
 
-// Toggles the truncation for TXT records.
-const toggleTruncation = spanId => {
-    const trunc = document.getElementById(`${spanId}-trunc`)
-    const untrunc = document.getElementById(`${spanId}-untrunc`)
-    const show = untrunc.style.display === "none"
-    trunc.style.display = show ? "none" : ""
-    untrunc.style.display = show ? "" : "none"
-    document.getElementById(`${spanId}-handler`).textContent = show ? "Show less" : "Show more"
-}
-
-// Toggles the extra information for WHOIS records.
-const toggleWhoisExtra = spanId => {
-    const el = document.getElementById(spanId)
-    const show = el.style.display === "none"
-    el.style.display = show ? "" : "none"
+// Handles truncation/extra info.
+htmlWindow.toggleExtra = (showTogglingSpanId: string, spanId2: string | undefined, handlerId: string | undefined) => {
+    const showToggler = document.getElementById(showTogglingSpanId) as HTMLDivElement
+    const show = showToggler!.style.display === "none"
+    if (spanId2) {
+        const spanInfo2 = document.getElementById(spanId2) as HTMLDivElement
+        spanInfo2.style.display = show ? "none" : ""
+    }
+    showToggler.style.display = show ? "" : "none"
+    if (handlerId) {
+        document.getElementById(handlerId)!.textContent = show ? "Show less" : "Show more"
+    }
 }

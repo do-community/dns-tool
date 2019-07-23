@@ -1,5 +1,5 @@
 const globalsign = "This TXT record is used so that GlobalSign can verify that they are issuing certificates to the domain owner.";
-module.exports = {
+export default {
     "google-site-verification": "This TXT record is used so that Google can verify the domain owner.",
     "mailru-verification": "This TXT record is used so that mail.ru can verify the domain owner.",
     "MS": "This TXT record is used for Office 365 domain verification.",

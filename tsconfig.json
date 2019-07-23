@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es2018",
+        "allowJs": true,
+        "noEmit": true,
+        "noImplicitAny": true,
+        "strict": true
+    },
+    "include": [
+        "src/**/*"
+    ]
+}

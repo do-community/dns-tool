@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     A: {
         info: "A records are the most basic type of DNS record and are used to point a domain or subdomain to an IPv4 address.\n<b>These do NOT act as MX records, to receive e-mail, you need to set a MX record.</b>",
         url: "https://kb.pressable.com/article/dns-record-types-explained/",
@@ -7,12 +7,12 @@ module.exports = {
     TXT: {
         info: "TXT records are a type of DNS record that contains text information for sources outside of your domain.",
         url: "https://support.google.com/a/answer/2716800?hl=en",
-        additionalDataParsing: data => data.substr(1).slice(0, -1),
+        additionalDataParsing: (data: string) => data.substr(1).slice(0, -1),
     },
     MX: {
         info: "A mail exchanger record (MX record) specifies the mail server responsible for accepting email messages on behalf of a domain name.",
         url: "https://en.wikipedia.org/wiki/MX_record",
-        additionalDataParsing: data => data.endsWith(".") ? data.slice(0, -1) : data,
+        additionalDataParsing: (data: string) => data.endsWith(".") ? data.slice(0, -1) : data,
         expectsHost: true,
     },
     AAAA: {
@@ -27,7 +27,7 @@ module.exports = {
     NS: {
         info: "NS stands for \"name server\" and this record indicates which DNS server is authoritative for that domain (which server contains the actual DNS records).\nA domain will often have multiple NS records which can indicate primary and backup name servers for that domain.",
         url: "https://www.cloudflare.com/learning/dns/dns-records/dns-ns-record/",
-        additionalDataParsing: data => data.endsWith(".") ? data.slice(0, -1) : data,
+        additionalDataParsing: (data: string) => data.endsWith(".") ? data.slice(0, -1) : data,
         expectsHost: true,
     },
     SRV: {
