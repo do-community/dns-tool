@@ -2,6 +2,9 @@ const records = require('./data/records');
 const txtFragments = require('./data/txt');
 const getBlacklists = require('./blacklists');
 const cfDNS = require('./utils/cfDNS');
+const cfWHO = require('./utils/cfWHO');
+const geoJS = require('./utils/geoJS');
+const whoisJS = require('./utils/whoisJS');
 
 // Defines the core regex.
 const isHostname = /.*\.[a-z]+/
@@ -75,17 +78,10 @@ const domainInput = document.getElementById("DomainInput")
 
 // Runs the WHOIS lookup.
 const whoisLookup = async (spanId, ip) => {
-    const url = `https://cfwho.com/get/${ip}`
-    const fetchRes = await fetch(
-        url, {
-            headers: {
-                Accept: "application/json",
-            },
-        }
-    )
+    const fetchRes = await cfWHO(ip);
     const json = await fetchRes.json()
     const expandId = Math.random().toString()
-    const geoIpRes = await fetch(`https://get.geojs.io/v1/ip/geo/${ip}.json`)
+    const geoIpRes = await geoJS(ip);
     const geoIpJson = await geoIpRes.json()
     const countryCode = geoIpJson.country_code ? geoIpJson.country_code.toLowerCase() : ""
     const countryInfo = geoIpJson.city ? `${geoIpJson.city}, ${geoIpJson.country}` : geoIpJson.country
@@ -363,9 +359,7 @@ const searchDNS = async() => {
         alert("Invalid domain.")
         return
     }
-    const domainLookup = await fetch(
-        `https://whoisjs.com/api/v1/${encodeURIComponent(text)}`
-    )
+    const domainLookup = await whoisJS(text);
     if (!(await domainLookup.json()).domain) {
         alert("Invalid domain.")
         return
