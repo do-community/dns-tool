@@ -1,0 +1,21 @@
+{
+  "name": "dns-lookup",
+  "version": "1.0.0",
+  "description": "A fast and easy to use DNS lookup tool.",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JakeMakesStuff/DNS-Prototype.git"
+  },
+  "keywords": [
+    "dns"
+  ],
+  "author": "DigitalOcean",
+  "bugs": {
+    "url": "https://github.com/JakeMakesStuff/DNS-Prototype/issues"
+  },
+  "homepage": "https://github.com/JakeMakesStuff/DNS-Prototype#readme",
+  "dependencies": {
+    "webpack": "^4.37.0"
+  }
+}
