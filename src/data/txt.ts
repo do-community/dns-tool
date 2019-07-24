@@ -1,4 +1,4 @@
-const globalsign = "This TXT record is used so that GlobalSign can verify that they are issuing certificates to the domain owner.";
+const globalsign = "This TXT record is used so that GlobalSign can verify that they are issuing certificates to the domain owner."
 export default {
     "google-site-verification": "This TXT record is used so that Google can verify the domain owner.",
     "mailru-verification": "This TXT record is used so that mail.ru can verify the domain owner.",
@@ -14,4 +14,4 @@ export default {
     "yandex-verification": "This is used so that Yandex can verify the domain owner.",
     "loaderio": "This is used so that Loader.io can verify the domain owner.",
     "v": "This is a SPF record which is used to identify trusted sources for transmitted e-mail.\nThis makes it easier for receivers to tell if a e-mail is spam.",
-};
+}

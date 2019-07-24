@@ -38,4 +38,4 @@ export default {
         info: "The goal of DMARC is to build on the system of senders and receivers collaborating to improve mail authentication practices of senders and enable receivers to reject unauthenticated messages.",
         url: "https://dmarc.org/overview/",
     },
-};
+}

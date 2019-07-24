@@ -7,8 +7,8 @@ export default async (name: string) => {
         `https://whoisjs.com/api/v1/${encodeURIComponent(domainFull)}`,
         {
             headers: {
-                Accept: 'application/json',
+                Accept: "application/json",
             },
         }
-    );
-};
+    )
+}

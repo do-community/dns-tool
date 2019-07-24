@@ -1,21 +1,21 @@
-import 'babel-polyfill'
+import "babel-polyfill"
 
-import records from './data/records';
-import txtFragments from './data/txt';
-import cfDNS from './utils/cfDNS';
-import whoisJS from './utils/whoisJS';
-import sanitize from './utils/sanitize';
-import { whoisLookup, mxLookup } from './lookups';
-import toggles from './utils/toggles';
-import standardiseRecords from './standardise_records';
-import joinTxtSameHostTtl from './txt_join'
-import { createHeadings, getLargestRecordPart } from './table'
-import displayIfDigitalOceanDns from './utils/dodns_display'
-import truncatedRecordHandling from './truncated_record_handling'
+import records from "./data/records"
+import txtFragments from "./data/txt"
+import cfDNS from "./utils/cfDNS"
+import whoisJS from "./utils/whoisJS"
+import sanitize from "./utils/sanitize"
+import { whoisLookup, mxLookup } from "./lookups"
+import toggles from "./utils/toggles"
+import standardiseRecords from "./standardise_records"
+import joinTxtSameHostTtl from "./txt_join"
+import { createHeadings, getLargestRecordPart } from "./table"
+import displayIfDigitalOceanDns from "./utils/dodns_display"
+import truncatedRecordHandling from "./truncated_record_handling"
 
 // Defines the core regex.
-const isHostname = /.*\.[a-z]+/;
-const txtSplit = /[=: ]/;
+const isHostname = /.*\.[a-z]+/
+const txtSplit = /[=: ]/
 const stripHttps = /(https*:\/\/)*(.+)*/
 
 // Defines the window.
@@ -23,20 +23,20 @@ const htmlWindow = (window as any)
 
 // Gets the IP address for a hostname.
 const getIpFromHostname = async (hostname: string) => {
-    if (!hostname.match(isHostname)) return hostname;
+    if (!hostname.match(isHostname)) return hostname
 
-    const res = await cfDNS(hostname, 'A');
+    const res = await cfDNS(hostname, "A")
 
-    if (!res.ok) throw new Error();
+    if (!res.ok) throw new Error()
 
-    const json = await res.json();
-    if (!json.Answer) throw new Error();
+    const json = await res.json()
+    if (!json.Answer) throw new Error()
 
     return json.Answer[0].data
-};
+}
 
 // Gets the domain input element.
-const domainInput = document.getElementById('DomainInput') as HTMLInputElement
+const domainInput = document.getElementById("DomainInput") as HTMLInputElement
 
 // Gets the DNS record.
 const getDNSRecord = async (key: string, text: string) => {
@@ -49,8 +49,8 @@ const getDNSRecord = async (key: string, text: string) => {
         text = `_dmarc.${text}`
         changedKey = "TXT"
     }
-    const fetchRes = await cfDNS(text, changedKey);
-    if (!fetchRes.ok) throw fetchRes;
+    const fetchRes = await cfDNS(text, changedKey)
+    if (!fetchRes.ok) throw fetchRes
     const json = await fetchRes.json()
     if (!json.Answer) {
         html += "<p><b>Could not find any records of this type.</b></p>"
@@ -91,7 +91,7 @@ const getDNSRecord = async (key: string, text: string) => {
                     if (!doDisplayed) {
                         displayIfDigitalOceanDns(null)
                     }
-                    item = newParts.join(`<hr style="margin: 5px">`)
+                    item = newParts.join("<hr style=\"margin: 5px\">")
                 } else if (collectionKey === "Name") {
                     const last = item[item.length - 1]
                     if (last === ".") {
@@ -148,7 +148,7 @@ const urlFragment = window.location.hash === "" ? null : window.location.hash.su
 
 // Glues all the HTML together.
 const glueHtml = (parts: string[]) => {
-    const columns = [`<div class="column is-half">`, `<div class="column is-half">`]
+    const columns = ["<div class=\"column is-half\">", "<div class=\"column is-half\">"]
     let index = 1
     for (const part of parts) {
         if (index === columns.length) {
@@ -181,7 +181,7 @@ const searchDNS = async () => {
         alert("Invalid domain.")
         return
     }
-    const domainLookup = await whoisJS(text);
+    const domainLookup = await whoisJS(text)
     if (!(await domainLookup.json()).domain) {
         alert("Invalid domain.")
         return

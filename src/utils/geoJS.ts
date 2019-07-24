@@ -3,8 +3,8 @@ export default async (ip: string) => {
         `https://get.geojs.io/v1/ip/geo/${ip}.json`,
         {
             headers: {
-                Accept: 'application/json',
+                Accept: "application/json",
             },
         }
-    );
-};
+    )
+}

@@ -3,8 +3,8 @@ export default async (ip: string) => {
         `https://cfwho.com/get/${ip}`,
         {
             headers: {
-                Accept: 'application/json',
+                Accept: "application/json",
             },
         }
-    );
-};
+    )
+}
