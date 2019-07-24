@@ -16,6 +16,7 @@ import truncatedRecordHandling from './truncated_record_handling'
 // Defines the core regex.
 const isHostname = /.*\.[a-z]+/;
 const txtSplit = /[=: ]/;
+const stripHttps = /(https*:\/\/)*(.+)*/
 
 // Defines the window.
 const htmlWindow = (window as any)
@@ -169,7 +170,8 @@ const parallelRender = async (spanId: string, promise: Promise<string>) => {
 
 // Does the main DNS searching.
 const searchDNS = async () => {
-    const text = domainInput.value.toLowerCase()
+    const regexpExec = stripHttps.exec(domainInput.value.toLowerCase())!
+    const text = regexpExec[2] ? regexpExec[2].replace(/\//g, "") : ""
     if (!text.match(isHostname)) {
         alert("Invalid domain.")
         return
