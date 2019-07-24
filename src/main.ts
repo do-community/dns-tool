@@ -12,6 +12,8 @@ import joinTxtSameHostTtl from "./txt_join"
 import { createHeadings, getLargestRecordPart } from "./table"
 import displayIfDigitalOceanDns from "./utils/dodns_display"
 import truncatedRecordHandling from "./truncated_record_handling"
+import nsRegexp from "./data/ns_regexp"
+import { setNs, flushNsDescriptionQueue, addNsDescription } from "./ns_tutorials"
 
 // Defines the core regex.
 const isHostname = /.*\.[a-z]+/
@@ -84,6 +86,12 @@ const getDNSRecord = async (key: string, text: string) => {
                             part = parts[1] as string
                         } else if (key === "NS") {
                             displayIfDigitalOceanDns(item)
+                            for (const regexp of nsRegexp.keys()) {
+                                if ((item as string).match(regexp)) {
+                                    setNs(nsRegexp.get(regexp))
+                                    flushNsDescriptionQueue()
+                                }
+                            }
                             doDisplayed = true
                         }
                         newParts.push(part)
@@ -125,12 +133,16 @@ const getDNSRecord = async (key: string, text: string) => {
             body += row
         }
         body += "</tbody>"
+        const nsDescriptionSpanId = Math.random().toString()
+        const span = `<span id="${nsDescriptionSpanId}"></span>`
+        addNsDescription(nsDescriptionSpanId, key)
         html += `
             <br>
             <table class="table is-bordered">
                 ${headings}
                 ${body}
             </table>
+            ${span}
         `
     }
     html += "<hr>"
@@ -181,6 +193,7 @@ const searchDNS = async () => {
         alert("Invalid domain.")
         return
     }
+    setNs(undefined)
     const domainLookup = await whoisJS(text)
     if (!(await domainLookup.json()).domain) {
         alert("Invalid domain.")

@@ -38,12 +38,12 @@ export const whoisLookup = async (spanId: string, ip: string) => {
 
     const html = `
         <p style="font-size: 11px">
-            <b>Owner:</b> <a id="${expandId}-handler" href="javascript:toggleExtra('${expandId}')">${sanitize(json.results[0].netname)}</a>
+            <b>Owner:</b> <a id="${expandId}-handler" href="javascript:toggleExtra('${expandId}')">${sanitize(json.results[0].netname ? json.results[0].netname : "Not Specified")}</a>
             <span id="countryInfo" class="flag-icon flag-icon-${countryCode}"></span>
         </p>
         <span id="${expandId}" style="display: none">
             <p style="font-size: 11px"><b>ASN:</b> ${json.results[0].asn}</p>
-            <p style="font-size: 11px"><b>CIDR:</b> ${json.results[0].cidr}</p>
+            <p style="font-size: 11px"><b>CIDR:</b> ${json.results[0].cidr ? json.results[0].cidr : "None"}</p>
             <p style="font-size: 11px"><b>Abuse Contact:</b> ${sanitize(json.results[0].services.abusix[0])}</p>
         </span>
     `
