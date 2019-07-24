@@ -8,6 +8,8 @@ When you visit the page, you should be directed to the page with the textbox act
 
 ![](https://i.imgur.com/ab9kZK7.png)
 
+It should be clear to the user that it will only search the (sub-)domain they type in. It will not search other sub-domains. This is by design due to how DNS servers return results.
+
 Pressing the "Search DNS Records" button or hitting ENTER in the text box will call a JavaScript function which will allow for the searching of records. If the user has a domain as part of the URL query, the textbox should not be focused, the textbox should be populated with the HTTP query and it should act like the "Search DNS Records" button has been clicked.
 
 There is currently a lot of unused space on the main page. This space is automatically removed and replaced with the records when the user does a search:
