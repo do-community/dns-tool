@@ -73,6 +73,7 @@ const getDNSRecord = async (key: string, text: string) => {
                 } else if (collectionKey === "Data") {
                     const newLineSplit = item.toString().split(/\n/g)
                     const newParts = []
+                    let doDisplayed = false
                     for (const splitPart of newLineSplit) {
                         // This long line parses data and makes sure it is sanitized.
                         let part = (records as any)[key].additionalDataParsing ? sanitize((records as any)[key].additionalDataParsing(splitPart)) : sanitize(splitPart)
@@ -83,8 +84,12 @@ const getDNSRecord = async (key: string, text: string) => {
                             part = parts[1] as string
                         } else if (key === "NS") {
                             displayIfDigitalOceanDns(item)
+                            doDisplayed = true
                         }
                         newParts.push(part)
+                    }
+                    if (!doDisplayed) {
+                        displayIfDigitalOceanDns(null)
                     }
                     item = newParts.join(`<hr style="margin: 5px">`)
                 } else if (collectionKey === "Name") {
