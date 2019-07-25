@@ -1,0 +1,82 @@
+<template>
+    <span>
+        <div style="min-height: calc(100vh - 90px);">
+            <div id="top" class="has-text-centered" style="padding-left: 30%; padding-right: 30%; margin-top: 10px">
+                <h2 class="title is-2">Name here</h2>
+                <h5 class="title is-5">Enter the (sub-)domain you wish to look up.</h5>
+                <form autocomplete="on" v-on:submit.prevent="searchDNSEvent">
+                    <input class="input" type="text" placeholder="Domain" id="DomainInput">
+                </form>
+                <a class="button is-link" v-on:click="searchDNSEvent" style="margin-top: 20px" id="SearchButton">Search DNS Records</a>
+            </div>
+            <hr>
+            <div id="content" style="margin-left: 20px; margin-right: 20px">
+                <span v-if="firstSearch">
+                    <h1 class="title is-1">Stuff here.</h1>
+                    <p>This stuff will be erased on a search.</p>
+                </span>
+                <span v-else>
+                    <RecordBase :data="data"></RecordBase>
+                </span>
+            </div>
+        </div>
+        <footer class="footer" style="padding: 20px; height: 70px">
+            <div class="content has-text-centered">
+                <p>
+                    Thanks to <a href="https://cloudflare.com">Cloudflare</a> for their great WHOIS/DNS-over-HTTPS API's.
+                    You can learn more about the importance of DNS-over-HTTPS and how to use it <a href="https://developers.cloudflare.com/1.1.1.1/dns-over-https/">here.</a>
+                </p>
+            </div>
+        </footer>
+    </span>
+</template>
+
+<script>
+import RecordBase from "./record_base"
+import whoisJS from "../utils/whoisJS"
+
+const stripHttps = /(https*:\/\/)*(.+)*/
+const isHostname = /.*\.[a-z]+/
+
+export default {
+    name: "App",
+    components: {
+        RecordBase,
+    },
+    data() {
+        return {
+            firstSearch: true,
+            data: "",
+            linked: null,
+        }
+    },
+    mounted() {
+        this.$data.linked = (new URLSearchParams(window.location.search)).get("domain")
+        if (this.$data.linked) {
+            document.getElementById("DomainInput").value = this.$data.linked
+            this.searchDNSEvent()
+        }
+    },
+    methods: {
+        async searchDNSEvent() {
+            const domainInput = document.getElementById("DomainInput")
+            const regexpExec = stripHttps.exec(domainInput.value.toLowerCase())
+            const text = regexpExec[2] ? regexpExec[2].replace(/\//g, "") : ""
+            if (!text.match(isHostname)) {
+                alert("Invalid domain.")
+                return
+            }
+            const domainLookup = await whoisJS(text)
+            if (!(await domainLookup.json()).domain) {
+                alert("Invalid domain.")
+                return
+            }
+            if (!this.$data.linked) {
+                window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
+            }
+            this.$data.data = text
+            this.$data.firstSearch = false
+        },
+    }
+}
+</script>

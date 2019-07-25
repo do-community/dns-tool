@@ -13,5 +13,5 @@ export default {
     "facebook-domain-verification": "This is used so that Facebook can verify the domain owner.",
     "yandex-verification": "This is used so that Yandex can verify the domain owner.",
     "loaderio": "This is used so that Loader.io can verify the domain owner.",
-    "v": "This is a SPF record which is used to identify trusted sources for transmitted e-mail.\nThis makes it easier for receivers to tell if a e-mail is spam.",
+    "v=spf1": "This is a SPF record which is used to identify trusted sources for transmitted e-mail.\nThis makes it easier for receivers to tell if a e-mail is spam.",
 }
