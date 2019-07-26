@@ -1,0 +1,17 @@
+services:
+  - docker
+
+language: node
+node_js:
+  - "12"
+
+jobs:
+  include:
+    - stage: test
+      script: npm run lint
+    - stage: deploy
+      deploy:
+        provider: script
+        on:
+          branch: master
+        script: sh ./deploy.sh
