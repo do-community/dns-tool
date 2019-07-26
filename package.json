@@ -5,8 +5,8 @@
   "scripts": {
     "build": "parcel build ./src/index.html",
     "dev": "parcel ./src/index.html",
-    "lint": "tsc && eslint ./src/**/*",
-    "lint-and-fix": "tsc && eslint ./src/**/* --fix"
+    "lint": "tsc && eslint ./src/**/*.ts && eslint ./src/**/*.vue",
+    "lint-and-fix": "tsc && eslint ./src/**/*.ts --fix && eslint ./src/**/*.vue --fix"
   },
   "repository": {
     "type": "git",
