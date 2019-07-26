@@ -6,8 +6,8 @@
         <h5 class="title is-5">Enter the (sub-)domain you wish to look up.</h5>
         <form autocomplete="on" @submit.prevent="searchDNSEvent">
           <input id="DomainInput" class="input" type="text" placeholder="Domain">
+          <button id="SearchButton" class="button is-link" style="margin-top: 20px">Search DNS Records</button>
         </form>
-        <a id="SearchButton" class="button is-link" style="margin-top: 20px" @click="searchDNSEvent">Search DNS Records</a>
       </div>
       <hr>
       <div id="content" style="margin-left: 20px; margin-right: 20px">
@@ -24,8 +24,11 @@
     <footer class="footer" style="padding: 20px; height: 70px">
       <div class="content has-text-centered">
         <p>
-          Thanks to <a href="https://cloudflare.com">Cloudflare</a> for their great WHOIS/DNS-over-HTTPS API's.
+          Thanks to <a href="https://cloudflare.com">Cloudflare</a> for their great WHOIS/DNS-over-HTTPS APIs.
           You can learn more about the importance of DNS-over-HTTPS and how to use it <a href="https://developers.cloudflare.com/1.1.1.1/dns-over-https/">here.</a>
+        </p>
+        <p>
+          Thanks to <a href="https://twitter.com/matthewgall">Matthew Gall</a> for his wonderful <a href="https://whoisjs.com/">WHOIS API.</a>
         </p>
       </div>
     </footer>
@@ -65,18 +68,10 @@ export default {
             const domainInput = document.getElementById("DomainInput")
             const regexpExec = stripHttps.exec(domainInput.value.toLowerCase())
             const text = regexpExec[2] ? regexpExec[2].replace(/\//g, "") : ""
-            if (!text.match(isHostname)) {
-                alert("Invalid domain.")
-                return
-            }
+            if (!text.match(isHostname)) return alert("Invalid domain.")
             const domainLookup = await whoisJS(text)
-            if (!(await domainLookup.json()).domain) {
-                alert("Invalid domain.")
-                return
-            }
-            if (!this.$data.linked) {
-                window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
-            }
+            if (!(await domainLookup.json()).domain) return alert("Invalid domain.")
+            if (!this.$data.linked) window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
             this.$data.linked = null
             this.$data.data = text
             this.$data.firstSearch = false
