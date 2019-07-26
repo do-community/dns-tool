@@ -98,126 +98,136 @@ export default {
         expectsHost: Boolean,
     },
     async mounted() {
-        this.$data.active = false
-        const props = this.$props
+        await this.recordInit()
+    },
+    watch: {
+        data() {
+            this.recordInit()
+        },
+    },
+    methods: {
+        async recordInit() {
+            this.$data.active = false
+            const props = this.$props
 
-        const key = props.recordType
-        let text = props.data
-        let changedKey = props.recordType
+            const key = props.recordType
+            let text = props.data
+            let changedKey = props.recordType
 
-        if (key === "DMARC") {
-            text = `_dmarc.${text}`
-            changedKey = "TXT"
-        }
+            if (key === "DMARC") {
+                text = `_dmarc.${text}`
+                changedKey = "TXT"
+            }
 
-        const fetchRes = await cfDNS(text, changedKey)
-        if (!fetchRes.ok) throw fetchRes
-        const json = await fetchRes.json()
+            const fetchRes = await cfDNS(text, changedKey)
+            if (!fetchRes.ok) throw fetchRes
+            const json = await fetchRes.json()
 
-        if (!json.Answer) {
-            this.$data.active = true
-            return
-        }
+            if (!json.Answer) {
+                this.$data.active = true
+                return
+            }
 
-        const recordsJoined = {}
-        const txtRecordFragments = {}
+            const recordsJoined = {}
+            const txtRecordFragments = {}
 
-        standardiseRecords(key, json, txtRecordFragments, recordsJoined, /[=: ]/)
-        const keys = Object.keys(recordsJoined)
-        this.recordKeys = keys
-        const largestRecordPart = getLargestRecordPart(Object.values(recordsJoined))
+            standardiseRecords(key, json, txtRecordFragments, recordsJoined, /[=: ]/)
+            const keys = Object.keys(recordsJoined)
+            this.recordKeys = keys
+            const largestRecordPart = getLargestRecordPart(Object.values(recordsJoined))
 
-        let recordRows = []
+            let recordRows = []
 
-        for (let i = 0; i < largestRecordPart; i++) {
-            let row = []
-            for (const collectionKey of keys) {
-                const data = {
-                    values: [{
-                        result: recordsJoined[collectionKey][i],
-                    }],
-                }
-                if (data.values[0].result !== undefined && collectionKey === "Data") {
-                    data.values[0].result = trimmers[props.recordType] ? trimmers[props.recordType](data.values[0].result) : data.values[0].result
+            for (let i = 0; i < largestRecordPart; i++) {
+                let row = []
+                for (const collectionKey of keys) {
+                    const data = {
+                        values: [{
+                            result: recordsJoined[collectionKey][i],
+                        }],
+                    }
+                    if (data.values[0].result !== undefined && collectionKey === "Data") {
+                        data.values[0].result = trimmers[props.recordType] ? trimmers[props.recordType](data.values[0].result) : data.values[0].result
 
-                    const newLineSplit = data.values[0].result.toString().split(/\n/g)
-                    const newParts = []
-                    for (const splitPart of newLineSplit) {
-                        let part = splitPart
-
-                        let tSplit
-
+                        const newLineSplit = data.values[0].result.toString().split(/\n/g)
+                        const newParts = []
                         for (const splitPart of newLineSplit) {
                             let part = splitPart
 
-                            if (key === "TXT") {
-                                tSplit = part.split(/[=: ]/)
-                                let truncated
-                                if (tSplit.length > 1) {
-                                    if (tSplit[0] === "v" && tSplit[1] === "spf1") {
-                                        truncated = `${tSplit[0]}=${tSplit[1]}`
+                            let tSplit
+
+                            for (const splitPart of newLineSplit) {
+                                let part = splitPart
+
+                                if (key === "TXT") {
+                                    tSplit = part.split(/[=: ]/)
+                                    let truncated
+                                    if (tSplit.length > 1) {
+                                        if (tSplit[0] === "v" && tSplit[1] === "spf1") {
+                                            truncated = `${tSplit[0]}=${tSplit[1]}`
+                                        } else {
+                                            truncated = tSplit[0]
+                                        }
                                     } else {
-                                        truncated = tSplit[0]
+                                        truncated = part.substr(0, 30)
                                     }
-                                } else {
-                                    truncated = part.substr(0, 30)
-                                }
-                                if (txtFragments[truncated]) {
-                                    data.description = txtFragments[truncated]
-                                }
-                                if (part.length > 20) {
-                                    data.values[0].truncated = truncated
+                                    if (txtFragments[truncated]) {
+                                        data.description = txtFragments[truncated]
+                                    }
+                                    if (part.length > 20) {
+                                        data.values[0].truncated = truncated
+                                    }
                                 }
                             }
                         }
-                    }
-                    if (props.expectsHost) {
-                        const ip = await getIpFromHostname(data.values[0].result)
-                        data.values[0].ip = ip
-                        data.values[0].hostname = data.values[0].result
-                        if (ip !== data.result) {
-                            data.values[0].result = `${data.values[0].hostname} (${data.values[0].ip})`
+                        if (props.expectsHost) {
+                            const ip = await getIpFromHostname(data.values[0].result)
+                            data.values[0].ip = ip
+                            data.values[0].hostname = data.values[0].result
+                            if (ip !== data.values[0].result) {
+                                data.values[0].result = `${data.values[0].hostname} (${data.values[0].ip})`
+                            }
                         }
+                    } else if (collectionKey === "Name") {
+                        const last = data.values[0].result[data.values[0].result.length - 1]
+                        if (last === ".") {
+                            data.values[0].result = data.values[0].result.slice(0, -1)
+                        }
+                    } else {
+                        data.values[0].result = data.values[0].result.toString()
                     }
-                } else if (collectionKey === "Name") {
-                    const last = data.values[0].result[data.values[0].result.length - 1]
-                    if (last === ".") {
-                        data.values[0].result = data.values[0].result.slice(0, -1)
+
+                    row.push(data)
+                }
+                recordRows.push(row)
+            }
+
+            if (key === "TXT") {
+                const recordGlue = {}
+                for (const row of recordRows) {
+                    const name = row[0].values[0].result
+                    const ttl = row[1].values[0].result
+                    const trunc = row[2].values[0].truncated
+                    const key = `${name}%${ttl}%${trunc}`
+                    if (recordGlue[key]) {
+                        recordGlue[key].push(row)
+                    } else {
+                        recordGlue[key] = [row]
                     }
-                } else {
-                    data.values[0].result = data.values[0].result.toString()
                 }
-
-                row.push(data)
-            }
-            recordRows.push(row)
-        }
-
-        if (key === "TXT") {
-            const recordGlue = {}
-            for (const row of recordRows) {
-                const name = row[0].values[0].result
-                const ttl = row[1].values[0].result
-                const trunc = row[2].values[0].truncated
-                const key = `${name}%${ttl}%${trunc}`
-                if (recordGlue[key]) {
-                    recordGlue[key].push(row)
-                } else {
-                    recordGlue[key] = [row]
+                recordRows = []
+                for (const glueValues of Object.values(recordGlue)) {
+                    const first = glueValues.shift()
+                    for (const value of glueValues) {
+                        first[2].values.push(value[2].values[0])
+                    }
+                    recordRows.push(first)
                 }
             }
-            recordRows = []
-            for (const glueValues of Object.values(recordGlue)) {
-                const first = glueValues.shift()
-                for (const value of glueValues) {
-                    first[2].values.push(value[2].values[0])
-                }
-                recordRows.push(first)
-            }
-        }
 
-        this.$data.recordRows = recordRows
-        this.$data.active = true
+            this.$data.recordRows = recordRows
+            this.$data.active = true
+        },
     },
 }
 </script>

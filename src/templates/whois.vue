@@ -2,9 +2,7 @@
     <span v-if="done">
         <p style="font-size: 11px">
             <b>Owner:</b> <a v-on:click="toggleExpand">{{ netname }}</a>
-            <tippy :content="countryInfo" arrow>
-                <span id="countryInfo" :class="`flag-icon flag-icon-${countryCode}`"></span>
-            </tippy>
+            <span id="countryInfo" :class="`flag-icon flag-icon-${countryCode}`" :title="countryInfo" v-tippy></span>
         </p>
         <span v-if="expand">
             <p style="font-size: 11px"><b>ASN:</b> {{ asn }}</p>
@@ -20,6 +18,10 @@
 <script>
 import cfWHO from "../utils/cfWHO"
 import geoJS from "../utils/geoJS"
+import VueTippy from "vue-tippy"
+import Vue from "vue"
+
+Vue.use(VueTippy)
 
 export default {
     name: "WHOIS",
@@ -41,9 +43,6 @@ export default {
     mounted() {
         this.handleInit()
     },
-    updated() {
-        this.handleInit()
-    },
     methods: {
         toggleExpand() {
             this.$data.expand = !this.$data.expand
@@ -58,7 +57,7 @@ export default {
             this.abuse = json.results[0].services.abusix[0]
             this.countryInfo = geoIpJson.city ? `${geoIpJson.city}, ${geoIpJson.country}` : geoIpJson.country
             this.done = true
-        }
+        },
     }
 }
 </script>

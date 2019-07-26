@@ -74,6 +74,7 @@ export default {
             if (!this.$data.linked) {
                 window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
             }
+            this.$data.linked = null
             this.$data.data = text
             this.$data.firstSearch = false
         },

@@ -22,7 +22,7 @@ export default {
     methods: {
         toggleTruncation() {
             this.$data.truncate = !this.$data.truncate
-        }
-    }
+        },
+    },
 }
 </script>
