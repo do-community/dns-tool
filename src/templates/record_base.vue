@@ -52,7 +52,6 @@ export default {
     },
     methods: {
         async recordsInit() {
-            console.log(1)
             const dnsRes = await cfDNS(this.$props.data, "NS")
             const json = await dnsRes.json()
             if (json.Answer) {
