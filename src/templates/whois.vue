@@ -1,18 +1,23 @@
 <template>
-    <span v-if="done">
-        <p style="font-size: 11px">
-            <b>Owner:</b> <a v-on:click="toggleExpand">{{ netname }}</a>
-            <span id="countryInfo" :class="`flag-icon flag-icon-${countryCode}`" :title="countryInfo" v-tippy></span>
-        </p>
-        <span v-if="expand">
-            <p style="font-size: 11px"><b>ASN:</b> {{ asn }}</p>
-            <p style="font-size: 11px"><b>CIDR:</b> {{ cidr }}</p>
-            <p style="font-size: 11px"><b>Abuse Contact:</b> {{ abuse }}</p>
-        </span>
+  <span v-if="done">
+    <p style="font-size: 11px">
+      <b>Owner:</b> <a @click="toggleExpand">{{ netname }}</a>
+      <span
+        id="countryInfo"
+        v-tippy
+        :class="`flag-icon flag-icon-${countryCode}`"
+        :title="countryInfo"
+      />
+    </p>
+    <span v-if="expand">
+      <p style="font-size: 11px"><b>ASN:</b> {{ asn }}</p>
+      <p style="font-size: 11px"><b>CIDR:</b> {{ cidr }}</p>
+      <p style="font-size: 11px"><b>Abuse Contact:</b> {{ abuse }}</p>
     </span>
-    <span v-else>
-        <p style="font-size: 11px"><i>Loading WHOIS data...</i></p>
-    </span>
+  </span>
+  <span v-else>
+    <p style="font-size: 11px"><i>Loading WHOIS data...</i></p>
+  </span>
 </template>
 
 <script>
@@ -25,6 +30,9 @@ Vue.use(VueTippy)
 
 export default {
     name: "WHOIS",
+    props: {
+        ip: String,
+    },
     data() {
         return {
             done: false,
@@ -36,9 +44,6 @@ export default {
             countryCode: "",
             countryInfo: "",
         }
-    },
-    props: {
-        ip: String,
     },
     mounted() {
         this.handleInit()

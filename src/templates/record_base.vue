@@ -1,9 +1,16 @@
 <template>
-    <span>
-        <span v-for="record in records">
-            <Record :ns="ns" :recordType="record.name" :recordUrl="record.url" :recordDescription="record.description" :data="$props.data" :expectsHost="record.expectsHost"></Record>
-        </span>
+  <span>
+    <span v-for="record in records">
+      <Record
+        :ns="ns"
+        :record-type="record.name"
+        :record-url="record.url"
+        :record-description="record.description"
+        :data="$props.data"
+        :expects-host="record.expectsHost"
+      />
     </span>
+  </span>
 </template>
 
 <script>
@@ -13,27 +20,11 @@ import cfDNS from "../utils/cfDNS"
 
 export default {
     name: "RecordBase",
+    components: {
+        Record,
+    },
     props: {
         data: String,
-    },
-    methods: {
-        async recordsInit() {
-            const dnsRes = await cfDNS(this.$props.data, "NS")
-            const json = await dnsRes.json()
-            if (json.Answer) {
-                this.$data.ns = json.Answer[0].data
-            } else {
-                this.$data.ns = ""
-            }
-        },
-    },
-    async mounted() {
-        await this.recordsInit()
-    },
-    watch: {
-        data() {
-            this.recordsInit()
-        },
     },
     data() {
         const setRecords = []
@@ -51,8 +42,25 @@ export default {
             ns: "",
         }
     },
-    components: {
-        Record,
+    watch: {
+        data() {
+            this.recordsInit()
+        },
+    },
+    async mounted() {
+        await this.recordsInit()
+    },
+    methods: {
+        async recordsInit() {
+            console.log(1)
+            const dnsRes = await cfDNS(this.$props.data, "NS")
+            const json = await dnsRes.json()
+            if (json.Answer) {
+                this.$data.ns = json.Answer[0].data
+            } else {
+                this.$data.ns = ""
+            }
+        },
     },
 }
 </script>
