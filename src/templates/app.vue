@@ -1,5 +1,5 @@
 <template>
-  <span>
+  <div>
     <div style="min-height: calc(100vh - 90px);">
       <div id="top" class="has-text-centered" style="padding-left: 30%; padding-right: 30%; margin-top: 10px">
         <h2 class="title is-2">Name here</h2>
@@ -11,13 +11,13 @@
       </div>
       <hr>
       <div id="content" style="margin-left: 20px; margin-right: 20px">
-        <span v-if="firstSearch">
+        <div v-if="firstSearch">
           <Skeleton/>
-        </span>
-        <span v-else>
+        </div>
+        <div v-else>
           <DODNS :data="data"></DODNS>
           <RecordBase :data="data"></RecordBase>
-        </span>
+        </div>
       </div>
     </div>
     <footer class="footer" style="padding: 20px; height: 70px">
@@ -31,7 +31,7 @@
         </p>
       </div>
     </footer>
-  </span>
+  </div>
 </template>
 
 <script>
@@ -65,13 +65,18 @@ export default {
         }
     },
     methods: {
+        error(message) {
+            document.querySelectorAll("[data-skeleton]").forEach(elm => elm.style.animationPlayState = "paused");
+            alert(message)
+        },
         async searchDNSEvent() {
+            document.querySelectorAll("[data-skeleton]").forEach(elm => elm.style.animationPlayState = "running");
             const domainInput = document.getElementById("DomainInput")
             const regexpExec = stripHttps.exec(domainInput.value.toLowerCase())
             const text = regexpExec[2] ? regexpExec[2].replace(/\//g, "") : ""
-            if (!text.match(isHostname)) return alert("Invalid domain.")
+            if (!text.match(isHostname)) return this.error("Invalid domain.")
             const domainLookup = await whoisJS(text)
-            if (!(await domainLookup.json()).domain) return alert("Invalid domain.")
+            if (!(await domainLookup.json()).domain) return this.error("Invalid domain.")
             if (!this.$data.linked) window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
             this.$data.linked = null
             this.$data.data = text

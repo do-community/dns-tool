@@ -1,27 +1,32 @@
+<style>
+    @keyframes skeleton-loading {
+        0% { opacity: 0.7; }
+        25% { opacity: 0.9; }
+        50% { opacity: 0.7; }
+        75% { opacity: 0.5; }
+        100% { opacity: 0.7; }
+    }
+</style>
+
 <template>
-    <span>
-        <span v-for="_ in records">
-            <h3 v-bind:style="getSkeletonStyle(100, 300)"></h3>
-            <p v-bind:style="getSkeletonStyle(300, 600)"></p>
+    <div>
+        <div v-for="_ in records">
+            <h3 data-skeleton v-bind:style="getSkeletonStyle(100, 300, 1.4)"></h3>
+            <p data-skeleton v-bind:style="getSkeletonStyle(300, 600)"></p>
             <br>
             <table class="table" style="border-collapse: separate; border-spacing: 0.35em;">
                 <tbody>
-                    <tr>
-                        <td v-bind:style="getSkeletonStyle(100, 200)"></td>
-                        <td v-bind:style="getSkeletonStyle(50, 100)"></td>
-                        <td v-bind:style="getSkeletonStyle(100, 300)"></td>
-                    </tr>
-                    <tr>
-                        <td v-bind:style="getSkeletonStyle(100, 200)"></td>
-                        <td v-bind:style="getSkeletonStyle(50, 100)"></td>
-                        <td v-bind:style="getSkeletonStyle(100, 300)"></td>
-                    </tr>
+                <tr v-for="_ in getRandomInt(1, 3)">
+                    <td data-skeleton v-bind:style="getSkeletonStyle(100, 200)"></td>
+                    <td data-skeleton v-bind:style="getSkeletonStyle(50, 100)"></td>
+                    <td data-skeleton v-bind:style="getSkeletonStyle(100, 300)"></td>
+                </tr>
                 </tbody>
             </table>
-            <p v-bind:style="getSkeletonStyle(400, 500)"></p>
+            <p data-skeleton v-bind:style="getSkeletonStyle(400, 500)"></p>
             <hr>
-        </span>
-    </span>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -40,16 +45,18 @@
                 max = Math.floor(max);
                 return Math.floor(Math.random() * (max - min + 1)) + min;
             },
-            getSkeletonStyle(min, max, size) {
+            getSkeletonStyle(min, max, size = 1) {
                 return {
                     height: `${size}em`,
                     margin: `${size * .35}em 0`,
-                    background: `hsl(0, 0%, ${this.getRandomInt(90, 95)}%)`,
+                    background: `hsl(0, 0%, ${this.getRandomInt(80, 90)}%)`,
                     borderRadius: `${size * .5}em`,
                     border: "none",
-                    width: `${this.getRandomInt(min, max)}px`
-                };
-                //return `height: ${size}em; margin: ${size * .35}em 0; background: hsl(0, 0%, ${this.getRandomInt(90, 95)}%); border-radius: ${size * .5}em; border: none; width: ${this.getRandomInt(min, max)}px;`
+                    width: `${this.getRandomInt(min, max)}px`,
+                    opacity: "0.7",
+                    animation: `skeleton-loading ${this.getRandomInt(900, 1200)}ms linear ${this.getRandomInt(0, 600)}ms infinite`,
+                    animationPlayState: "paused",
+                }
             },
         }
     }
