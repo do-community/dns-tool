@@ -4,9 +4,9 @@
   "description": "A fast and easy to use DNS lookup tool.",
   "scripts": {
     "build": "npm run lint && parcel build ./src/index.html",
-    "dev": "npm run lint && parcel ./src/index.html",
-    "lint": "tsc && eslint ./src/**/*.ts",
-    "lint-and-fix": "tsc && eslint ./src/**/*.ts --fix"
+    "dev": "parcel ./src/index.html",
+    "lint": "tsc && eslint ./src/**/*",
+    "lint-and-fix": "tsc && eslint ./src/**/* --fix"
   },
   "repository": {
     "type": "git",
@@ -23,13 +23,19 @@
   "dependencies": {
     "@babel/runtime": "^7.5.5",
     "babel-polyfill": "^6.26.0",
-    "parcel-bundler": "1.12.3"
+    "parcel-bundler": "1.12.3",
+    "vue": "^2.6.10",
+    "vue-hot-reload-api": "^2.3.3",
+    "vue-tippy": "^4.0.0-beta.4"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.5.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
+    "eslint-plugin-vue": "5.2.3",
+    "@vue/component-compiler-utils": "^3.0.0",
     "eslint": "^6.1.0",
-    "@babel/plugin-transform-runtime": "^7.5.5",
-    "typescript": "^3.5.3"
+    "typescript": "^3.5.3",
+    "vue-template-compiler": "^2.6.10"
   }
 }

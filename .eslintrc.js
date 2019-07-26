@@ -1,10 +1,11 @@
 module.exports =  {
-  parser: "@typescript-eslint/parser",
   extends:  [
     "plugin:@typescript-eslint/recommended",
+    "plugin:vue/recommended",
   ],
   parserOptions:  {
     ecmaVersion: 2018,
+    parser: "@typescript-eslint/parser",
     sourceType: "module",
   },
   rules:  {
@@ -15,5 +16,10 @@ module.exports =  {
     "@typescript-eslint/explicit-function-return-type": 0,
     "require-atomic-updates": 0,
     "no-undef": 0,
+    "vue/require-v-for-key": 0,
+    "vue/require-default-prop": 0,
+    "vue/no-v-html": 0,
+    "vue/max-attributes-per-line": 0,
+    "vue/html-self-closing": 0,
   },
 }
