@@ -38,7 +38,10 @@
                   {{ value.result }}
                   <span v-if="value.hostname">
                     <hr style="margin: 5px">
-                    <WHOIS :ip="value.ip" />
+                    <WHOIS :ip="value.ip"></WHOIS>
+                    <span v-if="$props.recordType === 'MX'">
+                      <MXBlacklist :ip="value.ip" :hostname="value.hostname ? value.hostname : ''"></MXBlacklist>
+                    </span>
                   </span>
                 </span>
               </span>
@@ -68,6 +71,7 @@ import records from "../data/records"
 import txtFragments from "../data/txt"
 import nsRegexp from "../data/ns_regexp"
 import RecordTutorials from "../data/record_tutorials"
+import MXBlacklist from "./mx_blacklist"
 
 const trimmers = {}
 for (const recordKey in records)
@@ -94,6 +98,7 @@ export default {
     components: {
         TruncatedRecord,
         WHOIS,
+        MXBlacklist,
     },
     props: {
         recordUrl: String,
