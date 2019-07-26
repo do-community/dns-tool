@@ -5,10 +5,9 @@
       class="title is-3"
     >
       {{ this.$props.recordType }} Records
-      <a :href="`#${this.$props.recordType}-Records`"><i
-        class="fas fa-link"
-        style="color: black; font-size: 50%;"
-      /></a>
+      <a :href="`#${this.$props.recordType}-Records`">
+        <i class="fas fa-link" style="color: black; font-size: 50%;"></i>
+      </a>
     </h3>
     <p><span v-html="this.$props.recordDescription"></span> <a :href="this.$props.recordUrl">Learn more</a></p>
     <span v-if="recordKeys.length === 0">
