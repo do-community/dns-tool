@@ -107,6 +107,9 @@ export default {
     },
     methods: {
         async recordInit() {
+            this.$data.recordKeys = []
+            this.$data.recordRows = []
+
             this.$data.active = false
             const props = this.$props
 
