@@ -12,8 +12,7 @@
       <hr>
       <div id="content" style="margin-left: 20px; margin-right: 20px">
         <span v-if="firstSearch">
-          <h1 class="title is-1">Stuff here.</h1>
-          <p>This stuff will be erased on a search.</p>
+          <Skeleton/>
         </span>
         <span v-else>
           <DODNS :data="data"></DODNS>
@@ -37,6 +36,7 @@
 
 <script>
 import RecordBase from "./record_base"
+import Skeleton from "./skeleton"
 import whoisJS from "../utils/whoisJS"
 import DODNS from "./dodns"
 
@@ -47,6 +47,7 @@ export default {
     name: "App",
     components: {
         RecordBase,
+        Skeleton,
         DODNS,
     },
     data() {
