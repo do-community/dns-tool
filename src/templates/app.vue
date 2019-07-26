@@ -21,6 +21,9 @@
         <footer class="footer" style="align-self: flex-end; padding: 20px;">
             <div class="content has-text-centered">
                 <p>
+                    <a href="#top">Back to Top</a>
+                </p>
+                <p>
                     Thanks to <a href="https://cloudflare.com">Cloudflare</a> for their great WHOIS/DNS-over-HTTPS APIs.
                     You can learn more about the importance of DNS-over-HTTPS and how to use it
                     <a href="https://developers.cloudflare.com/1.1.1.1/dns-over-https/">here.</a>
