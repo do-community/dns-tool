@@ -42,8 +42,8 @@ export default {
     methods: {
         async recordInit() {
             this.$data.loaded = false
-            const cfdnsRes = await cfDNS(this.$props.data, "NS")
-            const json = await cfdnsRes.json()
+            this.$data.subdomain = false
+            const json = await (await cfDNS(this.$props.data, "NS")).json()
             this.$data.loaded = true
             if (!json.Answer) {
                 this.$data.dodns = false

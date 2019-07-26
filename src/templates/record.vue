@@ -70,11 +70,8 @@ import nsRegexp from "../data/ns_regexp"
 import RecordTutorials from "../data/record_tutorials"
 
 const trimmers = {}
-for (const recordKey in records) {
-    if (records[recordKey].additionalDataParsing) {
-        trimmers[recordKey] = records[recordKey].additionalDataParsing
-    }
-}
+for (const recordKey in records)
+    if (records[recordKey].additionalDataParsing) trimmers[recordKey] = records[recordKey].additionalDataParsing
 
 const isHostname = /.*\.[a-z]+/
 
@@ -147,24 +144,20 @@ export default {
             if (!fetchRes.ok) throw fetchRes
             const json = await fetchRes.json()
 
-            if (!json.Answer) {
-                this.$data.active = true
-                return
-            }
+            if (!json.Answer) return this.$data.active = true
 
             const recordsJoined = {}
             const txtRecordFragments = {}
 
             standardiseRecords(key, json, txtRecordFragments, recordsJoined, /[=: ]/)
-            const keys = Object.keys(recordsJoined)
-            this.recordKeys = keys
+            this.recordKeys = Object.keys(recordsJoined)
             const largestRecordPart = getLargestRecordPart(Object.values(recordsJoined))
 
             let recordRows = []
 
             for (let i = 0; i < largestRecordPart; i++) {
                 let row = []
-                for (const collectionKey of keys) {
+                for (const collectionKey of this.recordKeys) {
                     const data = {
                         values: [{
                             result: recordsJoined[collectionKey][i],
@@ -182,35 +175,24 @@ export default {
                                 tSplit = part.split(/[=: ]/)
                                 let truncated
                                 if (tSplit.length > 1) {
-                                    if (tSplit[0] === "v" && tSplit[1] === "spf1") {
-                                        truncated = `${tSplit[0]}=${tSplit[1]}`
-                                    } else {
-                                        truncated = tSplit[0]
-                                    }
+                                    truncated = (tSplit[0] === "v" && tSplit[1] === "spf1") ? `${tSplit[0]}=${tSplit[1]}` : tSplit[0]
                                 } else {
                                     truncated = part.substr(0, 30)
                                 }
-                                if (txtFragments[truncated]) {
-                                    data.description = txtFragments[truncated]
-                                }
-                                if (part.length > 20) {
-                                    data.values[0].truncated = truncated
-                                }
+                                if (txtFragments[truncated]) data.description = txtFragments[truncated]
+                                if (part.length > 20) data.values[0].truncated = truncated
                             }
                         }
                         if (props.expectsHost) {
-                            const ip = await getIpFromHostname(data.values[0].result)
-                            data.values[0].ip = ip
+                            data.values[0].ip = await getIpFromHostname(data.values[0].result)
                             data.values[0].hostname = data.values[0].result
-                            if (ip !== data.values[0].result) {
+                            if (data.values[0].ip !== data.values[0].result) {
                                 data.values[0].result = `${data.values[0].hostname} (${data.values[0].ip})`
                             }
                         }
                     } else if (collectionKey === "Name") {
                         const last = data.values[0].result[data.values[0].result.length - 1]
-                        if (last === ".") {
-                            data.values[0].result = data.values[0].result.slice(0, -1)
-                        }
+                        if (last === ".") data.values[0].result = data.values[0].result.slice(0, -1)
                     } else {
                         data.values[0].result = data.values[0].result.toString()
                     }
@@ -226,12 +208,9 @@ export default {
                     const name = row[0].values[0].result
                     const ttl = row[1].values[0].result
                     const trunc = row[2].values[0].truncated
-                    const key = `${name}%${ttl}%${trunc}`
-                    if (recordGlue[key]) {
-                        recordGlue[key].push(row)
-                    } else {
-                        recordGlue[key] = [row]
-                    }
+                    const glueKey = `${name}%${ttl}%${trunc}`
+                    if (recordGlue[glueKey]) recordGlue[glueKey].push(row)
+                    else recordGlue[glueKey] = [row]
                 }
                 recordRows = []
                 for (const glueValues of Object.values(recordGlue)) {
