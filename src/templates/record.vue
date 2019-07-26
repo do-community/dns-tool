@@ -10,7 +10,7 @@
         style="color: black; font-size: 50%;"
       /></a>
     </h3>
-    <p><span v-html="this.$props.recordDescription" /> <a :href="this.$props.recordUrl">Learn more</a></p>
+    <p><span v-html="this.$props.recordDescription"></span> <a :href="this.$props.recordUrl">Learn more</a></p>
     <span v-if="recordKeys.length === 0">
       <p><b>Could not find any records of this type.</b></p>
     </span>
