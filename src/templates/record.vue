@@ -41,6 +41,7 @@
                 </tbody>
             </table>
         </span>
+        <p v-if="learnMore" style="margin-top: 20px"><a :href="learnMore">Learn how to set {{ this.$props.recordType }} records with your DNS.</a></p>
         <hr>
     </span>
 </template>
@@ -53,6 +54,8 @@ import standardiseRecords from "../standardise_records"
 import { getLargestRecordPart } from "../table"
 import records from "../data/records"
 import txtFragments from "../data/txt"
+import nsRegexp from "../data/ns_regexp"
+import RecordTutorials from "../data/record_tutorials"
 
 const trimmers = {}
 for (const recordKey in records) {
@@ -88,6 +91,7 @@ export default {
             active: false,
             recordKeys: [],
             recordRows: [],
+            learnMore: null,
         }
     },
     props: {
@@ -96,13 +100,18 @@ export default {
         recordType: String,
         recordDescription: String,
         expectsHost: Boolean,
+        ns: String,
     },
-    async mounted() {
-        await this.recordInit()
+    mounted() {
+        this.recordInit()
+        this.handleNs()
     },
     watch: {
         data() {
             this.recordInit()
+        },
+        ns() {
+            this.handleNs()
         },
     },
     methods: {
@@ -230,6 +239,23 @@ export default {
 
             this.$data.recordRows = recordRows
             this.$data.active = true
+        },
+        async handleNs() {
+            this.$data.learnMore = null
+            const ns = this.$props.ns
+            for (const regexp of nsRegexp.keys()) {
+                if (ns.match(regexp)) {
+                    const tutorial = RecordTutorials[nsRegexp.get(regexp)]
+                    if (typeof tutorial === "string") {
+                        this.$data.learnMore = tutorial
+                    } else {
+                        if (tutorial[this.$props.recordType]) {
+                            this.$data.learnMore = tutorial[this.$props.recordType]
+                        }
+                    }
+                    return
+                }
+            }
         },
     },
 }
