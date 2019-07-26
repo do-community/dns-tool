@@ -255,9 +255,7 @@ export default {
                     if (typeof tutorial === "string") {
                         this.$data.learnMore = tutorial
                     } else {
-                        if (tutorial[this.$props.recordType]) {
-                            this.$data.learnMore = tutorial[this.$props.recordType]
-                        }
+                        if (tutorial[this.$props.recordType]) this.$data.learnMore = tutorial[this.$props.recordType]
                     }
                     return
                 }

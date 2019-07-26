@@ -52,13 +52,8 @@ export default {
     },
     methods: {
         async recordsInit() {
-            const dnsRes = await cfDNS(this.$props.data, "NS")
-            const json = await dnsRes.json()
-            if (json.Answer) {
-                this.$data.ns = json.Answer[0].data
-            } else {
-                this.$data.ns = ""
-            }
+            const json = await (await cfDNS(this.$props.data, "NS")).json()
+            this.$data.ns = json.Answer ? json.Answer[0].data : ""
         },
     },
 }
