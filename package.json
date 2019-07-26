@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A fast and easy to use DNS lookup tool.",
   "scripts": {
-    "build": "npm run lint && parcel build ./src/index.html",
+    "build": "parcel build ./src/index.html",
     "dev": "parcel ./src/index.html",
     "lint": "tsc && eslint ./src/**/*",
     "lint-and-fix": "tsc && eslint ./src/**/* --fix"
