@@ -16,6 +16,7 @@
                     <p>This stuff will be erased on a search.</p>
                 </span>
                 <span v-else>
+                    <DODNS :data="data"></DODNS>
                     <RecordBase :data="data"></RecordBase>
                 </span>
             </div>
@@ -34,6 +35,7 @@
 <script>
 import RecordBase from "./record_base"
 import whoisJS from "../utils/whoisJS"
+import DODNS from "./dodns"
 
 const stripHttps = /(https*:\/\/)*(.+)*/
 const isHostname = /.*\.[a-z]+/
@@ -42,6 +44,7 @@ export default {
     name: "App",
     components: {
         RecordBase,
+        DODNS,
     },
     data() {
         return {
