@@ -12,7 +12,6 @@
     <span v-else>
       <p><i>Loading NS record information...</i></p>
     </span>
-    <hr>
   </span>
 </template>
 
