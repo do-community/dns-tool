@@ -8,7 +8,7 @@ node_js:
 jobs:
   include:
     - stage: test
-      script: npm run lint
+      script: npm i && npm run lint
     - stage: deploy
       deploy:
         provider: script
