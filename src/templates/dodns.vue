@@ -1,63 +1,63 @@
 <template>
-  <span>
-    <span v-if="loaded">
-      <span v-if="dodns">
-        <p><b>This domain is using DigitalOcean DNS.</b> <a href="https://www.digitalocean.com/docs/networking/dns/">Learn more about DigitalOcean DNS.</a></p>
-      </span>
-      <span v-else>
-        <p v-if="subdomain"><b>This is a sub-domain and does not have any NS records.</b></p>
-        <p v-else><b>This domain is not using DigitalOcean DNS.</b> <a href="https://www.digitalocean.com/docs/networking/dns/">Learn more about DigitalOcean DNS.</a></p>
-      </span>
+    <span>
+        <span v-if="loaded">
+            <span v-if="dodns">
+                <p><b>This domain is using DigitalOcean DNS.</b> <a href="https://www.digitalocean.com/docs/networking/dns/">Learn more about DigitalOcean DNS.</a></p>
+            </span>
+            <span v-else>
+                <p v-if="subdomain"><b>This is a sub-domain and does not have any NS records.</b></p>
+                <p v-else><b>This domain is not using DigitalOcean DNS.</b> <a href="https://www.digitalocean.com/docs/networking/dns/">Learn more about DigitalOcean DNS.</a></p>
+            </span>
+        </span>
+        <span v-else>
+            <DODNSSkeleton></DODNSSkeleton>
+        </span>
+        <hr>
     </span>
-    <span v-else>
-      <DODNSSkeleton></DODNSSkeleton>
-    </span>
-    <hr>
-  </span>
 </template>
 
 <script>
-import cfDNS from "../utils/cfDNS"
-import DODNSSkeleton from "./skeletons/dodns"
+    import cfDNS from "../utils/cfDNS"
+    import DODNSSkeleton from "./skeletons/dodns"
 
-export default {
-    name: "DODNS",
-    components: {
-      DODNSSkeleton,
-    },
-    props: {
-        data: String,
-    },
-    data() {
-        return {
-            dodns: false,
-            subdomain: false,
-            loaded: false,
-        }
-    },
-    watch: {
+    export default {
+        name: "DODNS",
+        components: {
+            DODNSSkeleton,
+        },
+        props: {
+            data: String,
+        },
         data() {
+            return {
+                dodns: false,
+                subdomain: false,
+                loaded: false,
+            }
+        },
+        watch: {
+            data() {
+                this.recordInit()
+            },
+        },
+        mounted() {
             this.recordInit()
         },
-    },
-    mounted() {
-        this.recordInit()
-    },
-    methods: {
-        async recordInit() {
-            if (this.$props.data === "") return
+        methods: {
+            async recordInit() {
+                if (this.$props.data === "") return
 
-            this.$data.loaded = false
-            this.$data.subdomain = false
-            const json = await (await cfDNS(this.$props.data, "NS")).json()
-            this.$data.loaded = true
-            if (!json.Answer) {
-                this.$data.dodns = false
-                this.$data.subdomain = true
-                return
-            }
-            this.$data.dodns = json.Answer[0].data.match(/.*digitalocean\.com\.*/)
+                this.$data.loaded = false
+                this.$data.subdomain = false
+                const json = await (await cfDNS(this.$props.data, "NS")).json()
+                this.$data.loaded = true
+                if (!json.Answer) {
+                    this.$data.dodns = false
+                    this.$data.subdomain = true
+                    return
+                }
+                this.$data.dodns = json.Answer[0].data.match(/.*digitalocean\.com\.*/)
+            },
         },
-    },
-}
+    }
 </script>

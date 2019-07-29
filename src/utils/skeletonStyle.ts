@@ -12,7 +12,7 @@ export const getSkeletonStyle = (min: number, max: number, size = 1) => {
         borderRadius: `${size * .5}em`,
         border: "none",
         width: `${getRandomInt(min, max)}px`,
-        maxWidth: '100%',
+        maxWidth: "100%",
         opacity: "0.7",
         animation: `skeleton-loading ${getRandomInt(900, 1200)}ms linear ${getRandomInt(0, 600)}ms infinite`,
         animationPlayState: "paused",
