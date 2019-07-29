@@ -26,5 +26,6 @@ module.exports =  {
       baseIndent: 1,
     }],
     "@typescript-eslint/indent": 0,
+    "vue/no-unused-vars": 0,
   },
 }

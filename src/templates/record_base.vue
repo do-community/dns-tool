@@ -1,6 +1,6 @@
 <template>
-    <span>
-        <span v-for="record in records">
+    <div>
+        <div v-for="record in records">
             <Record
                 :ns="ns"
                 :record-type="record.name"
@@ -9,13 +9,13 @@
                 :data="$props.data"
                 :expects-host="record.expectsHost"
             />
-        </span>
-    </span>
+        </div>
+    </div>
 </template>
 
 <script>
     import Record from "./record"
-    import recordsDataset from "../data/records"
+    import VueifiedRecords from "../data/vueified_records"
     import cfDNS from "../utils/cfDNS"
 
     export default {
@@ -26,19 +26,10 @@
         props: {
             data: String,
         },
+
         data() {
-            const setRecords = []
-            for (const recordKey in recordsDataset) {
-                const record = recordsDataset[recordKey]
-                setRecords.push({
-                    name: recordKey,
-                    description: record.info,
-                    url: record.url,
-                    expectsHost: Boolean(record.expectsHost),
-                })
-            }
             return {
-                records: setRecords,
+                records: VueifiedRecords,
                 ns: "",
             }
         },
@@ -52,6 +43,8 @@
         },
         methods: {
             async recordsInit() {
+                if (this.$props.data === "") return
+
                 const json = await (await cfDNS(this.$props.data, "NS")).json()
                 this.$data.ns = json.Answer ? json.Answer[0].data : ""
             },
