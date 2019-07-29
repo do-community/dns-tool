@@ -43,7 +43,6 @@
         },
         methods: {
             async recordsInit() {
-
                 if (this.$props.data === "") return
 
                 const json = await (await cfDNS(this.$props.data, "NS")).json()
