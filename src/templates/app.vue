@@ -2,8 +2,8 @@
   <span>
     <div style="min-height: calc(100vh - 90px);">
       <div id="top" class="has-text-centered" style="padding-left: 30%; padding-right: 30%; margin-top: 10px">
-        <h2 class="title is-2">Name here</h2>
-        <h5 class="title is-5">Enter the (sub-)domain you wish to look up.</h5>
+        <h2 class="title is-2">{{ i18n.app.title }}</h2>
+        <h5 class="title is-5">{{ i18n.app.description }}</h5>
         <form autocomplete="on" @submit.prevent="searchDNSEvent">
           <input id="DomainInput" class="input" type="text" placeholder="Domain">
           <button id="SearchButton" class="button is-link" style="margin-top: 20px">Search DNS Records</button>
@@ -39,6 +39,7 @@
 import RecordBase from "./record_base"
 import whoisJS from "../utils/whoisJS"
 import DODNS from "./dodns"
+import i18n from "../i18n"
 
 const stripHttps = /(https*:\/\/)*(.+)*/
 const isHostname = /.*\.[a-z]+/
@@ -54,6 +55,7 @@ export default {
             firstSearch: true,
             data: "",
             linked: null,
+            i18n,
         }
     },
     mounted() {
