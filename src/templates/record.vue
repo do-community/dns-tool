@@ -1,62 +1,66 @@
 <template>
-  <span v-if="active">
-    <h3
-      :id="`${this.$props.recordType}-Records`"
-      class="title is-3"
-    >
-      {{ this.$props.recordType }} Records
-      <a :href="`#${this.$props.recordType}-Records`"><i
-        class="fas fa-link"
-        style="color: black; font-size: 50%;"
-      /></a>
-    </h3>
-    <p><span v-html="this.$props.recordDescription"></span> <a :href="this.$props.recordUrl">Learn more</a></p>
-    <span v-if="recordKeys.length === 0">
-      <p><b>Could not find any records of this type.</b></p>
-    </span>
-    <span v-else>
-      <br>
-      <table class="table is-bordered">
-        <thead>
-          <tr>
-            <th v-for="recordKey in recordKeys">
-              {{ recordKey }}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="row in recordRows">
-            <td v-for="valueNode in row">
-              <span v-for="value in valueNode.values">
-                <span v-if="value.truncated">
-                  <TruncatedRecord
-                    :value="value.result"
-                    :truncated="value.truncated"
-                  />
-                </span>
-                <span v-else>
-                  {{ value.result }}
-                  <span v-if="value.hostname">
-                    <hr style="margin: 5px">
-                    <WHOIS :ip="value.ip"></WHOIS>
-                    <span v-if="$props.recordType === 'MX'">
-                      <MXBlacklist :ip="value.ip" :hostname="value.hostname ? value.hostname : ''"></MXBlacklist>
+  <span>
+    <span v-if="active">
+      <h3
+        :id="`${this.$props.recordType}-Records`"
+        class="title is-3"
+      >
+        {{ this.$props.recordType }} Records
+        <a :href="`#${this.$props.recordType}-Records`">
+          <i class="fas fa-link" style="color: black; font-size: 50%;"></i>
+        </a>
+      </h3>
+      <p><span v-html="this.$props.recordDescription"></span> <a :href="this.$props.recordUrl">Learn more</a></p>
+      <span v-if="recordKeys.length === 0">
+        <p><b>Could not find any records of this type.</b></p>
+      </span>
+      <span v-else>
+        <br>
+        <table class="table is-bordered">
+          <thead>
+            <tr>
+              <th v-for="recordKey in recordKeys">
+                {{ recordKey }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="row in recordRows">
+              <td v-for="valueNode in row">
+                <span v-for="value in valueNode.values">
+                  <span v-if="value.truncated">
+                    <TruncatedRecord
+                      :value="value.result"
+                      :truncated="value.truncated"
+                    />
+                  </span>
+                  <span v-else>
+                    {{ value.result }}
+                    <span v-if="value.hostname">
+                      <hr style="margin: 5px">
+                      <WHOIS :ip="value.ip"></WHOIS>
+                      <span v-if="$props.recordType === 'MX'">
+                        <MXBlacklist :ip="value.ip" :hostname="value.hostname ? value.hostname : ''"></MXBlacklist>
+                      </span>
                     </span>
                   </span>
                 </span>
-              </span>
-              <span v-if="valueNode.description">
-                <hr style="margin: 5px"><p style="font-size: 11px"><b>{{ valueNode.description }}</b></p>
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                <span v-if="valueNode.description">
+                  <hr style="margin: 5px"><p style="font-size: 11px"><b>{{ valueNode.description }}</b></p>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </span>
+      <p
+        v-if="learnMore"
+        style="margin-top: 20px"
+      ><a :href="learnMore">Learn how to set {{ this.$props.recordType }} records with your DNS.</a></p>
     </span>
-    <p
-      v-if="learnMore"
-      style="margin-top: 20px"
-    ><a :href="learnMore">Learn how to set {{ this.$props.recordType }} records with your DNS.</a></p>
+    <span v-else>
+      <Skeleton></Skeleton>
+    </span>
     <hr>
   </span>
 </template>
@@ -72,6 +76,7 @@ import txtFragments from "../data/txt"
 import nsRegexp from "../data/ns_regexp"
 import RecordTutorials from "../data/record_tutorials"
 import MXBlacklist from "./mx_blacklist"
+import Skeleton from "./skeleton"
 
 const trimmers = {}
 for (const recordKey in records)
@@ -99,6 +104,7 @@ export default {
         TruncatedRecord,
         WHOIS,
         MXBlacklist,
+        Skeleton,
     },
     props: {
         recordUrl: String,
@@ -130,6 +136,10 @@ export default {
     },
     methods: {
         async recordInit() {
+            if (this.$props.data === "") {
+                return
+            }
+
             this.$data.recordKeys = []
             this.$data.recordRows = []
 
