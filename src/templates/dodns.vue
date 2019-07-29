@@ -2,11 +2,11 @@
   <span>
     <span v-if="loaded">
       <span v-if="dodns">
-        <p><b>This domain is using DigitalOcean DNS.</b> <a href="https://www.digitalocean.com/docs/networking/dns/">Learn more about DigitalOcean DNS.</a></p>
+        <p><b>{{ i18n.dodns.using }}</b> <a href="https://www.digitalocean.com/docs/networking/dns/">{{ i18n.dodns.learnMore }}</a></p>
       </span>
       <span v-else>
-        <p v-if="subdomain"><b>This is a sub-domain and does not have any NS records.</b></p>
-        <p v-else><b>This domain is not using DigitalOcean DNS.</b> <a href="https://www.digitalocean.com/docs/networking/dns/">Learn more about DigitalOcean DNS.</a></p>
+        <p v-if="subdomain"><b>{{ i18n.dodns.subdomain }}</b></p>
+        <p v-else><b>{{ i18n.dodns.notUsing }}</b> <a href="https://www.digitalocean.com/docs/networking/dns/">{{ i18n.dodns.learnMore }}</a></p>
       </span>
     </span>
     <span v-else>
@@ -19,6 +19,7 @@
 <script>
 import cfDNS from "../utils/cfDNS"
 import Skeleton from "./skeleton"
+import i18n from "../i18n"
 
 export default {
     name: "DODNS",
@@ -33,6 +34,7 @@ export default {
             dodns: false,
             subdomain: false,
             loaded: false,
+            i18n,
         }
     },
     watch: {

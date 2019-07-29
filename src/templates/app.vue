@@ -1,12 +1,16 @@
 <template>
   <div class="container" style="display: flex; flex-direction: column;">
     <div id="top" class="has-text-centered" style="padding-left: 30%; padding-right: 30%; margin-top: 10px">
-      <h2 class="title is-2">{{ i18n.app.title }}</h2>
-      <h5 class="title is-5">{{ i18n.app.description }}</h5>
+      <h2 class="title is-2">
+        {{ i18n.app.title }}
+      </h2>
+      <h5 class="title is-5">
+        {{ i18n.app.description }}
+      </h5>
       <form autocomplete="on" @submit.prevent="searchDNSEvent">
         <input id="DomainInput" class="input" type="text" placeholder="Domain">
         <button id="SearchButton" class="button is-link" style="margin-top: 20px">
-          Search DNS Records
+          {{ i18n.app.searchButton }}
         </button>
       </form>
     </div>
@@ -19,17 +23,10 @@
     <footer class="footer" style="align-self: flex-end; padding: 20px;">
       <div class="content has-text-centered">
         <p>
-          <a href="#top">Back to Top</a>
+          <a href="#top">{{ i18n.app.backToTop }}</a>
         </p>
-        <p>
-          Thanks to <a href="https://cloudflare.com">Cloudflare</a> for their great WHOIS/DNS-over-HTTPS APIs.
-          You can learn more about the importance of DNS-over-HTTPS and how to use it
-          <a href="https://developers.cloudflare.com/1.1.1.1/dns-over-https/">here.</a>
-        </p>
-        <p>
-          Thanks to <a href="https://twitter.com/matthewgall">Matthew Gall</a> for his wonderful
-          <a href="https://whoisjs.com/">WHOIS API.</a>
-        </p>
+        <p v-html="i18n.app.cfThanks"></p>
+        <p v-html="i18n.app.mattThanks"></p>
       </div>
     </footer>
   </div>
