@@ -12,11 +12,11 @@
     <span v-if="expand">
       <p style="font-size: 11px"><b>ASN:</b> {{ asn }}</p>
       <p style="font-size: 11px"><b>CIDR:</b> {{ cidr }}</p>
-      <p style="font-size: 11px"><b>Abuse Contact:</b> {{ abuse }}</p>
+      <p style="font-size: 11px"><b>{{ i18n.whois.abuseContact }}:</b> {{ abuse }}</p>
     </span>
   </span>
   <span v-else>
-    <p style="font-size: 11px"><i>Loading WHOIS data...</i></p>
+    <p style="font-size: 11px"><i>{{ i18n.whois.loading }}</i></p>
   </span>
 </template>
 
@@ -25,6 +25,7 @@ import cfWHO from "../utils/cfWHO"
 import geoJS from "../utils/geoJS"
 import VueTippy from "vue-tippy"
 import Vue from "vue"
+import i18n from "../i18n"
 
 Vue.use(VueTippy)
 
@@ -43,6 +44,7 @@ export default {
             expand: false,
             countryCode: "",
             countryInfo: "",
+            i18n,
         }
     },
     mounted() {

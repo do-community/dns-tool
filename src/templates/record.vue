@@ -5,14 +5,14 @@
         :id="`${this.$props.recordType}-Records`"
         class="title is-3"
       >
-        {{ this.$props.recordType }} Records
+        {{ this.$props.recordType }} {{ i18n.records.records }}
         <a :href="`#${this.$props.recordType}-Records`">
           <i class="fas fa-link" style="color: black; font-size: 50%;"></i>
         </a>
       </h3>
-      <p><span v-html="this.$props.recordDescription"></span> <a :href="this.$props.recordUrl">Learn more</a></p>
+      <p><span v-html="this.$props.recordDescription"></span> <a :href="this.$props.recordUrl">{{ i18n.records.learnMore }}</a></p>
       <span v-if="recordKeys.length === 0">
-        <p><b>Could not find any records of this type.</b></p>
+        <p><b>{{ i18n.records.noRecords }}</b></p>
       </span>
       <span v-else>
         <br>
@@ -77,6 +77,7 @@ import nsRegexp from "../data/ns_regexp"
 import RecordTutorials from "../data/record_tutorials"
 import MXBlacklist from "./mx_blacklist"
 import Skeleton from "./skeleton"
+import i18n from "../i18n"
 
 const trimmers = {}
 for (const recordKey in records)
@@ -120,6 +121,7 @@ export default {
             recordKeys: [],
             recordRows: [],
             learnMore: null,
+            i18n,
         }
     },
     watch: {
