@@ -1,47 +1,49 @@
 <template>
-    <div class="container" style="display: flex; flex-direction: column;">
-        <div id="top" class="has-text-centered" style="padding-left: 30%; padding-right: 30%; margin-top: 10px">
-            <h2 class="title is-2">Name here</h2>
-            <h5 class="title is-5">Enter the (sub-)domain you wish to look up.</h5>
-            <form autocomplete="on" @submit.prevent="searchDNSEvent">
-                <input id="DomainInput" class="input" type="text" placeholder="Domain">
-                <button id="SearchButton" class="button is-link" style="margin-top: 20px">Search DNS Records</button>
-            </form>
-        </div>
-        <hr>
-        <div id="content">
-            <div v-if="firstSearch">
-                <Skeleton/>
-            </div>
-            <div v-else>
-                <DODNS :data="data"></DODNS>
-                <RecordBase :data="data"></RecordBase>
-            </div>
-        </div>
-        <footer class="footer" style="align-self: flex-end; padding: 20px;">
-            <div class="content has-text-centered">
-                <p>
-                    <a href="#top">Back to Top</a>
-                </p>
-                <p>
-                    Thanks to <a href="https://cloudflare.com">Cloudflare</a> for their great WHOIS/DNS-over-HTTPS APIs.
-                    You can learn more about the importance of DNS-over-HTTPS and how to use it
-                    <a href="https://developers.cloudflare.com/1.1.1.1/dns-over-https/">here.</a>
-                </p>
-                <p>
-                    Thanks to <a href="https://twitter.com/matthewgall">Matthew Gall</a> for his wonderful
-                    <a href="https://whoisjs.com/">WHOIS API.</a>
-                </p>
-            </div>
-        </footer>
+  <div class="container" style="display: flex; flex-direction: column;">
+    <div id="top" class="has-text-centered" style="padding-left: 30%; padding-right: 30%; margin-top: 10px">
+      <h2 class="title is-2">
+        Name here
+      </h2>
+      <h5 class="title is-5">
+        Enter the (sub-)domain you wish to look up.
+      </h5>
+      <form autocomplete="on" @submit.prevent="searchDNSEvent">
+        <input id="DomainInput" class="input" type="text" placeholder="Domain">
+        <button id="SearchButton" class="button is-link" style="margin-top: 20px">
+          Search DNS Records
+        </button>
+      </form>
+    </div>
+    <hr>
+    <div id="content">
+      <RecordJumps :loaded="data !== ''"></RecordJumps>
+      <DODNS :data="data"></DODNS>
+      <RecordBase :data="data"></RecordBase>
+    </div>
+    <footer class="footer" style="align-self: flex-end; padding: 20px;">
+      <div class="content has-text-centered">
+        <p>
+          <a href="#top">Back to Top</a>
+        </p>
+        <p>
+          Thanks to <a href="https://cloudflare.com">Cloudflare</a> for their great WHOIS/DNS-over-HTTPS APIs.
+          You can learn more about the importance of DNS-over-HTTPS and how to use it
+          <a href="https://developers.cloudflare.com/1.1.1.1/dns-over-https/">here.</a>
+        </p>
+        <p>
+          Thanks to <a href="https://twitter.com/matthewgall">Matthew Gall</a> for his wonderful
+          <a href="https://whoisjs.com/">WHOIS API.</a>
+        </p>
+      </div>
+    </footer>
   </div>
 </template>
 
 <script>
-import RecordBase from "./record_base"
-import Skeleton from "./skeleton"
 import whoisJS from "../utils/whoisJS"
 import DODNS from "./dodns"
+import RecordBase from "./record_base"
+import RecordJumps from "./record_jumps"
 
 const stripHttps = /(https*:\/\/)*(.+)*/
 const isHostname = /.*\.[a-z]+/
@@ -50,8 +52,8 @@ export default {
     name: "App",
     components: {
         RecordBase,
-        Skeleton,
         DODNS,
+        RecordJumps,
     },
     data() {
         return {
@@ -69,18 +71,22 @@ export default {
     },
     methods: {
         error(message) {
-            document.querySelectorAll("[data-skeleton]").forEach(elm => elm.style.animationPlayState = "paused");
+            document.querySelectorAll("[data-skeleton]").forEach(elm => elm.style.animationPlayState = "paused")
             alert(message)
         },
         async searchDNSEvent() {
-            document.querySelectorAll("[data-skeleton]").forEach(elm => elm.style.animationPlayState = "running");
+            document.querySelectorAll("[data-skeleton]").forEach(elm => elm.style.animationPlayState = "running")
+
             const domainInput = document.getElementById("DomainInput")
+
             const regexpExec = stripHttps.exec(domainInput.value.toLowerCase())
             const text = regexpExec[2] ? regexpExec[2].replace(/\//g, "") : ""
             if (!text.match(isHostname)) return this.error("Invalid domain.")
+
             const domainLookup = await whoisJS(text)
             if (!(await domainLookup.json()).domain) return this.error("Invalid domain.")
             if (!this.$data.linked) window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
+
             this.$data.linked = null
             this.$data.data = text
             this.$data.firstSearch = false

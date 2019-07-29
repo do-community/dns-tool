@@ -10,16 +10,21 @@
       </span>
     </span>
     <span v-else>
-      <p><i>Loading NS record information...</i></p>
+      <Skeleton></Skeleton>
     </span>
+    <hr>
   </span>
 </template>
 
 <script>
 import cfDNS from "../utils/cfDNS"
+import Skeleton from "./skeleton"
 
 export default {
     name: "DODNS",
+    components: {
+        Skeleton,
+    },
     props: {
         data: String,
     },
@@ -40,6 +45,10 @@ export default {
     },
     methods: {
         async recordInit() {
+            if (this.$props.data === "") {
+                return
+            }
+
             this.$data.loaded = false
             this.$data.subdomain = false
             const json = await (await cfDNS(this.$props.data, "NS")).json()

@@ -1,10 +1,5 @@
 <template>
   <div>
-    <i class="fas fa-link"></i>
-    <span v-for="record in records">
-      <a :href="`#${record.name}-Records`" style="display: inline-block; margin: 0.3em 0.3em 0 0">{{ record.name }} Records</a>
-    </span>
-    <hr>
     <div v-for="record in records">
       <Record
         :ns="ns"
@@ -20,7 +15,7 @@
 
 <script>
 import Record from "./record"
-import recordsDataset from "../data/records"
+import VueifiedRecords from "../data/vueified_records"
 import cfDNS from "../utils/cfDNS"
 
 export default {
@@ -31,19 +26,9 @@ export default {
     props: {
         data: String,
     },
-    data() {
-        const setRecords = []
-        for (const recordKey in recordsDataset) {
-            const record = recordsDataset[recordKey]
-            setRecords.push({
-                name: recordKey,
-                description: record.info,
-                url: record.url,
-                expectsHost: Boolean(record.expectsHost),
-            })
-        }
+    data() {   
         return {
-            records: setRecords,
+            records: VueifiedRecords,
             ns: "",
         }
     },
@@ -57,6 +42,10 @@ export default {
     },
     methods: {
         async recordsInit() {
+            if (this.$props.data === "") {
+                return
+            }
+
             const json = await (await cfDNS(this.$props.data, "NS")).json()
             this.$data.ns = json.Answer ? json.Answer[0].data : ""
         },
