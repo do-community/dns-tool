@@ -1,3 +1,13 @@
+<style>
+  @keyframes skeleton-loading {
+    0% { opacity: 0.7; }
+    25% { opacity: 0.9; }
+    50% { opacity: 0.7; }
+    75% { opacity: 0.5; }
+    100% { opacity: 0.7; }
+  }
+</style>
+
 <template>
   <div class="container" style="display: flex; flex-direction: column;">
     <div id="top" class="has-text-centered" style="padding-left: 30%; padding-right: 30%; margin-top: 10px">
@@ -17,10 +27,10 @@
     <hr>
     <div id="content">
       <RecordJumps :loaded="data !== ''"></RecordJumps>
-      <DODNS :data="data"></DODNS>
+      <DODNS :loaded="data !== ''" :data="data"></DODNS>
       <RecordBase :data="data"></RecordBase>
     </div>
-    <footer class="footer" style="align-self: flex-end; padding: 20px;">
+    <footer class="footer" style="align-self: flex-end; padding: 20px; width: 100%;">
       <div class="content has-text-centered">
         <p>
           <a href="#top">Back to Top</a>

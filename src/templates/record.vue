@@ -59,7 +59,7 @@
       ><a :href="learnMore">Learn how to set {{ this.$props.recordType }} records with your DNS.</a></p>
     </span>
     <span v-else>
-      <Skeleton></Skeleton>
+      <RecordSkeleton></RecordSkeleton>
     </span>
     <hr>
   </span>
@@ -76,7 +76,7 @@ import txtFragments from "../data/txt"
 import nsRegexp from "../data/ns_regexp"
 import RecordTutorials from "../data/record_tutorials"
 import MXBlacklist from "./mx_blacklist"
-import Skeleton from "./skeleton"
+import RecordSkeleton from "./skeletons/record"
 
 const trimmers = {}
 for (const recordKey in records)
@@ -104,7 +104,7 @@ export default {
         TruncatedRecord,
         WHOIS,
         MXBlacklist,
-        Skeleton,
+        RecordSkeleton,
     },
     props: {
         recordUrl: String,

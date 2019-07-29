@@ -6,13 +6,20 @@
     </span>
     <hr>
   </div>
+  <div v-else>
+    <RecordJumpsSkeleton></RecordJumpsSkeleton>
+  </div>
 </template>
 
 <script>
 import VueifiedRecords from "../data/vueified_records"
+import RecordJumpsSkeleton from "./skeletons/record_jumps"
 
 export default {
     name: "RecordJumps",
+    components: {
+        RecordJumpsSkeleton,
+    },
     props: {
         loaded: Boolean,
     },
