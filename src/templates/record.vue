@@ -1,16 +1,16 @@
 <template>
   <span>
     <span v-if="active">
-      <h3
-        :id="`${this.$props.recordType}-Records`"
-        class="title is-3"
-      >
+      <h3 :id="`${this.$props.recordType}-Records`" class="title is-3">
         {{ this.$props.recordType }} Records
         <a :href="`#${this.$props.recordType}-Records`">
           <i class="fas fa-link" style="color: black; font-size: 50%;"></i>
         </a>
       </h3>
-      <p><span v-html="this.$props.recordDescription"></span> <a :href="this.$props.recordUrl">Learn more</a></p>
+      <p>
+        <span v-html="this.$props.recordDescription"></span>
+        <a :href="this.$props.recordUrl">Learn more</a>
+      </p>
       <span v-if="recordKeys.length === 0">
         <p><b>Could not find any records of this type.</b></p>
       </span>
@@ -46,17 +46,17 @@
                   </span>
                 </span>
                 <span v-if="valueNode.description">
-                  <hr style="margin: 5px"><p style="font-size: 11px"><b>{{ valueNode.description }}</b></p>
+                  <hr style="margin: 5px"/>
+                  <p style="font-size: 11px"><b>{{ valueNode.description }}</b></p>
                 </span>
               </td>
             </tr>
           </tbody>
         </table>
       </span>
-      <p
-        v-if="learnMore"
-        style="margin-top: 20px"
-      ><a :href="learnMore">Learn how to set {{ this.$props.recordType }} records with your DNS.</a></p>
+      <p v-if="learnMore" style="margin-top: 20px">
+        <a :href="learnMore">Learn how to set {{ this.$props.recordType }} records with your DNS.</a>
+      </p>
     </span>
     <span v-else>
       <RecordSkeleton></RecordSkeleton>
@@ -136,9 +136,7 @@ export default {
     },
     methods: {
         async recordInit() {
-            if (this.$props.data === "") {
-                return
-            }
+            if (this.$props.data === "") return
 
             this.$data.recordKeys = []
             this.$data.recordRows = []

@@ -26,7 +26,7 @@ export default {
     props: {
         data: String,
     },
-    data() {   
+    data() {
         return {
             records: VueifiedRecords,
             ns: "",
@@ -42,9 +42,7 @@ export default {
     },
     methods: {
         async recordsInit() {
-            if (this.$props.data === "") {
-                return
-            }
+            if (this.$props.data === "") return
 
             const json = await (await cfDNS(this.$props.data, "NS")).json()
             this.$data.ns = json.Answer ? json.Answer[0].data : ""

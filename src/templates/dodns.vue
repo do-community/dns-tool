@@ -45,9 +45,7 @@ export default {
     },
     methods: {
         async recordInit() {
-            if (this.$props.data === "") {
-                return
-            }
+            if (this.$props.data === "") return
 
             this.$data.loaded = false
             this.$data.subdomain = false
