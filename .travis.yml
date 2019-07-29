@@ -1,0 +1,18 @@
+services:
+  - docker
+
+language: node_js
+node_js:
+  - "12"
+
+jobs:
+  include:
+    - stage: test
+      script: npm i && npm run lint
+    - stage: deploy
+      deploy:
+        provider: script
+        on:
+          branch: master
+        script: sh ./deploy.sh
+        skip_cleanup: true
