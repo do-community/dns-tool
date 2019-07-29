@@ -10,7 +10,7 @@
       </span>
     </span>
     <span v-else>
-      <Skeleton></Skeleton>
+      <DODNSSkeleton></DODNSSkeleton>
     </span>
     <hr>
   </span>
@@ -18,12 +18,12 @@
 
 <script>
 import cfDNS from "../utils/cfDNS"
-import Skeleton from "./skeleton"
+import DODNSSkeleton from "./skeletons/dodns"
 
 export default {
     name: "DODNS",
     components: {
-        Skeleton,
+      DODNSSkeleton,
     },
     props: {
         data: String,
