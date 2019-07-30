@@ -16,6 +16,10 @@ Currently, before the user searches, there is a skeleton of what the page will l
 
 ![](https://freethewump.us/wwmwyktqe.png)
 
+When searching, the button should go into a loading state. This makes it obvious to the user that the page is loading:
+
+![](https://freethewump.us/mkioropyv.png)
+
 If the domain is invalid, a error of some description should be displayed and stop the operation. This should be very visible for the user, for example by using an alert prompt:
 
 ![](https://i.imgur.com/vuu5Ch2.png)
