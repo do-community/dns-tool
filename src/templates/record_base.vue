@@ -2,6 +2,7 @@
     <div>
         <div v-for="record in records">
             <Record
+                :ref="record.name"
                 :ns="ns"
                 :record-type="record.name"
                 :record-url="record.url"
@@ -47,6 +48,16 @@
 
                 const json = await (await cfDNS(this.$props.data, "NS")).json()
                 this.$data.ns = json.Answer ? json.Answer[0].data : ""
+            },
+            async wait() {
+                const promises = []
+                for (const record of this.$data.records) {
+                    const ref = this.$refs[record.name][0]
+                    ref.$data.active = false
+                    if (ref.$props.data === this.$props.data) ref.recordInit()
+                    promises.push(ref.wait())
+                }
+                await Promise.all(promises)
             },
         },
     }

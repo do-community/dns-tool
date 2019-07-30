@@ -135,13 +135,25 @@
             this.handleNs()
         },
         methods: {
+            async wait() {
+                const vm = this
+                return new Promise(res => {
+                    const checkIfTrue = () => {
+                        if (vm.$data.active) {
+                            res()
+                            return
+                        }
+                        setTimeout(checkIfTrue, 10)
+                    }
+                    checkIfTrue()
+                })
+            },
             async recordInit() {
                 if (this.$props.data === "") return
 
                 this.$data.recordKeys = []
                 this.$data.recordRows = []
 
-                this.$data.active = false
                 const props = this.$props
 
                 const key = props.recordType
