@@ -48,6 +48,11 @@
         mounted() {
             this.handleInit()
         },
+        watch: {
+            ip() {
+                this.handleInit()
+            },
+        },
         methods: {
             toggleExpand() {
                 this.$data.expand = !this.$data.expand
