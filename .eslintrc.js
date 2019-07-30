@@ -21,5 +21,11 @@ module.exports =  {
     "vue/no-v-html": 0,
     "vue/max-attributes-per-line": 0,
     "vue/html-self-closing": 0,
+    "vue/html-indent": ["error", 4],
+    "vue/script-indent": ["error", 4, {
+      baseIndent: 1,
+    }],
+    "@typescript-eslint/indent": 0,
+    "vue/no-unused-vars": 0,
   },
 }
