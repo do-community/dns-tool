@@ -28,7 +28,7 @@
         <div id="content">
             <RecordJumps :loaded="data !== ''"></RecordJumps>
             <DODNS :loaded="data !== ''" :data="data"></DODNS>
-            <RecordBase :data="data"></RecordBase>
+            <RecordBase ref="RecordBase" :data="data"></RecordBase>
         </div>
         <footer class="footer" style="align-self: flex-end; padding: 20px; width: 100%;">
             <div class="content has-text-centered">
@@ -65,6 +65,7 @@
                 data: "",
                 linked: null,
                 i18n,
+                siteLoading: false,
             }
         },
         mounted() {
@@ -79,7 +80,14 @@
                 document.querySelectorAll("[data-skeleton]").forEach(elm => elm.style.animationPlayState = "paused")
                 alert(message)
             },
+            async searchWait() {
+                await this.$refs.RecordBase.wait()
+            },
             async searchDNSEvent() {
+                const el = document.getElementById("SearchButton")
+
+                if (this.$data.siteLoading) return
+
                 document.querySelectorAll("[data-skeleton]").forEach(elm => elm.style.animationPlayState = "running")
 
                 const domainInput = document.getElementById("DomainInput")
@@ -95,6 +103,14 @@
                 this.$data.linked = null
                 this.$data.data = text
                 this.$data.firstSearch = false
+
+                try {
+                    el.classList.add("is-loading")
+                    await this.searchWait()
+                } finally {
+                    el.classList.remove("is-loading")
+                    this.$data.siteLoading = false
+                }
             },
         }
     }
