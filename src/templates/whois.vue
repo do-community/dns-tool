@@ -45,13 +45,13 @@
                 countryInfo: "",
             }
         },
-        mounted() {
-            this.handleInit()
-        },
         watch: {
             ip() {
                 this.handleInit()
             },
+        },
+        mounted() {
+            this.handleInit()
         },
         methods: {
             toggleExpand() {
