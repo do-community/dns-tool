@@ -169,20 +169,25 @@
                 if (!fetchRes.ok) throw fetchRes
                 const json = await fetchRes.json()
 
-                if (!json.Answer) return this.$data.active = true
+                if (!json.Answer) {
+                    this.$data.active = true
+                    this.$data.recordRows = []
+                    this.$data.recordKeys = []
+                    return
+                }
 
                 const recordsJoined = {}
                 const txtRecordFragments = {}
 
                 standardiseRecords(key, json, txtRecordFragments, recordsJoined, /[=: ]/)
-                this.recordKeys = Object.keys(recordsJoined)
+                this.$data.recordKeys = Object.keys(recordsJoined)
                 const largestRecordPart = getLargestRecordPart(Object.values(recordsJoined))
 
                 let recordRows = []
 
                 for (let i = 0; i < largestRecordPart; i++) {
                     let row = []
-                    for (const collectionKey of this.recordKeys) {
+                    for (const collectionKey of this.$data.recordKeys) {
                         const data = {
                             values: [{
                                 result: recordsJoined[collectionKey][i],
