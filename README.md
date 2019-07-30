@@ -12,9 +12,13 @@ It should be clear to the user that it will only search the (sub-)domain they ty
 
 Pressing the "Search DNS Records" button or hitting ENTER in the text box will call a JavaScript function which will allow for the searching of records. If the user has a domain as part of the URL query, the textbox should not be focused, the textbox should be populated with the HTTP query and it should act like the "Search DNS Records" button has been clicked.
 
-There is currently a lot of unused space on the main page. This space is automatically removed and replaced with the records when the user does a search:
+Currently, before the user searches, there is a skeleton of what the page will look like. This gets replaced with the actual values after a search:
 
-![](https://i.imgur.com/l9PbwIR.png)
+![](https://freethewump.us/wwmwyktqe.png)
+
+When searching, the button should go into a loading state. This makes it obvious to the user that the page is loading:
+
+![](https://freethewump.us/mkioropyv.png)
 
 If the domain is invalid, a error of some description should be displayed and stop the operation. This should be very visible for the user, for example by using an alert prompt:
 
@@ -38,6 +42,10 @@ The page will try and get the following records:
 - CAA records
 - SRV records
 
+At the top of the page, it should allow users to jump to different parts. This means that users do not need to scroll:
+
+![](https://freethewump.us/qagkyhgbn.png)
+
 They should all be in a very standardised form. For IP addresses, we should show the owner underneath with a obvious hyperlink. Clicking the link expands/collapses more information about the host:
 
 ![](https://i.imgur.com/9l0kk9w.png)
@@ -53,6 +61,10 @@ For hostnames, we should try and resolve them to IP addresses and then do the ab
 For TXT records, they should be split in a reasonable place with a `Show more`/`Show less` hyperlink to expand/collapse it. Additionally, common TXT records should have a description under them and be grouped by the Name/TTL:
 
 ![](https://i.imgur.com/GIzLWNf.png)
+
+At the bottom, it should credit the API's we use. There should also be a "Back to Top" button so that the user can easily jump to the top.
+
+![](https://freethewump.us/xmcmwaqsx.png)
 
 ## Demo information
 **Host:** https://gerwggwerhgreherhre.jakegealer.me/
