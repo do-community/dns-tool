@@ -14,9 +14,7 @@ export default (key: string, json: any, txtRecordFragments: any, recordsJoined: 
             const recordData = record.data.startsWith("\"") ? record.data.substr(1).slice(0, -1) : record.data
             const dataSplit =  recordData.split(";")
             for (const newSplit of dataSplit) {
-                if (newSplit === "") {
-                    continue
-                }
+                if (newSplit === "") continue
 
                 if (!newSplit.startsWith("v")) {
                     newRecords.push({

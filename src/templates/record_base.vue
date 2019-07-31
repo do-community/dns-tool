@@ -1,5 +1,6 @@
 <template>
     <div>
+        <PropagationModal ref="PropagationModal"></PropagationModal>
         <div v-for="record in records">
             <Record
                 :ref="record.name"
@@ -9,6 +10,7 @@
                 :record-description="record.description"
                 :data="$props.data"
                 :expects-host="record.expectsHost"
+                @propagation-toggle="toggleModal"
             />
         </div>
     </div>
@@ -18,16 +20,17 @@
     import Record from "./record"
     import VueifiedRecords from "../data/vueified_records"
     import cfDNS from "../utils/cfDNS"
+    import PropagationModal from "./propagation_modal"
 
     export default {
         name: "RecordBase",
         components: {
             Record,
+            PropagationModal,
         },
         props: {
             data: String,
         },
-
         data() {
             return {
                 records: VueifiedRecords,
@@ -58,6 +61,9 @@
                     promises.push(ref.wait())
                 }
                 await Promise.all(promises)
+            },
+            toggleModal() {
+                this.$refs.PropagationModal.toggle()
             },
         },
     }

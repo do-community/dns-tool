@@ -54,6 +54,7 @@
                     </tbody>
                 </table>
             </span>
+            <p style="margin-top: 20px"><a @click="propagationToggle">Why do I get different values on my local system?</a></p>
             <p v-if="learnMore" style="margin-top: 20px">
                 <a :href="learnMore">Learn how to set {{ this.$props.recordType }} records with your DNS.</a>
             </p>
@@ -269,6 +270,9 @@
                         return
                     }
                 }
+            },
+            propagationToggle() {
+                this.$emit("propagation-toggle")
             },
         },
     }
