@@ -11,8 +11,13 @@ export default (key: string, json: any, txtRecordFragments: any, recordsJoined: 
     } else if (key === "DMARC") {
         const newRecords = []
         for (const record of json.Answer) {
-            const dataSplit = record.data.substr(1).slice(0, -1).split(";")
+            const recordData = record.data.startsWith("\"") ? record.data.substr(1).slice(0, -1) : record.data
+            const dataSplit =  recordData.split(";")
             for (const newSplit of dataSplit) {
+                if (newSplit === "") {
+                    continue
+                }
+
                 if (!newSplit.startsWith("v")) {
                     newRecords.push({
                         name: record.name,

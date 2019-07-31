@@ -194,7 +194,7 @@
                             }],
                         }
                         if (data.values[0].result !== undefined && collectionKey === "Data") {
-                            data.values[0].result = trimmers[props.recordType] ? trimmers[props.recordType](data.values[0].result) : data.values[0].result
+                            data.values[0].result = trimmers[changedKey] ? trimmers[changedKey](data.values[0].result) : data.values[0].result
 
                             const newLineSplit = data.values[0].result.toString().split(/\n/g)
                             let tSplit
