@@ -91,26 +91,26 @@
             async searchDNSEvent() {
                 const el = document.getElementById("SearchButton")
 
-                if (this.$data.siteLoading) return
-
-                document.querySelectorAll("[data-skeleton]").forEach(elm => elm.style.animationPlayState = "running")
-
-                const domainInput = document.getElementById("DomainInput")
-
-                const regexpExec = stripHttps.exec(domainInput.value.toLowerCase())
-                const text = regexpExec[2] ? regexpExec[2].replace(/\//g, "") : ""
-                if (!text.match(isHostname)) return this.error("Invalid domain.")
-
-                const domainLookup = await whoisJS(text)
-                if (!(await domainLookup.json()).domain) return this.error("Invalid domain.")
-                if (!this.$data.linked) window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
-
-                this.$data.linked = null
-                this.$data.data = text
-                this.$data.firstSearch = false
-
                 try {
                     el.classList.add("is-loading")
+
+                    if (this.$data.siteLoading) return
+
+                    const domainInput = document.getElementById("DomainInput")
+
+                    const regexpExec = stripHttps.exec(domainInput.value.toLowerCase())
+                    const text = regexpExec[2] ? regexpExec[2].replace(/\//g, "") : ""
+                    if (!text.match(isHostname)) return this.error("Invalid domain.")
+
+                    const domainLookup = await whoisJS(text)
+                    if (!(await domainLookup.json()).domain) return this.error("Invalid domain.")
+                    if (!this.$data.linked) window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
+
+                    document.querySelectorAll("[data-skeleton]").forEach(elm => elm.style.animationPlayState = "running")
+
+                    this.$data.linked = null
+                    this.$data.data = text
+                    this.$data.firstSearch = false
                     await this.searchWait()
                 } finally {
                     el.classList.remove("is-loading")

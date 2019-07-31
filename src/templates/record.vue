@@ -225,7 +225,7 @@
                             const last = data.values[0].result[data.values[0].result.length - 1]
                             if (last === ".") data.values[0].result = data.values[0].result.slice(0, -1)
                         } else {
-                            data.values[0].result = data.values[0].result.toString()
+                            data.values[0].result = data.values[0].result ? data.values[0].result  : "--"
                         }
 
                         row.push(data)
