@@ -62,6 +62,11 @@ For TXT records, they should be split in a reasonable place with a `Show more`/`
 
 ![](https://i.imgur.com/GIzLWNf.png)
 
+There is a modal related to DNS propagation (located in `./src/templates/propagation_modal.vue`). This has a toggle function which should be executable by a link/button clickable by the end user:
+
+![](https://freethewump.us/jrsbzmngj.png) 
+![](https://freethewump.us/ovlqpsbfb.png)
+
 At the bottom, it should credit the API's we use. There should also be a "Back to Top" button so that the user can easily jump to the top.
 
 ![](https://freethewump.us/xmcmwaqsx.png)
