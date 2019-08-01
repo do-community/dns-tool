@@ -28,7 +28,7 @@
         <div id="content">
             <RecordJumps :loaded="data !== ''"></RecordJumps>
             <DODNS :loaded="data !== ''" :data="data"></DODNS>
-            <RecordBase ref="RecordBase" :data="data"></RecordBase>
+            <RecordBase ref="RecordBase" :data="data" :registrar="registrar"></RecordBase>
         </div>
         <footer class="footer" style="align-self: flex-end; padding: 20px; width: 100%;">
             <div class="content has-text-centered">
@@ -71,6 +71,7 @@
                 data: "",
                 linked: null,
                 siteLoading: false,
+                registrar: "",
             }
         },
         mounted() {
@@ -103,7 +104,9 @@
                     if (!text.match(isHostname)) return this.error("Invalid domain.")
 
                     const domainLookup = await whoisJS(text)
-                    if (!(await domainLookup.json()).domain) return this.error("Invalid domain.")
+                    const json = await domainLookup.json()
+                    if (!json.domain) return this.error("Invalid domain.")
+                    this.$data.registrar = json.registrar.url
                     if (!this.$data.linked) window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
 
                     document.querySelectorAll("[data-skeleton]").forEach(elm => elm.style.animationPlayState = "running")

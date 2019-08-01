@@ -5,6 +5,7 @@
             <Record
                 :ref="record.name"
                 :ns="ns"
+                :registrar="$props.registrar"
                 :record-type="record.name"
                 :record-url="record.url"
                 :record-description="record.description"
@@ -30,6 +31,7 @@
         },
         props: {
             data: String,
+            registrar: String,
         },
         data() {
             return {

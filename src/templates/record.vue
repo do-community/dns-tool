@@ -56,7 +56,7 @@
             </span>
             <p style="margin-top: 20px"><a @click="propagationToggle">Why do I get different values on my local system?</a></p>
             <p v-if="learnMore" style="margin-top: 20px">
-                <a :href="learnMore">Learn how to set {{ this.$props.recordType }} records with your DNS.</a>
+                <a :href="learnMore">Learn how to set {{ this.$props.recordType }} records with your DNS/registrar.</a>
             </p>
         </span>
         <span v-else>
@@ -74,6 +74,7 @@
     import { getLargestRecordPart } from "../table"
     import records from "../data/records"
     import txtFragments from "../data/txt"
+    import registrarRegexp from "../data/registrar_regexp"
     import nsRegexp from "../data/ns_regexp"
     import RecordTutorials from "../data/record_tutorials"
     import MXBlacklist from "./mx_blacklist"
@@ -114,6 +115,7 @@
             recordDescription: String,
             expectsHost: Boolean,
             ns: String,
+            registrar: String,
         },
         data() {
             return {
@@ -128,12 +130,15 @@
                 this.recordInit()
             },
             ns() {
-                this.handleNs()
+                this.handleNsRegistrar()
+            },
+            registrar() {
+                this.handleNsRegistrar()
             },
         },
         mounted() {
             this.recordInit()
-            this.handleNs()
+            this.handleNsRegistrar()
         },
         methods: {
             async wait() {
@@ -256,19 +261,27 @@
                 this.$data.recordRows = recordRows
                 this.$data.active = true
             },
-            async handleNs() {
+            async handleNsRegistrar() {
                 this.$data.learnMore = null
                 const ns = this.$props.ns
-                for (const regexp of nsRegexp.keys()) {
-                    if (ns.match(regexp)) {
-                        const tutorial = RecordTutorials[nsRegexp.get(regexp)]
-                        if (typeof tutorial === "string") {
-                            this.$data.learnMore = tutorial
-                        } else {
-                            if (tutorial[this.$props.recordType]) this.$data.learnMore = tutorial[this.$props.recordType]
-                        }
-                        return
+                const set = (regexp, registrar) => {
+                    const map = registrar ? registrarRegexp : nsRegexp
+                    const tutorial = RecordTutorials[map.get(regexp)]
+                    if (typeof tutorial === "string") {
+                        this.$data.learnMore = tutorial
+                    } else {
+                        if (tutorial[this.$props.recordType]) this.$data.learnMore = tutorial[this.$props.recordType]
                     }
+                }
+                if (this.$props.recordType === "NS") {
+                    if (this.$props.registrar === "") return
+                    for (const regexp of registrarRegexp.keys()) {
+                        if (this.$props.registrar.match(regexp)) return set(regexp, true)
+                    }
+                    return
+                }
+                for (const regexp of nsRegexp.keys()) {
+                    if (ns.match(regexp)) return set(regexp)
                 }
             },
             propagationToggle() {
