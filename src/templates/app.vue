@@ -18,7 +18,7 @@
                 Enter the (sub-)domain you wish to look up.
             </h5>
             <span v-if="data !== ''">
-                <a @click="getTextRecords">{{ i18n.app.textRecords }}</a>
+                <a @click="getTextRecords">Get the records as a text file.</a>
                 <br><br>
             </span>
             <form autocomplete="on" @submit.prevent="searchDNSEvent">
