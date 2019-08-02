@@ -17,8 +17,10 @@
             <h5 class="title is-5">
                 {{ i18n.app.description }}
             </h5>
-            <a @click="getTextRecords">Get the records as a text file.</a>
-            <br><br>
+            <span v-if="data !== ''">
+                <a @click="getTextRecords">{{ i18n.app.textRecords }}</a>
+                <br><br>
+            </span>
             <form autocomplete="on" @submit.prevent="searchDNSEvent">
                 <input id="DomainInput" class="input" type="text" placeholder="Domain">
                 <button id="SearchButton" class="button is-link" style="margin-top: 20px">

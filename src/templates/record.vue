@@ -54,7 +54,7 @@
                     </tbody>
                 </table>
             </span>
-            <p style="margin-top: 20px"><a @click="propagationToggle">Why do I get different values on my local system?</a></p>
+            <p style="margin-top: 20px"><a @click="propagationToggle">{{ i18n.records.propagation }}</a></p>
             <p v-if="learnMore" style="margin-top: 20px">
                 <a :href="learnMore">Learn how to set {{ this.$props.recordType }} records with your DNS/registrar.</a>
             </p>

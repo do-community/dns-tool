@@ -12,4 +12,5 @@ export default {
         Thanks to <a href="https://twitter.com/matthewgall">Matthew Gall</a> for his wonderful
         <a href="https://whoisjs.com/">WHOIS API.</a>
     `,
+    textRecords: "Get the records as a text file.",
 } as any
