@@ -128,8 +128,8 @@
 
                     reports.clear()
                     this.$data.linked = null
-                    this.$data.data = text
                     this.$data.firstSearch = false
+                    this.$data.data = text
                     await this.searchWait()
                 } finally {
                     el.classList.remove("is-loading")

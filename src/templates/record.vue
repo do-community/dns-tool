@@ -133,13 +133,6 @@
             ns() {
                 this.handleNsRegistrar()
             },
-            registrar() {
-                this.handleNsRegistrar()
-            },
-        },
-        mounted() {
-            this.recordInit()
-            this.handleNsRegistrar()
         },
         methods: {
             async wait() {

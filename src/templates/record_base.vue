@@ -44,9 +44,6 @@
                 this.recordsInit()
             },
         },
-        async mounted() {
-            await this.recordsInit()
-        },
         methods: {
             async recordsInit() {
                 if (this.$props.data === "") return
@@ -59,7 +56,6 @@
                 for (const record of this.$data.records) {
                     const ref = this.$refs[record.name][0]
                     ref.$data.active = false
-                    if (ref.$props.data === this.$props.data) ref.recordInit()
                     promises.push(ref.wait())
                 }
                 await Promise.all(promises)
