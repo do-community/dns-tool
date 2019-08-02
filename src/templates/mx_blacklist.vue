@@ -31,7 +31,7 @@
             ip() {
                 this.init()
             },
-            hostnane() {
+            hostname() {
                 this.init()
             },
         },

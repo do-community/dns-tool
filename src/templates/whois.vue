@@ -47,6 +47,11 @@
                 i18n,
             }
         },
+        watch: {
+            ip() {
+                this.handleInit()
+            },
+        },
         mounted() {
             this.handleInit()
         },

@@ -7,7 +7,7 @@ export default {
     TXT: {
         info: "TXT records are a type of DNS record that contains text information for sources outside of your domain.",
         url: "https://support.google.com/a/answer/2716800?hl=en",
-        additionalDataParsing: (data: string) => data.substr(1).slice(0, -1),
+        additionalDataParsing: (data: string) => data.startsWith("\"") ? data.substr(1).slice(0, -1) : data,
     },
     MX: {
         info: "A mail exchanger record (MX record) specifies the mail server responsible for accepting email messages on behalf of a domain name.",

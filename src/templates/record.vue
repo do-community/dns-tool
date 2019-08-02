@@ -54,8 +54,9 @@
                     </tbody>
                 </table>
             </span>
+            <p style="margin-top: 20px"><a @click="propagationToggle">Why do I get different values on my local system?</a></p>
             <p v-if="learnMore" style="margin-top: 20px">
-                <a :href="learnMore">Learn how to set {{ this.$props.recordType }} records with your DNS.</a>
+                <a :href="learnMore">Learn how to set {{ this.$props.recordType }} records with your DNS/registrar.</a>
             </p>
         </span>
         <span v-else>
@@ -73,11 +74,13 @@
     import { getLargestRecordPart } from "../table"
     import records from "../data/records"
     import txtFragments from "../data/txt"
+    import registrarRegexp from "../data/registrar_regexp"
     import nsRegexp from "../data/ns_regexp"
     import RecordTutorials from "../data/record_tutorials"
     import MXBlacklist from "./mx_blacklist"
     import RecordSkeleton from "./skeletons/record"
     import i18n from "../i18n"
+    import { reports } from "../plain_text_reports"
 
     const trimmers = {}
     for (const recordKey in records)
@@ -114,6 +117,7 @@
             recordDescription: String,
             expectsHost: Boolean,
             ns: String,
+            registrar: String,
         },
         data() {
             return {
@@ -129,12 +133,8 @@
                 this.recordInit()
             },
             ns() {
-                this.handleNs()
+                this.handleNsRegistrar()
             },
-        },
-        mounted() {
-            this.recordInit()
-            this.handleNs()
         },
         methods: {
             async wait() {
@@ -156,12 +156,10 @@
                 this.$data.recordKeys = []
                 this.$data.recordRows = []
 
-                const props = this.$props
+                const key = this.$props.recordType
+                let changedKey = this.$props.recordType
 
-                const key = props.recordType
-                let text = props.data
-                let changedKey = props.recordType
-
+                let text = this.$props.data
                 if (key === "DMARC") {
                     text = `_dmarc.${text}`
                     changedKey = "TXT"
@@ -171,27 +169,33 @@
                 if (!fetchRes.ok) throw fetchRes
                 const json = await fetchRes.json()
 
-                if (!json.Answer) return this.$data.active = true
+                if (!json.Answer) {
+                    this.$data.active = true
+                    this.$data.recordRows = []
+                    this.$data.recordKeys = []
+                    reports.set(key, {})
+                    return
+                }
 
                 const recordsJoined = {}
                 const txtRecordFragments = {}
 
                 standardiseRecords(key, json, txtRecordFragments, recordsJoined, /[=: ]/)
-                this.recordKeys = Object.keys(recordsJoined)
+                this.$data.recordKeys = Object.keys(recordsJoined)
                 const largestRecordPart = getLargestRecordPart(Object.values(recordsJoined))
 
                 let recordRows = []
 
                 for (let i = 0; i < largestRecordPart; i++) {
                     let row = []
-                    for (const collectionKey of this.recordKeys) {
+                    for (const collectionKey of this.$data.recordKeys) {
                         const data = {
                             values: [{
                                 result: recordsJoined[collectionKey][i],
                             }],
                         }
                         if (data.values[0].result !== undefined && collectionKey === "Data") {
-                            data.values[0].result = trimmers[props.recordType] ? trimmers[props.recordType](data.values[0].result) : data.values[0].result
+                            data.values[0].result = trimmers[changedKey] ? trimmers[changedKey](data.values[0].result) : data.values[0].result
 
                             const newLineSplit = data.values[0].result.toString().split(/\n/g)
                             let tSplit
@@ -210,7 +214,7 @@
                                     if (part.length > 20) data.values[0].truncated = truncated
                                 }
                             }
-                            if (props.expectsHost) {
+                            if (this.$props.expectsHost) {
                                 data.values[0].ip = await getIpFromHostname(data.values[0].result)
                                 data.values[0].hostname = data.values[0].result
                                 if (data.values[0].ip !== data.values[0].result) {
@@ -221,7 +225,7 @@
                             const last = data.values[0].result[data.values[0].result.length - 1]
                             if (last === ".") data.values[0].result = data.values[0].result.slice(0, -1)
                         } else {
-                            data.values[0].result = data.values[0].result.toString()
+                            data.values[0].result = data.values[0].result ? data.values[0].result  : "--"
                         }
 
                         row.push(data)
@@ -251,21 +255,33 @@
 
                 this.$data.recordRows = recordRows
                 this.$data.active = true
+                reports.set(key, json)
             },
-            async handleNs() {
+            async handleNsRegistrar() {
                 this.$data.learnMore = null
                 const ns = this.$props.ns
-                for (const regexp of nsRegexp.keys()) {
-                    if (ns.match(regexp)) {
-                        const tutorial = RecordTutorials[nsRegexp.get(regexp)]
-                        if (typeof tutorial === "string") {
-                            this.$data.learnMore = tutorial
-                        } else {
-                            if (tutorial[this.$props.recordType]) this.$data.learnMore = tutorial[this.$props.recordType]
-                        }
-                        return
+                const set = (regexp, registrar) => {
+                    const map = registrar ? registrarRegexp : nsRegexp
+                    const tutorial = RecordTutorials[map.get(regexp)]
+                    if (typeof tutorial === "string") {
+                        this.$data.learnMore = tutorial
+                    } else {
+                        if (tutorial[this.$props.recordType]) this.$data.learnMore = tutorial[this.$props.recordType]
                     }
                 }
+                if (this.$props.recordType === "NS") {
+                    if (this.$props.registrar === "") return
+                    for (const regexp of registrarRegexp.keys()) {
+                        if (this.$props.registrar.match(regexp)) return set(regexp, true)
+                    }
+                    return
+                }
+                for (const regexp of nsRegexp.keys()) {
+                    if (ns.match(regexp)) return set(regexp)
+                }
+            },
+            propagationToggle() {
+                this.$emit("propagation-toggle")
             },
         },
     }

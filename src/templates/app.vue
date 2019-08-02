@@ -17,6 +17,8 @@
             <h5 class="title is-5">
                 {{ i18n.app.description }}
             </h5>
+            <a @click="getTextRecords">Get the records as a text file.</a>
+            <br><br>
             <form autocomplete="on" @submit.prevent="searchDNSEvent">
                 <input id="DomainInput" class="input" type="text" placeholder="Domain">
                 <button id="SearchButton" class="button is-link" style="margin-top: 20px">
@@ -28,7 +30,7 @@
         <div id="content">
             <RecordJumps :loaded="data !== ''"></RecordJumps>
             <DODNS :loaded="data !== ''" :data="data"></DODNS>
-            <RecordBase ref="RecordBase" :data="data"></RecordBase>
+            <RecordBase ref="RecordBase" :data="data" :registrar="registrar"></RecordBase>
         </div>
         <footer class="footer" style="align-self: flex-end; padding: 20px; width: 100%;">
             <div class="content has-text-centered">
@@ -48,6 +50,7 @@
     import RecordBase from "./record_base"
     import RecordJumps from "./record_jumps"
     import i18n from "../i18n"
+    import { reports, generateTextReport } from "../plain_text_reports"
 
     const stripHttps = /(https*:\/\/)*(.+)*/
     const isHostname = /.*\.[a-z]+/
@@ -66,6 +69,7 @@
                 linked: null,
                 i18n,
                 siteLoading: false,
+                registrar: "",
             }
         },
         mounted() {
@@ -83,29 +87,44 @@
             async searchWait() {
                 await this.$refs.RecordBase.wait()
             },
+            getTextRecords() {
+                const text = generateTextReport()
+                const blob = new Blob([text], {type: "text/plain;charset=utf-8"})
+                const a = document.createElement("a")
+                document.body.appendChild(a)
+                const url = window.URL.createObjectURL(blob)
+                a.href = url
+                a.download = "records.txt"
+                a.click()
+                window.URL.revokeObjectURL(url)
+                a.remove()
+            },
             async searchDNSEvent() {
                 const el = document.getElementById("SearchButton")
 
-                if (this.$data.siteLoading) return
-
-                document.querySelectorAll("[data-skeleton]").forEach(elm => elm.style.animationPlayState = "running")
-
-                const domainInput = document.getElementById("DomainInput")
-
-                const regexpExec = stripHttps.exec(domainInput.value.toLowerCase())
-                const text = regexpExec[2] ? regexpExec[2].replace(/\//g, "") : ""
-                if (!text.match(isHostname)) return this.error("Invalid domain.")
-
-                const domainLookup = await whoisJS(text)
-                if (!(await domainLookup.json()).domain) return this.error("Invalid domain.")
-                if (!this.$data.linked) window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
-
-                this.$data.linked = null
-                this.$data.data = text
-                this.$data.firstSearch = false
-
                 try {
                     el.classList.add("is-loading")
+
+                    if (this.$data.siteLoading) return
+
+                    const domainInput = document.getElementById("DomainInput")
+
+                    const regexpExec = stripHttps.exec(domainInput.value.toLowerCase())
+                    const text = regexpExec[2] ? regexpExec[2].replace(/\//g, "") : ""
+                    if (!text.match(isHostname)) return this.error("Invalid domain.")
+
+                    const domainLookup = await whoisJS(text)
+                    const json = await domainLookup.json()
+                    if (!json.domain) return this.error("Invalid domain.")
+                    this.$data.registrar = json.registrar.url
+                    if (!this.$data.linked) window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
+
+                    document.querySelectorAll("[data-skeleton]").forEach(elm => elm.style.animationPlayState = "running")
+
+                    reports.clear()
+                    this.$data.linked = null
+                    this.$data.firstSearch = false
+                    this.$data.data = text
                     await this.searchWait()
                 } finally {
                     el.classList.remove("is-loading")
