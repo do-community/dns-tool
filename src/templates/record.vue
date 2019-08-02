@@ -79,6 +79,7 @@
     import RecordTutorials from "../data/record_tutorials"
     import MXBlacklist from "./mx_blacklist"
     import RecordSkeleton from "./skeletons/record"
+    import { reports } from "../plain_text_reports"
 
     const trimmers = {}
     for (const recordKey in records)
@@ -160,12 +161,10 @@
                 this.$data.recordKeys = []
                 this.$data.recordRows = []
 
-                const props = this.$props
+                const key = this.$props.recordType
+                let changedKey = this.$props.recordType
 
-                const key = props.recordType
-                let text = props.data
-                let changedKey = props.recordType
-
+                let text = this.$props.data
                 if (key === "DMARC") {
                     text = `_dmarc.${text}`
                     changedKey = "TXT"
@@ -179,6 +178,7 @@
                     this.$data.active = true
                     this.$data.recordRows = []
                     this.$data.recordKeys = []
+                    reports.set(key, {})
                     return
                 }
 
@@ -219,7 +219,7 @@
                                     if (part.length > 20) data.values[0].truncated = truncated
                                 }
                             }
-                            if (props.expectsHost) {
+                            if (this.$props.expectsHost) {
                                 data.values[0].ip = await getIpFromHostname(data.values[0].result)
                                 data.values[0].hostname = data.values[0].result
                                 if (data.values[0].ip !== data.values[0].result) {
@@ -260,6 +260,7 @@
 
                 this.$data.recordRows = recordRows
                 this.$data.active = true
+                reports.set(key, json)
             },
             async handleNsRegistrar() {
                 this.$data.learnMore = null

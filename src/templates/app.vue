@@ -17,6 +17,8 @@
             <h5 class="title is-5">
                 Enter the (sub-)domain you wish to look up.
             </h5>
+            <a @click="getTextRecords">Get the records as a text file.</a>
+            <br><br>
             <form autocomplete="on" @submit.prevent="searchDNSEvent">
                 <input id="DomainInput" class="input" type="text" placeholder="Domain">
                 <button id="SearchButton" class="button is-link" style="margin-top: 20px">
@@ -54,6 +56,7 @@
     import DODNS from "./dodns"
     import RecordBase from "./record_base"
     import RecordJumps from "./record_jumps"
+    import { reports, generateTextReport } from "../plain_text_reports"
 
     const stripHttps = /(https*:\/\/)*(.+)*/
     const isHostname = /.*\.[a-z]+/
@@ -89,6 +92,18 @@
             async searchWait() {
                 await this.$refs.RecordBase.wait()
             },
+            getTextRecords() {
+                const text = generateTextReport()
+                const blob = new Blob([text], {type: "text/plain;charset=utf-8"})
+                const a = document.createElement("a")
+                document.body.appendChild(a)
+                const url = window.URL.createObjectURL(blob)
+                a.href = url
+                a.download = "records.txt"
+                a.click()
+                window.URL.revokeObjectURL(url)
+                a.remove()
+            },
             async searchDNSEvent() {
                 const el = document.getElementById("SearchButton")
 
@@ -111,6 +126,7 @@
 
                     document.querySelectorAll("[data-skeleton]").forEach(elm => elm.style.animationPlayState = "running")
 
+                    reports.clear()
                     this.$data.linked = null
                     this.$data.data = text
                     this.$data.firstSearch = false
