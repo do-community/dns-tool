@@ -10,6 +10,7 @@
 
 <template>
     <div class="container" style="display: flex; flex-direction: column;">
+        <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
         <div id="top" class="has-text-centered" style="padding-left: 30%; padding-right: 30%; margin-top: 10px">
             <h2 class="title is-2">
                 Name here
@@ -18,7 +19,7 @@
                 Enter the (sub-)domain you wish to look up.
             </h5>
             <span v-if="data !== ''">
-                <a @click="getTextRecords">Get the records as a text file.</a>
+                <a @click="toggleRecordTextModal">Get the records in text form.</a>
                 <br><br>
             </span>
             <form autocomplete="on" @submit.prevent="searchDNSEvent">
@@ -58,7 +59,8 @@
     import DODNS from "./dodns"
     import RecordBase from "./record_base"
     import RecordJumps from "./record_jumps"
-    import { reports, generateTextReport } from "../plain_text_reports"
+    import { reports } from "../plain_text_reports"
+    import RecordSelectionModal from "./record_selection_modal"
 
     const stripHttps = /(https*:\/\/)*(.+)*/
     const isHostname = /.*\.[a-z]+/
@@ -69,6 +71,7 @@
             RecordBase,
             DODNS,
             RecordJumps,
+            RecordSelectionModal,
         },
         data() {
             return {
@@ -94,17 +97,8 @@
             async searchWait() {
                 await this.$refs.RecordBase.wait()
             },
-            getTextRecords() {
-                const text = generateTextReport()
-                const blob = new Blob([text], {type: "text/plain;charset=utf-8"})
-                const a = document.createElement("a")
-                document.body.appendChild(a)
-                const url = window.URL.createObjectURL(blob)
-                a.href = url
-                a.download = "records.txt"
-                a.click()
-                window.URL.revokeObjectURL(url)
-                a.remove()
+            toggleRecordTextModal() {
+                this.$refs.RecordSelectionModal.toggle()
             },
             async searchDNSEvent() {
                 const el = document.getElementById("SearchButton")

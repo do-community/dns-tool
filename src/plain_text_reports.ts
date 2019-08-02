@@ -9,10 +9,13 @@ const format = (data: any) => {
     return formattedParts.join(" | ")
 }
 
-export const generateTextReport = () => {
+export const generateTextReport = (allowedRecords: string[]) => {
     let report = ""
     for (const kv of reports.entries()) {
         const key = kv[0]
+        if (!allowedRecords.includes(key)) {
+            continue
+        }
         const value = kv[1]
         let textValue = " None"
         if (value.Answer) {
