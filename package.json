@@ -1,7 +1,7 @@
 {
-  "name": "dns-lookup",
+  "name": "dns-tool",
   "version": "1.0.0",
-  "description": "A fast and easy to use DNS lookup tool.",
+  "description": "A simple browser-based tool to perform DNS lookups.",
   "license": "Apache-2.0",
   "scripts": {
     "build": "parcel build ./src/index.html",
