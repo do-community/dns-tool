@@ -29,7 +29,7 @@ limitations under the License.
         <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
         <div id="top" class="has-text-centered" style="padding-left: 30%; padding-right: 30%; margin-top: 10px">
             <h2 class="title is-2">
-                Name here
+                DNS Lookup Tool
             </h2>
             <h5 class="title is-5">
                 Enter the (sub-)domain you wish to look up.
