@@ -2,6 +2,7 @@
   "name": "dns-lookup",
   "version": "1.0.0",
   "description": "A fast and easy to use DNS lookup tool.",
+  "license": "Apache-2.0",
   "scripts": {
     "build": "parcel build ./src/index.html",
     "dev": "parcel ./src/index.html",
