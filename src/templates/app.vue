@@ -35,7 +35,7 @@ limitations under the License.
                 Enter the (sub-)domain you wish to look up.
             </h5>
             <span v-if="data !== ''">
-                <a @click="toggleRecordTextModal">Get the records in text form.</a>
+                <a @click="toggleRecordTextModal">Get the records in text/markdown form.</a>
                 <br><br>
             </span>
             <form autocomplete="on" @submit.prevent="searchDNSEvent">

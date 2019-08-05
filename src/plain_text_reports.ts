@@ -45,3 +45,38 @@ export const generateTextReport = (allowedRecords: string[]) => {
     }
     return report
 }
+
+export const generateMdReport = (allowedRecords: string[]) => {
+    let report = ""
+    for (const kv of reports.entries()) {
+        const key = kv[0]
+        if (!allowedRecords.includes(key)) {
+            continue
+        }
+        const value = kv[1]
+        let textValue = "No records present."
+        if (value.Answer) {
+            const unformattedKeys = Object.keys(value.Answer[0])
+            const keys: string[] = []
+            for (const key of unformattedKeys) {
+                keys.push(`${key.substr(0, 1).toUpperCase()}${key.substr(1)}`)
+            }
+            let dividers = ""
+            let i = 0
+            while (i !== keys.length) {
+                dividers += "--- | "
+                i++
+            }
+            textValue = `${keys.join("|")}\n${dividers}\n`
+            for (const answer of value.Answer) {
+                const parts = []
+                for (const part of Object.values(answer)) {
+                    parts.push(String(part))
+                }
+                textValue += parts.join(" | ") + "\n"
+            }
+        }
+        report += `# ${key} Records\n${textValue}\n`
+    }
+    return report
+}
