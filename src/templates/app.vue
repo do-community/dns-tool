@@ -130,6 +130,8 @@ limitations under the License.
                     const text = regexpExec[2] ? regexpExec[2].replace(/\//g, "") : ""
                     if (!text.match(isHostname)) return this.error("Invalid domain.")
 
+                    if (this.$data.data === text) this.$data.data = ""
+
                     const domainLookup = await whoisJS(text)
                     const json = await domainLookup.json()
                     if (!json.domain) return this.error("Invalid domain.")
