@@ -40,7 +40,7 @@ limitations under the License.
                     <hr style="margin: 10px">
                     <p><a @click="toggleRecordTextModal">Get the records in text/markdown form.</a></p>
                 </span>
-                <form autocomplete="on" @submit.prevent="searchDNSEvent" style="margin-top: 20px">
+                <form autocomplete="on" style="margin-top: 20px" @submit.prevent="searchDNSEvent">
                     <input id="DomainInput" class="input" type="text" placeholder="Domain">
                     <button id="SearchButton" class="button is-link" style="margin-top: 20px">
                         Search DNS Records
