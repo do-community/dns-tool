@@ -142,7 +142,7 @@ limitations under the License.
 
                     const domainLookup = await cfDNS(text, "NULL")
                     const json = await domainLookup.json()
-                    if (json.Status !== 0) return this.error("Invalid domain.");
+                    if (json.Status !== 0) return this.error("Invalid domain.")
 
                     this.setRegistrar(text)
 
