@@ -31,8 +31,8 @@ limitations under the License.
                 <br>
                 <a class="button is-link" @click="downloadRecords(false)">Download Records In Text Form</a>
                 <a class="button is-link" @click="copyRecords(false)">Copy Records In Text Form</a>
-                <a class="button is-link" @click="downloadRecords(true)" style="margin-top: 10px">Download Records In Markdown</a>
-                <a class="button is-link" @click="copyRecords(true)" style="margin-top: 10px">Copy Records In Markdown</a>
+                <a class="button is-link" style="margin-top: 10px" @click="downloadRecords(true)">Download Records In Markdown</a>
+                <a class="button is-link" style="margin-top: 10px" @click="copyRecords(true)">Copy Records In Markdown</a>
             </section>
         </div>
     </div>
