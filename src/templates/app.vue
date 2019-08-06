@@ -117,6 +117,13 @@ limitations under the License.
             toggleRecordTextModal() {
                 this.$refs.RecordSelectionModal.toggle()
             },
+            async setRegistrar(text) {
+                const whoisLookup = await whoisJS(text)
+                if (!whoisLookup.ok) return this.$data.registrar = ""
+                const lookupJson = await whoisLookup.json()
+                const registrarObject = lookupJson.registrar || {}
+                this.$data.registrar = registrarObject.url || ""
+            },
             async searchDNSEvent() {
                 const el = document.getElementById("SearchButton")
 
@@ -136,13 +143,8 @@ limitations under the License.
                     const domainLookup = await cfDNS(text, "NULL")
                     const json = await domainLookup.json()
                     if (json.Status !== 0) return this.error("Invalid domain.");
-                    (async() => {
-                        const whoisLookup = await whoisJS(text)
-                        if (!whoisLookup.ok) return this.$data.registrar = ""
-                        const lookupJson = await whoisLookup.json()
-                        const registrarObject = lookupJson.registrar ? lookupJson.registrar : {}
-                        this.$data.registrar = registrarObject.url ? registrarObject.url : ""
-                    })()
+
+                    this.setRegistrar(text)
 
                     if (!this.$data.linked) window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
 
