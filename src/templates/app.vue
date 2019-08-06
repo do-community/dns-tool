@@ -1,3 +1,19 @@
+<!--
+Copyright 2019 DigitalOcean
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
 <style>
   @keyframes skeleton-loading {
     0% { opacity: 0.7; }
@@ -10,6 +26,7 @@
 
 <template>
     <div class="container" style="display: flex; flex-direction: column;">
+        <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
         <div id="top" class="has-text-centered" style="padding-left: 30%; padding-right: 30%; margin-top: 10px">
             <h2 class="title is-2">
                 {{ i18n.app.title }}
@@ -53,6 +70,7 @@
     import RecordJumps from "./record_jumps"
     import i18n from "../i18n"
     import { reports, generateTextReport } from "../plain_text_reports"
+    import RecordSelectionModal from "./record_selection_modal"
 
     const stripHttps = /(https*:\/\/)*(.+)*/
     const isHostname = /.*\.[a-z]+/
@@ -63,6 +81,7 @@
             RecordBase,
             DODNS,
             RecordJumps,
+            RecordSelectionModal,
         },
         data() {
             return {
@@ -89,17 +108,8 @@
             async searchWait() {
                 await this.$refs.RecordBase.wait()
             },
-            getTextRecords() {
-                const text = generateTextReport()
-                const blob = new Blob([text], {type: "text/plain;charset=utf-8"})
-                const a = document.createElement("a")
-                document.body.appendChild(a)
-                const url = window.URL.createObjectURL(blob)
-                a.href = url
-                a.download = "records.txt"
-                a.click()
-                window.URL.revokeObjectURL(url)
-                a.remove()
+            toggleRecordTextModal() {
+                this.$refs.RecordSelectionModal.toggle()
             },
             async searchDNSEvent() {
                 const el = document.getElementById("SearchButton")

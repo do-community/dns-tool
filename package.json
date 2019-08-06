@@ -1,25 +1,26 @@
 {
-  "name": "dns-lookup",
+  "name": "dns-tool",
   "version": "1.0.0",
-  "description": "A fast and easy to use DNS lookup tool.",
+  "description": "A simple browser-based tool to perform DNS lookups.",
+  "license": "Apache-2.0",
   "scripts": {
-    "build": "parcel build ./src/index.html",
+    "build": "parcel build ./src/index.html --public-url=./",
     "dev": "parcel ./src/index.html",
     "lint": "tsc && eslint ./src/**/*.ts && eslint ./src/**/*.vue",
     "lint-and-fix": "tsc && eslint ./src/**/*.ts --fix && eslint ./src/**/*.vue --fix"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JakeMakesStuff/DNS-Prototype.git"
+    "url": "git+https://github.com/do-community/dns-tool.git"
   },
   "keywords": [
     "dns"
   ],
   "author": "DigitalOcean",
   "bugs": {
-    "url": "https://github.com/JakeMakesStuff/DNS-Prototype/issues"
+    "url": "https://github.com/do-community/dns-tool/issues"
   },
-  "homepage": "https://github.com/JakeMakesStuff/DNS-Prototype#readme",
+  "homepage": "https://github.com/do-community/dns-tool#readme",
   "dependencies": {
     "@babel/runtime": "^7.5.5",
     "babel-polyfill": "^6.26.0",

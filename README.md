@@ -1,5 +1,5 @@
-# DNS-Prototype
-Prototyping stuff.
+# DNS Tool
+A simple browser-based tool to perform DNS lookups.
 
 ## Development/Building
 To setup the build/develop environment, you will need to run `npm i` with Node 10+ installed. This will install the dependencies to allow you to build the project.
