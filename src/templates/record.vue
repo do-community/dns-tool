@@ -149,6 +149,9 @@ limitations under the License.
             ns() {
                 this.handleNsRegistrar()
             },
+            registrar() {
+                this.handleNsRegistrar()
+            },
         },
         methods: {
             async wait() {

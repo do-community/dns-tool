@@ -77,6 +77,7 @@ limitations under the License.
     import RecordJumps from "./record_jumps"
     import { reports } from "../plain_text_reports"
     import RecordSelectionModal from "./record_selection_modal"
+    import cfDNS from "../utils/cfDNS"
 
     const stripHttps = /(https*:\/\/)*(.+)*/
     const isHostname = /.*\.[a-z]+/
@@ -130,10 +131,17 @@ limitations under the License.
                     const text = regexpExec[2] ? regexpExec[2].replace(/\//g, "") : ""
                     if (!text.match(isHostname)) return this.error("Invalid domain.")
 
-                    const domainLookup = await whoisJS(text)
+                    const domainLookup = await cfDNS(text, "NULL")
                     const json = await domainLookup.json()
-                    if (!json.domain) return this.error("Invalid domain.")
-                    this.$data.registrar = json.registrar.url
+                    if (json.Status !== 0) return this.error("Invalid domain.");
+                    (async() => {
+                        const whoisLookup = await whoisJS(text)
+                        if (!whoisLookup.ok) return this.$data.registrar = ""
+                        const lookupJson = await whoisLookup.json()
+                        const registrarObject = lookupJson.registrar ? lookupJson.registrar : {}
+                        this.$data.registrar = registrarObject.url ? registrarObject.url : ""
+                    })()
+
                     if (!this.$data.linked) window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
 
                     document.querySelectorAll("[data-skeleton]").forEach(elm => elm.style.animationPlayState = "running")
