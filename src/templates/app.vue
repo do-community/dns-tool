@@ -34,11 +34,12 @@ limitations under the License.
             <h5 class="title is-5">
                 Enter the (sub-)domain you wish to look up.
             </h5>
+            <p><a href="https://github.com/do-community/dns-tool">This tool is open source on GitHub under the Apache-2.0 license! We welcome feedback and contributions.</a></p>
             <span v-if="data !== ''">
-                <a @click="toggleRecordTextModal">Get the records in text/markdown form.</a>
-                <br><br>
+                <hr style="margin: 10px">
+                <p><a @click="toggleRecordTextModal">Get the records in text/markdown form.</a></p>
             </span>
-            <form autocomplete="on" @submit.prevent="searchDNSEvent">
+            <form autocomplete="on" @submit.prevent="searchDNSEvent" style="margin-top: 20px">
                 <input id="DomainInput" class="input" type="text" placeholder="Domain">
                 <button id="SearchButton" class="button is-link" style="margin-top: 20px">
                     Search DNS Records
