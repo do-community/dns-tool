@@ -59,7 +59,7 @@ limitations under the License.
                         <a href="#top">Back to Top</a>
                     </p>
                     <p>
-                        This tool is open source on GitHub under the Apache-2.0 license! We welcome feedback and contributions.
+                        This tool is open-source on GitHub under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a> license! We welcome feedback and contributions.
                     </p>
                     <p>
                         Thanks to <a href="https://cloudflare.com">Cloudflare</a> for their great WHOIS/DNS-over-HTTPS APIs.
