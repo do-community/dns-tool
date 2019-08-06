@@ -1,5 +1,5 @@
 export default {
-    title: "Name here",
+    title: "DNS Lookup Tool",
     description: "Enter the (sub-)domain you wish to look up.",
     searchButton: "Search DNS Records",
     backToTop: "Back To Top",
@@ -12,5 +12,5 @@ export default {
         Thanks to <a href="https://twitter.com/matthewgall">Matthew Gall</a> for his wonderful
         <a href="https://whoisjs.com/">WHOIS API.</a>
     `,
-    textRecords: "Get the records as a text file.",
+    textRecords: "Get the records in text/markdown form.",
 } as any

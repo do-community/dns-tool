@@ -6,8 +6,9 @@ import records from "./records"
 import truncatedRecord from "./truncated_record"
 import whois from "./whois"
 import propagationModal from "./propagation_modal"
+import recordSelectionModal from "./record_selection_modal"
 
 export default {
     app, dodns, mxBlacklist, recordJumps, records, truncatedRecord,
-    whois, propagationModal,
+    whois, propagationModal, recordSelectionModal,
 } as any

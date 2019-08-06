@@ -20,19 +20,19 @@ limitations under the License.
         <div class="modal-card">
             <header class="modal-card-head">
                 <p class="modal-card-title">
-                    Download Records
+                    {{ i18n.recordSelectionModal.downloadRecords }}
                 </p>
                 <button class="delete" aria-label="close" @click="toggle"></button>
             </header>
             <section class="modal-card-body">
                 <div v-for="key in reports.keys()">
-                    <input :ref="key" type="checkbox" checked> {{ key }} Records
+                    <input :ref="key" type="checkbox" checked> {{ key }} {{ i18n.recordSelectionModal.records }}
                 </div>
                 <br>
-                <a class="button is-link" @click="downloadRecords(false)">Download Records In Text Form</a>
-                <a class="button is-link" @click="copyRecords(false)">Copy Records In Text Form</a>
-                <a class="button is-link" @click="downloadRecords(true)" style="margin-top: 10px">Download Records In Markdown</a>
-                <a class="button is-link" @click="copyRecords(true)" style="margin-top: 10px">Copy Records In Markdown</a>
+                <a class="button is-link" @click="downloadRecords(false)">{{ i18n.recordSelectionModal.downloadTextForm }}</a>
+                <a class="button is-link" @click="copyRecords(false)">{{ i18n.recordSelectionModal.copyTextForm }}</a>
+                <a class="button is-link" @click="downloadRecords(true)" style="margin-top: 10px">{{ i18n.recordSelectionModal.downloadMd }}</a>
+                <a class="button is-link" @click="copyRecords(true)" style="margin-top: 10px">{{ i18n.recordSelectionModal.copyMd }}</a>
             </section>
         </div>
     </div>
@@ -40,6 +40,7 @@ limitations under the License.
 
 <script>
     import { generateMdReport, generateTextReport, reports } from "../plain_text_reports"
+    import i18n from "../i18n"
 
     export default {
         name: "RecordSelectionModal",
@@ -47,6 +48,7 @@ limitations under the License.
             return {
                 toggled: false,
                 reports,
+                i18n,
             }
         },
         methods: {

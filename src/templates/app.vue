@@ -35,7 +35,7 @@ limitations under the License.
                 {{ i18n.app.description }}
             </h5>
             <span v-if="data !== ''">
-                <a @click="getTextRecords">{{ i18n.app.textRecords }}</a>
+                <a @click="toggleRecordTextModal">{{ i18n.app.textRecords }}</a>
                 <br><br>
             </span>
             <form autocomplete="on" @submit.prevent="searchDNSEvent">
