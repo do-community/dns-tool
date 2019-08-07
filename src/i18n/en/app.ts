@@ -13,4 +13,5 @@ export default {
         <a href="https://whoisjs.com/">WHOIS API.</a>
     `,
     textRecords: "Get the records in text/markdown form.",
+    oss: `This tool is open-source on GitHub under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a> license! We welcome feedback and contributions.`,
 } as any
