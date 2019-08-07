@@ -16,14 +16,16 @@ limitations under the License.
 
 <template>
     <span v-if="truncate">
-        <p>{{ this.$props.truncated }} <a @click="toggleTruncation">Show more...</a></p>
+        <p>{{ this.$props.truncated }} <a @click="toggleTruncation">{{ i18n.templates.truncatedRecord.showMore }}</a></p>
     </span>
     <span v-else>
-        <p>{{ this.$props.value }} <a @click="toggleTruncation">Show less...</a></p>
+        <p>{{ this.$props.value }} <a @click="toggleTruncation">{{ i18n.templates.truncatedRecord.showLess }}</a></p>
     </span>
 </template>
 
 <script>
+    import i18n from "../i18n"
+
     export default {
         name: "TruncatedRecord",
         props: {
@@ -33,6 +35,7 @@ limitations under the License.
         data() {
             return {
                 truncate: true,
+                i18n,
             }
         },
         methods: {

@@ -18,17 +18,17 @@ limitations under the License.
     <span>
         <span v-if="active">
             <h3 :id="`${this.$props.recordType}-Records`" class="title is-3">
-                {{ this.$props.recordType }} Records
+                {{ this.$props.recordType }} {{ i18n.common.records }}
                 <a :href="`#${this.$props.recordType}-Records`">
                     <i class="fas fa-link" style="color: black; font-size: 50%;"></i>
                 </a>
             </h3>
             <p>
                 <span v-html="this.$props.recordDescription"></span>
-                <a :href="this.$props.recordUrl">Learn more</a>
+                <a :href="this.$props.recordUrl">{{ i18n.templates.records.learnMore }}</a>
             </p>
             <span v-if="recordKeys.length === 0">
-                <p><b>Could not find any records of this type.</b></p>
+                <p><b>{{ i18n.templates.records.noRecords }}</b></p>
             </span>
             <span v-else>
                 <br>
@@ -70,9 +70,9 @@ limitations under the License.
                     </tbody>
                 </table>
             </span>
-            <p style="margin-top: 20px"><a @click="propagationToggle">Why do I get different values on my local system?</a></p>
+            <p style="margin-top: 20px"><a @click="propagationToggle">{{ i18n.templates.records.propagation }}</a></p>
             <p v-if="learnMore" style="margin-top: 20px">
-                <a :href="learnMore">Learn how to set {{ this.$props.recordType }} records with your DNS/registrar.</a>
+                <a :href="learnMore">{{ i18n.templates.records.learnHow.replace("{record}", this.$props.recordType) }}</a>
             </p>
         </span>
         <span v-else>
@@ -95,6 +95,7 @@ limitations under the License.
     import RecordTutorials from "../data/record_tutorials"
     import MXBlacklist from "./mx_blacklist"
     import RecordSkeleton from "./skeletons/record"
+    import i18n from "../i18n"
     import { reports } from "../plain_text_reports"
 
     const trimmers = {}
@@ -140,6 +141,7 @@ limitations under the License.
                 recordKeys: [],
                 recordRows: [],
                 learnMore: null,
+                i18n,
             }
         },
         watch: {

@@ -31,19 +31,19 @@ limitations under the License.
             <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
             <div id="top" class="has-text-centered" style="padding-left: 30%; padding-right: 30%; margin-top: 10px">
                 <h2 class="title is-2">
-                    DNS Lookup Tool
+                    {{ i18n.templates.app.title }}
                 </h2>
                 <h5 class="title is-5">
-                    Enter the (sub-)domain you wish to look up.
+                    {{ i18n.templates.app.description }}
                 </h5>
                 <span v-if="data !== ''">
                     <hr style="margin: 10px">
-                    <p><a @click="toggleRecordTextModal">Get the records in text/markdown form.</a></p>
+                    <p><a @click="toggleRecordTextModal">{{ i18n.templates.app.textRecords }}</a></p>
                 </span>
                 <form autocomplete="on" style="margin-top: 20px" @submit.prevent="searchDNSEvent">
-                    <input id="DomainInput" class="input" type="text" placeholder="Domain">
+                    <input id="DomainInput" class="input" type="text" :placeholder="i18n.templates.app.domain">
                     <button id="SearchButton" class="button is-link" style="margin-top: 20px">
-                        Search DNS Records
+                        {{ i18n.templates.app.searchButton }}
                     </button>
                 </form>
             </div>
@@ -56,20 +56,11 @@ limitations under the License.
             <footer class="footer" style="align-self: flex-end; padding: 20px; width: 100%;">
                 <div class="content has-text-centered">
                     <p>
-                        <a href="#top">Back to Top</a>
+                        <a href="#top">{{ i18n.templates.app.backToTop }}</a>
                     </p>
-                    <p>
-                        This tool is open-source on GitHub under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a> license! We welcome feedback and contributions.
-                    </p>
-                    <p>
-                        Thanks to <a href="https://cloudflare.com">Cloudflare</a> for their great WHOIS/DNS-over-HTTPS APIs.
-                        You can learn more about the importance of DNS-over-HTTPS and how to use it
-                        <a href="https://developers.cloudflare.com/1.1.1.1/dns-over-https/">here.</a>
-                    </p>
-                    <p>
-                        Thanks to <a href="https://twitter.com/matthewgall">Matthew Gall</a> for his wonderful
-                        <a href="https://whoisjs.com/">WHOIS API.</a>
-                    </p>
+                    <p v-html="i18n.templates.app.oss"></p>
+                    <p v-html="i18n.templates.app.cfThanks"></p>
+                    <p v-html="i18n.templates.app.mattThanks"></p>
                 </div>
             </footer>
         </div>
@@ -81,6 +72,7 @@ limitations under the License.
     import DODNS from "./dodns"
     import RecordBase from "./record_base"
     import RecordJumps from "./record_jumps"
+    import i18n from "../i18n"
     import { reports } from "../plain_text_reports"
     import RecordSelectionModal from "./record_selection_modal"
     import GHLink from "./gh_link"
@@ -103,6 +95,7 @@ limitations under the License.
                 firstSearch: true,
                 data: "",
                 linked: null,
+                i18n,
                 siteLoading: false,
                 registrar: "",
             }

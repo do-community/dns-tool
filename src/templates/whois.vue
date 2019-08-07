@@ -17,7 +17,7 @@ limitations under the License.
 <template>
     <span v-if="done">
         <p style="font-size: 11px">
-            <b>Owner:</b> <a @click="toggleExpand">{{ netname }}</a>
+            <b>{{ i18n.templates.whois.owner }}:</b> <a @click="toggleExpand">{{ netname }}</a>
             <span
                 id="countryInfo"
                 v-tippy
@@ -28,11 +28,11 @@ limitations under the License.
         <span v-if="expand">
             <p style="font-size: 11px"><b>ASN:</b> {{ asn }}</p>
             <p style="font-size: 11px"><b>CIDR:</b> {{ cidr }}</p>
-            <p style="font-size: 11px"><b>Abuse Contact:</b> {{ abuse }}</p>
+            <p style="font-size: 11px"><b>{{ i18n.templates.whois.abuseContact }}:</b> {{ abuse }}</p>
         </span>
     </span>
     <span v-else>
-        <p style="font-size: 11px"><i>Loading WHOIS data...</i></p>
+        <p style="font-size: 11px"><i>{{ i18n.templates.whois.loading }}</i></p>
     </span>
 </template>
 
@@ -41,6 +41,7 @@ limitations under the License.
     import geoJS from "../utils/geoJS"
     import VueTippy from "vue-tippy"
     import Vue from "vue"
+    import i18n from "../i18n"
 
     Vue.use(VueTippy)
 
@@ -59,6 +60,7 @@ limitations under the License.
                 expand: false,
                 countryCode: "",
                 countryInfo: "",
+                i18n,
             }
         },
         watch: {
@@ -77,9 +79,9 @@ limitations under the License.
                 const json = await (await cfWHO(this.$props.ip)).json()
                 const geoIpJson = await (await geoJS(this.$props.ip)).json()
                 this.countryCode = geoIpJson.country_code ? geoIpJson.country_code.toLowerCase() : ""
-                this.netname = json.results[0].netname ? json.results[0].netname : "Not Specified"
-                this.asn = json.results[0].asn ? json.results[0].asn[0] : "None"
-                this.cidr = json.results[0].cidr ? json.results[0].cidr : "None"
+                this.netname = json.results[0].netname ? json.results[0].netname : i18n.templates.whois.notSpecified
+                this.asn = json.results[0].asn ? json.results[0].asn[0] : i18n.templates.whois.none
+                this.cidr = json.results[0].cidr ? json.results[0].cidr : i18n.templates.whois.none
                 this.abuse = json.results[0].services.abusix[0]
                 this.countryInfo = geoIpJson.city ? `${geoIpJson.city}, ${geoIpJson.country}` : geoIpJson.country
                 this.done = true

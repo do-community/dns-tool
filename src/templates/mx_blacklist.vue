@@ -21,14 +21,15 @@ limitations under the License.
             <p v-for="item in blacklists" style="font-size: 11px"><b>{{ item }}</b></p>
         </span>
         <span v-else>
-            <p style="font-size: 11px"><b>Domain/IP is not blacklisted.</b></p>
+            <p style="font-size: 11px"><b>{{ i18n.templates.mxBlacklist.notBlacklisted }}</b></p>
         </span>
-        <p style="font-size: 11px"><a href="https://www.techwalla.com/articles/what-does-it-mean-if-an-email-address-is-blacklisted">What does a mailing blacklist mean?</a></p>
+        <p style="font-size: 11px"><a href="https://www.techwalla.com/articles/what-does-it-mean-if-an-email-address-is-blacklisted">{{ i18n.templates.mxBlacklist.whatDoesItMean }}</a></p>
     </span>
 </template>
 
 <script>
     import getBlacklists from "../blacklists"
+    import i18n from "../i18n"
 
     export default {
         name: "MXBlacklist",
@@ -39,6 +40,7 @@ limitations under the License.
         data() {
             return {
                 blacklists: [],
+                i18n,
             }
         },
         watch: {
