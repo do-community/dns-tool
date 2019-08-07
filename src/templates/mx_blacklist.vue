@@ -21,9 +21,9 @@ limitations under the License.
             <p v-for="item in blacklists" style="font-size: 11px"><b>{{ item }}</b></p>
         </span>
         <span v-else>
-            <p style="font-size: 11px"><b>{{ i18n.mxBlacklist.notBlacklisted }}</b></p>
+            <p style="font-size: 11px"><b>{{ i18n.templates.mxBlacklist.notBlacklisted }}</b></p>
         </span>
-        <p style="font-size: 11px"><a href="https://www.techwalla.com/articles/what-does-it-mean-if-an-email-address-is-blacklisted">{{ i18n.mxBlacklist.whatDoesItMean }}</a></p>
+        <p style="font-size: 11px"><a href="https://www.techwalla.com/articles/what-does-it-mean-if-an-email-address-is-blacklisted">{{ i18n.templates.mxBlacklist.whatDoesItMean }}</a></p>
     </span>
 </template>
 

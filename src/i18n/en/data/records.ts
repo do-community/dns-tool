@@ -1,8 +1,4 @@
 export default {
-    learnMore: "Learn more",
-    noRecords: "Could not find any records of this type.",
-    propagation: "Why do I get different values on my local system?",
-    learnHow: "Learn how to set {record} records with your DNS/registrar.",
     A: "A records are the most basic type of DNS record and are used to point a domain or subdomain to an IPv4 address.\n<b>These do NOT act as MX records, to receive e-mail, you need to set a MX record.</b>",
     TXT: "TXT records are a type of DNS record that contains text information for sources outside of your domain.",
     MX: "A mail exchanger record (MX record) specifies the mail server responsible for accepting email messages on behalf of a domain name.",

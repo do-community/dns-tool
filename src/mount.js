@@ -20,7 +20,7 @@ import Vue from "vue"
 import App from "./templates/app.vue"
 import i18n from "./i18n"
 
-document.head.title = i18n.app.title
+document.head.title = i18n.templates.app.title
 
 new Vue({
     render: h => h(App),

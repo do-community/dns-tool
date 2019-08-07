@@ -25,10 +25,10 @@ limitations under the License.
             </h3>
             <p>
                 <span v-html="this.$props.recordDescription"></span>
-                <a :href="this.$props.recordUrl">{{ i18n.records.learnMore }}</a>
+                <a :href="this.$props.recordUrl">{{ i18n.templates.records.learnMore }}</a>
             </p>
             <span v-if="recordKeys.length === 0">
-                <p><b>{{ i18n.records.noRecords }}</b></p>
+                <p><b>{{ i18n.templates.records.noRecords }}</b></p>
             </span>
             <span v-else>
                 <br>
@@ -70,9 +70,9 @@ limitations under the License.
                     </tbody>
                 </table>
             </span>
-            <p style="margin-top: 20px"><a @click="propagationToggle">{{ i18n.records.propagation }}</a></p>
+            <p style="margin-top: 20px"><a @click="propagationToggle">{{ i18n.templates.records.propagation }}</a></p>
             <p v-if="learnMore" style="margin-top: 20px">
-                <a :href="learnMore">{{ i18n.records.learnHow.replace("{record}", this.$props.recordType) }}</a>
+                <a :href="learnMore">{{ i18n.templates.records.learnHow.replace("{record}", this.$props.recordType) }}</a>
             </p>
         </span>
         <span v-else>

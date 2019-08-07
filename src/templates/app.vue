@@ -31,19 +31,19 @@ limitations under the License.
             <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
             <div id="top" class="has-text-centered" style="padding-left: 30%; padding-right: 30%; margin-top: 10px">
                 <h2 class="title is-2">
-                    {{ i18n.app.title }}
+                    {{ i18n.templates.app.title }}
                 </h2>
                 <h5 class="title is-5">
-                    {{ i18n.app.description }}
+                    {{ i18n.templates.app.description }}
                 </h5>
                 <span v-if="data !== ''">
                     <hr style="margin: 10px">
-                    <p><a @click="toggleRecordTextModal">{{ i18n.app.textRecords }}</a></p>
+                    <p><a @click="toggleRecordTextModal">{{ i18n.templates.app.textRecords }}</a></p>
                 </span>
                 <form autocomplete="on" style="margin-top: 20px" @submit.prevent="searchDNSEvent">
-                    <input id="DomainInput" class="input" type="text" :placeholder="i18n.app.domain">
+                    <input id="DomainInput" class="input" type="text" :placeholder="i18n.templates.app.domain">
                     <button id="SearchButton" class="button is-link" style="margin-top: 20px">
-                        {{ i18n.app.searchButton }}
+                        {{ i18n.templates.app.searchButton }}
                     </button>
                 </form>
             </div>
@@ -56,11 +56,11 @@ limitations under the License.
             <footer class="footer" style="align-self: flex-end; padding: 20px; width: 100%;">
                 <div class="content has-text-centered">
                     <p>
-                        <a href="#top">{{ i18n.app.backToTop }}</a>
+                        <a href="#top">{{ i18n.templates.app.backToTop }}</a>
                     </p>
-                    <p v-html="i18n.app.oss"></p>
-                    <p v-html="i18n.app.cfThanks"></p>
-                    <p v-html="i18n.app.mattThanks"></p>
+                    <p v-html="i18n.templates.app.oss"></p>
+                    <p v-html="i18n.templates.app.cfThanks"></p>
+                    <p v-html="i18n.templates.app.mattThanks"></p>
                 </div>
             </footer>
         </div>

@@ -18,42 +18,42 @@ import i18n from "../i18n"
 
 export default {
     A: {
-        info: i18n.records.A,
+        info: i18n.data.records.A,
         url: "https://kb.pressable.com/article/dns-record-types-explained/",
         expectsHost: true,
     },
     TXT: {
-        info: i18n.records.TXT,
+        info: i18n.data.records.TXT,
         url: "https://support.google.com/a/answer/2716800?hl=en",
         additionalDataParsing: (data: string) => data.startsWith("\"") ? data.substr(1).slice(0, -1) : data,
     },
     MX: {
-        info: i18n.records.MX,
+        info: i18n.data.records.MX,
         url: "https://en.wikipedia.org/wiki/MX_record",
         additionalDataParsing: (data: string) => data.endsWith(".") ? data.slice(0, -1) : data,
         expectsHost: true,
     },
     AAAA: {
-        info: i18n.records.AAAA,
+        info: i18n.data.records.AAAA,
         url: "https://help.fasthosts.co.uk/app/answers/detail/a_id/1548/~/dns-aaaa-records",
         expectsHost: true,
     },
     CAA: {
-        info: i18n.records.CAA,
+        info: i18n.data.records.CAA,
         url: "https://www.digitalocean.com/docs/networking/dns/how-to/caa/",
     },
     NS: {
-        info: i18n.records.NS,
+        info: i18n.data.records.NS,
         url: "https://www.cloudflare.com/learning/dns/dns-records/dns-ns-record/",
         additionalDataParsing: (data: string) => data.endsWith(".") ? data.slice(0, -1) : data,
         expectsHost: true,
     },
     SRV: {
-        info: i18n.records.SRV,
+        info: i18n.data.records.SRV,
         url: "https://en.wikipedia.org/wiki/SRV_record",
     },
     DMARC: {
-        info: i18n.records.DMARC,
+        info: i18n.data.records.DMARC,
         url: "https://dmarc.org/overview/",
     },
 }
