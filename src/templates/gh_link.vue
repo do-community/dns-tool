@@ -27,14 +27,14 @@ This is a version of https://github.com/tholman/github-corners with Vue support.
 
     export default {
         name: "GitHubLink",
+        props: {
+            repo: String,
+            colour: String,
+        },
         data() {
             return {
                 i18n,
             }
-        },
-        props: {
-            repo: String,
-            colour: String,
         },
     }
 </script>
