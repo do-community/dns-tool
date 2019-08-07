@@ -79,9 +79,9 @@ limitations under the License.
                 const json = await (await cfWHO(this.$props.ip)).json()
                 const geoIpJson = await (await geoJS(this.$props.ip)).json()
                 this.countryCode = geoIpJson.country_code ? geoIpJson.country_code.toLowerCase() : ""
-                this.netname = json.results[0].netname ? json.results[0].netname : "Not Specified"
-                this.asn = json.results[0].asn ? json.results[0].asn[0] : "None"
-                this.cidr = json.results[0].cidr ? json.results[0].cidr : "None"
+                this.netname = json.results[0].netname ? json.results[0].netname : i18n.whois.notSpecified
+                this.asn = json.results[0].asn ? json.results[0].asn[0] : i18n.whois.none
+                this.cidr = json.results[0].cidr ? json.results[0].cidr : i18n.whois.none
                 this.abuse = json.results[0].services.abusix[0]
                 this.countryInfo = geoIpJson.city ? `${geoIpJson.city}, ${geoIpJson.country}` : geoIpJson.country
                 this.done = true

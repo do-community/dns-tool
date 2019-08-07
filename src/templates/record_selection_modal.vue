@@ -22,7 +22,7 @@ limitations under the License.
                 <p class="modal-card-title">
                     {{ i18n.recordSelectionModal.downloadRecords }}
                 </p>
-                <button class="delete" aria-label="close" @click="toggle"></button>
+                <button class="delete" :aria-label="i18n.recordSelectionModal.close" @click="toggle"></button>
             </header>
             <section class="modal-card-body">
                 <div v-for="key in reports.keys()">

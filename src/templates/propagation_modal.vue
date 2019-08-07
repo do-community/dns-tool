@@ -22,7 +22,7 @@ limitations under the License.
                 <p class="modal-card-title">
                     {{ i18n.propagationModal.title }}
                 </p>
-                <button class="delete" aria-label="close" @click="toggle"></button>
+                <button class="delete" :aria-label="i18n.propagationModal.close" @click="toggle"></button>
             </header>
             <section class="modal-card-body" v-html="i18n.propagationModal.tutorial"></section>
         </div>

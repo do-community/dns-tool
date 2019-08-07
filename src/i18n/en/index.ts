@@ -7,8 +7,9 @@ import truncatedRecord from "./truncated_record"
 import whois from "./whois"
 import propagationModal from "./propagation_modal"
 import recordSelectionModal from "./record_selection_modal"
+import github from "./github"
 
 export default {
     app, dodns, mxBlacklist, recordJumps, records, truncatedRecord,
-    whois, propagationModal, recordSelectionModal,
+    whois, propagationModal, recordSelectionModal, github,
 } as {[key: string]: {[key: string]: string}}
