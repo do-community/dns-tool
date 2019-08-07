@@ -149,7 +149,10 @@ limitations under the License.
                 this.recordInit()
             },
             ns() {
-                this.handleNsRegistrar()
+                this.handleNs()
+            },
+            registrar() {
+                this.handleRegistrar()
             },
         },
         methods: {
@@ -273,27 +276,31 @@ limitations under the License.
                 this.$data.active = true
                 reports.set(key, json)
             },
-            async handleNsRegistrar() {
-                this.$data.learnMore = null
-                const ns = this.$props.ns
-                const set = (regexp, registrar) => {
-                    const map = registrar ? registrarRegexp : nsRegexp
-                    const tutorial = RecordTutorials[map.get(regexp)]
-                    if (typeof tutorial === "string") {
-                        this.$data.learnMore = tutorial
-                    } else {
-                        if (tutorial[this.$props.recordType]) this.$data.learnMore = tutorial[this.$props.recordType]
-                    }
+            set(regexp, registrar) {
+                const map = registrar ? registrarRegexp : nsRegexp
+                const tutorial = RecordTutorials[map.get(regexp)]
+                if (typeof tutorial === "string") {
+                    this.$data.learnMore = tutorial
+                } else {
+                    if (tutorial[this.$props.recordType]) this.$data.learnMore = tutorial[this.$props.recordType]
                 }
+            },
+            async handleRegistrar() {
                 if (this.$props.recordType === "NS") {
-                    if (this.$props.registrar === "") return
+                    this.$data.learnMore = null
                     for (const regexp of registrarRegexp.keys()) {
-                        if (this.$props.registrar.match(regexp)) return set(regexp, true)
+                        if (this.$props.registrar.match(regexp)) return this.set(regexp, true)
                     }
-                    return
                 }
-                for (const regexp of nsRegexp.keys()) {
-                    if (ns.match(regexp)) return set(regexp)
+            },
+            async handleNs() {
+                if (this.$props.recordType !== "NS") {
+                    this.$data.learnMore = null
+                    const ns = this.$props.ns
+
+                    for (const regexp of nsRegexp.keys()) {
+                        if (ns.match(regexp)) return this.set(regexp)
+                    }
                 }
             },
             propagationToggle() {

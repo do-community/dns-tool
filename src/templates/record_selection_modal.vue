@@ -31,8 +31,8 @@ limitations under the License.
                 <br>
                 <a class="button is-link" @click="downloadRecords(false)">{{ i18n.recordSelectionModal.downloadTextForm }}</a>
                 <a class="button is-link" @click="copyRecords(false)">{{ i18n.recordSelectionModal.copyTextForm }}</a>
-                <a class="button is-link" @click="downloadRecords(true)" style="margin-top: 10px">{{ i18n.recordSelectionModal.downloadMd }}</a>
-                <a class="button is-link" @click="copyRecords(true)" style="margin-top: 10px">{{ i18n.recordSelectionModal.copyMd }}</a>
+                <a class="button is-link" style="margin-top: 10px" @click="downloadRecords(true)">{{ i18n.recordSelectionModal.downloadMd }}</a>
+                <a class="button is-link" style="margin-top: 10px" @click="copyRecords(true)">{{ i18n.recordSelectionModal.copyMd }}</a>
             </section>
         </div>
     </div>
