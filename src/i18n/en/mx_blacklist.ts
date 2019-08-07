@@ -3,4 +3,4 @@ export default {
     whatDoesItMean: "What does a mailing blacklist mean?",
     ipBlacklist: "IP blacklisted by BLACKLIST.",
     domainBlacklist: "Domain blacklisted by BLACKLIST.",
-} as any
+} as {[key: string]: string}

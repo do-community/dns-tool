@@ -11,4 +11,4 @@ import recordSelectionModal from "./record_selection_modal"
 export default {
     app, dodns, mxBlacklist, recordJumps, records, truncatedRecord,
     whois, propagationModal, recordSelectionModal,
-} as any
+} as {[key: string]: {[key: string]: string}}

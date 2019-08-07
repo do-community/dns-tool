@@ -5,4 +5,4 @@ export default {
     copyTextForm: "Copy Records In Text Form",
     downloadMd: "Download Records In Markdown",
     copyMd: "Copy Records In Markdown",
-} as any
+} as {[key: string]: string}

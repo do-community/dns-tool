@@ -1,4 +1,4 @@
 export default {
     loading: "Loading WHOIS data...",
     abuseContact: "Abuse Contact",
-} as any
+} as {[key: string]: string}

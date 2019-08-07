@@ -73,7 +73,7 @@ limitations under the License.
     import RecordBase from "./record_base"
     import RecordJumps from "./record_jumps"
     import i18n from "../i18n"
-    import { reports, generateTextReport } from "../plain_text_reports"
+    import { reports } from "../plain_text_reports"
     import RecordSelectionModal from "./record_selection_modal"
     import GHLink from "./gh_link"
     import cfDNS from "../utils/cfDNS"

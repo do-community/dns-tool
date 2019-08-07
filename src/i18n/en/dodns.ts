@@ -3,4 +3,4 @@ export default {
     notUsing: "This domain is not using DigitalOcean DNS.",
     learnMore: "Learn more about DigitalOcean DNS.",
     subdomain: "This is a sub-domain and does not have any NS records.",
-} as any
+} as {[key: string]: string}

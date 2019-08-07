@@ -1,3 +1,3 @@
 export default {
     record: "Records",
-} as any
+} as {[key: string]: string}
