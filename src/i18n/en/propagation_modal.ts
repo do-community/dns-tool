@@ -18,4 +18,5 @@ export default {
                 <hr>
                 If you are still unable to get the correct results, you can check the propagation status using a <a href="https://dnschecker.org/">propagation checker</a>.
     `,
+    title: "DNS Propagation",
 } as {[key: string]: string}

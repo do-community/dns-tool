@@ -72,7 +72,7 @@ limitations under the License.
             </span>
             <p style="margin-top: 20px"><a @click="propagationToggle">{{ i18n.records.propagation }}</a></p>
             <p v-if="learnMore" style="margin-top: 20px">
-                <a :href="learnMore">Learn how to set {{ this.$props.recordType }} records with your DNS/registrar.</a>
+                <a :href="learnMore">{{ i18n.records.learnHow.replace("{record}", this.$props.recordType) }}</a>
             </p>
         </span>
         <span v-else>

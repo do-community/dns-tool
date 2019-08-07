@@ -20,7 +20,7 @@ limitations under the License.
         <div class="modal-card">
             <header class="modal-card-head">
                 <p class="modal-card-title">
-                    DNS Propagation
+                    {{ i18n.propagationModal.title }}
                 </p>
                 <button class="delete" aria-label="close" @click="toggle"></button>
             </header>

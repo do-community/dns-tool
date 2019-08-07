@@ -41,7 +41,7 @@ limitations under the License.
                     <p><a @click="toggleRecordTextModal">{{ i18n.app.textRecords }}</a></p>
                 </span>
                 <form autocomplete="on" style="margin-top: 20px" @submit.prevent="searchDNSEvent">
-                    <input id="DomainInput" class="input" type="text" placeholder="Domain">
+                    <input id="DomainInput" class="input" type="text" :placeholder="i18n.app.domain">
                     <button id="SearchButton" class="button is-link" style="margin-top: 20px">
                         {{ i18n.app.searchButton }}
                     </button>

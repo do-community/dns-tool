@@ -17,7 +17,7 @@ limitations under the License.
 <template>
     <span v-if="done">
         <p style="font-size: 11px">
-            <b>Owner:</b> <a @click="toggleExpand">{{ netname }}</a>
+            <b>{{ i18n.whois.owner }}:</b> <a @click="toggleExpand">{{ netname }}</a>
             <span
                 id="countryInfo"
                 v-tippy
