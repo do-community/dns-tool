@@ -18,7 +18,7 @@ limitations under the License.
     <span>
         <span v-if="active">
             <h3 :id="`${this.$props.recordType}-Records`" class="title is-3">
-                {{ this.$props.recordType }} {{ i18n.records.records }}
+                {{ this.$props.recordType }} {{ i18n.common.records }}
                 <a :href="`#${this.$props.recordType}-Records`">
                     <i class="fas fa-link" style="color: black; font-size: 50%;"></i>
                 </a>

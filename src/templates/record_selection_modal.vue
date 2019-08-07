@@ -22,11 +22,11 @@ limitations under the License.
                 <p class="modal-card-title">
                     {{ i18n.recordSelectionModal.downloadRecords }}
                 </p>
-                <button class="delete" :aria-label="i18n.recordSelectionModal.close" @click="toggle"></button>
+                <button class="delete" :aria-label="i18n.common.close" @click="toggle"></button>
             </header>
             <section class="modal-card-body">
                 <div v-for="key in reports.keys()">
-                    <input :ref="key" type="checkbox" checked> {{ key }} {{ i18n.recordSelectionModal.records }}
+                    <input :ref="key" type="checkbox" checked> {{ key }} {{ i18n.common.records }}
                 </div>
                 <br>
                 <a class="button is-link" @click="downloadRecords(false)">{{ i18n.recordSelectionModal.downloadTextForm }}</a>

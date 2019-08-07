@@ -1,3 +1,4 @@
 export default {
-    record: "Records",
+    close: "close",
+    records: "Records",
 } as {[key: string]: string}
