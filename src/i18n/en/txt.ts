@@ -1,0 +1,15 @@
+export default {
+    globalsign: "This TXT record is used so that GlobalSign can verify that they are issuing certificates to the domain owner.",
+    o365: "This TXT record is used for Office 365 domain verification.",
+    keybase: "This TXT record is commonly used to verify that a Keybase user is in ownership of a domain.",
+    spf: "This is a SPF record which is used to identify trusted sources for transmitted e-mail.\nThis makes it easier for receivers to tell if a e-mail is spam.",
+    loaderio: "This is used so that Loader.io can verify the domain owner.",
+    yandex: "This is used so that Yandex can verify the domain owner.",
+    facebook: "This is used so that Facebook can verify the domain owner.",
+    logmein: "This is used so that LogMeIn can verify the domain owner.",
+    segment: "This is used so that Segment.com can verify the domain owner.",
+    statuspage: "This is used so that Statuspage.io can verify the domain owner.",
+    bugcrowd: "This TXT record is used so that Bugcrowd can verify the domain owner.",
+    mailru: "This TXT record is used so that mail.ru can verify the domain owner.",
+    google: "This TXT record is used so that Google can verify the domain owner.",
+} as {[key: string]: string}

@@ -14,20 +14,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const globalsign = "This TXT record is used so that GlobalSign can verify that they are issuing certificates to the domain owner."
+import i18n from "../i18n"
+
 export default {
-    "google-site-verification": "This TXT record is used so that Google can verify the domain owner.",
-    "mailru-verification": "This TXT record is used so that mail.ru can verify the domain owner.",
-    "MS": "This TXT record is used for Office 365 domain verification.",
-    "keybase-site-verification": "This TXT record is commonly used to verify that a Keybase user is in ownership of a domain.",
-    "_globalsign-domain-verification": globalsign,
-    "globalsign-domain-verification": globalsign,
-    "bugcrowd-verification": "This TXT record is used so that Bugcrowd can verify the domain owner.",
-    "status-page-domain-verification": "This is used so that Statuspage.io can verify the domain owner.",
-    "segment-site-verification": "This is used so that Segment.com can verify the domain owner.",
-    "logmein-verification-code": "This is used so that LogMeIn can verify the domain owner.",
-    "facebook-domain-verification": "This is used so that Facebook can verify the domain owner.",
-    "yandex-verification": "This is used so that Yandex can verify the domain owner.",
-    "loaderio": "This is used so that Loader.io can verify the domain owner.",
-    "v=spf1": "This is a SPF record which is used to identify trusted sources for transmitted e-mail.\nThis makes it easier for receivers to tell if a e-mail is spam.",
+    "google-site-verification": i18n.txt.google,
+    "mailru-verification": i18n.txt.mailru,
+    "MS": i18n.txt.o365,
+    "keybase-site-verification": i18n.txt.keybase,
+    "_globalsign-domain-verification": i18n.txt.globalsign,
+    "globalsign-domain-verification": i18n.txt.globalsign,
+    "bugcrowd-verification": i18n.txt.bugcrowd,
+    "status-page-domain-verification": i18n.txt.statuspage,
+    "segment-site-verification": i18n.txt.segment,
+    "logmein-verification-code": i18n.txt.logmein,
+    "facebook-domain-verification": i18n.txt.facebook,
+    "yandex-verification": i18n.txt.yandex,
+    "loaderio": i18n.txt.loaderio,
+    "v=spf1": i18n.txt.spf,
 }
