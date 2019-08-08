@@ -1,14 +1,5 @@
-import app from "./app"
-import dodns from "./dodns"
-import mxBlacklist from "./mx_blacklist"
-import recordJumps from "./record_jumps"
-import records from "./records"
-import truncatedRecord from "./truncated_record"
-import whois from "./whois"
-import propagationModal from "./propagation_modal"
-import recordSelectionModal from "./record_selection_modal"
+import templates from "./templates"
+import data from "./data"
+import common from "./common"
 
-export default {
-    app, dodns, mxBlacklist, recordJumps, records, truncatedRecord,
-    whois, propagationModal, recordSelectionModal,
-} as any
+export default { templates, data, common } as any
