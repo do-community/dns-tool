@@ -71,7 +71,10 @@ limitations under the License.
                 </table>
             </span>
             <p style="margin-top: 20px"><a @click="propagationToggle">{{ i18n.templates.records.propagation }}</a></p>
-            <p v-if="dnsDifferences"><b>{{ i18n.templates.records.propagationNote }}</b></p>
+            <span v-if="dnsDifferences.length !== 0">
+                <p><a @click="toggleDnsDifferences"><b>{{ i18n.templates.records.propagationNote }}</b></a></p>
+                <DNSDiff ref="DNSDiff" :dns-differences="dnsDifferences" :record-type="recordType"></DNSDiff>
+            </span>
             <p v-if="learnMore" style="margin-top: 20px">
                 <a :href="learnMore">{{ i18n.templates.records.learnHow.replace("{record}", this.$props.recordType) }}</a>
             </p>
@@ -98,6 +101,7 @@ limitations under the License.
     import MXBlacklist from "./mx_blacklist"
     import RecordSkeleton from "./skeletons/record"
     import i18n from "../i18n"
+    import DNSDiff from "./dns_diff"
     import { reports } from "../plain_text_reports"
 
     const trimmers = {}
@@ -127,6 +131,7 @@ limitations under the License.
             WHOIS,
             MXBlacklist,
             RecordSkeleton,
+            DNSDiff,
         },
         props: {
             recordUrl: String,
@@ -142,7 +147,7 @@ limitations under the License.
                 active: false,
                 recordKeys: [],
                 recordRows: [],
-                dnsDifferences: false,
+                dnsDifferences: [],
                 learnMore: null,
                 i18n,
             }
@@ -159,6 +164,9 @@ limitations under the License.
             },
         },
         methods: {
+            toggleDnsDifferences() {
+                this.$refs.DNSDiff.toggle()
+            },
             async wait() {
                 const vm = this
                 return new Promise(res => {
@@ -195,17 +203,15 @@ limitations under the License.
                     if (a.data) googleData.push(this.standardiseGoogleCf(a.data))
                 }
 
-                let differences = false
+                const differences = []
                 for (const item of cfData) {
                     if (!googleData.includes(item)) {
-                        differences = true
-                        break
+                        differences.push([item, null])
                     }
                 }
                 for (const item of googleData) {
                     if (!cfData.includes(item)) {
-                        differences = true
-                        break
+                        differences.push([null, item])
                     }
                 }
 
@@ -230,7 +236,7 @@ limitations under the License.
                 if (!fetchRes.ok) throw fetchRes
                 const json = await fetchRes.json()
 
-                this.$data.dnsDifferences = false
+                this.$data.dnsDifferences = []
 
                 if (!json.Answer) {
                     this.$data.active = true
