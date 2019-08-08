@@ -20,11 +20,11 @@ limitations under the License.
         <div class="modal-card">
             <header class="modal-card-head">
                 <p class="modal-card-title">
-                    DNS Propagation
+                    {{ i18n.templates.propagationModal.title }}
                 </p>
-                <button class="delete" aria-label="close" @click="toggle"></button>
+                <button class="delete" :aria-label="i18n.common.close" @click="toggle"></button>
             </header>
-            <section class="modal-card-body" v-html="i18n.propagationModal.tutorial"></section>
+            <section class="modal-card-body" v-html="i18n.templates.propagationModal.tutorial"></section>
         </div>
     </div>
 </template>

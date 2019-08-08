@@ -16,10 +16,10 @@ limitations under the License.
 
 <template>
     <span v-if="truncate">
-        <p>{{ this.$props.truncated }} <a @click="toggleTruncation">{{ i18n.truncatedRecord.showMore }}</a></p>
+        <p>{{ this.$props.truncated }} <a @click="toggleTruncation">{{ i18n.templates.truncatedRecord.showMore }}</a></p>
     </span>
     <span v-else>
-        <p>{{ this.$props.value }} <a @click="toggleTruncation">{{ i18n.truncatedRecord.showLess }}</a></p>
+        <p>{{ this.$props.value }} <a @click="toggleTruncation">{{ i18n.templates.truncatedRecord.showLess }}</a></p>
     </span>
 </template>
 

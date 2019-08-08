@@ -20,19 +20,19 @@ limitations under the License.
         <div class="modal-card">
             <header class="modal-card-head">
                 <p class="modal-card-title">
-                    {{ i18n.recordSelectionModal.downloadRecords }}
+                    {{ i18n.templates.recordSelectionModal.downloadRecords }}
                 </p>
-                <button class="delete" aria-label="close" @click="toggle"></button>
+                <button class="delete" :aria-label="i18n.common.close" @click="toggle"></button>
             </header>
             <section class="modal-card-body">
                 <div v-for="key in reports.keys()">
-                    <input :ref="key" type="checkbox" checked> {{ key }} {{ i18n.recordSelectionModal.records }}
+                    <input :ref="key" type="checkbox" checked> {{ key }} {{ i18n.common.records }}
                 </div>
                 <br>
-                <a class="button is-link" @click="downloadRecords(false)">{{ i18n.recordSelectionModal.downloadTextForm }}</a>
-                <a class="button is-link" @click="copyRecords(false)">{{ i18n.recordSelectionModal.copyTextForm }}</a>
-                <a class="button is-link" style="margin-top: 10px" @click="downloadRecords(true)">{{ i18n.recordSelectionModal.downloadMd }}</a>
-                <a class="button is-link" style="margin-top: 10px" @click="copyRecords(true)">{{ i18n.recordSelectionModal.copyMd }}</a>
+                <a class="button is-link" @click="downloadRecords(false)">{{ i18n.templates.recordSelectionModal.downloadTextForm }}</a>
+                <a class="button is-link" @click="copyRecords(false)">{{ i18n.templates.recordSelectionModal.copyTextForm }}</a>
+                <a class="button is-link" style="margin-top: 10px" @click="downloadRecords(true)">{{ i18n.templates.recordSelectionModal.downloadMd }}</a>
+                <a class="button is-link" style="margin-top: 10px" @click="copyRecords(true)">{{ i18n.templates.recordSelectionModal.copyMd }}</a>
             </section>
         </div>
     </div>
