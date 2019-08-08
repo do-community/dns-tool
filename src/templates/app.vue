@@ -26,7 +26,7 @@ limitations under the License.
 
 <template>
     <div>
-        <GHLink colour="0069ff" repo="https://github.com/do-community/dns-tool"></GHLink>     
+        <GHLink repo="https://github.com/do-community/dns-tool"></GHLink>     
         <div class="container" style="display: flex; flex-direction: column;">
             <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
             <div id="top" class="has-text-centered" style="padding-left: 30%; padding-right: 30%; margin-top: 10px">
