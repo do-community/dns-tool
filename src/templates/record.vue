@@ -206,12 +206,12 @@ limitations under the License.
                 const differences = []
                 for (const item of cfData) {
                     if (!googleData.includes(item)) {
-                        differences.push([item, null])
+                        differences.push([name, item, null])
                     }
                 }
                 for (const item of googleData) {
                     if (!cfData.includes(item)) {
-                        differences.push([null, item])
+                        differences.push([name, null, item])
                     }
                 }
 

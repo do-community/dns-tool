@@ -28,6 +28,7 @@ limitations under the License.
                 <table class="table is-bordered">
                     <thead>
                         <tr>
+                            <th>{{ i18n.templates.dnsDiff.host }}</th>
                             <th>{{ i18n.templates.dnsDiff.cfDns }}</th>
                             <th>{{ i18n.templates.dnsDiff.gDns }}</th>
                         </tr>
