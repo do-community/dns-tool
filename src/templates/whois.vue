@@ -80,8 +80,8 @@ limitations under the License.
                 const geoIpJson = await (await geoJS(this.$props.ip)).json()
                 this.countryCode = geoIpJson.country_code ? geoIpJson.country_code.toLowerCase() : ""
                 this.netname = json.results[0].netname ? json.results[0].netname : i18n.templates.whois.notSpecified
-                this.asn = json.results[0].asn ? json.results[0].asn[0] : i18n.templates.whois.none
-                this.cidr = json.results[0].cidr ? json.results[0].cidr : i18n.templates.whois.none
+                this.asn = json.results[0].asn ? json.results[0].asn[0] : i18n.common.none
+                this.cidr = json.results[0].cidr ? json.results[0].cidr : i18n.common.none
                 this.abuse = json.results[0].services.abusix[0]
                 this.countryInfo = geoIpJson.city ? `${geoIpJson.city}, ${geoIpJson.country}` : geoIpJson.country
                 this.done = true

@@ -71,6 +71,10 @@ limitations under the License.
                 </table>
             </span>
             <p style="margin-top: 20px"><a @click="propagationToggle">{{ i18n.templates.records.propagation }}</a></p>
+            <span v-if="dnsDifferences.length !== 0">
+                <p><a @click="toggleDnsDifferences"><b>{{ i18n.templates.records.propagationNote }}</b></a></p>
+                <DNSDiff ref="DNSDiff" :dns-differences="dnsDifferences" :record-type="recordType"></DNSDiff>
+            </span>
             <p v-if="learnMore" style="margin-top: 20px">
                 <a :href="learnMore">{{ i18n.templates.records.learnHow.replace("{record}", this.$props.recordType) }}</a>
             </p>
@@ -86,6 +90,7 @@ limitations under the License.
     import TruncatedRecord from "./truncated_record"
     import WHOIS from "./whois"
     import cfDNS from "../utils/cfDNS"
+    import googleDNS from "../utils/googleDNS"
     import standardiseRecords from "../standardise_records"
     import { getLargestRecordPart } from "../table"
     import records from "../data/records"
@@ -96,6 +101,7 @@ limitations under the License.
     import MXBlacklist from "./mx_blacklist"
     import RecordSkeleton from "./skeletons/record"
     import i18n from "../i18n"
+    import DNSDiff from "./dns_diff"
     import { reports } from "../plain_text_reports"
 
     const trimmers = {}
@@ -125,6 +131,7 @@ limitations under the License.
             WHOIS,
             MXBlacklist,
             RecordSkeleton,
+            DNSDiff,
         },
         props: {
             recordUrl: String,
@@ -140,6 +147,7 @@ limitations under the License.
                 active: false,
                 recordKeys: [],
                 recordRows: [],
+                dnsDifferences: [],
                 learnMore: null,
                 i18n,
             }
@@ -156,6 +164,9 @@ limitations under the License.
             },
         },
         methods: {
+            toggleDnsDifferences() {
+                this.$refs.DNSDiff.toggle()
+            },
             async wait() {
                 const vm = this
                 return new Promise(res => {
@@ -168,6 +179,43 @@ limitations under the License.
                     }
                     checkIfTrue()
                 })
+            },
+            standardiseGoogleCf(item) {
+                const numberSpaceItem = /[0-9]+ (.+)/
+                const oddSpfEdgecase = /include:_spf\" +\"/g
+                item = item.toString().trim()
+                const numberSpaceMatch = item.match(numberSpaceItem)
+                if (numberSpaceMatch) item = numberSpaceMatch[1]
+                if (item.match(oddSpfEdgecase)) item = item.replace(oddSpfEdgecase, "include:_spf\"\"")
+                return item
+            },
+            async handleSecondaryLookup(answer, record, name) {
+                const googleDNSLookup = await googleDNS(name, record)
+                const json = await googleDNSLookup.json()
+                const gAnswer = json.Answer || []
+
+                const googleData = []
+                const cfData = []
+                for (const a of answer) {
+                    if (a.data) cfData.push(this.standardiseGoogleCf(a.data))
+                }
+                for (const a of gAnswer) {
+                    if (a.data) googleData.push(this.standardiseGoogleCf(a.data))
+                }
+
+                const differences = []
+                for (const item of cfData) {
+                    if (!googleData.includes(item)) {
+                        differences.push([name, item, null])
+                    }
+                }
+                for (const item of googleData) {
+                    if (!cfData.includes(item)) {
+                        differences.push([name, null, item])
+                    }
+                }
+
+                this.$data.dnsDifferences = differences
             },
             async recordInit() {
                 if (this.$props.data === "") return
@@ -188,6 +236,8 @@ limitations under the License.
                 if (!fetchRes.ok) throw fetchRes
                 const json = await fetchRes.json()
 
+                this.$data.dnsDifferences = []
+
                 if (!json.Answer) {
                     this.$data.active = true
                     this.$data.recordRows = []
@@ -195,6 +245,8 @@ limitations under the License.
                     reports.set(key, {})
                     return
                 }
+
+                this.handleSecondaryLookup(json.Answer, changedKey, text)
 
                 const recordsJoined = {}
                 const txtRecordFragments = {}
