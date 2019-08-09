@@ -18,4 +18,4 @@ import i18n from "../i18n"
 
 export default {
     TTL: i18n.data.recordKeyHelp.TTL,
-} as {[key: string]: string}
+}

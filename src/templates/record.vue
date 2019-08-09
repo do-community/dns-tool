@@ -43,8 +43,11 @@ limitations under the License.
                         <tr>
                             <th v-for="recordKey in recordKeys">
                                 {{ recordKey }}
-                                <i v-if="recordKey in recordKeyHelp" :title="recordKeyHelp[recordKey]" v-tippy
-                                   class="far fa-question-circle"></i>
+                                <i v-if="recordKey in recordKeyHelp"
+                                   v-tippy
+                                   :title="recordKeyHelp[recordKey]"
+                                   class="far fa-question-circle"
+                                ></i>
                             </th>
                         </tr>
                     </thead>
