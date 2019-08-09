@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import i18n from "../i18n"
+
 export default {
-    TTL: "Time-to-live is a value in seconds that indicates how long a record should be cached for before being checked again",
-}
+    TTL: i18n.data.recordKeyHelp.TTL,
+} as {[key: string]: string}
