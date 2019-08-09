@@ -14,6 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+<style scoped>
+    i.fa-question-circle:hover {
+        cursor: pointer;
+    }
+</style>
+
 <template>
     <span>
         <span v-if="active">
@@ -37,6 +43,11 @@ limitations under the License.
                         <tr>
                             <th v-for="recordKey in recordKeys">
                                 {{ recordKey }}
+                                <i v-if="recordKey in recordKeyHelp"
+                                   v-tippy
+                                   :title="recordKeyHelp[recordKey]"
+                                   class="far fa-question-circle"
+                                ></i>
                             </th>
                         </tr>
                     </thead>
@@ -94,6 +105,7 @@ limitations under the License.
     import standardiseRecords from "../standardise_records"
     import { getLargestRecordPart } from "../table"
     import records from "../data/records"
+    import recordKeyHelp from "../data/record_key_help"
     import txtFragments from "../data/txt"
     import registrarRegexp from "../data/registrar_regexp"
     import nsRegexp from "../data/ns_regexp"
@@ -149,6 +161,7 @@ limitations under the License.
                 recordRows: [],
                 dnsDifferences: [],
                 learnMore: null,
+                recordKeyHelp,
                 i18n,
             }
         },
