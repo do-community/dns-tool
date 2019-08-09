@@ -159,6 +159,10 @@ limitations under the License.
                 } finally {
                     el.classList.remove("is-loading")
                     this.$data.siteLoading = false
+                    const hash = window.location.hash === "" ? null : window.location.hash.substr(1)
+                    if (!hash) return
+                    const anchorEl = document.getElementById(hash)
+                    if (anchorEl) anchorEl.scrollIntoView()
                 }
             },
         }
