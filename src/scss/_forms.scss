@@ -38,7 +38,7 @@ input {
   &[type='search'],
   &[type='tel'],
   &[type='color'] {
-    height: 48px;
+    height: $height;
     max-width: 100%;
     padding: 0 $margin;
     border: $thin-border;

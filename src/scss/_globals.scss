@@ -2,9 +2,13 @@
 $primary: #0069ff;
 $primary-hover: darken($primary, 5);
 $success: #11a95e;
+$success-hover: darken($success, 5);
 $secondary: #127c43;
+$secondary-hover: #0aac55;
 $danger: #d91d1d;
+$danger-hover: darken($danger, 5);
 $warning: #f56109;
+$warning-hover: darken($warning, 5);
 $background: #fff;
 $border: #f1f1f1;
 $text: #333;
@@ -21,7 +25,8 @@ $line-height: 1.5;
 $disabled: .5;
 
 // Borders
-$thin-border: 1px solid $border;
+$border-size: 1px;
+$thin-border: $border-size solid $border;
 $border-radius: 3px;
 
 // Transition
@@ -29,5 +34,6 @@ $transition-speed: 250ms;
 $transition-bezier: cubic-bezier(0.645, 0.045, 0.355, 1);
 $transition: $transition-speed $transition-bezier;
 
-// Margin
+// Sizing
+$height: 48px;
 $margin: 16px;

@@ -1,0 +1,67 @@
+@mixin button_style($text, $bg, $outline, $hover-background) {
+  color: $text;
+  background: $bg;
+
+  &.is-outline {
+    color: $outline;
+    border: $border-size solid $outline;
+    background: transparent;
+  }
+
+  &:not(.is-disabled):hover,
+  &:not(.is-disabled):focus,
+  &:not(.is-disabled).is-active {
+    background: $hover-background;
+    color: rgba($text, .9);
+
+    &.is-outline {
+      background: $outline;
+      color: rgba($background, .9);
+    }
+  }
+}
+
+.button {
+  font-family: $font-family;
+  font-size: $font-size;
+  font-weight: 600;
+  text-transform: none;
+  height: $height;
+  border-radius: 3px;
+  border: none;
+  padding: 0 (2 * $margin);
+  margin: 0;
+  vertical-align: middle;
+  overflow: visible;
+  text-decoration: none;
+  transition: all $transition;
+
+  @include button_style($text, #ececec, $text, darken(#ececec, 5));
+
+  &.is-primary,
+  &.is-link,
+  &.is-info {
+    @include button_style($background, $primary, $primary, $primary-hover);
+  }
+
+  &.is-secondary {
+    @include button_style($background, $secondary, $secondary, $secondary-hover);
+  }
+
+  &.is-success {
+    @include button_style($background, $success, $success, $success-hover);
+  }
+
+  &.is-warning {
+    @include button_style($background, $warning, $warning, $warning-hover);
+  }
+
+  &.is-danger {
+    @include button_style($background, $danger, $danger, $danger-hover);
+  }
+
+  &.is-disabled {
+    opacity: $disabled;
+    cursor: not-allowed;
+  }
+}
