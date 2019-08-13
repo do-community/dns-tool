@@ -56,4 +56,12 @@ export default {
         info: i18n.data.records.DMARC,
         url: "https://dmarc.org/overview/",
     },
+    SSHFP: {
+        info: i18n.data.records.SSHFP,
+        url: "https://en.wikipedia.org/wiki/SSHFP_record",   
+    },
+    TLSA: {
+        info: i18n.data.records.TLSA,
+        url: "https://simpledns.com/help/tlsa-records",
+    },
 }
