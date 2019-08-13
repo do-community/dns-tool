@@ -1,0 +1,33 @@
+// Colors
+$primary: #0069ff;
+$primary-hover: darken($primary, 5);
+$success: #11a95e;
+$secondary: #127c43;
+$danger: #d91d1d;
+$warning: #f56109;
+$background: #fff;
+$border: #f1f1f1;
+$text: #333;
+$heading: #222;
+$panel: #fafafa;
+$muted: rgba($text, .75);
+
+// Fonts
+$font-size: 16px;
+$font-family: 'Proxima Nova', 'proxima-nova', 'Helvetica Neue',
+'Helvetica', 'Arial', sans-serif;
+$font-weight: 400;
+$line-height: 1.5;
+$disabled: .5;
+
+// Borders
+$thin-border: 1px solid $border;
+$border-radius: 3px;
+
+// Transition
+$transition-speed: 250ms;
+$transition-bezier: cubic-bezier(0.645, 0.045, 0.355, 1);
+$transition: $transition-speed $transition-bezier;
+
+// Margin
+$margin: 16px;

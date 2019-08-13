@@ -24,6 +24,7 @@
   "dependencies": {
     "@babel/runtime": "^7.5.5",
     "babel-polyfill": "^6.26.0",
+    "bulma": "^0.7.5",
     "parcel-bundler": "1.12.3",
     "vue": "^2.6.10",
     "vue-hot-reload-api": "^2.3.3",
@@ -33,9 +34,10 @@
     "@babel/plugin-transform-runtime": "^7.5.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
-    "eslint-plugin-vue": "5.2.3",
     "@vue/component-compiler-utils": "^3.0.0",
     "eslint": "^6.1.0",
+    "eslint-plugin-vue": "5.2.3",
+    "sass": "^1.22.9",
     "typescript": "^3.5.3",
     "vue-template-compiler": "^2.6.10"
   }

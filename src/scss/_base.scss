@@ -1,0 +1,60 @@
+html,
+body {
+  font: $font-weight $font-size unquote('/') $line-height $font-family;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  background: $background;
+  color: $text;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: inherit;
+
+  &::before,
+  &::after {
+    box-sizing: inherit;
+  }
+}
+
+hr {
+  box-sizing: content-box;
+  height: 0;
+  margin: $margin 0;
+  border: 0;
+  border-top: 2px solid $border;
+}
+
+// Margins
+blockquote,
+figure {
+  margin: 0;
+}
+
+p,
+ul,
+ol,
+dl,
+blockquote,
+pre,
+address,
+fieldset,
+figure {
+  margin: 0 0 $margin;
+}
+
+* + p,
+* + ul,
+* + ol,
+* + dl,
+* + blockquote,
+* + pre,
+* + address,
+* + fieldset,
+* + figure {
+  margin-top: $margin;
+}
+

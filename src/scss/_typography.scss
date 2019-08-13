@@ -1,0 +1,100 @@
+// Links
+a {
+  background: transparent;
+  color: $primary;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover,
+  &:active {
+    outline: 0;
+  }
+
+  &:hover,
+  &:focus {
+    color: $primary-hover;
+  }
+
+  &[disabled] {
+    opacity: $disabled;
+    pointer-events: none;
+  }
+}
+
+p a {
+  text-decoration: underline;
+}
+
+// Selection
+::-moz-selection {
+  background: $primary;
+  color: $background;
+  text-shadow: none;
+}
+
+::selection {
+  background: $primary;
+  color: $background;
+  text-shadow: none;
+}
+
+// Bold
+b,
+strong {
+  font-weight: 600;
+}
+
+// Code
+:not(pre) > code {
+  font-size: 14px;
+  font-family: 'Operator Mono', Consolas, monospace, serif;
+  white-space: nowrap;
+  padding: 0 2px;
+  border: $thin-border;
+  border-radius: $border-radius;
+  background: $panel;
+}
+
+// Headings
+h1,
+h2,
+h3,
+h4 {
+  margin: 0 0 $margin;
+  font-family: $font-family;
+  color: $heading;
+  text-transform: none;
+}
+
+* + h1,
+* + h2,
+* + h3,
+* + h4 {
+  margin-top: 2 * $margin;
+}
+
+h1 {
+  font-size: 2.4rem;
+  font-weight: 300;
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: 1.7rem;
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+h4 {
+  color: #676767;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-transform: uppercase;
+}

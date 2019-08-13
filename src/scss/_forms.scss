@@ -1,0 +1,153 @@
+input, .input,
+textarea, .textarea {
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
+  font: inherit;
+  font-size: $font-size;
+  color: inherit;
+}
+
+input {
+  &:not([type]),
+  &[type='text'],
+  &[type='password'],
+  &[type='email'],
+  &[type='url'],
+  &[type='search'],
+  &[type='tel'],
+  &[type='number'],
+  &[type='datetime'],
+  &[type='range'] {
+    appearance: none;
+  }
+
+  &:not([type]),
+  &[type='text'],
+  &[type='text'],
+  &[type='password'],
+  &[type='datetime'],
+  &[type='datetime-local'],
+  &[type='date'],
+  &[type='month'],
+  &[type='time'],
+  &[type='week'],
+  &[type='number'],
+  &[type='email'],
+  &[type='url'],
+  &[type='search'],
+  &[type='tel'],
+  &[type='color'] {
+    height: 48px;
+    max-width: 100%;
+    padding: 0 $margin;
+    border: $thin-border;
+    background: $background;
+    color: $text;
+    transition: all $transition;
+    border-radius: $border-radius;
+    width: 100%;
+    position: relative;
+
+    &:focus {
+      border-color: $primary;
+      outline: 0;
+      background: $background;
+      box-shadow: 0 0 2px rgba($success, .5);
+      color: $text;
+    }
+
+    &:disabled {
+      opacity: $disabled;
+      border-color: $border;
+      background-color: $panel;
+      color: $text;
+      cursor: not-allowed;
+      user-select: none;
+    }
+  }
+
+  &::-moz-focus-inner {
+    bottom: 0;
+    padding: 0;
+  }
+
+  &[type='number'] {
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      height: auto;
+    }
+  }
+
+  &[type='search'] {
+    &::-webkit-search-cancel-button,
+    &::-webkit-search-decoration {
+      appearance: none;
+    }
+  }
+}
+
+textarea {
+  height: auto;
+  max-width: 100%;
+  padding: $margin;
+  border: $thin-border;
+  background: $background;
+  color: $text;
+  transition: all $transition;
+  border-radius: $border-radius;
+  width: 100%;
+  position: relative;
+  overflow: auto;
+  vertical-align: top;
+  resize: vertical;
+
+  &:focus {
+    border-color: $primary;
+    outline: 0;
+    background: $background;
+    box-shadow: 0 0 2px rgba($success, .5);
+    color: $text;
+  }
+
+  &:disabled {
+    opacity: $disabled;
+    border-color: $border;
+    background-color: $panel;
+    color: $text;
+    cursor: not-allowed;
+    user-select: none;
+  }
+}
+
+::-moz-placeholder {
+  opacity: 1;
+}
+
+:invalid {
+  box-shadow: none;
+}
+
+:-ms-input-placeholder {
+  color: $muted !important;
+
+  &:disabled {
+    color: $text !important;
+  }
+}
+
+::-moz-placeholder {
+  color: $muted;
+
+  &:disabled {
+    color: $text;
+  }
+}
+
+::-webkit-input-placeholder {
+  color: $muted;
+
+  &:disabled {
+    color: $text;
+  }
+}
