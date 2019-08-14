@@ -39,7 +39,7 @@ limitations under the License.
         <GHLink repo="https://github.com/do-community/dns-tool"></GHLink>
         <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
         <div class="header">
-            <div class="container" style="">
+            <div class="container">
                 <h1>
                     {{ i18n.templates.app.title }}
                 </h1>
@@ -65,17 +65,15 @@ limitations under the License.
                 <DODNS :loaded="data !== ''" :data="data"></DODNS>
                 <RecordBase ref="RecordBase" :data="data" :registrar="registrar"></RecordBase>
             </div>
-            <footer class="footer" style="align-self: flex-end; padding: 20px; width: 100%;">
-                <div class="content has-text-centered">
-                    <p>
-                        <a href="#top">{{ i18n.templates.app.backToTop }}</a>
-                    </p>
-                    <p v-html="i18n.templates.app.oss"></p>
-                    <p v-html="i18n.templates.app.cfThanks"></p>
-                    <p v-html="i18n.templates.app.mattThanks"></p>
-                </div>
-            </footer>
         </div>
+        <footer class="footer">
+            <div class="container">
+                <p><a href="#top" class="button is-primary is-small">{{ i18n.templates.app.backToTop }}</a></p>
+                <p v-html="i18n.templates.app.oss"></p>
+                <p v-html="i18n.templates.app.cfThanks"></p>
+                <p v-html="i18n.templates.app.mattThanks"></p>
+            </div>
+        </footer>
     </div>
 </template>
 

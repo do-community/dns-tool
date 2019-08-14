@@ -1,0 +1,10 @@
+footer.footer {
+  background: $panel;
+  margin: $margin 0 0;
+  padding: 0;
+
+  .container {
+    padding: ($margin * 2) $margin $margin;
+    text-align: center;
+  }
+}
