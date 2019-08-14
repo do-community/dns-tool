@@ -21,8 +21,8 @@ limitations under the License.
 </style>
 
 <template>
-    <span>
-        <span v-if="active">
+    <div>
+        <div v-if="active">
             <h3 :id="`${this.$props.recordType}-Records`" class="title is-3">
                 {{ this.$props.recordType }} {{ i18n.common.records }}
                 <a :href="`#${this.$props.recordType}-Records`">
@@ -33,12 +33,11 @@ limitations under the License.
                 <span v-html="this.$props.recordDescription"></span>
                 <a :href="this.$props.recordUrl">{{ i18n.templates.records.learnMore }}</a>
             </p>
-            <span v-if="recordKeys.length === 0">
+            <div v-if="recordKeys.length === 0">
                 <p><b>{{ i18n.templates.records.noRecords }}</b></p>
-            </span>
-            <span v-else>
-                <br>
-                <table class="table is-bordered">
+            </div>
+            <div v-else>
+                <table class="table">
                     <thead>
                         <tr>
                             <th v-for="recordKey in recordKeys">
@@ -54,47 +53,47 @@ limitations under the License.
                     <tbody>
                         <tr v-for="row in recordRows">
                             <td v-for="valueNode in row">
-                                <span v-for="value in valueNode.values">
-                                    <span v-if="value.truncated">
+                                <div v-for="value in valueNode.values">
+                                    <div v-if="value.truncated">
                                         <TruncatedRecord
                                             :value="value.result"
                                             :truncated="value.truncated"
                                         />
-                                    </span>
-                                    <span v-else>
+                                    </div>
+                                    <div v-else>
                                         {{ value.result }}
-                                        <span v-if="value.hostname">
+                                        <div v-if="value.hostname">
                                             <hr style="margin: 5px">
                                             <WHOIS :ip="value.ip"></WHOIS>
-                                            <span v-if="$props.recordType === 'MX'">
+                                            <div v-if="$props.recordType === 'MX'">
                                                 <MXBlacklist :ip="value.ip" :hostname="value.hostname ? value.hostname : ''"></MXBlacklist>
-                                            </span>
-                                        </span>
-                                    </span>
-                                </span>
-                                <span v-if="valueNode.description">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-if="valueNode.description">
                                     <hr style="margin: 5px" />
                                     <p style="font-size: 11px"><b>{{ valueNode.description }}</b></p>
-                                </span>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-            </span>
+            </div>
             <p style="margin-top: 20px"><a @click="propagationToggle">{{ i18n.templates.records.propagation }}</a></p>
-            <span v-if="dnsDifferences.length !== 0">
+            <div v-if="dnsDifferences.length !== 0">
                 <p><a @click="toggleDnsDifferences"><b>{{ i18n.templates.records.propagationNote }}</b></a></p>
                 <DNSDiff ref="DNSDiff" :dns-differences="dnsDifferences" :record-type="recordType"></DNSDiff>
-            </span>
+            </div>
             <p v-if="learnMore" style="margin-top: 20px">
                 <a :href="learnMore">{{ i18n.templates.records.learnHow.replace("{record}", this.$props.recordType) }}</a>
             </p>
-        </span>
-        <span v-else>
+        </div>
+        <div v-else>
             <RecordSkeleton></RecordSkeleton>
-        </span>
+        </div>
         <hr>
-    </span>
+    </div>
 </template>
 
 <script>
