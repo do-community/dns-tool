@@ -57,15 +57,15 @@ limitations under the License.
         </div>
         <div class="container" style="display: flex; flex-direction: column;">
             <div id="content">
+                <RecordJumps :loaded="data !== ''"></RecordJumps>
+                <DODNS :loaded="data !== ''" :data="data"></DODNS>
                 <div v-if="firstSearch">
+                    <NoSearch v-if="data === ''"></NoSearch>
                     <RecordSkeleton></RecordSkeleton>
                     <RecordSkeleton></RecordSkeleton>
                     <RecordSkeleton></RecordSkeleton>
                 </div>
                 <div v-else>
-                    <NoSearch v-if="data === ''"></NoSearch>
-                    <RecordJumps :loaded="data !== ''"></RecordJumps>
-                    <DODNS :loaded="data !== ''" :data="data"></DODNS>
                     <RecordBase ref="RecordBase" :data="data" :registrar="registrar"></RecordBase>
                 </div>
             </div>
