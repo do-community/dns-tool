@@ -48,7 +48,7 @@ limitations under the License.
                         <button id="SearchButton" class="button is-link">
                             {{ i18n.templates.app.searchButton }}
                         </button>
-                        <a v-if="data !== ''" @click="toggleRecordTextModal" class="button is-success">
+                        <a v-if="data !== ''" class="button is-success" @click="toggleRecordTextModal">
                             {{ i18n.templates.app.textRecords }}
                         </a>
                     </div>

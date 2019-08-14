@@ -73,14 +73,18 @@ limitations under the License.
                                 </div>
                                 <div v-if="valueNode.description">
                                     <hr style="margin: 5px" />
-                                    <p style="font-size: 11px"><b>{{ valueNode.description }}</b></p>
+                                    <p style="font-size: 11px">
+                                        <b>{{ valueNode.description }}</b>
+                                    </p>
                                 </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <p style="margin-top: 20px"><a @click="propagationToggle">{{ i18n.templates.records.propagation }}</a></p>
+            <p style="margin-top: 20px">
+                <a @click="propagationToggle">{{ i18n.templates.records.propagation }}</a>
+            </p>
             <div v-if="dnsDifferences.length !== 0">
                 <p><a @click="toggleDnsDifferences"><b>{{ i18n.templates.records.propagationNote }}</b></a></p>
                 <DNSDiff ref="DNSDiff" :dns-differences="dnsDifferences" :record-type="recordType"></DNSDiff>
