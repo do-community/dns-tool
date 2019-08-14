@@ -44,6 +44,10 @@
     @include button_style($background, $primary, $primary, $primary-hover);
   }
 
+  &.is-header {
+    @include button_style($background, $header, $header, $header-hover);
+  }
+
   &.is-secondary {
     @include button_style($background, $secondary, $secondary, $secondary-hover);
   }
@@ -63,5 +67,18 @@
   &.is-disabled {
     opacity: $disabled;
     cursor: not-allowed;
+  }
+
+  &.is-mini {
+    line-height: 34px;
+    height: 34px;
+    padding: 0px 16px;
+  }
+
+  &.is-small {
+    font-size: 14px;
+    line-height: 40px;
+    height: 40px;
+    padding: 0px 24px;
   }
 }

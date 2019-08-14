@@ -15,39 +15,51 @@ limitations under the License.
 -->
 
 <style>
-  @keyframes skeleton-loading {
-    0% { opacity: 0.7; }
-    25% { opacity: 0.9; }
-    50% { opacity: 0.7; }
-    75% { opacity: 0.5; }
-    100% { opacity: 0.7; }
-  }
+    @keyframes skeleton-loading {
+        0% {
+            opacity: 0.7;
+        }
+        25% {
+            opacity: 0.9;
+        }
+        50% {
+            opacity: 0.7;
+        }
+        75% {
+            opacity: 0.5;
+        }
+        100% {
+            opacity: 0.7;
+        }
+    }
 </style>
 
 <template>
     <div>
-        <GHLink repo="https://github.com/do-community/dns-tool"></GHLink>     
-        <div class="container" style="display: flex; flex-direction: column;">
-            <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
-            <div id="top" class="has-text-centered" style="padding-left: 30%; padding-right: 30%; margin-top: 10px">
-                <h2 class="title is-2">
+        <GHLink repo="https://github.com/do-community/dns-tool"></GHLink>
+        <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
+        <div class="header">
+            <div class="container" style="">
+                <h1>
                     {{ i18n.templates.app.title }}
-                </h2>
-                <h5 class="title is-5">
+                </h1>
+                <p>
                     {{ i18n.templates.app.description }}
-                </h5>
-                <span v-if="data !== ''">
-                    <hr style="margin: 10px">
-                    <p><a @click="toggleRecordTextModal">{{ i18n.templates.app.textRecords }}</a></p>
-                </span>
-                <form autocomplete="on" style="margin-top: 20px" @submit.prevent="searchDNSEvent">
+                </p>
+                <form autocomplete="on" @submit.prevent="searchDNSEvent">
                     <input id="DomainInput" class="input" type="text" :placeholder="i18n.templates.app.domain">
-                    <button id="SearchButton" class="button is-link" style="margin-top: 20px">
-                        {{ i18n.templates.app.searchButton }}
-                    </button>
+                    <div class="buttons">
+                        <button id="SearchButton" class="button is-link">
+                            {{ i18n.templates.app.searchButton }}
+                        </button>
+                        <a v-if="data !== ''" @click="toggleRecordTextModal" class="button is-success">
+                            {{ i18n.templates.app.textRecords }}
+                        </a>
+                    </div>
                 </form>
             </div>
-            <hr>
+        </div>
+        <div class="container" style="display: flex; flex-direction: column;">
             <div id="content">
                 <RecordJumps :loaded="data !== ''"></RecordJumps>
                 <DODNS :loaded="data !== ''" :data="data"></DODNS>
