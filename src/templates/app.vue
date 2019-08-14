@@ -57,16 +57,15 @@ limitations under the License.
         </div>
         <div class="container" style="display: flex; flex-direction: column;">
             <div id="content">
-                <NoSearch v-if="data === ''"></NoSearch>
-                <RecordJumps :loaded="data !== ''"></RecordJumps>
-                <DODNS :loaded="data !== ''" :data="data"></DODNS>
-                <div v-if="data === ''">
+                <div v-if="firstSearch">
                     <RecordSkeleton></RecordSkeleton>
                     <RecordSkeleton></RecordSkeleton>
                     <RecordSkeleton></RecordSkeleton>
                 </div>
                 <div v-else>
-                    <p>I think this is broken</p>
+                    <NoSearch v-if="data === ''"></NoSearch>
+                    <RecordJumps :loaded="data !== ''"></RecordJumps>
+                    <DODNS :loaded="data !== ''" :data="data"></DODNS>
                     <RecordBase ref="RecordBase" :data="data" :registrar="registrar"></RecordBase>
                 </div>
             </div>

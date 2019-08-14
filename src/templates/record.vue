@@ -175,6 +175,9 @@ limitations under the License.
                 this.handleRegistrar()
             },
         },
+        mounted() {
+            this.recordInit()
+        },
         methods: {
             toggleDnsDifferences() {
                 this.$refs.DNSDiff.toggle()
