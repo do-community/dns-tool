@@ -26,11 +26,10 @@ export const getSkeletonStyle = (min: number, max: number, size = 1) => {
         margin: `${size * .35}em 0`,
         background: `hsl(0, 0%, ${getRandomInt(80, 90)}%)`,
         borderRadius: `${size * .5}em`,
-        border: "none",
         width: `${getRandomInt(min, max)}px`,
-        maxWidth: "100%",
         opacity: `${getRandomInt(20, 30)/100}`,
-        animation: `skeleton-loading ${getRandomInt(900, 1200)}ms linear ${getRandomInt(0, 600)}ms infinite`,
+        animationDelay: `${getRandomInt(0, 600)}ms`,
+        animationDuration: `${getRandomInt(900, 1200)}ms`,
         animationPlayState: "paused",
     }
 }
