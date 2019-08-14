@@ -29,7 +29,7 @@ export const getSkeletonStyle = (min: number, max: number, size = 1) => {
         border: "none",
         width: `${getRandomInt(min, max)}px`,
         maxWidth: "100%",
-        opacity: "0.7",
+        opacity: `${getRandomInt(20, 30)/100}`,
         animation: `skeleton-loading ${getRandomInt(900, 1200)}ms linear ${getRandomInt(0, 600)}ms infinite`,
         animationPlayState: "paused",
     }

@@ -40,12 +40,8 @@ limitations under the License.
         <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
         <div class="header">
             <div class="container">
-                <h1>
-                    {{ i18n.templates.app.title }}
-                </h1>
-                <p>
-                    {{ i18n.templates.app.description }}
-                </p>
+                <h1>{{ i18n.templates.app.title }}</h1>
+                <p>{{ i18n.templates.app.description }}</p>
                 <form autocomplete="on" @submit.prevent="searchDNSEvent">
                     <input id="DomainInput" class="input" type="text" :placeholder="i18n.templates.app.domain">
                     <div class="buttons">
@@ -61,9 +57,18 @@ limitations under the License.
         </div>
         <div class="container" style="display: flex; flex-direction: column;">
             <div id="content">
+                <NoSearch v-if="data === ''"></NoSearch>
                 <RecordJumps :loaded="data !== ''"></RecordJumps>
                 <DODNS :loaded="data !== ''" :data="data"></DODNS>
-                <RecordBase ref="RecordBase" :data="data" :registrar="registrar"></RecordBase>
+                <div v-if="data === ''">
+                    <RecordSkeleton></RecordSkeleton>
+                    <RecordSkeleton></RecordSkeleton>
+                    <RecordSkeleton></RecordSkeleton>
+                </div>
+                <div v-else>
+                    <p>I think this is broken</p>
+                    <RecordBase ref="RecordBase" :data="data" :registrar="registrar"></RecordBase>
+                </div>
             </div>
         </div>
         <footer class="footer">
@@ -87,6 +92,8 @@ limitations under the License.
     import RecordSelectionModal from "./record_selection_modal"
     import GHLink from "./gh_link"
     import cfDNS from "../utils/cfDNS"
+    import NoSearch from "./skeletons/no_search"
+    import RecordSkeleton from "./skeletons/record"
 
     const stripHttps = /(https*:\/\/)*(.+)*/
     const isHostname = /.*\.[a-z]+/
@@ -94,6 +101,8 @@ limitations under the License.
     export default {
         name: "App",
         components: {
+            NoSearch,
+            RecordSkeleton,
             RecordBase,
             DODNS,
             RecordJumps,
