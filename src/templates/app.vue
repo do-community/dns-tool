@@ -129,6 +129,7 @@ limitations under the License.
                     el.classList.add("is-loading")
 
                     if (this.$data.siteLoading) return
+                    this.$data.firstSearch = false
                     this.$data.siteLoading = true
 
                     const domainInput = document.getElementById("DomainInput")
@@ -149,7 +150,6 @@ limitations under the License.
 
                     reports.clear()
                     this.$data.linked = null
-                    this.$data.firstSearch = false
                     this.$data.data = text
                     await this.searchWait()
                 } finally {
