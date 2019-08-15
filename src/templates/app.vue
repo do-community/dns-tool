@@ -38,7 +38,7 @@ limitations under the License.
         <div class="container" style="display: flex; flex-direction: column;">
             <div id="content">
                 <RecordJumps :loaded="data !== ''" :loading="siteLoading"></RecordJumps>
-                <DODNS :loaded="data !== ''" :data="data"></DODNS>
+                <DODNS :loaded="data !== ''" :data="data" :loading="siteLoading"></DODNS>
                 <div v-if="firstSearch">
                     <NoSearch v-if="data === ''"></NoSearch>
                     <RecordSkeleton :loading="false"></RecordSkeleton>
