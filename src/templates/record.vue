@@ -181,6 +181,8 @@ limitations under the License.
         },
         mounted() {
             this.recordInit()
+            this.handleNs()
+            this.handleRegistrar()
         },
         methods: {
             toggleDnsDifferences() {
