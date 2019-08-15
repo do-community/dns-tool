@@ -107,7 +107,7 @@ limitations under the License.
         },
         methods: {
             error(message) {
-                document.querySelectorAll("[data-skeleton]").forEach(elm => elm.style.animationPlayState = "paused")
+                document.querySelectorAll(".data-skeleton").forEach(elm => elm.style.animationPlayState = "paused")
                 alert(message)
             },
             async searchWait() {
@@ -147,7 +147,7 @@ limitations under the License.
 
                     if (!this.$data.linked) window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
 
-                    document.querySelectorAll("[data-skeleton]").forEach(elm => elm.style.animationPlayState = "running")
+                    document.querySelectorAll(".data-skeleton").forEach(elm => elm.style.animationPlayState = "running")
 
                     reports.clear()
                     this.$data.linked = null

@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-[data-skeleton] {
+.data-skeleton {
   border: none;
   max-width: 100%;
   animation: skeleton-loading 500ms linear 500ms infinite;
