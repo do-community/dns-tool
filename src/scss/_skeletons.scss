@@ -18,6 +18,11 @@ limitations under the License.
   border: none;
   max-width: 100%;
   animation: skeleton-loading 500ms linear 500ms infinite;
+  animation-play-state: paused;
+}
+
+.skeleton-running {
+  animation-play-state: running;
 }
 
 @keyframes skeleton-loading {

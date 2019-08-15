@@ -30,6 +30,5 @@ export const getSkeletonStyle = (min: number, max: number, size = 1) => {
         opacity: `${getRandomInt(20, 30)/100}`,
         animationDelay: `${getRandomInt(0, 600)}ms`,
         animationDuration: `${getRandomInt(900, 1200)}ms`,
-        animationPlayState: "paused",
     }
 }

@@ -37,16 +37,16 @@ limitations under the License.
         </div>
         <div class="container" style="display: flex; flex-direction: column;">
             <div id="content">
-                <RecordJumps :loaded="data !== ''"></RecordJumps>
+                <RecordJumps :loaded="data !== ''" :loading="siteLoading"></RecordJumps>
                 <DODNS :loaded="data !== ''" :data="data"></DODNS>
                 <div v-if="firstSearch">
                     <NoSearch v-if="data === ''"></NoSearch>
-                    <RecordSkeleton></RecordSkeleton>
-                    <RecordSkeleton></RecordSkeleton>
-                    <RecordSkeleton></RecordSkeleton>
+                    <RecordSkeleton :loading="false"></RecordSkeleton>
+                    <RecordSkeleton :loading="false"></RecordSkeleton>
+                    <RecordSkeleton :loading="false"></RecordSkeleton>
                 </div>
                 <div v-else>
-                    <RecordBase ref="RecordBase" :data="data" :registrar="registrar"></RecordBase>
+                    <RecordBase ref="RecordBase" :data="data" :registrar="registrar" :loading="siteLoading"></RecordBase>
                 </div>
             </div>
         </div>
@@ -107,7 +107,6 @@ limitations under the License.
         },
         methods: {
             error(message) {
-                document.querySelectorAll(".data-skeleton").forEach(elm => elm.style.animationPlayState = "paused")
                 alert(message)
             },
             async searchWait() {
@@ -130,6 +129,7 @@ limitations under the License.
                     el.classList.add("is-loading")
 
                     if (this.$data.siteLoading) return
+                    this.$data.siteLoading = true
 
                     const domainInput = document.getElementById("DomainInput")
 
@@ -146,8 +146,6 @@ limitations under the License.
                     this.setRegistrar(text)
 
                     if (!this.$data.linked) window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
-
-                    document.querySelectorAll(".data-skeleton").forEach(elm => elm.style.animationPlayState = "running")
 
                     reports.clear()
                     this.$data.linked = null

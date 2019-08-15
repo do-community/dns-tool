@@ -25,7 +25,7 @@ limitations under the License.
         <hr>
     </div>
     <div v-else>
-        <RecordJumpsSkeleton></RecordJumpsSkeleton>
+        <RecordJumpsSkeleton :loading="$props.loading"></RecordJumpsSkeleton>
     </div>
 </template>
 
@@ -41,6 +41,7 @@ limitations under the License.
         },
         props: {
             loaded: Boolean,
+            loading: Boolean,
         },
         data() {
             return {

@@ -94,7 +94,7 @@ limitations under the License.
             </p>
         </div>
         <div v-else>
-            <RecordSkeleton></RecordSkeleton>
+            <RecordSkeleton :loading="$props.loading"></RecordSkeleton>
         </div>
         <hr>
     </div>
@@ -156,6 +156,7 @@ limitations under the License.
             expectsHost: Boolean,
             ns: String,
             registrar: String,
+            loading: Boolean,
         },
         data() {
             return {
