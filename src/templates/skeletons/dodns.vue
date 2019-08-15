@@ -16,8 +16,8 @@ limitations under the License.
 
 <template>
     <p>
-        <span data-skeleton :style="{ ...getSkeletonStyle(400, 600), display: 'inline-block', marginRight: '0.2em' }"></span>
-        <span data-skeleton :style="{ ...getSkeletonStyle(200, 500), display: 'inline-block', marginRight: '0.2em' }"></span>
+        <span class="data-skeleton":style="{ ...getSkeletonStyle(400, 600), display: 'inline-block', marginRight: '0.2em' }"></span>
+        <span class="data-skeleton":style="{ ...getSkeletonStyle(200, 500), display: 'inline-block', marginRight: '0.2em' }"></span>
     </p>
 </template>
 
