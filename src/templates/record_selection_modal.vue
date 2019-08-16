@@ -29,11 +29,14 @@ limitations under the License.
                     <input :ref="key" :id="`dl-select-${key}`" type="checkbox" checked>
                     <label :for="`dl-select-${key}`">{{ key }} {{ i18n.common.records }}</label>
                 </div>
-                <br>
-                <a class="button is-link" @click="downloadRecords(false)">{{ i18n.templates.recordSelectionModal.downloadTextForm }}</a>
-                <a class="button is-link" @click="copyRecords(false)">{{ i18n.templates.recordSelectionModal.copyTextForm }}</a>
-                <a class="button is-link" style="margin-top: 10px" @click="downloadRecords(true)">{{ i18n.templates.recordSelectionModal.downloadMd }}</a>
-                <a class="button is-link" style="margin-top: 10px" @click="copyRecords(true)">{{ i18n.templates.recordSelectionModal.copyMd }}</a>
+                <a class="button is-link is-small" style="margin-top: 10px" @click="downloadRecords(false)">
+                    {{ i18n.templates.recordSelectionModal.downloadTextForm }}</a>
+                <a class="button is-link is-small" style="margin-top: 10px" @click="copyRecords(false)">
+                    {{ i18n.templates.recordSelectionModal.copyTextForm }}</a>
+                <a class="button is-link is-small" style="margin-top: 10px" @click="downloadRecords(true)">
+                    {{ i18n.templates.recordSelectionModal.downloadMd }}</a>
+                <a class="button is-link is-small" style="margin-top: 10px" @click="copyRecords(true)">
+                    {{ i18n.templates.recordSelectionModal.copyMd }}</a>
             </section>
         </div>
     </div>
