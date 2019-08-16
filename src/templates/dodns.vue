@@ -26,7 +26,7 @@ limitations under the License.
             </span>
         </span>
         <span v-else>
-            <DODNSSkeleton></DODNSSkeleton>
+            <DODNSSkeleton :loading="$props.loading"></DODNSSkeleton>
         </span>
         <hr>
     </span>
@@ -44,6 +44,7 @@ limitations under the License.
         },
         props: {
             data: String,
+            loading: Boolean,
         },
         data() {
             return {
