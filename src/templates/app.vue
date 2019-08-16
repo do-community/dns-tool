@@ -109,6 +109,7 @@ limitations under the License.
         methods: {
             error(message) {
                 alert(message)
+                this.$data.contentOpacity = 1
             },
             async searchWait() {
                 await this.$refs.RecordBase.wait()
@@ -146,6 +147,7 @@ limitations under the License.
 
                     this.$data.firstSearch = false
                     this.$data.siteLoading = true
+                    this.$data.contentOpacity = 1
 
                     this.setRegistrar(text)
 
@@ -159,7 +161,6 @@ limitations under the License.
                     el.classList.remove("is-loading")
                     this.$data.siteLoading = false
                     const hash = window.location.hash === "" ? null : window.location.hash.substr(1)
-                    this.$data.contentOpacity = 1
                     if (!hash) return
                     const anchorEl = document.getElementById(hash)
                     if (anchorEl) anchorEl.scrollIntoView()
