@@ -25,6 +25,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   box-sizing: border-box;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
 * {
@@ -75,8 +78,11 @@ figure {
 }
 
 // Body
-.main.container {
-  display: flex;
-  flex-direction: column;
-  transition: opacity $transition;
+.all {
+  min-height: 100vh;
+
+  .main.container {
+    flex-grow: 1;
+    transition: opacity $transition;
+  }
 }

@@ -15,7 +15,7 @@ limitations under the License.
 -->
 
 <template>
-    <div>
+    <div class="all">
         <GHLink repo="https://github.com/do-community/dns-tool"></GHLink>
         <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
         <div class="header">
