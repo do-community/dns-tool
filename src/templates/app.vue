@@ -35,7 +35,7 @@ limitations under the License.
                 </form>
             </div>
         </div>
-        <div class="container" :style="{display: 'flex', flexDirection: 'column', opacity: contentOpacity}">
+        <div class="main container" :style="{opacity: contentOpacity}">
             <div id="content">
                 <RecordJumps :loaded="data !== ''" :loading="siteLoading"></RecordJumps>
                 <DODNS :loaded="data !== ''" :data="data" :loading="siteLoading"></DODNS>
@@ -130,7 +130,7 @@ limitations under the License.
                     el.classList.add("is-loading")
 
                     if (this.$data.siteLoading) return
-                    this.$data.contentOpacity = 0.2
+                    this.$data.contentOpacity = 0
 
                     const domainInput = document.getElementById("DomainInput")
 

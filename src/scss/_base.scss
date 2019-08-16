@@ -74,3 +74,9 @@ figure {
   margin-top: $margin;
 }
 
+// Body
+.main.container {
+  display: flex;
+  flex-direction: column;
+  transition: opacity $transition;
+}
