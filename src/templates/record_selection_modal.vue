@@ -26,7 +26,7 @@ limitations under the License.
             </header>
             <section class="modal-card-body">
                 <div v-for="key in reports.keys()">
-                    <input :ref="key" :id="`dl-select-${key}`" type="checkbox" checked>
+                    <input :id="`dl-select-${key}`" :ref="key" type="checkbox" checked>
                     <label :for="`dl-select-${key}`">{{ key }} {{ i18n.common.records }}</label>
                 </div>
                 <a class="button is-link is-small" style="margin-top: 10px" @click="downloadRecords(false)">
