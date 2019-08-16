@@ -79,9 +79,12 @@ figure {
 
 // Body
 .all {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
 
   .main.container {
+    width: 100%;
     flex-grow: 1;
     transition: opacity $transition;
   }
