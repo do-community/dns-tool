@@ -35,7 +35,7 @@ limitations under the License.
                 </form>
             </div>
         </div>
-        <div class="container" style="display: flex; flex-direction: column;">
+        <div class="container" :style="{display: 'flex', flexDirection: 'column', opacity: contentOpacity}">
             <div id="content">
                 <RecordJumps :loaded="data !== ''" :loading="siteLoading"></RecordJumps>
                 <DODNS :loaded="data !== ''" :data="data" :loading="siteLoading"></DODNS>
@@ -96,6 +96,7 @@ limitations under the License.
                 i18n,
                 siteLoading: false,
                 registrar: "",
+                contentOpacity: 1,
             }
         },
         mounted() {
@@ -129,8 +130,7 @@ limitations under the License.
                     el.classList.add("is-loading")
 
                     if (this.$data.siteLoading) return
-                    this.$data.firstSearch = false
-                    this.$data.siteLoading = true
+                    this.$data.contentOpacity = 0.2
 
                     const domainInput = document.getElementById("DomainInput")
 
@@ -144,6 +144,9 @@ limitations under the License.
                     const json = await domainLookup.json()
                     if (json.Status !== 0) return this.error("Invalid domain.")
 
+                    this.$data.firstSearch = false
+                    this.$data.siteLoading = true
+
                     this.setRegistrar(text)
 
                     if (!this.$data.linked) window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
@@ -156,6 +159,7 @@ limitations under the License.
                     el.classList.remove("is-loading")
                     this.$data.siteLoading = false
                     const hash = window.location.hash === "" ? null : window.location.hash.substr(1)
+                    this.$data.contentOpacity = 1
                     if (!hash) return
                     const anchorEl = document.getElementById(hash)
                     if (anchorEl) anchorEl.scrollIntoView()
