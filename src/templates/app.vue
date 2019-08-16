@@ -45,7 +45,7 @@ limitations under the License.
                     <RecordSkeleton :loading="false"></RecordSkeleton>
                     <RecordSkeleton :loading="false"></RecordSkeleton>
                 </div>
-                <div v-else>
+                <div :style="`${firstSearch ? 'display: none; visibility: hidden;' : ''}`">
                     <RecordBase ref="RecordBase" :data="data" :registrar="registrar" :loading="siteLoading"></RecordBase>
                 </div>
             </div>
