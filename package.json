@@ -37,6 +37,10 @@
     "@vue/component-compiler-utils": "^3.0.0",
     "eslint": "^6.2.2",
     "eslint-plugin-vue": "5.2.3",
+    "jsdom": "^15.1.1",
+    "node-fetch": "^2.6.0",
+    "posthtml": "^0.11.4",
+    "posthtml-extend": "^0.3.0",
     "sass": "^1.22.9",
     "typescript": "^3.5.3",
     "vue-template-compiler": "^2.6.10"
