@@ -219,3 +219,33 @@ textarea {
     color: $text;
   }
 }
+
+.input-container {
+  border-radius: $border-radius;
+  box-shadow: none;
+  margin: 0 0 $margin;
+  position: relative;
+  text-align: left;
+  width: 100%;
+
+  i {
+    color: rgba($text, 0.6);
+    font-size: 18px;
+    left: $margin;
+    position: absolute;
+    top: 18px;
+    z-index: 1;
+  }
+
+  input {
+    border-radius: $border-radius;
+    border: 0;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 400;
+    padding: $margin ($margin * 2) $margin ($margin * 2 + 18);
+    width: 100%;
+    height: auto;
+    line-height: normal;
+  }
+}

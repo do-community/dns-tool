@@ -23,7 +23,11 @@ limitations under the License.
                 <h1>{{ i18n.templates.app.title }}</h1>
                 <p>{{ i18n.templates.app.description }}</p>
                 <form autocomplete="on" @submit.prevent="searchDNSEvent">
-                    <input id="DomainInput" class="input" type="text" :placeholder="i18n.templates.app.domain">
+                    <div class="input-container">
+                        <label for="DomainInput" class="hidden">Search</label>
+                        <i class="fas fa-search"></i>
+                        <input id="DomainInput" class="input" type="text" :placeholder="i18n.templates.app.lookupDomain">
+                    </div>
                     <div class="buttons">
                         <button id="SearchButton" class="button is-link">
                             {{ i18n.templates.app.searchButton }}
