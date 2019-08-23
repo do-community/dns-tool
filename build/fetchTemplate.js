@@ -52,8 +52,11 @@ const main = async () => {
     rawHTML = rawHTML.replace(/<div class=['"]wrapper layout-wrapper['"]>\s+?<div class=['"]clearfix['"]><\/div>\s+?<\/div>/,
         '<block name="content"></block><div class="clearfix"></div>')
 
+    // Inject last fetch comment
+    rawHTML = rawHTML.replace('<head>', `<head><!-- Last fetch from www.digitalocean.com @ ${(new Date()).toISOString()} -->`)
+
     // Export
-    fs.writeFileSync('base.html', rawHTML)
+    fs.writeFileSync(`${__dirname}/base.html`, rawHTML)
 }
 
 main()
