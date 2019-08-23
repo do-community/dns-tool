@@ -16,9 +16,9 @@ limitations under the License.
 
 <template>
     <div class="all dns-tool">
-        <GHLink repo="https://github.com/do-community/dns-tool"></GHLink>
         <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
         <div class="header">
+            <GHLink repo="https://github.com/do-community/dns-tool"></GHLink>
             <div class="container">
                 <h1>{{ i18n.templates.app.title }}</h1>
                 <p>{{ i18n.templates.app.description }}</p>
@@ -50,14 +50,14 @@ limitations under the License.
                 </div>
             </div>
         </div>
-        <footer class="footer">
+        <div class="footer">
             <div class="container">
                 <p><a href="#top" class="button is-primary is-small">{{ i18n.templates.app.backToTop }}</a></p>
                 <p v-html="i18n.templates.app.oss"></p>
                 <p v-html="i18n.templates.app.cfThanks"></p>
                 <p v-html="i18n.templates.app.mattThanks"></p>
             </div>
-        </footer>
+        </div>
     </div>
 </template>
 
