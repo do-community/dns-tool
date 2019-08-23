@@ -4,8 +4,9 @@
   "description": "A simple browser-based tool to perform DNS lookups.",
   "license": "Apache-2.0",
   "scripts": {
-    "build": "parcel build ./src/index.html --public-url=./",
-    "dev": "parcel ./src/index.html",
+    "fetch-template": "node build/fetchTemplate.js",
+    "build": "npm run fetch-template && parcel build ./src/index.html --public-url=./",
+    "dev": "npm run fetch-template && parcel ./src/index.html",
     "lint": "tsc && eslint ./src/**/*.ts && eslint ./src/**/*.vue",
     "lint-and-fix": "tsc && eslint ./src/**/*.ts --fix && eslint ./src/**/*.vue --fix"
   },
