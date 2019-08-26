@@ -58,8 +58,6 @@ limitations under the License.
             <div class="container">
                 <p><a href="#top" class="button is-primary is-small">{{ i18n.templates.app.backToTop }}</a></p>
                 <p v-html="i18n.templates.app.oss"></p>
-                <p v-html="i18n.templates.app.cfThanks"></p>
-                <p v-html="i18n.templates.app.mattThanks"></p>
             </div>
         </div>
     </div>
