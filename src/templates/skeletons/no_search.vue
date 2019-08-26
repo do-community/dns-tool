@@ -45,12 +45,19 @@ limitations under the License.
 <template>
     <div>
         <img src="../../assets/dns.svg" alt="" />
-        <h2>No domain has been searched yet</h2>
+        <h2>{{ i18n.templates.skeletons.noSearch.title }}</h2>
     </div>
 </template>
 
 <script>
+    import i18n from "../../i18n"
+
     export default {
         name: "NoSearch",
+        data() {
+            return {
+                i18n,
+            }
+        },
     }
 </script>

@@ -1,6 +1,6 @@
 export default {
     title: "DNS Lookup Tool",
-    description: "Enter the (sub-)domain you wish to look up.",
+    description: "Find the records you're looking for.",
     searchButton: "Search DNS Records",
     backToTop: "Back To Top",
     cfThanks: `
@@ -13,6 +13,6 @@ export default {
         <a href="https://whoisjs.com/">WHOIS API.</a>
     `,
     textRecords: "Get records in text/markdown form",
-    lookupDomain: "Lookup Domain",
+    domain: "Domain name",
     oss: `This tool is open-source on GitHub under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a> license! We welcome feedback and contributions.`,
 } as {[key: string]: string}

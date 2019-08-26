@@ -26,13 +26,13 @@ limitations under the License.
                     <div class="input-container">
                         <label for="DomainInput" class="hidden">Search</label>
                         <i class="fas fa-search"></i>
-                        <input id="DomainInput" class="input" type="text" :placeholder="i18n.templates.app.lookupDomain">
+                        <input id="DomainInput" class="input" type="text" :placeholder="i18n.templates.app.domain">
                     </div>
                     <div class="buttons">
-                        <button id="SearchButton" class="button is-link">
+                        <button id="SearchButton" class="button is-header is-inverted">
                             {{ i18n.templates.app.searchButton }}
                         </button>
-                        <a v-if="data !== ''" class="button is-success" @click="toggleRecordTextModal">
+                        <a v-if="data !== ''" class="button is-header is-inverted" @click="toggleRecordTextModal">
                             {{ i18n.templates.app.textRecords }}
                         </a>
                     </div>
