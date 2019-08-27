@@ -35,7 +35,7 @@
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
     "@vue/component-compiler-utils": "^3.0.0",
-    "eslint": "^6.1.0",
+    "eslint": "^6.2.2",
     "eslint-plugin-vue": "5.2.3",
     "sass": "^1.22.9",
     "typescript": "^3.5.3",
