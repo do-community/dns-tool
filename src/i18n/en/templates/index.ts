@@ -14,4 +14,4 @@ export default {
     app, dodns, mxBlacklist, records, truncatedRecord,
     whois, propagationModal, recordSelectionModal, github,
     dnsDiff, skeletons,
-} as {[key: string]: {[key: string]: string}}
+} as {[key: string]: {[key: string]: any}}
