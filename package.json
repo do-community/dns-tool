@@ -5,7 +5,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "fetch-template": "node build/fetchTemplate.js",
-    "build": "npm run fetch-template && parcel build ./src/index.html --public-url=./",
+    "build": "npm run fetch-template && parcel build ./src/index.html --public-url=./ --no-minify",
     "dev": "npm run fetch-template && parcel ./src/index.html",
     "lint": "tsc && eslint ./src/**/*.ts && eslint ./src/**/*.vue",
     "lint-and-fix": "tsc && eslint ./src/**/*.ts --fix && eslint ./src/**/*.vue --fix"
