@@ -41,6 +41,14 @@
 
     .modal-card-body {
       padding: 0;
+
+      .clipboard {
+        white-space: pre-wrap;
+        overflow-x: hidden !important;
+        overflow-wrap: break-word;
+        max-height: 50vh;
+        height: auto;
+      }
     }
   }
 }
