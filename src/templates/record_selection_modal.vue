@@ -55,15 +55,15 @@ limitations under the License.
 
     export default {
         name: "RecordSelectionModal",
+        components: {
+            ClipboardModal,
+        },
         data() {
             return {
                 toggled: false,
                 i18n,
                 recordKeys,
             }
-        },
-        components: {
-            ClipboardModal,
         },
         methods: {
             toggle() {

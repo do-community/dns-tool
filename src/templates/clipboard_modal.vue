@@ -10,7 +10,7 @@
             </header>
             <section class="modal-card-body">
                 <p>{{ i18n.templates.clipboardModal.thisHasBeenCopied }}</p>
-                <textarea class="textarea has-fixed-size" readonly v-model="textReport"></textarea>
+                <textarea v-model="textReport" class="textarea has-fixed-size" readonly></textarea>
             </section>
         </div>
     </div>
