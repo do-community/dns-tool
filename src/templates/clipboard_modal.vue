@@ -9,7 +9,11 @@
                 <button class="delete" :aria-label="i18n.common.close" @click="hide"></button>
             </header>
             <section class="modal-card-body">
-                <p>{{ i18n.templates.clipboardModal.thisHasBeenCopied }}</p>
+                <p>
+                    <span class="tag is-success">
+                        {{ i18n.templates.clipboardModal.thisHasBeenCopied }}
+                    </span>
+                </p>
                 <pre class="clipboard textarea has-fixed-size"><code>{{ textReport }}</code></pre>
             </section>
         </div>
