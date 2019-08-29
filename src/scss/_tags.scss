@@ -14,18 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-.dns-tool {
-  @import 'globals';
-  @import '../../node_modules/bulma/bulma.sass';
-  @import 'base';
-  @import 'typography';
-  @import 'header';
-  @import 'github';
-  @import 'buttons';
-  @import 'forms';
-  @import 'tables';
-  @import 'footer';
-  @import 'modals';
-  @import 'tags';
-  @import 'skeletons';
+span.tag {
+  border-radius: $border-radius;
+  font-size: 0.9rem;
+  height: auto;
+  line-height: 1;
+  padding: ($margin / 2) $margin;
 }

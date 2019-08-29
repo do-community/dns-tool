@@ -15,44 +15,54 @@ limitations under the License.
 -->
 
 <template>
-    <div :class="`modal ${toggled ? 'is-active' : ''}`">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-            <header class="modal-card-head">
-                <p class="modal-card-title">
-                    {{ i18n.templates.recordSelectionModal.downloadRecords }}
-                </p>
-                <button class="delete" :aria-label="i18n.common.close" @click="toggle"></button>
-            </header>
-            <section class="modal-card-body">
-                <div v-for="key in reports.keys()">
-                    <input :id="`dl-select-${key}`" :ref="key" type="checkbox" checked>
-                    <label :for="`dl-select-${key}`">{{ key }} {{ i18n.common.records }}</label>
-                </div>
-                <a class="button is-link is-small" style="margin-top: 10px" @click="downloadRecords(false)">
-                    {{ i18n.templates.recordSelectionModal.downloadTextForm }}</a>
-                <a class="button is-link is-small" style="margin-top: 10px" @click="copyRecords(false)">
-                    {{ i18n.templates.recordSelectionModal.copyTextForm }}</a>
-                <a class="button is-link is-small" style="margin-top: 10px" @click="downloadRecords(true)">
-                    {{ i18n.templates.recordSelectionModal.downloadMd }}</a>
-                <a class="button is-link is-small" style="margin-top: 10px" @click="copyRecords(true)">
-                    {{ i18n.templates.recordSelectionModal.copyMd }}</a>
-            </section>
+    <div>
+        <div :class="`modal ${toggled ? 'is-active' : ''}`">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">
+                        {{ i18n.templates.recordSelectionModal.downloadRecords }}
+                    </p>
+                    <button class="delete" :aria-label="i18n.common.close" @click="toggle"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div v-for="key in recordKeys">
+                        <input :id="`dl-select-${key}`" :ref="key" type="checkbox" checked>
+                        <label :for="`dl-select-${key}`">{{ key }} {{ i18n.common.records }}</label>
+                    </div>
+                    <a class="button is-link is-small" style="margin-top: 10px" @click="downloadRecords(false)">
+                        {{ i18n.templates.recordSelectionModal.downloadTextForm }}</a>
+                    <a class="button is-link is-small" style="margin-top: 10px" @click="copyRecords(false)">
+                        {{ i18n.templates.recordSelectionModal.copyTextForm }}</a>
+                    <a class="button is-link is-small" style="margin-top: 10px" @click="downloadRecords(true)">
+                        {{ i18n.templates.recordSelectionModal.downloadMd }}</a>
+                    <a class="button is-link is-small" style="margin-top: 10px" @click="copyRecords(true)">
+                        {{ i18n.templates.recordSelectionModal.copyMd }}</a>
+                </section>
+            </div>
         </div>
+        <ClipboardModal ref="ClipboardModal" @toggle-root="toggle"></ClipboardModal>
     </div>
 </template>
 
 <script>
-    import { generateMdReport, generateTextReport, reports } from "../plain_text_reports"
+    import { generateMdReport, generateTextReport } from "../plain_text_reports"
     import i18n from "../i18n"
+    import recordsDataset from "../data/records"
+    import ClipboardModal from "./clipboard_modal"
+
+    const recordKeys = Object.keys(recordsDataset)
 
     export default {
         name: "RecordSelectionModal",
+        components: {
+            ClipboardModal,
+        },
         data() {
             return {
                 toggled: false,
-                reports,
                 i18n,
+                recordKeys,
             }
         },
         methods: {
@@ -73,6 +83,7 @@ limitations under the License.
                 const refs = Object.keys(this.$refs)
                 const allowedRecords = []
                 for (const i of refs) {
+                    if (i === "ClipboardModal") continue
                     const input = this.$refs[i][0]
                     if (input.checked) allowedRecords.push(i)
                 }
@@ -92,6 +103,8 @@ limitations under the License.
                 textarea.select()
                 document.execCommand("copy")
                 textarea.remove()
+                this.$refs.ClipboardModal.show(textReport)
+                this.$data.toggled = false
             },
         },
     }
