@@ -14,12 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<style scoped>
-    i.fa-question-circle:hover {
-        cursor: pointer;
-    }
-</style>
-
 <template>
     <div>
         <div v-if="active">
@@ -45,7 +39,7 @@ limitations under the License.
                                 <i v-if="recordKey in recordKeyHelp"
                                    v-tippy
                                    :title="recordKeyHelp[recordKey]"
-                                   class="far fa-question-circle"
+                                   class="far fa-question-circle help"
                                 ></i>
                             </th>
                         </tr>
