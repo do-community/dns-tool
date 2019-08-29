@@ -56,29 +56,26 @@ export const generateMdReport = (allowedRecords: string[]) => {
         if (!allowedRecords.includes(key)) {
             continue
         }
-        let textValue = "No records present."
+        let textValue = "No records present.\n"
         if (value.Answer) {
             const unformattedKeys = Object.keys(value.Answer[0])
             const keys: string[] = []
+            const dividers: string[] = []
             for (const key of unformattedKeys) {
-                keys.push(`${key.substr(0, 1).toUpperCase()}${key.substr(1)}`)
+                const keyFormat = `${key.substr(0, 1).toUpperCase()}${key.substr(1)}`
+                keys.push(keyFormat)
+                dividers.push("-".repeat(keyFormat.length + 2))
             }
-            let dividers = ""
-            let i = 0
-            while (i !== keys.length) {
-                dividers += "--- | "
-                i++
-            }
-            textValue = `${keys.join("|")}\n${dividers}\n`
+            textValue = `| ${keys.join(" | ")} |\n|${dividers.join("|")}|\n`
             for (const answer of value.Answer) {
                 const parts = []
                 for (const part of Object.values(answer)) {
                     parts.push(String(part))
                 }
-                textValue += parts.join(" | ") + "\n"
+                textValue += `| ${parts.join(" | ")} |\n`
             }
         }
-        report += `# ${key} Records\n${textValue}\n`
+        report += `# ${key} Records\n\n${textValue}\n`
     }
     return report
 }
