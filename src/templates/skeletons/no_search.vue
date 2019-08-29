@@ -14,36 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<style scoped>
-    div {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        z-index: 1;
-        padding: 0 0 10%;
-        background: linear-gradient(to bottom, hsla(0, 0%, 100%, 0.7) 0%, hsla(0, 0%, 100%, 0.5) 90%, hsla(0, 0%, 100%, 0) 100%)
-    }
-
-    h2 {
-        padding: 32px;
-        margin: 0;
-        background: hsla(0, 0%, 100%, 0.2);
-        color: #505159;
-    }
-
-    img {
-        width: 512px;
-        max-width: 100%;
-    }
-</style>
-
 <template>
-    <div>
+    <div class="no-search">
         <img src="../../assets/dns.svg" alt="" />
         <h2>{{ i18n.templates.skeletons.noSearch.title }}</h2>
     </div>
