@@ -5,3 +5,4 @@ dev/
 .idea/
 .vscode/
 build/base.html
+build/inner_svg.js

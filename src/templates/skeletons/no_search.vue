@@ -16,19 +16,21 @@ limitations under the License.
 
 <template>
     <div class="no-search">
-        <img src="../../assets/dns.svg" alt="" />
+        <div v-html="innerSvg"></div>
         <h2>{{ i18n.templates.skeletons.noSearch.title }}</h2>
     </div>
 </template>
 
 <script>
     import i18n from "../../i18n"
+    import innerSvg from "../../../build/inner_svg"
 
     export default {
         name: "NoSearch",
         data() {
             return {
                 i18n,
+                innerSvg,
             }
         },
     }
