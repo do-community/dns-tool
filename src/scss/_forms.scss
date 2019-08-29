@@ -113,6 +113,8 @@ input {
       user-select: none;
       padding-left: 30px;
       position: relative;
+      margin-bottom: $margin / 2;
+      display: inline-block;
 
       &:before {
         content: "";
