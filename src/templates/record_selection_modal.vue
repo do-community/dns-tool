@@ -25,7 +25,7 @@ limitations under the License.
                 <button class="delete" :aria-label="i18n.common.close" @click="toggle"></button>
             </header>
             <section class="modal-card-body">
-                <div v-for="key in reports.keys()">
+                <div v-for="key in recordKeys">
                     <input :id="`dl-select-${key}`" :ref="key" type="checkbox" checked>
                     <label :for="`dl-select-${key}`">{{ key }} {{ i18n.common.records }}</label>
                 </div>
@@ -43,16 +43,19 @@ limitations under the License.
 </template>
 
 <script>
-    import { generateMdReport, generateTextReport, reports } from "../plain_text_reports"
+    import { generateMdReport, generateTextReport } from "../plain_text_reports"
     import i18n from "../i18n"
+    import recordsDataset from "../data/records"
+
+    const recordKeys = Object.keys(recordsDataset)
 
     export default {
         name: "RecordSelectionModal",
         data() {
             return {
                 toggled: false,
-                reports,
                 i18n,
+                recordKeys,
             }
         },
         methods: {

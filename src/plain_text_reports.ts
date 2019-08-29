@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import recordsDataset from "./data/records"
+
 export const reports = new Map<string, any>()
 
 const format = (data: any) => {
@@ -27,12 +29,12 @@ const format = (data: any) => {
 
 export const generateTextReport = (allowedRecords: string[]) => {
     let report = ""
-    for (const kv of reports.entries()) {
-        const key = kv[0]
+    for (const key of Object.keys(recordsDataset)) {
+        const value = reports.get(key)
+        if (!value) continue
         if (!allowedRecords.includes(key)) {
             continue
         }
-        const value = kv[1]
         let textValue = " None"
         if (value.Answer) {
             textValue = ""
@@ -48,12 +50,12 @@ export const generateTextReport = (allowedRecords: string[]) => {
 
 export const generateMdReport = (allowedRecords: string[]) => {
     let report = ""
-    for (const kv of reports.entries()) {
-        const key = kv[0]
+    for (const key of Object.keys(recordsDataset)) {
+        const value = reports.get(key)
+        if (!value) continue
         if (!allowedRecords.includes(key)) {
             continue
         }
-        const value = kv[1]
         let textValue = "No records present."
         if (value.Answer) {
             const unformattedKeys = Object.keys(value.Answer[0])
