@@ -14,15 +14,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-footer.footer {
+.footer {
   align-self: flex-end;
   width: 100%;
-  background: $panel;
+  background: $background;
   margin: $margin 0 0;
   padding: 0;
 
   .container {
-    padding: ($margin * 2) $margin $margin;
+    padding: ($margin * 3) 0 0;
     text-align: center;
+
+    p + p {
+      margin-top: $margin * 2;
+    }
   }
 }

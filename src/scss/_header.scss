@@ -15,6 +15,7 @@ limitations under the License.
 */
 
 .header {
+  position: relative;
   background: $header;
   padding: 60px 0 40px;
   margin: 0 0 26px;
@@ -47,18 +48,6 @@ limitations under the License.
       max-width: 800px;
       margin: 0 auto;
 
-      input[type=text] {
-        border-radius: 3px;
-        border: 0;
-        color: rgba(0, 0, 0, .7);
-        display: inline-block;
-        font-size: 18px;
-        font-weight: 400;
-        padding: 16px 26px;
-        margin: 0 0 20px;
-        width: 100%;
-      }
-
       .buttons {
         display: flex;
         flex-direction: row;
@@ -68,6 +57,6 @@ limitations under the License.
   }
 }
 
-.button.is-header {
+.button.is-header.is-mini {
   margin: 0 ($margin / 4);
 }

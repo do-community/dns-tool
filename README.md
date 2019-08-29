@@ -1,7 +1,9 @@
 # DNS Tool
+
 A simple browser-based tool to perform DNS lookups.
 
 ## Development/Building
+
 To setup the build/develop environment, you will need to run `npm i` with Node 10+ installed. This will install the dependencies to allow you to build the project.
 
 To start the development environment, simply run `npm run dev`. This will start a development server that will automatically reload the codebase when changes occur.
@@ -9,4 +11,12 @@ To start the development environment, simply run `npm run dev`. This will start 
 If you wish to host this on a service, simply run `npm run build`. You can then take the `dist` folder and put it on your web server/bucket. Travis CI does this automatically for this repository.
 
 ## Contributing
+
 If you are contributing, please read the [contributing file](CONTRIBUTING.md) before submitting your pull requests.
+
+## Thanks
+
+Thanks to [Cloudflare](https://cloudflare.com) for their great WHOIS/DNS-over-HTTPS APIs.
+You can learn more about the importance of DNS-over-HTTPS and how to use it [here](https://developers.cloudflare.com/1.1.1.1/dns-over-https/).
+
+Thanks to [Matthew Gall](https://twitter.com/matthewgall) for his wonderful [WHOIS API.](https://whoisjs.com/)

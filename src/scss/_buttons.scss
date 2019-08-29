@@ -38,12 +38,11 @@ limitations under the License.
 }
 
 .button {
-  font-family: $font-family;
   font-size: $font-size;
   font-weight: 600;
   text-transform: none;
   height: $height;
-  border-radius: 3px;
+  border-radius: 5px;
   border: none;
   padding: 0 (2 * $margin);
   margin: 0;
@@ -62,6 +61,10 @@ limitations under the License.
 
   &.is-header {
     @include button_style($background, $header, $header, $header-hover);
+
+    &.is-inverted {
+      @include button_style($header, $background, $background, darken($background, 5));
+    }
   }
 
   &.is-secondary {

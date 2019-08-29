@@ -4,8 +4,9 @@
   "description": "A simple browser-based tool to perform DNS lookups.",
   "license": "Apache-2.0",
   "scripts": {
-    "build": "parcel build ./src/index.html --public-url=./",
-    "dev": "parcel ./src/index.html",
+    "fetch-template": "node build/fetchTemplate.js",
+    "build": "npm run fetch-template && parcel build ./src/index.html --public-url=./",
+    "dev": "npm run fetch-template && parcel ./src/index.html",
     "lint": "tsc && eslint ./src/**/*.ts && eslint ./src/**/*.vue",
     "lint-and-fix": "tsc && eslint ./src/**/*.ts --fix && eslint ./src/**/*.vue --fix"
   },
@@ -37,6 +38,10 @@
     "@vue/component-compiler-utils": "^3.0.0",
     "eslint": "^6.2.2",
     "eslint-plugin-vue": "5.2.3",
+    "jsdom": "^15.1.1",
+    "node-fetch": "^2.6.0",
+    "posthtml": "^0.11.4",
+    "posthtml-extend": "^0.3.0",
     "sass": "^1.22.9",
     "typescript": "^3.5.3",
     "vue-template-compiler": "^2.6.10"

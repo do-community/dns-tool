@@ -63,7 +63,7 @@ strong {
 // Code
 :not(pre) > code {
   font-size: 14px;
-  font-family: 'Operator Mono', Consolas, monospace, serif;
+  font-family: $mono-font-family;
   white-space: nowrap;
   padding: 0 2px;
   border: $thin-border;
@@ -77,7 +77,7 @@ h2,
 h3,
 h4 {
   margin: 0 0 $margin;
-  font-family: $font-family;
+  font-family: $bold-font-family;
   color: $heading;
   text-transform: none;
 }

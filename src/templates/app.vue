@@ -15,20 +15,24 @@ limitations under the License.
 -->
 
 <template>
-    <div class="all">
-        <GHLink repo="https://github.com/do-community/dns-tool"></GHLink>
+    <div class="all dns-tool">
         <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
         <div class="header">
+            <GHLink repo="https://github.com/do-community/dns-tool"></GHLink>
             <div class="container">
                 <h1>{{ i18n.templates.app.title }}</h1>
                 <p>{{ i18n.templates.app.description }}</p>
                 <form autocomplete="on" @submit.prevent="searchDNSEvent">
-                    <input id="DomainInput" class="input" type="text" :placeholder="i18n.templates.app.domain">
+                    <div class="input-container">
+                        <label for="DomainInput" class="hidden">Search</label>
+                        <i class="fas fa-search"></i>
+                        <input id="DomainInput" class="input" type="text" :placeholder="i18n.templates.app.domain">
+                    </div>
                     <div class="buttons">
-                        <button id="SearchButton" class="button is-link">
+                        <button id="SearchButton" class="button is-header is-inverted">
                             {{ i18n.templates.app.searchButton }}
                         </button>
-                        <a v-if="data !== ''" class="button is-success" @click="toggleRecordTextModal">
+                        <a v-if="data !== ''" class="button is-header is-inverted" @click="toggleRecordTextModal">
                             {{ i18n.templates.app.textRecords }}
                         </a>
                     </div>
@@ -50,14 +54,12 @@ limitations under the License.
                 </div>
             </div>
         </div>
-        <footer class="footer">
+        <div class="footer">
             <div class="container">
                 <p><a href="#top" class="button is-primary is-small">{{ i18n.templates.app.backToTop }}</a></p>
                 <p v-html="i18n.templates.app.oss"></p>
-                <p v-html="i18n.templates.app.cfThanks"></p>
-                <p v-html="i18n.templates.app.mattThanks"></p>
             </div>
-        </footer>
+        </div>
     </div>
 </template>
 
