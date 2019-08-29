@@ -4,9 +4,14 @@
   "description": "A simple browser-based tool to perform DNS lookups.",
   "license": "Apache-2.0",
   "scripts": {
+    "build": "npm run build-js && npm run build-css && npm run build-html",
+    "build-js": "parcel build ./src/mount.js --out-dir dist --no-source-maps --no-content-hash",
+    "build-css": "parcel build ./src/scss/style.scss --out-dir dist --no-source-maps --no-content-hash",
+    "build-html": "npm run fetch-template && npm run build-index",
     "fetch-template": "node build/fetchTemplate.js",
-    "build": "npm run fetch-template && parcel build ./src/index.html --public-url=./ --no-minify",
-    "dev": "npm run fetch-template && parcel ./src/index.html",
+    "build-index": "node build/buildIndex.js",
+    "dev": "npm run fetch-template && npm run dev-parcel",
+    "dev-parcel": "parcel ./src/index.html --out-dir dev",
     "lint": "tsc && eslint ./src/**/*.ts && eslint ./src/**/*.vue",
     "lint-and-fix": "tsc && eslint ./src/**/*.ts --fix && eslint ./src/**/*.vue --fix"
   },
