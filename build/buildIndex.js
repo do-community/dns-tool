@@ -38,6 +38,6 @@ const main = async () => {
     // Export
     fs.writeFileSync(`${__dirname}/../dist/index.html`, result.html, { flag: 'w+' });
     console.log('...build successfully, saved to dist/index.html');
-}
+};
 
 main();
