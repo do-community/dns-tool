@@ -14,24 +14,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const fs = require("fs");
+const fs = require("fs")
 
 const main = () => {
-    console.log('Cleaning out dist directory...');
+    console.log('Cleaning out dist directory...')
 
     // Create target directory
-    const base = `${__dirname}/../dist`;
+    const base = `${__dirname}/../dist`
     if (!fs.existsSync(base)) {
-        fs.mkdirSync(base);
+        fs.mkdirSync(base)
     }
 
     // Remove all existing files
-    const existing = fs.readdirSync(base);
+    const existing = fs.readdirSync(base)
     existing.forEach(file => {
-        fs.unlinkSync(`${base}/${file}`);
-    });
+        fs.unlinkSync(`${base}/${file}`)
+    })
 
-    console.log('...dist directory cleaned for build.');
-};
+    console.log('...dist directory cleaned for build.')
+}
 
-main();
+main()

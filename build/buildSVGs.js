@@ -14,37 +14,37 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const fs = require("fs");
+const fs = require("fs")
 
 const main = () => {
-    console.log('Locating & building all SVG assets to JS data...');
+    console.log('Locating & building all SVG assets to JS data...')
 
     // Create target directory
     if (!fs.existsSync(`${__dirname}/svg`)) {
-        fs.mkdirSync(`${__dirname}/svg`);
+        fs.mkdirSync(`${__dirname}/svg`)
     }
 
     // Remove all existing JS SVG files
-    const existing = fs.readdirSync(`${__dirname}/svg`).filter(file => file.endsWith('.svg.js'));
+    const existing = fs.readdirSync(`${__dirname}/svg`).filter(file => file.endsWith('.svg.js'))
     existing.forEach(file => {
-        fs.unlinkSync(`${__dirname}/svg/${file}`);
-    });
+        fs.unlinkSync(`${__dirname}/svg/${file}`)
+    })
 
     // Locate all SVG asset files
-    const base = `${__dirname}/../src/assets`;
-    const files = fs.readdirSync(base).filter(file => file.endsWith('.svg'));
+    const base = `${__dirname}/../src/assets`
+    const files = fs.readdirSync(base).filter(file => file.endsWith('.svg'))
 
     // Convert to JS & save
     files.forEach(svg => {
-        const xml = fs.readFileSync(`${base}/dns.svg`);
+        const xml = fs.readFileSync(`${base}/dns.svg`)
         fs.writeFileSync(
             `${__dirname}/svg/${svg}.js`,
             `// This file was automatically generated.\nexport default \`\n${xml}\n\`\n`,
             { flag: 'w+' }
-        );
-    });
+        )
+    })
 
-    console.log('...all SVGs converted to JS data successfully.');
-};
+    console.log('...all SVGs converted to JS data successfully.')
+}
 
-main();
+main()

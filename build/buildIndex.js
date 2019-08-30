@@ -14,30 +14,30 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const posthtml = require('posthtml');
-const fs = require('fs');
+const posthtml = require('posthtml')
+const fs = require('fs')
 
 const main = async () => {
-    console.log('Loading in src/index.html & building...');
+    console.log('Loading in src/index.html & building...')
 
     // Get source HTML
-    let source = fs.readFileSync(`${__dirname}/../src/index.html`).toString();
+    let source = fs.readFileSync(`${__dirname}/../src/index.html`).toString()
 
     // Replace SCSS w/ CSS
-    source = source.replace(/href="scss\/style\.scss"/, 'href="style.css"');
+    source = source.replace(/href="scss\/style\.scss"/, 'href="style.css"')
 
     // Load extend plugin
     const post = posthtml([require('posthtml-extend')({
         encoding: 'utf8',
         root: 'src/'
-    })]);
+    })])
 
     // Process
-    const result = await post.process(source);
+    const result = await post.process(source)
 
     // Export
-    fs.writeFileSync(`${__dirname}/../dist/index.html`, result.html, { flag: 'w+' });
-    console.log('...build successfully, saved to dist/index.html');
-};
+    fs.writeFileSync(`${__dirname}/../dist/index.html`, result.html, { flag: 'w+' })
+    console.log('...build successfully, saved to dist/index.html')
+}
 
-main();
+main()
