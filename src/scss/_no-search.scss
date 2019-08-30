@@ -18,8 +18,15 @@
     color: #505159;
   }
 
-  img {
-    width: 512px;
-    max-width: 100%;
+  .graphic {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+
+    svg {
+      width: 512px;
+      max-width: 90%;
+    }
   }
 }

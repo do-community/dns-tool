@@ -24,9 +24,9 @@ const main = async () => {
     let source = fs.readFileSync(`${__dirname}/../src/index.html`).toString()
 
     // Replace SCSS w/ CSS
-    source = source.replace(/href="scss\/style\.scss"/, 'href="style.css"')
+    source = source.replace('href="scss/style.scss"', 'href="style.css"')
 
-    // Load extend plugin
+    // Load posthtml plugins
     const config = require(`${__dirname}/../.posthtmlrc`)
     const plugins = []
     Object.keys(config.plugins).forEach(plugin => {

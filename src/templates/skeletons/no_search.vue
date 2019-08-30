@@ -16,7 +16,7 @@ limitations under the License.
 
 <template>
     <div class="no-search">
-        <div v-html="dnsSVG"></div>
+        <div class="graphic" v-html="dnsSVG"></div>
         <h2>{{ i18n.templates.skeletons.noSearch.title }}</h2>
     </div>
 </template>
