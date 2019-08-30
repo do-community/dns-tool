@@ -27,10 +27,13 @@ const main = async () => {
     source = source.replace(/href="scss\/style\.scss"/, 'href="style.css"')
 
     // Load extend plugin
-    const post = posthtml([require('posthtml-extend')({
-        encoding: 'utf8',
-        root: 'src/'
-    })])
+    const config = require(`${__dirname}/../.posthtmlrc`)
+    const plugins = []
+    Object.keys(config.plugins).forEach(plugin => {
+        const pl = require(plugin)
+        plugins.push(pl(config.plugins[plugin]))
+    })
+    const post = posthtml(plugins)
 
     // Process
     const result = await post.process(source)
