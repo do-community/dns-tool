@@ -37,7 +37,7 @@ limitations under the License.
 </template>
 
 <script>
-    import cfWHO from "../utils/cfWHO"
+    import cfAbuseData from "../utils/cfAbuseData"
     import geoJS from "../utils/geoJS"
     import VueTippy from "vue-tippy"
     import Vue from "vue"
@@ -76,7 +76,7 @@ limitations under the License.
                 this.$data.expand = !this.$data.expand
             },
             async handleInit() {
-                const json = await (await cfWHO(this.$props.ip)).json()
+                const json = await (await cfAbuseData(this.$props.ip)).json()
                 const geoIpJson = await (await geoJS(this.$props.ip)).json()
                 this.countryCode = geoIpJson.country_code ? geoIpJson.country_code.toLowerCase() : ""
                 this.netname = json.results[0].netname ? json.results[0].netname : i18n.templates.whois.notSpecified
