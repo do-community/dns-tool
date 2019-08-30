@@ -16,7 +16,7 @@ limitations under the License.
 
 export default async (ip: string) => {
     return await fetch(
-        `https://cfwho.com/get/${ip}`,
+        `https://abuse.ts.cfdata.org/get/${ip}`,
         {
             headers: {
                 Accept: "application/json",
