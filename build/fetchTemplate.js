@@ -14,18 +14,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
+const jsdom = require("jsdom")
+const { JSDOM } = jsdom
 const fetch = require('node-fetch')
 const fs = require('fs')
 
 const main = async () => {
     console.log('Fetching Community Tools template from www.digitalocean.com...')
+
+    // Fetch raw template
     const res = await fetch('https://www.digitalocean.com/community/tools?render_as_empty=1')
     let rawHTML = await res.text()
 
     // Parse
-    const { document } = (new JSDOM(rawHTML)).window;
+    const { document } = (new JSDOM(rawHTML)).window
     const nav = document.querySelector('nav.do_nav')
 
     // Nuke top log in button
@@ -73,8 +75,8 @@ const main = async () => {
     rawHTML = rawHTML.replace('<head>', `<head><!-- Last fetch from www.digitalocean.com @ ${(new Date()).toISOString()} -->`)
 
     // Export
-    fs.writeFileSync(`${__dirname}/base.html`, rawHTML)
-    console.log('...fetching & conversion completed, saved to base.html')
+    fs.writeFileSync(`${__dirname}/base.html`, rawHTML, { flag: 'w+' })
+    console.log('...fetching & conversion completed, saved to build/base.html')
 }
 
 main()
