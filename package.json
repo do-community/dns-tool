@@ -4,7 +4,8 @@
   "description": "A simple browser-based tool to perform DNS lookups.",
   "license": "Apache-2.0",
   "scripts": {
-    "build": "npm run build:js && npm run build:css && npm run build:html",
+    "build": "npm run build:clean && npm run build:js && npm run build:css && npm run build:html",
+    "build:clean": "node ./build/cleanDist.js",
     "build:js": "npm run build:js:svg && npm run build:js:parcel",
     "build:js:svg": "node ./build/buildSVGs.js",
     "build:js:parcel": "parcel build ./src/mount.js --out-dir dist --no-source-maps --no-content-hash",

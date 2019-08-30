@@ -19,18 +19,23 @@ const fs = require("fs");
 const main = () => {
     console.log('Locating & building all SVG assets to JS data...');
 
-    // Locate all SVG asset files
-    const base = `${__dirname}/../src/assets`;
-    const files = fs.readdirSync(base);
-    const svgs = files.filter(file => file.endsWith('.svg'));
-
     // Create target directory
     if (!fs.existsSync(`${__dirname}/svg`)) {
         fs.mkdirSync(`${__dirname}/svg`);
     }
 
+    // Remove all existing JS SVG files
+    const existing = fs.readdirSync(`${__dirname}/svg`).filter(file => file.endsWith('.svg.js'));
+    existing.forEach(file => {
+        fs.unlinkSync(`${__dirname}/svg/${file}`);
+    });
+
+    // Locate all SVG asset files
+    const base = `${__dirname}/../src/assets`;
+    const files = fs.readdirSync(base).filter(file => file.endsWith('.svg'));
+
     // Convert to JS & save
-    svgs.forEach(svg => {
+    files.forEach(svg => {
         const xml = fs.readFileSync(`${base}/dns.svg`);
         fs.writeFileSync(
             `${__dirname}/svg/${svg}.js`,
@@ -38,6 +43,8 @@ const main = () => {
             { flag: 'w+' }
         );
     });
+
+    console.log('...all SVGs converted to JS data successfully.');
 };
 
 main();
