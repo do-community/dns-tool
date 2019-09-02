@@ -5,5 +5,5 @@ export default {
     backToTop: "Back To Top",
     textRecords: "Get records in text/markdown form",
     domain: "Domain name",
-    oss: `This tool is <a href="https://github.com/do-community/dns-tool">open-source on GitHub</a> under the <a href="https://github.com/do-community/dns-tool/blob/master/LICENSE">Apache-2.0</a> license! We welcome feedback and contributions.`,
+    oss: `This tool is {link|open-source on GitHub|https://github.com/do-community/dns-tool} under the {link|Apache-2.0|https://github.com/do-community/dns-tool/blob/master/LICENSE} license! We welcome feedback and contributions.`,
 } as {[key: string]: string}

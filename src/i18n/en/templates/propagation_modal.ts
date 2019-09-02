@@ -5,7 +5,7 @@ export default {
                 <br><br>
                 Due to various caches at user and DNS server levels, it may take some time for all your users to see the new records.
                 <br><br>
-                If you use a fast updating DNS such as <a href="https://1.1.1.1">Cloudflare DNS</a>, it may be possible to get the new values locally by flushing your DNS cache.
+                If you use a fast updating DNS such as {link|Cloudflare DNS|https://1.1.1.1}, it may be possible to get the new values locally by flushing your DNS cache.
                 Here is how you do it on several operating systems:
                 <hr>
                 <b>Windows:</b> Press the Windows Key and R together. You should get a "Run" box. Type <code>ipconfig /flushdns</code> in the box and press OK. You should see a brief flash of a black box. Your cache should then be invalidated.
@@ -16,7 +16,7 @@ export default {
                 <br><br>
                 <b>iPadOS:</b> Turning off and on Airplane mode will flush your DNS cache.
                 <hr>
-                If you are still unable to get the correct results, you can check the propagation status using a <a href="{{DEEPLINK}}" target="_blank" rel="noreferrer">propagation checker</a>.
+                If you are still unable to get the correct results, you can check the propagation status using a {link|propagation checker|{{DEEPLINK}}}.
     `,
     title: "DNS Propagation",
 } as {[key: string]: string}

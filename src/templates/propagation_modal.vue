@@ -24,17 +24,25 @@ limitations under the License.
                 </p>
                 <button class="delete" :aria-label="i18n.common.close" @click="toggle"></button>
             </header>
-            <section class="modal-card-body" v-html="tutorial"></section>
+            <section class="modal-card-body">
+                <span v-for="part in splitUrlText(tutorial)">
+                    <span v-if="typeof part === 'string'" v-html="part"></span>
+                    <span v-else>
+                        <ExternalLink :text="part[0]" :link="part[1]"></ExternalLink>
+                    </span>
+                </span>
+            </section>
         </div>
     </div>
 </template>
 
 <script>
     import i18n from "../i18n"
+    import dataUrlParser from "../utils/dataUrlParser"
+    import ExternalLink from "./ext_link"
 
     let recordType, recordHost
     const deeplink = () => {
-        console.log(recordType, recordHost)
         const link = 'https://dnschecker.org/'
         if (!recordType || !recordHost) return link
         return `${link}#${recordType.toUpperCase()}/${recordHost}`
@@ -43,6 +51,9 @@ limitations under the License.
 
     export default {
         name: "PropagationModal",
+        components: {
+            ExternalLink,
+        },
         data() {
             return {
                 tutorial: content(),
@@ -51,8 +62,10 @@ limitations under the License.
             }
         },
         methods: {
+            splitUrlText(text) {
+                return dataUrlParser(text)
+            },
             setData(newRecordType, newRecordHost) {
-                console.log(newRecordType)
                 recordType = newRecordType
                 recordHost = newRecordHost
                 this.$data.tutorial = content()
