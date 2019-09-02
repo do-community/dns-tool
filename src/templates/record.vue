@@ -196,13 +196,14 @@ limitations under the License.
                     checkIfTrue()
                 })
             },
-            standardiseGoogleCf(item) {
+            standardiseGoogleCf(item, record) {
                 const numberSpaceItem = /[0-9]+ (.+)/
                 const oddSpfEdgecase = /include:_spf\" +\"/g
                 item = item.toString().trim()
                 const numberSpaceMatch = item.match(numberSpaceItem)
                 if (numberSpaceMatch) item = numberSpaceMatch[1]
                 if (item.match(oddSpfEdgecase)) item = item.replace(oddSpfEdgecase, "include:_spf\"\"")
+                if (record === "SSHFP") item = item.toLowerCase()
                 return item
             },
             async handleSecondaryLookup(answer, record, name) {
@@ -213,10 +214,10 @@ limitations under the License.
                 const googleData = []
                 const cfData = []
                 for (const a of answer) {
-                    if (a.data) cfData.push(this.standardiseGoogleCf(a.data))
+                    if (a.data) cfData.push(this.standardiseGoogleCf(a.data, record))
                 }
                 for (const a of gAnswer) {
-                    if (a.data) googleData.push(this.standardiseGoogleCf(a.data))
+                    if (a.data) googleData.push(this.standardiseGoogleCf(a.data, record))
                 }
 
                 const differences = []
