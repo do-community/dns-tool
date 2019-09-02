@@ -104,6 +104,9 @@ limitations under the License.
 
 .fa, .far, .fab {
   &.help {
+    display: inline-block;
+    font-size: 1em;
+    margin: 0;
     cursor: pointer;
   }
 }
