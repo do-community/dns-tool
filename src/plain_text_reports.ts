@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import recordsDataset from "./data/records"
+
 export const reports = new Map<string, any>()
 
 const format = (data: any) => {
@@ -27,12 +29,12 @@ const format = (data: any) => {
 
 export const generateTextReport = (allowedRecords: string[]) => {
     let report = ""
-    for (const kv of reports.entries()) {
-        const key = kv[0]
+    for (const key of Object.keys(recordsDataset)) {
+        const value = reports.get(key)
+        if (!value) continue
         if (!allowedRecords.includes(key)) {
             continue
         }
-        const value = kv[1]
         let textValue = " None"
         if (value.Answer) {
             textValue = ""
@@ -48,35 +50,32 @@ export const generateTextReport = (allowedRecords: string[]) => {
 
 export const generateMdReport = (allowedRecords: string[]) => {
     let report = ""
-    for (const kv of reports.entries()) {
-        const key = kv[0]
+    for (const key of Object.keys(recordsDataset)) {
+        const value = reports.get(key)
+        if (!value) continue
         if (!allowedRecords.includes(key)) {
             continue
         }
-        const value = kv[1]
-        let textValue = "No records present."
+        let textValue = "No records present.\n"
         if (value.Answer) {
             const unformattedKeys = Object.keys(value.Answer[0])
             const keys: string[] = []
+            const dividers: string[] = []
             for (const key of unformattedKeys) {
-                keys.push(`${key.substr(0, 1).toUpperCase()}${key.substr(1)}`)
+                const keyFormat = `${key.substr(0, 1).toUpperCase()}${key.substr(1)}`
+                keys.push(keyFormat)
+                dividers.push("-".repeat(keyFormat.length + 2))
             }
-            let dividers = ""
-            let i = 0
-            while (i !== keys.length) {
-                dividers += "--- | "
-                i++
-            }
-            textValue = `${keys.join("|")}\n${dividers}\n`
+            textValue = `| ${keys.join(" | ")} |\n|${dividers.join("|")}|\n`
             for (const answer of value.Answer) {
                 const parts = []
                 for (const part of Object.values(answer)) {
                     parts.push(String(part))
                 }
-                textValue += parts.join(" | ") + "\n"
+                textValue += `| ${parts.join(" | ")} |\n`
             }
         }
-        report += `# ${key} Records\n${textValue}\n`
+        report += `# ${key} Records\n\n${textValue}\n`
     }
     return report
 }

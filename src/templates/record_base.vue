@@ -27,6 +27,7 @@ limitations under the License.
                 :record-description="record.description"
                 :data="$props.data"
                 :expects-host="record.expectsHost"
+                :loading="$props.loading"
                 @propagation-toggle="toggleModal"
             />
         </div>
@@ -48,6 +49,7 @@ limitations under the License.
         props: {
             data: String,
             registrar: String,
+            loading: Boolean,
         },
         data() {
             return {

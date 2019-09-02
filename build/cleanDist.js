@@ -14,13 +14,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-export default async (ip: string) => {
-    return await fetch(
-        `https://cfwho.com/get/${ip}`,
-        {
-            headers: {
-                Accept: "application/json",
-            },
-        }
-    )
+const fs = require("fs")
+
+const main = () => {
+    console.log('Cleaning out dist directory...')
+
+    // Create target directory
+    const base = `${__dirname}/../dist`
+    if (!fs.existsSync(base)) {
+        fs.mkdirSync(base)
+    }
+
+    // Remove all existing files
+    const existing = fs.readdirSync(base)
+    existing.forEach(file => {
+        fs.unlinkSync(`${base}/${file}`)
+    })
+
+    console.log('...dist directory cleaned for build.')
 }
+
+main()

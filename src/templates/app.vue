@@ -14,55 +14,51 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<style>
-  @keyframes skeleton-loading {
-    0% { opacity: 0.7; }
-    25% { opacity: 0.9; }
-    50% { opacity: 0.7; }
-    75% { opacity: 0.5; }
-    100% { opacity: 0.7; }
-  }
-</style>
-
 <template>
-    <div>
-        <GHLink repo="https://github.com/do-community/dns-tool"></GHLink>     
-        <div class="container" style="display: flex; flex-direction: column;">
-            <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
-            <div id="top" class="has-text-centered" style="padding-left: 30%; padding-right: 30%; margin-top: 10px">
-                <h2 class="title is-2">
-                    {{ i18n.templates.app.title }}
-                </h2>
-                <h5 class="title is-5">
-                    {{ i18n.templates.app.description }}
-                </h5>
-                <span v-if="data !== ''">
-                    <hr style="margin: 10px">
-                    <p><a @click="toggleRecordTextModal">{{ i18n.templates.app.textRecords }}</a></p>
-                </span>
-                <form autocomplete="on" style="margin-top: 20px" @submit.prevent="searchDNSEvent">
-                    <input id="DomainInput" class="input" type="text" :placeholder="i18n.templates.app.domain">
-                    <button id="SearchButton" class="button is-link" style="margin-top: 20px">
-                        {{ i18n.templates.app.searchButton }}
-                    </button>
+    <div class="all dns-tool">
+        <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
+        <div class="header">
+            <GHLink repo="https://github.com/do-community/dns-tool"></GHLink>
+            <div class="container">
+                <h1>{{ i18n.templates.app.title }}</h1>
+                <p>{{ i18n.templates.app.description }}</p>
+                <form autocomplete="on" @submit.prevent="searchDNSEvent">
+                    <div class="input-container">
+                        <label for="DomainInput" class="hidden">Search</label>
+                        <i class="fas fa-search"></i>
+                        <input id="DomainInput" class="input" type="text" :placeholder="i18n.templates.app.domain">
+                    </div>
+                    <div class="buttons">
+                        <button id="SearchButton" class="button is-header is-inverted">
+                            {{ i18n.templates.app.searchButton }}
+                        </button>
+                        <a v-if="data !== ''" class="button is-header is-inverted" @click="toggleRecordTextModal">
+                            {{ i18n.templates.app.textRecords }}
+                        </a>
+                    </div>
                 </form>
             </div>
-            <hr>
+        </div>
+        <div class="main container" :style="{opacity: contentOpacity}">
             <div id="content">
-                <RecordJumps :loaded="data !== ''"></RecordJumps>
-                <DODNS :loaded="data !== ''" :data="data"></DODNS>
-                <RecordBase ref="RecordBase" :data="data" :registrar="registrar"></RecordBase>
-            </div>
-            <footer class="footer" style="align-self: flex-end; padding: 20px; width: 100%;">
-                <div class="content has-text-centered">
-                    <p>
-                        <a href="#top">{{ i18n.templates.app.backToTop }}</a>
-                    </p>
-                    <p v-html="i18n.templates.app.oss"></p>
-                    <p v-html="i18n.templates.app.cfThanks"></p>
-                    <p v-html="i18n.templates.app.mattThanks"></p>
+                <RecordJumps :loaded="data !== ''" :loading="siteLoading"></RecordJumps>
+                <DODNS :loaded="data !== ''" :data="data" :loading="siteLoading"></DODNS>
+                <div v-if="firstSearch">
+                    <NoSearch v-if="data === ''"></NoSearch>
+                    <RecordSkeleton :loading="false"></RecordSkeleton>
+                    <RecordSkeleton :loading="false"></RecordSkeleton>
+                    <RecordSkeleton :loading="false"></RecordSkeleton>
                 </div>
-            </footer>
+                <div :style="`${firstSearch ? 'display: none; visibility: hidden;' : ''}`">
+                    <RecordBase ref="RecordBase" :data="data" :registrar="registrar" :loading="siteLoading"></RecordBase>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="container">
+                <p><a href="#top" class="button is-primary is-small">{{ i18n.templates.app.backToTop }}</a></p>
+                <p v-html="i18n.templates.app.oss"></p>
+            </div>
         </div>
     </div>
 </template>
@@ -77,6 +73,8 @@ limitations under the License.
     import RecordSelectionModal from "./record_selection_modal"
     import GHLink from "./gh_link"
     import cfDNS from "../utils/cfDNS"
+    import NoSearch from "./skeletons/no_search"
+    import RecordSkeleton from "./skeletons/record"
 
     const stripHttps = /(https*:\/\/)*(.+)*/
     const isHostname = /.*\.[a-z]+/
@@ -84,6 +82,8 @@ limitations under the License.
     export default {
         name: "App",
         components: {
+            NoSearch,
+            RecordSkeleton,
             RecordBase,
             DODNS,
             RecordJumps,
@@ -98,6 +98,7 @@ limitations under the License.
                 i18n,
                 siteLoading: false,
                 registrar: "",
+                contentOpacity: 1,
             }
         },
         mounted() {
@@ -109,8 +110,8 @@ limitations under the License.
         },
         methods: {
             error(message) {
-                document.querySelectorAll("[data-skeleton]").forEach(elm => elm.style.animationPlayState = "paused")
                 alert(message)
+                this.$data.contentOpacity = 1
             },
             async searchWait() {
                 await this.$refs.RecordBase.wait()
@@ -132,6 +133,7 @@ limitations under the License.
                     el.classList.add("is-loading")
 
                     if (this.$data.siteLoading) return
+                    this.$data.contentOpacity = 0
 
                     const domainInput = document.getElementById("DomainInput")
 
@@ -145,15 +147,16 @@ limitations under the License.
                     const json = await domainLookup.json()
                     if (json.Status !== 0) return this.error("Invalid domain.")
 
+                    this.$data.firstSearch = false
+                    this.$data.siteLoading = true
+                    this.$data.contentOpacity = 1
+
                     this.setRegistrar(text)
 
                     if (!this.$data.linked) window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
 
-                    document.querySelectorAll("[data-skeleton]").forEach(elm => elm.style.animationPlayState = "running")
-
                     reports.clear()
                     this.$data.linked = null
-                    this.$data.firstSearch = false
                     this.$data.data = text
                     await this.searchWait()
                 } finally {

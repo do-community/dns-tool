@@ -15,28 +15,23 @@ limitations under the License.
 -->
 
 <template>
-    <div>
-        <p>
-            <span v-for="_ in records" class="data-skeleton":style="{ ...getSkeletonStyle(75, 150), display: 'inline-block', marginRight: '0.2em' }"></span>
-        </p>
-        <hr>
+    <div class="no-search">
+        <div class="graphic" v-html="dnsSVG"></div>
+        <h2>{{ i18n.templates.skeletons.noSearch.title }}</h2>
     </div>
 </template>
 
 <script>
-    import { getSkeletonStyle } from "../../utils/skeletonStyle"
-    import VueifiedRecords from "../../data/vueified_records"
+    import i18n from "../../i18n"
+    import dnsSVG from "../../../build/svg/dns.svg"
 
     export default {
-        name: "RecordJumpsSkeleton",
-        props: {
-            loaded: Boolean,
-        },
+        name: "NoSearch",
         data() {
             return {
-                records: VueifiedRecords,
+                i18n,
+                dnsSVG,
             }
         },
-        methods: { getSkeletonStyle },
     }
 </script>
