@@ -16,7 +16,7 @@ export default {
                 <br><br>
                 <b>iPadOS:</b> Turning off and on Airplane mode will flush your DNS cache.
                 <hr>
-                If you are still unable to get the correct results, you can check the propagation status using a <a href="https://dnschecker.org/">propagation checker</a>.
+                If you are still unable to get the correct results, you can check the propagation status using a <a href="{{DEEPLINK}}">propagation checker</a>.
     `,
     title: "DNS Propagation",
 } as {[key: string]: string}

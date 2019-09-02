@@ -24,7 +24,7 @@ limitations under the License.
                 </p>
                 <button class="delete" :aria-label="i18n.common.close" @click="toggle"></button>
             </header>
-            <section class="modal-card-body" v-html="i18n.templates.propagationModal.tutorial"></section>
+            <section class="modal-card-body" v-html="tutorial"></section>
         </div>
     </div>
 </template>
@@ -32,15 +32,31 @@ limitations under the License.
 <script>
     import i18n from "../i18n"
 
+    let recordType, recordHost
+    const deeplink = () => {
+        console.log(recordType, recordHost)
+        const link = 'https://dnschecker.org/'
+        if (!recordType || !recordHost) return link
+        return `${link}#${recordType.toUpperCase()}/${recordHost}`
+    }
+    const content = () => i18n.templates.propagationModal.tutorial.replace("{{DEEPLINK}}", deeplink())
+
     export default {
         name: "PropagationModal",
         data() {
             return {
+                tutorial: content(),
                 toggled: false,
                 i18n,
             }
         },
         methods: {
+            setData(newRecordType, newRecordHost) {
+                console.log(newRecordType)
+                recordType = newRecordType
+                recordHost = newRecordHost
+                this.$data.tutorial = content()
+            },
             toggle() {
                 this.$data.toggled = !this.$data.toggled
             },
