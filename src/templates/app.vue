@@ -57,7 +57,16 @@ limitations under the License.
         <div class="footer">
             <div class="container">
                 <p><a href="#top" class="button is-primary is-small">{{ i18n.templates.app.backToTop }}</a></p>
-                <p v-html="i18n.templates.app.oss"></p>
+                <p>
+                    <span v-for="part in splitUrlText(i18n.templates.app.oss)">
+                        <span v-if="typeof part === 'string'">
+                            {{ part }}
+                        </span>
+                        <span v-else>
+                            <ExternalLink :text="part[0]" :link="part[1]"></ExternalLink>
+                        </span>
+                    </span>
+                </p>
             </div>
         </div>
     </div>
@@ -75,6 +84,8 @@ limitations under the License.
     import cfDNS from "../utils/cfDNS"
     import NoSearch from "./skeletons/no_search"
     import RecordSkeleton from "./skeletons/record"
+    import ExternalLink from "./ext_link"
+    import dataUrlParser from "../utils/dataUrlParser"
 
     const stripHttps = /(https*:\/\/)*(.+)*/
     const isHostname = /.*\.[a-z]+/
@@ -89,6 +100,7 @@ limitations under the License.
             RecordJumps,
             RecordSelectionModal,
             GHLink,
+            ExternalLink,
         },
         data() {
             return {
@@ -109,6 +121,9 @@ limitations under the License.
             }
         },
         methods: {
+            splitUrlText(text) {
+                return dataUrlParser(text)
+            },
             error(message) {
                 alert(message)
                 this.$data.contentOpacity = 1

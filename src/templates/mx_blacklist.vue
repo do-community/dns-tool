@@ -28,7 +28,7 @@ limitations under the License.
             </p>
         </div>
         <p style="font-size: 11px">
-            <a href="https://www.techwalla.com/articles/what-does-it-mean-if-an-email-address-is-blacklisted">{{ i18n.templates.mxBlacklist.whatDoesItMean }}</a>
+            <ExternalLink :text="i18n.templates.mxBlacklist.whatDoesItMean" link="https://www.techwalla.com/articles/what-does-it-mean-if-an-email-address-is-blacklisted"></ExternalLink>
         </p>
     </div>
 </template>
@@ -36,9 +36,13 @@ limitations under the License.
 <script>
     import getBlacklists from "../blacklists"
     import i18n from "../i18n"
+    import ExternalLink from "./ext_link"
 
     export default {
         name: "MXBlacklist",
+        components: {
+            ExternalLink,
+        },
         props: {
             ip: String,
             hostname: String,

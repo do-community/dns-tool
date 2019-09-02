@@ -28,7 +28,7 @@ limitations under the License.
                 :data="$props.data"
                 :expects-host="record.expectsHost"
                 :loading="$props.loading"
-                @propagation-toggle="toggleModal"
+                @propagation-toggle="toggleModal(record.name)"
             />
         </div>
     </div>
@@ -78,7 +78,8 @@ limitations under the License.
                 }
                 await Promise.all(promises)
             },
-            toggleModal() {
+            toggleModal(recordType) {
+                this.$refs.PropagationModal.setData(recordType, this.$props.data)
                 this.$refs.PropagationModal.toggle()
             },
         },
