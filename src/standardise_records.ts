@@ -60,7 +60,7 @@ export default (key: string, json: any, txtRecordFragments: any, recordsJoined: 
         const newRecords = []
         for (const record of json.Answer) {
             const recordData = record.data.startsWith("\"") ? record.data.substr(1).slice(0, -1) : record.data
-            const dataSplit =  recordData.split(";")
+            const dataSplit = recordData.split(";")
             for (const newSplit of dataSplit) {
                 if (newSplit === "") continue
 
@@ -117,6 +117,15 @@ export default (key: string, json: any, txtRecordFragments: any, recordsJoined: 
                 delete json.Answer[record]
                 continue
             }
+        }
+    } else if (key === "SRV") {
+        for (const record of json.Answer) {
+            const dataSplit = record.data.split(" ").reverse()
+            record.priority = dataSplit.pop()
+            record.weight = dataSplit.pop()
+            record.port = dataSplit.pop()
+            record.target = dataSplit.reverse().join(" ")
+            delete record.data
         }
     }
 

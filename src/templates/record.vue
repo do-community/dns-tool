@@ -25,10 +25,11 @@ limitations under the License.
             </h3>
             <p>
                 <span v-html="this.$props.recordDescription"></span>
-                <a :href="this.$props.recordUrl">{{ i18n.templates.records.learnMore }}</a>
+                <ExternalLink :link="this.$props.recordUrl" :text="i18n.templates.records.learnMore"></ExternalLink>
             </p>
             <div v-if="recordKeys.length === 0">
                 <p><b>{{ i18n.templates.records.noRecords }}</b></p>
+                <p v-if="this.$props.recordType === 'SRV'" v-html="i18n.templates.records.srvFormat"></p>
             </div>
             <div v-else>
                 <table class="table">
@@ -84,7 +85,9 @@ limitations under the License.
                 <DNSDiff ref="DNSDiff" :dns-differences="dnsDifferences" :record-type="recordType"></DNSDiff>
             </div>
             <p v-if="learnMore" style="margin-top: 20px">
-                <a :href="learnMore">{{ i18n.templates.records.learnHow.replace("{record}", this.$props.recordType) }}</a>
+                <ExternalLink :link="learnMore"
+                              :text="i18n.templates.records.learnHow.replace('{record}', this.$props.recordType)"
+                ></ExternalLink>
             </p>
         </div>
         <div v-else>
@@ -112,6 +115,7 @@ limitations under the License.
     import i18n from "../i18n"
     import DNSDiff from "./dns_diff"
     import { reports } from "../plain_text_reports"
+    import ExternalLink from "./ext_link"
 
     const trimmers = {}
     for (const recordKey in records)
@@ -141,6 +145,7 @@ limitations under the License.
             MXBlacklist,
             RecordSkeleton,
             DNSDiff,
+            ExternalLink,
         },
         props: {
             recordUrl: String,

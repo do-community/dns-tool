@@ -24,23 +24,52 @@ limitations under the License.
                 </p>
                 <button class="delete" :aria-label="i18n.common.close" @click="toggle"></button>
             </header>
-            <section class="modal-card-body" v-html="i18n.templates.propagationModal.tutorial"></section>
+            <section class="modal-card-body">
+                <span v-for="part in splitUrlText(tutorial)">
+                    <span v-if="typeof part === 'string'" v-html="part"></span>
+                    <span v-else>
+                        <ExternalLink :text="part[0]" :link="part[1]"></ExternalLink>
+                    </span>
+                </span>
+            </section>
         </div>
     </div>
 </template>
 
 <script>
     import i18n from "../i18n"
+    import dataUrlParser from "../utils/dataUrlParser"
+    import ExternalLink from "./ext_link"
+
+    let recordType, recordHost
+    const deeplink = () => {
+        const link = 'https://dnschecker.org/'
+        if (!recordType || !recordHost) return link
+        return `${link}#${recordType.toUpperCase()}/${recordHost}`
+    }
+    const content = () => i18n.templates.propagationModal.tutorial.replace("{{DEEPLINK}}", deeplink())
 
     export default {
         name: "PropagationModal",
+        components: {
+            ExternalLink,
+        },
         data() {
             return {
+                tutorial: content(),
                 toggled: false,
                 i18n,
             }
         },
         methods: {
+            splitUrlText(text) {
+                return dataUrlParser(text)
+            },
+            setData(newRecordType, newRecordHost) {
+                recordType = newRecordType
+                recordHost = newRecordHost
+                this.$data.tutorial = content()
+            },
             toggle() {
                 this.$data.toggled = !this.$data.toggled
             },
