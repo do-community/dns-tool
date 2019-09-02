@@ -208,7 +208,7 @@ limitations under the License.
                 const numberSpaceMatch = item.match(numberSpaceItem)
                 if (numberSpaceMatch) item = numberSpaceMatch[1]
                 if (item.match(oddSpfEdgecase)) item = item.replace(oddSpfEdgecase, "include:_spf\"\"")
-                if (record === "SSHFP") item = item.toLowerCase()
+                if (record === "SSHFP" || record === "TLSA") item = item.toLowerCase()
                 return item
             },
             async handleSecondaryLookup(answer, record, name) {
