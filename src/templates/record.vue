@@ -29,6 +29,7 @@ limitations under the License.
             </p>
             <div v-if="recordKeys.length === 0">
                 <p><b>{{ i18n.templates.records.noRecords }}</b></p>
+                <p v-if="this.$props.recordType === 'SRV'" v-html="i18n.templates.records.srvFormat"></p>
             </div>
             <div v-else>
                 <table class="table">

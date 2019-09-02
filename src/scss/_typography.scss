@@ -62,13 +62,16 @@ strong {
 
 // Code
 :not(pre) > code {
+  color: lighten($text, 20);
   font-size: 14px;
   font-family: $mono-font-family;
   white-space: nowrap;
-  padding: 0 2px;
+  padding: $margin * 0.75;
+  margin: ($margin * 0.5) 0;
   border: $thin-border;
   border-radius: $border-radius;
   background: $panel;
+  display: inline-block;
 }
 
 // Headings
