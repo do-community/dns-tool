@@ -95,9 +95,9 @@ export default (key: string, json: any, txtRecordFragments: any, recordsJoined: 
             const dataSplit = record.data.split(" ")
             newRecords.push({
                 name: record.name,
-                usage: sshfpAlgorithm[Number(dataSplit[0])] || "Unknown",
-                selector: sshfpFingerprint[Number(dataSplit[1])] || "Unknown",
-                "Matching Type": sshfpFingerprint[Number(dataSplit[2])] || "Unknown",
+                usage: tlsaUsage[Number(dataSplit[0])] || "Unknown",
+                selector: tlsaSelector[Number(dataSplit[1])] || "Unknown",
+                "Matching Type": tlsaMatchingType[Number(dataSplit[2])] || "Unknown",
                 fingerprint: dataSplit[3],
                 TTL: record.TTL,
                 type: undefined,
