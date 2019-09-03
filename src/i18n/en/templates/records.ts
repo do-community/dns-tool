@@ -4,6 +4,6 @@ export default {
     propagation: "Why do I get different values on my local system?",
     learnHow: "Learn how to set {record} records with your DNS/registrar.",
     propagationNote: "Google DNS is reporting different values. This potentially means that your values have not propagated fully yet.",
-    srvTlsaFormat: `Expecting to see an {record} record here? Make sure you're looking at the right sub-domain.
+    srvTlsaFormat: `Expecting to see {a} {record} record here? Make sure you're looking at the right sub-domain.
     <br/>{record} record names are normally formatted as follows: <code>_&lt;{sub}&gt;._&lt;protocol&gt;.name.</code>`,
 } as {[key: string]: string}

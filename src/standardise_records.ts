@@ -78,7 +78,7 @@ export default (key: string, json: any, txtRecordFragments: any, recordsJoined: 
     } else if (key === "SSHFP") {
         const newRecords = []
         for (const record of json.Answer) {
-            const dataSplit = record.data.split(/ /g)
+            const dataSplit = record.data.split(" ")
             newRecords.push({
                 name: record.name,
                 algorithm: sshfpAlgorithm[Number(dataSplit[0])] || "Unknown",
@@ -92,7 +92,7 @@ export default (key: string, json: any, txtRecordFragments: any, recordsJoined: 
     } else if (key === "TLSA") {
         const newRecords = []
         for (const record of json.Answer) {
-            const dataSplit = record.data.split(/ /g)
+            const dataSplit = record.data.split(" ")
             newRecords.push({
                 name: record.name,
                 usage: sshfpAlgorithm[Number(dataSplit[0])] || "Unknown",

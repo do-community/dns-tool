@@ -29,7 +29,7 @@ limitations under the License.
             </p>
             <div v-if="recordKeys.length === 0">
                 <p><b>{{ i18n.templates.records.noRecords }}</b></p>
-                <p v-if="this.$props.recordType === 'SRV' || this.$props.recordType === 'TLSA'" v-html="i18n.templates.records.srvTlsaFormat.replace(/{record}/g, this.$props.recordType).replace(/{sub}/g, this.$props.recordType === 'SRV' ? 'service' : 'port')"></p>
+                <p v-if="this.$props.recordType === 'SRV' || this.$props.recordType === 'TLSA'" v-html="insertHtmlPlaceholders()"></p>
             </div>
             <div v-else>
                 <table class="table">
@@ -185,6 +185,12 @@ limitations under the License.
             this.handleRegistrar()
         },
         methods: {
+            insertHtmlPlaceholders() {
+                return i18n.templates.records.srvTlsaFormat
+                    .replace(/{record}/g, this.$props.recordType)
+                    .replace(/{sub}/g, this.$props.recordType === 'SRV' ? 'service' : 'port')
+                    .replace(/{a}/g, this.$props.recordType === 'SRV' ? 'an' : 'a')
+            },
             toggleDnsDifferences() {
                 this.$refs.DNSDiff.toggle()
             },
