@@ -29,7 +29,7 @@ limitations under the License.
             </p>
             <div v-if="recordKeys.length === 0">
                 <p><b>{{ i18n.templates.records.noRecords }}</b></p>
-                <p v-if="this.$props.recordType === 'SRV'" v-html="i18n.templates.records.srvFormat"></p>
+                <p v-if="this.$props.recordType === 'SRV' || this.$props.recordType === 'TLSA'" v-html="insertHtmlPlaceholders()"></p>
             </div>
             <div v-else>
                 <table class="table">
@@ -185,6 +185,12 @@ limitations under the License.
             this.handleRegistrar()
         },
         methods: {
+            insertHtmlPlaceholders() {
+                return i18n.templates.records.srvTlsaFormat
+                    .replace(/{record}/g, this.$props.recordType)
+                    .replace(/{sub}/g, this.$props.recordType === 'SRV' ? 'service' : 'port')
+                    .replace(/{a}/g, this.$props.recordType === 'SRV' ? 'an' : 'a')
+            },
             toggleDnsDifferences() {
                 this.$refs.DNSDiff.toggle()
             },
@@ -201,13 +207,14 @@ limitations under the License.
                     checkIfTrue()
                 })
             },
-            standardiseGoogleCf(item) {
+            standardiseGoogleCf(item, record) {
                 const numberSpaceItem = /[0-9]+ (.+)/
                 const oddSpfEdgecase = /include:_spf\" +\"/g
                 item = item.toString().trim()
                 const numberSpaceMatch = item.match(numberSpaceItem)
                 if (numberSpaceMatch) item = numberSpaceMatch[1]
                 if (item.match(oddSpfEdgecase)) item = item.replace(oddSpfEdgecase, "include:_spf\"\"")
+                if (record === "SSHFP" || record === "TLSA") item = item.toLowerCase()
                 return item
             },
             async handleSecondaryLookup(answer, record, name) {
@@ -218,10 +225,10 @@ limitations under the License.
                 const googleData = []
                 const cfData = []
                 for (const a of answer) {
-                    if (a.data) cfData.push(this.standardiseGoogleCf(a.data))
+                    if (a.data) cfData.push(this.standardiseGoogleCf(a.data, record))
                 }
                 for (const a of gAnswer) {
-                    if (a.data) googleData.push(this.standardiseGoogleCf(a.data))
+                    if (a.data) googleData.push(this.standardiseGoogleCf(a.data, record))
                 }
 
                 const differences = []

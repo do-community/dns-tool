@@ -7,4 +7,6 @@ export default {
     NS: "NS stands for \"name server\" and this record indicates which DNS server is authoritative for that domain (which server contains the actual DNS records).\nA domain will often have multiple NS records which can indicate primary and backup name servers for that domain.",
     SRV: "A Service record (SRV record) is a specification of data in the Domain Name System defining the location, i.e. the hostname and port number, of servers for specified services.",
     DMARC: "The goal of DMARC is to build on the system of senders and receivers collaborating to improve mail authentication practices of senders and enable receivers to reject unauthenticated messages.",
+    SSHFP: "This is used to identify which SSH keys belong to the domain.",
+    TLSA: "TLSA records are used to specify the keys used in a domain's TLS servers.",
 } as {[key: string]: string}

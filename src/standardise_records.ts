@@ -14,6 +14,38 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+// Defines stuff for SSHFP.
+const sshfpAlgorithm = [
+    "Reserved for future use",
+    "RSA",
+    "Diffie-Hellman",
+    "ECDSA",
+    "ED25519",
+]
+const sshfpFingerprint = [
+    "Reserved for future use",
+    "SHA-1",
+    "SHA-256",
+]
+
+// Defines stuff for TLSA.
+const tlsaUsage = [
+    "CA constraint",
+    "Service certificate constraint",
+    "Trust anchor assertion",
+    "Domain-issued certificate",
+]
+const tlsaSelector = [
+    "Full TLS certificate",
+    "The SubjectPublicKeyInfo of a TLS certificate",
+]
+const tlsaMatchingType = [
+    "CA constraint",
+    "Service certificate constraint",
+    "Trust anchor assertion",
+]
+
+// Defines the main function.
 export default (key: string, json: any, txtRecordFragments: any, recordsJoined: any, txtSplit: RegExp) => {
     // Handle edgecases for different record types.
     if (key === "MX") {
@@ -41,6 +73,35 @@ export default (key: string, json: any, txtRecordFragments: any, recordsJoined: 
                     })
                 }
             }
+        }
+        json.Answer = newRecords
+    } else if (key === "SSHFP") {
+        const newRecords = []
+        for (const record of json.Answer) {
+            const dataSplit = record.data.split(" ")
+            newRecords.push({
+                name: record.name,
+                algorithm: sshfpAlgorithm[Number(dataSplit[0])] || "Unknown",
+                "Fingerprint Type": sshfpFingerprint[Number(dataSplit[1])] || "Unknown",
+                fingerprint: dataSplit[2],
+                TTL: record.TTL,
+                type: undefined,
+            })
+        }
+        json.Answer = newRecords
+    } else if (key === "TLSA") {
+        const newRecords = []
+        for (const record of json.Answer) {
+            const dataSplit = record.data.split(" ")
+            newRecords.push({
+                name: record.name,
+                usage: tlsaUsage[Number(dataSplit[0])] || "Unknown",
+                selector: tlsaSelector[Number(dataSplit[1])] || "Unknown",
+                "Matching Type": tlsaMatchingType[Number(dataSplit[2])] || "Unknown",
+                fingerprint: dataSplit[3],
+                TTL: record.TTL,
+                type: undefined,
+            })
         }
         json.Answer = newRecords
     } else if (key === "TXT") {
