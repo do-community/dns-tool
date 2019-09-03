@@ -19,7 +19,7 @@ limitations under the License.
         <p>
             Jump to:
             <span v-for="record in records">
-                <a :href="`#${record.name}-Records`" class="button is-header is-mini" style="margin-bottom: 10px">
+                <a :href="`#${record.name}-Records`" class="button is-header is-mini">
                     {{ record.name }} {{ i18n.common.records }}
                 </a>
             </span>
