@@ -6,4 +6,5 @@ export default {
     propagationNote: "Google DNS is reporting different values. This potentially means that your values have not propagated fully yet.",
     srvTlsaFormat: `Expecting to see {a} {record} record here? Make sure you're looking at the right sub-domain.
     <br/>{record} record names are normally formatted as follows: <code>_&lt;{sub}&gt;._&lt;protocol&gt;.name.</code>`,
+    dmarcMechanisms: "What are the mechanisms supported in DMARC records?",
 } as {[key: string]: string}

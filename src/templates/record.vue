@@ -32,6 +32,7 @@ limitations under the License.
                 <p v-if="this.$props.recordType === 'SRV' || this.$props.recordType === 'TLSA'" v-html="insertHtmlPlaceholders()"></p>
             </div>
             <div v-else>
+                <p v-if="$props.recordType === 'DMARC'"><a @click="openDmarcModal">{{ i18n.templates.records.dmarcMechanisms }}</a></p>
                 <table class="table">
                     <thead>
                         <tr>
@@ -94,6 +95,7 @@ limitations under the License.
             <RecordSkeleton :loading="$props.loading"></RecordSkeleton>
         </div>
         <hr>
+        <DMARCExplainerModal ref="DMARCExplainerModal"></DMARCExplainerModal>
     </div>
 </template>
 
@@ -117,6 +119,7 @@ limitations under the License.
     import DNSDiff from "./dns_diff"
     import { reports } from "../plain_text_reports"
     import ExternalLink from "./ext_link"
+    import DMARCExplainerModal from "./dmarc_explainer_modal"
 
     const trimmers = {}
     for (const recordKey in records)
@@ -147,6 +150,7 @@ limitations under the License.
             RecordSkeleton,
             DNSDiff,
             ExternalLink,
+            DMARCExplainerModal,
         },
         props: {
             recordUrl: String,
@@ -186,6 +190,9 @@ limitations under the License.
             this.handleRegistrar()
         },
         methods: {
+            openDmarcModal() {
+                this.$refs.DMARCExplainerModal.toggle()
+            },
             insertHtmlPlaceholders() {
                 return i18n.templates.records.srvTlsaFormat
                     .replace(/{record}/g, this.$props.recordType)
