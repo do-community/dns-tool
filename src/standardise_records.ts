@@ -66,8 +66,8 @@ export default (key: string, json: any, txtRecordFragments: any, recordsJoined: 
 
                 newRecords.push({
                     name: record.name,
-                    data: newSplit,
                     TTL: record.TTL,
+                    data: newSplit,
                     type: undefined,
                 })
             }

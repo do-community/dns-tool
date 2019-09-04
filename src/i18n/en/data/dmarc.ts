@@ -1,5 +1,5 @@
 export default {
-    v: "This is commonly at the start of a record name to define the version. This is commonly equal to DMARC1.",
+    v: "This dictates the DMARC protocol version that is being used. This is normally located at the start of a record and set to DMARC1.",
     ruf: "This is a comma sepearated list of e-mails where forensic reports should be sent.",
     rua: "This is a comma sepearated list of e-mails where aggregate reports should be sent.",
     pct: "This defines the percentage of e-mail which will have this policy applied.",

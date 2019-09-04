@@ -337,7 +337,7 @@ limitations under the License.
                     recordRows.push(row)
                 }
 
-                if (key === "TXT" || key === "DMARC") {
+                if (key === "TXT") {
                     const recordGlue = {}
                     for (const row of recordRows) {
                         const name = row[0].values[0].result
