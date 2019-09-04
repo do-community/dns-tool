@@ -107,6 +107,7 @@ limitations under the License.
     import records from "../data/records"
     import recordKeyHelp from "../data/record_key_help"
     import txtFragments from "../data/txt"
+    import dmarcFragments from "../data/dmarc"
     import registrarRegexp from "../data/registrar_regexp"
     import nsRegexp from "../data/ns_regexp"
     import RecordTutorials from "../data/record_tutorials"
@@ -311,6 +312,10 @@ limitations under the License.
                                     }
                                     if (txtFragments[truncated]) data.description = txtFragments[truncated]
                                     if (part.length > 20) data.values[0].truncated = truncated
+                                } else if (key === "DMARC") {
+                                    const split = part.split("=")
+                                    const whitespaceGone = split[0].trim()
+                                    if (dmarcFragments[whitespaceGone]) data.description = dmarcFragments[whitespaceGone]
                                 }
                             }
                             if (this.$props.expectsHost) {
@@ -332,7 +337,7 @@ limitations under the License.
                     recordRows.push(row)
                 }
 
-                if (key === "TXT") {
+                if (key === "TXT" || key === "DMARC") {
                     const recordGlue = {}
                     for (const row of recordRows) {
                         const name = row[0].values[0].result
