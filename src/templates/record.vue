@@ -32,6 +32,9 @@ limitations under the License.
                 <p v-if="this.$props.recordType === 'SRV' || this.$props.recordType === 'TLSA'" v-html="insertHtmlPlaceholders()"></p>
             </div>
             <div v-else>
+                <p v-if="$props.recordType === 'DMARC'">
+                    <a @click="openDmarcModal">{{ i18n.templates.records.dmarcMechanisms }}</a>
+                </p>
                 <table class="table">
                     <thead>
                         <tr>
@@ -69,7 +72,7 @@ limitations under the License.
                                 <div v-if="valueNode.description">
                                     <hr style="margin: 5px" />
                                     <p style="font-size: 11px">
-                                        <b>{{ valueNode.description }}</b>
+                                        <b v-html="valueNode.description"></b>
                                     </p>
                                 </div>
                             </td>
@@ -94,6 +97,7 @@ limitations under the License.
             <RecordSkeleton :loading="$props.loading"></RecordSkeleton>
         </div>
         <hr>
+        <DMARCExplainerModal ref="DMARCExplainerModal"></DMARCExplainerModal>
     </div>
 </template>
 
@@ -107,6 +111,7 @@ limitations under the License.
     import records from "../data/records"
     import recordKeyHelp from "../data/record_key_help"
     import txtFragments from "../data/txt"
+    import dmarcFragments from "../data/dmarc"
     import registrarRegexp from "../data/registrar_regexp"
     import nsRegexp from "../data/ns_regexp"
     import RecordTutorials from "../data/record_tutorials"
@@ -116,6 +121,7 @@ limitations under the License.
     import DNSDiff from "./dns_diff"
     import { reports } from "../plain_text_reports"
     import ExternalLink from "./ext_link"
+    import DMARCExplainerModal from "./dmarc_explainer_modal"
 
     const trimmers = {}
     for (const recordKey in records)
@@ -146,6 +152,7 @@ limitations under the License.
             RecordSkeleton,
             DNSDiff,
             ExternalLink,
+            DMARCExplainerModal,
         },
         props: {
             recordUrl: String,
@@ -185,6 +192,9 @@ limitations under the License.
             this.handleRegistrar()
         },
         methods: {
+            openDmarcModal() {
+                this.$refs.DMARCExplainerModal.toggle()
+            },
             insertHtmlPlaceholders() {
                 return i18n.templates.records.srvTlsaFormat
                     .replace(/{record}/g, this.$props.recordType)
@@ -311,6 +321,10 @@ limitations under the License.
                                     }
                                     if (txtFragments[truncated]) data.description = txtFragments[truncated]
                                     if (part.length > 20) data.values[0].truncated = truncated
+                                } else if (key === "DMARC") {
+                                    const split = part.split("=")
+                                    const whitespaceGone = split[0].trim()
+                                    if (dmarcFragments[whitespaceGone]) data.description = dmarcFragments[whitespaceGone]
                                 }
                             }
                             if (this.$props.expectsHost) {

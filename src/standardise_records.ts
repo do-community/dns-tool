@@ -64,14 +64,12 @@ export default (key: string, json: any, txtRecordFragments: any, recordsJoined: 
             for (const newSplit of dataSplit) {
                 if (newSplit === "") continue
 
-                if (!newSplit.startsWith("v")) {
-                    newRecords.push({
-                        name: record.name,
-                        data: newSplit,
-                        TTL: record.TTL,
-                        type: undefined,
-                    })
-                }
+                newRecords.push({
+                    name: record.name,
+                    TTL: record.TTL,
+                    data: newSplit,
+                    type: undefined,
+                })
             }
         }
         json.Answer = newRecords

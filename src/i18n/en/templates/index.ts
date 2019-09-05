@@ -10,9 +10,10 @@ import github from "./github"
 import dnsDiff from "./dns_diff"
 import skeletons from "./skeletons"
 import clipboardModal from "./clipboard_modal"
+import dmarcExplainer from "./dmarc_explainer"
 
 export default {
     app, dodns, mxBlacklist, records, truncatedRecord,
     whois, propagationModal, recordSelectionModal, github,
-    dnsDiff, skeletons, clipboardModal,
+    dnsDiff, skeletons, clipboardModal, dmarcExplainer,
 } as {[key: string]: {[key: string]: any}}
