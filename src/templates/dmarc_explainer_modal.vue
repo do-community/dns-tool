@@ -25,8 +25,15 @@ limitations under the License.
                 <button class="delete" :aria-label="i18n.common.close" @click="toggle"></button>
             </header>
             <section class="modal-card-body">
-                <p v-for="(value, key) in dmarc" v-bind:key="key">
+                <div v-html="i18n.templates.dmarcExplainer.intro"></div>
+                <hr>
+                <p v-for="(value, key) in dmarc" :key="key">
                     <b>{{ key }}</b>: {{ value }}
+                </p>
+                <hr>
+                <p>
+                    {{ i18n.templates.dmarcExplainer.learnMore }}
+                    <ExternalLink link="https://dmarc.org/" text="dmarc.org"></ExternalLink>.
                 </p>
             </section>
         </div>
@@ -36,9 +43,11 @@ limitations under the License.
 <script>
     import i18n from "../i18n"
     import dmarc from "../data/dmarc"
+    import ExternalLink from "./ext_link"
 
     export default {
         name: "DMARCExplainerModal",
+        components: { ExternalLink },
         data() {
             return {
                 toggled: false,

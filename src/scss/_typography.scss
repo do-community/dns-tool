@@ -61,17 +61,30 @@ strong {
 }
 
 // Code
-:not(pre) > code {
+:not(pre) > code,
+pre {
   color: lighten($text, 20);
   font-size: 14px;
   font-family: $mono-font-family;
-  white-space: nowrap;
-  padding: $margin * 0.75;
   margin: ($margin * 0.5) 0;
   border: $thin-border;
   border-radius: $border-radius;
   background: $panel;
+}
+
+:not(pre) > code {
+  white-space: nowrap;
+  padding: $margin * 0.75;
   display: inline-block;
+
+  &.slim {
+    margin: 0;
+    padding: 2px 6px;
+  }
+}
+
+pre {
+  margin-right: $margin;
 }
 
 // Headings
