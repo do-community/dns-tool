@@ -32,7 +32,9 @@ limitations under the License.
                 <p v-if="this.$props.recordType === 'SRV' || this.$props.recordType === 'TLSA'" v-html="insertHtmlPlaceholders()"></p>
             </div>
             <div v-else>
-                <p v-if="$props.recordType === 'DMARC'"><a @click="openDmarcModal">{{ i18n.templates.records.dmarcMechanisms }}</a></p>
+                <p v-if="$props.recordType === 'DMARC'">
+                    <a @click="openDmarcModal">{{ i18n.templates.records.dmarcMechanisms }}</a>
+                </p>
                 <table class="table">
                     <thead>
                         <tr>
