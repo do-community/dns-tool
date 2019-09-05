@@ -64,7 +64,7 @@ strong {
 :not(pre) > code,
 pre {
   color: lighten($text, 20);
-  font-size: 14px;
+  font-size: 0.85em;
   font-family: $mono-font-family;
   margin: ($margin * 0.5) 0;
   border: $thin-border;
@@ -79,12 +79,16 @@ pre {
 
   &.slim {
     margin: 0;
-    padding: 2px 6px;
+    padding: 0.15em 0.4em;
   }
 }
 
 pre {
   margin-right: $margin;
+
+  code {
+    font-size: 1.15em;
+  }
 }
 
 // Headings

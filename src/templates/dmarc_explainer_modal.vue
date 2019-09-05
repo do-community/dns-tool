@@ -28,7 +28,7 @@ limitations under the License.
                 <div v-html="i18n.templates.dmarcExplainer.intro"></div>
                 <hr>
                 <p v-for="(value, key) in dmarc" :key="key">
-                    <b>{{ key }}</b>: {{ value }}
+                    <b>{{ key }}</b>: <span v-html="value"></span>
                 </p>
                 <hr>
                 <p>

@@ -72,7 +72,7 @@ limitations under the License.
                                 <div v-if="valueNode.description">
                                     <hr style="margin: 5px" />
                                     <p style="font-size: 11px">
-                                        <b>{{ valueNode.description }}</b>
+                                        <b v-html="valueNode.description"></b>
                                     </p>
                                 </div>
                             </td>
