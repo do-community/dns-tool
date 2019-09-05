@@ -25,4 +25,7 @@ export default {
     aspf: i18n.data.dmarc.aspf,
     adkim: i18n.data.dmarc.adkim,
     sp: i18n.data.dmarc.sp,
+    fo: i18n.data.dmarc.fo,
+    rf: i18n.data.dmarc.rf,
+    ri: i18n.data.dmarc.ri,
 }
