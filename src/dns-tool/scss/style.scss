@@ -14,17 +14,5 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-@import "globals";
-@import "../../node_modules/bulma/bulma.sass";
-@import "base";
-@import "typography";
-@import "header";
-@import "github";
-@import "buttons";
-@import "forms";
-@import "tables";
-@import "footer";
-@import "modals";
-@import "tags";
-@import "skeletons";
-@import "no-search";
+$header: #005ff8;
+@import "../scss/style.scss";

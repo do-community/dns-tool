@@ -15,26 +15,26 @@ limitations under the License.
 */
 
 // Colors
-$primary: #0069ff;
+$primary: #0069ffb !default;
 $primary-hover: darken($primary, 5);
-$success: #11a95e;
+$success: #11a95e !default;
 $success-hover: darken($success, 5);
-$secondary: #127c43;
-$secondary-hover: #0aac55;
-$danger: #d91d1d;
+$secondary: #127c43 !default;
+$secondary-hover: #0aac55 !default;
+$danger: #d91d1d !default;
 $danger-hover: darken($danger, 5);
-$warning: #f56109;
+$warning: #f56109 !default;
 $warning-hover: darken($warning, 5);
-$background: #fff;
-$border: #f1f1f1;
-$text: #333;
-$heading: #222;
-$panel: #fafafa;
+$background: #fff !default;
+$border: #f1f1f1 !default;
+$text: #333 !default;
+$heading: #222 !default;
+$panel: #fafafa !default;
 $muted: rgba($text, .75);
-$header: #005ff8;
+$header: #00f !default;
 $header-hover: darken($header, 5);
-$dark-blue: #031b4e;
-$modal: rgba(#444, .95);
+$dark-blue: #031b4e !default;
+$modal: rgba(#444, .95) !default;
 
 // Fonts
 $font-size: 16px;
