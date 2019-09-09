@@ -5,7 +5,7 @@ node_js:
 script:
   - npm i
   - npm test
-  - npm run build
+  - npm run build:tools
 
 deploy:
   provider: pages
