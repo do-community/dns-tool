@@ -6,3 +6,4 @@ dev/
 .vscode/
 build/base.html
 build/svg/
+.DS_Store

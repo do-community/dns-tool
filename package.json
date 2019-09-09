@@ -11,11 +11,13 @@
     "build:template": "node ./build/fetchTemplate.js",
 
     "build:tool": "node ./build/buildTool.js",
-    "build:tools": "npm run build:tools:dns-tool",
+    "build:tools": "npm run build:tools:dns-tool && npm run build:tools:spf-explainer",
     "build:tools:dns-tool": "npm run build:tool dns-tool",
+    "build:tools:spf-explainer": "npm run build:tool spf-explainer",
 
     "dev:prep": "npm run build:svg && npm run build:template",
 
+    "dev:tools:spf-explainer": "npm run dev:prep spf-explainer && parcel ./src/spf-explainer/index.html --out-dir ./dev/spf-explainer",
     "dev:tools:dns-tool": "npm run dev:prep dns-tool && parcel ./src/dns-tool/index.html --out-dir ./dev/dns-tool",
 
     "test": "npm run test:ts-vue && npm run test:scss",
