@@ -14,8 +14,10 @@
     "build:tools": "npm run build:tools:dns-tool",
     "build:tools:dns-tool": "npm run build:tool dns-tool",
 
-    "dev": "npm run build:js:svg && npm run build:html:template && npm run dev:parcel",
-    "dev:parcel": "parcel ./src/index.html --out-dir dev",
+    "dev:prep": "npm run build:svg && npm run build:template",
+    "dev:tool": "npm run dev:prep && node ./build/developTool.js",
+
+    "dev:tools:dns-tool": "npm run dev:tool dns-tool",
 
     "test": "npm run test:ts-vue && npm run test:scss",
     "test:ts-vue": "tsc && eslint ./src/**/*.ts && eslint ./src/**/*.vue",
