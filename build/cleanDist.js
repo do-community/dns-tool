@@ -26,10 +26,7 @@ const main = () => {
     }
 
     // Remove all existing files
-    const existing = fs.readdirSync(base)
-    existing.forEach(file => {
-        fs.unlinkSync(`${base}/${file}`)
-    })
+    fs.rmdirSync(base, { recursive: true })
 
     console.log('...dist directory cleaned for build.')
 }

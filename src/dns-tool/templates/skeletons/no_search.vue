@@ -23,7 +23,7 @@ limitations under the License.
 
 <script>
     import i18n from "../../i18n"
-    import dnsSVG from "../../../build/svg/dns.svg"
+    import dnsSVG from "../../../../build/svg/dns.svg"
 
     export default {
         name: "NoSearch",
