@@ -43,7 +43,7 @@ limitations under the License.
 
         <div class="main container">
             <p>
-                <a @click="openMechanismModal" class="button is-header is-mini">
+                <a class="button is-header is-mini" @click="openMechanismModal">
                     {{ i18n.templates.app.whatDoTheyDo }}
                 </a>
             </p>
