@@ -18,29 +18,14 @@ limitations under the License.
     <div class="all dns-tool">
         <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
 
-        <div class="header">
-            <ghLink repo="https://github.com/do-community/dns-tool"></ghLink>
-            <div class="container">
-                <h1>{{ i18n.templates.app.title }}</h1>
-                <p>{{ i18n.templates.app.description }}</p>
-
-                <form autocomplete="on" @submit.prevent="searchDNSEvent">
-                    <div class="input-container">
-                        <label for="DomainInput" class="hidden">Search</label>
-                        <i class="fas fa-search"></i>
-                        <input id="DomainInput" class="input" type="text" :placeholder="i18n.templates.app.domain">
-                    </div>
-                    <div class="buttons">
-                        <button id="SearchButton" class="button is-header is-inverted">
-                            {{ i18n.templates.app.searchButton }}
-                        </button>
-                        <a v-if="data !== ''" class="button is-header is-inverted" @click="toggleRecordTextModal">
-                            {{ i18n.templates.app.textRecords }}
-                        </a>
-                    </div>
-                </form>
-            </div>
-        </div>
+        <Header :title="i18n.templates.app.title" :description="i18n.templates.app.description" :search-placeholder="i18n.templates.app.domain" :init-value="getInitDomainValue()" @search-event="searchDNSEvent">
+            <button id="SearchButton" class="button is-header is-inverted">
+                {{ i18n.templates.app.searchButton }}
+            </button>
+            <a v-if="data !== ''" class="button is-header is-inverted" @click="toggleRecordTextModal">
+                {{ i18n.templates.app.textRecords }}
+            </a>
+        </Header>
 
         <div class="main container" :style="{opacity: contentOpacity}">
             <div id="content">
@@ -73,8 +58,8 @@ limitations under the License.
     import cfDNS from "../utils/cfDNS"
     import NoSearch from "./skeletons/no_search"
     import RecordSkeleton from "./skeletons/record"
-    import ghLink from "../../templates/gh_link"
     import Footer from "../../templates/footer"
+    import Header from "../../templates/header"
 
     const stripHttps = /(https*:\/\/)*(.+)*/
     const isHostname = /.*\.[a-z]+/
@@ -88,8 +73,8 @@ limitations under the License.
             DODNS,
             RecordJumps,
             RecordSelectionModal,
-            ghLink,
             Footer,
+            Header,
         },
         data() {
             return {
@@ -105,11 +90,15 @@ limitations under the License.
         mounted() {
             this.$data.linked = (new URLSearchParams(window.location.search)).get("domain")
             if (this.$data.linked) {
-                document.getElementById("DomainInput").value = this.$data.linked
                 this.searchDNSEvent()
             }
         },
         methods: {
+            getInitDomainValue() {
+                const query = new URLSearchParams(window.location.search)
+                if (query.has("domain")) return query.get("domain")
+                return ""
+            },
             error(message) {
                 alert(message)
                 this.$data.contentOpacity = 1

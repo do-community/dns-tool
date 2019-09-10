@@ -17,29 +17,14 @@ limitations under the License.
         <EvalModal ref="EvalModal"></EvalModal>
         <AllPartExplanations ref="AllPartExplanations"></AllPartExplanations>
 
-        <div class="header">
-            <ghLink repo="https://github.com/do-community/spf-explainer"></ghLink>
-            <div class="container">
-                <h1>{{ i18n.templates.app.title }}</h1>
-                <p>{{ i18n.templates.app.description }}</p>
-
-                <form autocomplete="on" @submit.prevent="searchEvent">
-                    <div class="input-container">
-                        <label for="DomainInput" class="hidden">Search</label>
-                        <i class="fas fa-search"></i>
-                        <input id="DomainInput" v-model="domain" class="input" type="text" :placeholder="i18n.templates.app.domain">
-                    </div>
-                    <div class="buttons">
-                        <button id="DomainSearch" :class="`button is-header is-inverted is-link${loading ? ' is-loading' : ''}`">
-                            {{ i18n.templates.app.searchButton }}
-                        </button>
-                        <button v-if="!SPFSandbox.empty()" :class="`button is-header is-inverted is-link${loading ? ' is-loading' : ''}`" @click="openEvalModal">
-                            {{ i18n.templates.app.eval }}
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        <Header :title="i18n.templates.app.title" :description="i18n.templates.app.description" :search-placeholder="i18n.templates.app.domain" :init-value="getInitDomainValue()" @search-event="searchEvent" @set-text="setDomain">
+            <button id="DomainSearch" :class="`button is-header is-inverted is-link${loading ? ' is-loading' : ''}`">
+                {{ i18n.templates.app.searchButton }}
+            </button>
+            <button v-if="!SPFSandbox.empty()" :class="`button is-header is-inverted is-link${loading ? ' is-loading' : ''}`" @click="openEvalModal">
+                {{ i18n.templates.app.eval }}
+            </button>
+        </Header>
 
         <div class="main container">
             <p>
@@ -64,8 +49,8 @@ limitations under the License.
     import SPFSandbox from "../utils/spf_sandbox"
     import EvalModal from "./eval_modal"
     import AllPartExplanations from "./all_part_explanations"
-    import ghLink from "../../templates/gh_link"
     import Footer from "../../templates/footer"
+    import Header from "../../templates/header"
 
     export default {
         name: "App",
@@ -74,8 +59,8 @@ limitations under the License.
             NoSPFRecords,
             EvalModal,
             AllPartExplanations,
-            ghLink,
             Footer,
+            Header,
         },
         data() {
             return {
@@ -95,6 +80,14 @@ limitations under the License.
             }
         },
         methods: {
+            getInitDomainValue() {
+                const query = new URLSearchParams(window.location.search)
+                if (query.has("domain")) return query.get("domain")
+                return ""
+            },
+            setDomain(d) {
+                this.$data.domain = d
+            },
             openMechanismModal() {
                 this.$refs.AllPartExplanations.toggle()
             },
