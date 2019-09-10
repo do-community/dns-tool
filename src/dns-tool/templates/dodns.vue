@@ -33,7 +33,7 @@ limitations under the License.
 </template>
 
 <script>
-    import cfDNS from "../utils/cfDNS"
+    import cfDNS from "../../utils/cfDNS"
     import DODNSSkeleton from "./skeletons/dodns"
     import i18n from "../i18n"
 

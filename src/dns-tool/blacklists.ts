@@ -15,7 +15,7 @@ limitations under the License.
 */
 
 import { ipBlacklists, domainBlacklists } from "./data/blacklists"
-import cfDNS from "./utils/cfDNS"
+import cfDNS from "../utils/cfDNS"
 
 // Reverses the IP address for DNSBL lookups.
 const reverseIp = (ip: string) => ip.split(".").reverse().join(".")

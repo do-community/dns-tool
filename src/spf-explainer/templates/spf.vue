@@ -52,7 +52,7 @@ limitations under the License.
 
 <script>
     import i18n from "../i18n"
-    import cfDNS from "../utils/cfDNS"
+    import cfDNS from "../../utils/cfDNS"
     import explanations from "../data/explanations"
     import spawnLine from "../utils/line_spawn"
     import longDescriptions from "../data/long_descriptions"

@@ -55,7 +55,7 @@ limitations under the License.
     import i18n from "../i18n"
     import { reports } from "../plain_text_reports"
     import RecordSelectionModal from "./record_selection_modal"
-    import cfDNS from "../utils/cfDNS"
+    import cfDNS from "../../utils/cfDNS"
     import NoSearch from "./skeletons/no_search"
     import RecordSkeleton from "./skeletons/record"
     import Footer from "../../templates/footer"

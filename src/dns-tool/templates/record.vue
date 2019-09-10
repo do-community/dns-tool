@@ -104,7 +104,7 @@ limitations under the License.
 <script>
     import TruncatedRecord from "./truncated_record"
     import WHOIS from "./whois"
-    import cfDNS from "../utils/cfDNS"
+    import cfDNS from "../../utils/cfDNS"
     import googleDNS from "../utils/googleDNS"
     import standardiseRecords from "../standardise_records"
     import { getLargestRecordPart } from "../table"

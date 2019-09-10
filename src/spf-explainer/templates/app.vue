@@ -42,7 +42,7 @@ limitations under the License.
 
 <script>
     import i18n from "../i18n"
-    import cfDNS from "../utils/cfDNS"
+    import cfDNS from "../../utils/cfDNS"
     import SPFBase from "./spf_base"
     import spawnLine from "../utils/line_spawn"
     import NoSPFRecords from "./no_spf_records"
