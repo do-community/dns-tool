@@ -1,25 +1,20 @@
 {
   "name": "dns-tool",
   "version": "1.0.0",
-  "description": "A simple browser-based tool to perform DNS lookups.",
+  "description": "A set of simple DNS tools for DigitalOcean Community.",
   "license": "Apache-2.0",
   "scripts": {
     "build": "npm run build:clean && npm run build:svg && npm run build:template && npm run build:tools",
-
     "build:clean": "node ./build/cleanDist.js",
     "build:svg": "node ./build/buildSVGs.js",
     "build:template": "node ./build/fetchTemplate.js",
-
     "build:tool": "node ./build/buildTool.js",
     "build:tools": "npm run build:tools:dns-tool && npm run build:tools:spf-explainer",
     "build:tools:dns-tool": "npm run build:tool dns-tool",
     "build:tools:spf-explainer": "npm run build:tool spf-explainer",
-
     "dev:prep": "npm run build:svg && npm run build:template",
-
     "dev:tools:spf-explainer": "npm run dev:prep spf-explainer && parcel ./src/spf-explainer/index.html --out-dir ./dev/spf-explainer",
     "dev:tools:dns-tool": "npm run dev:prep dns-tool && parcel ./src/dns-tool/index.html --out-dir ./dev/dns-tool",
-
     "test": "npm run test:ts-vue && npm run test:scss",
     "test:ts-vue": "tsc && eslint ./src/**/*.ts && eslint ./src/**/*.vue",
     "test:scss": "sass-lint ./src/**/*.scss --verbose --no-exit --config .sasslintrc",

@@ -1,4 +1,4 @@
-# User Flow
+# User Flow (DNS Tool)
 
 The goal for this website is to allow users to lookup DNS records. For example, if a user wants to lookup a A record to check that users can access their droplet from their domain properly, they would go to the DNS lookup page, search the record, get the record and close the page. If the user wanted to share a record type with other people, they could click the link button next to the record type and then copy the URL to their current page. When someone was linked it, they would be pointed to that exact record type for that domain. 
 
