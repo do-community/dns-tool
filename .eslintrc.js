@@ -27,5 +27,6 @@ module.exports =  {
     }],
     "@typescript-eslint/indent": 0,
     "vue/no-unused-vars": 0,
+    "@typescript-eslint/no-object-literal-type-assertion": 0,
   },
 }
