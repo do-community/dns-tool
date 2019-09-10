@@ -104,7 +104,7 @@ limitations under the License.
 <script>
     import TruncatedRecord from "./truncated_record"
     import WHOIS from "./whois"
-    import cfDNS from "../../utils/cfDNS"
+    import cfDNS from "../../shared/utils/cfDNS"
     import googleDNS from "../utils/googleDNS"
     import standardiseRecords from "../standardise_records"
     import { getLargestRecordPart } from "../table"
@@ -120,7 +120,7 @@ limitations under the License.
     import i18n from "../i18n"
     import DNSDiff from "./dns_diff"
     import { reports } from "../plain_text_reports"
-    import ExternalLink from "../../templates/ext_link"
+    import ExternalLink from "../../shared/templates/ext_link"
     import DMARCExplainerModal from "./dmarc_explainer_modal"
 
     const trimmers = {}

@@ -36,7 +36,7 @@ limitations under the License.
 <script>
     import getBlacklists from "../blacklists"
     import i18n from "../i18n"
-    import ExternalLink from "../../templates/ext_link"
+    import ExternalLink from "../../shared/templates/ext_link"
 
     export default {
         name: "MXBlacklist",

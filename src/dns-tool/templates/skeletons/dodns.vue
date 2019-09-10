@@ -22,7 +22,7 @@ limitations under the License.
 </template>
 
 <script>
-    import { getSkeletonStyle } from "../../../utils/skeletonStyle"
+    import { getSkeletonStyle } from "../../../shared/utils/skeletonStyle"
 
     export default {
         name: "DODNSSkeleton",

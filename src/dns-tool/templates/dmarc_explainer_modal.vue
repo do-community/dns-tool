@@ -43,7 +43,7 @@ limitations under the License.
 <script>
     import i18n from "../i18n"
     import dmarc from "../data/dmarc"
-    import ExternalLink from "../../templates/ext_link"
+    import ExternalLink from "../../shared/templates/ext_link"
 
     export default {
         name: "DMARCExplainerModal",

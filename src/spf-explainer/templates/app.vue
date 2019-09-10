@@ -42,15 +42,15 @@ limitations under the License.
 
 <script>
     import i18n from "../i18n"
-    import cfDNS from "../../utils/cfDNS"
+    import cfDNS from "../../shared/utils/cfDNS"
     import SPFBase from "./spf_base"
     import spawnLine from "../utils/line_spawn"
     import NoSPFRecords from "./no_spf_records"
     import SPFSandbox from "../utils/spf_sandbox"
     import EvalModal from "./eval_modal"
     import AllPartExplanations from "./all_part_explanations"
-    import Footer from "../../templates/footer"
-    import Header from "../../templates/header"
+    import Footer from "../../shared/templates/footer"
+    import Header from "../../shared/templates/header"
 
     export default {
         name: "App",

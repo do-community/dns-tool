@@ -37,7 +37,7 @@ limitations under the License.
 <script>
     import Record from "./record"
     import VueifiedRecords from "../data/vueified_records"
-    import cfDNS from "../../utils/cfDNS"
+    import cfDNS from "../../shared/utils/cfDNS"
     import PropagationModal from "./propagation_modal"
 
     export default {

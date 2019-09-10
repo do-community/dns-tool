@@ -33,7 +33,7 @@ limitations under the License.
 </template>
 
 <script>
-    import { getRandomInt, getSkeletonStyle } from "../../../utils/skeletonStyle"
+    import { getRandomInt, getSkeletonStyle } from "../../../shared/utils/skeletonStyle"
 
     export default {
         name: "RecordSkeleton",

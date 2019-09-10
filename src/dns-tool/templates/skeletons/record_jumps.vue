@@ -24,7 +24,7 @@ limitations under the License.
 </template>
 
 <script>
-    import { getSkeletonStyle } from "../../../utils/skeletonStyle"
+    import { getSkeletonStyle } from "../../../shared/utils/skeletonStyle"
     import VueifiedRecords from "../../data/vueified_records"
 
     export default {
