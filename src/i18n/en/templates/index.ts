@@ -14,11 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import app from "./app"
-import spfBase from "./spf_base"
-import partExplanation from "./part_explanation"
-import noSpfRecords from "./no_spf_records"
-import evalModal from "./eval_modal"
-import skeletons from "./skeletons"
+import ghLink from "./gh_link"
 
-export default { app, spfBase, partExplanation, noSpfRecords, evalModal, skeletons } as {[key: string]: {[key: string]: string}}
+export default { ghLink } as {[key: string]: {[key: string]: string}}

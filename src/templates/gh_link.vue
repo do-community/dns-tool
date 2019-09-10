@@ -17,7 +17,7 @@ This is a version of https://github.com/tholman/github-corners with Vue support.
 -->
 
 <template>
-    <a :href="repo" class="github-corner" :aria-label="i18n.templates.github.viewSource">
+    <a :href="repo" class="github-corner" :aria-label="i18n.templates.ghLink.viewSource">
         <svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true">
             <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
             <path

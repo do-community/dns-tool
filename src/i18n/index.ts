@@ -14,11 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import app from "./app"
-import spfBase from "./spf_base"
-import partExplanation from "./part_explanation"
-import noSpfRecords from "./no_spf_records"
-import evalModal from "./eval_modal"
-import skeletons from "./skeletons"
+import en from "./en"
 
-export default { app, spfBase, partExplanation, noSpfRecords, evalModal, skeletons } as {[key: string]: {[key: string]: string}}
+const lang = "en"
+const packs = { en } as any
+
+export default packs[lang]

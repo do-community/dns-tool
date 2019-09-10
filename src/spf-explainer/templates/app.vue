@@ -18,7 +18,7 @@ limitations under the License.
         <AllPartExplanations ref="AllPartExplanations"></AllPartExplanations>
 
         <div class="header">
-            <GHLink repo="https://github.com/do-community/spf-explainer"></GHLink>
+            <ghLink repo="https://github.com/do-community/spf-explainer"></ghLink>
             <div class="container">
                 <h1>{{ i18n.templates.app.title }}</h1>
                 <p>{{ i18n.templates.app.description }}</p>
@@ -69,7 +69,7 @@ limitations under the License.
     import SPFSandbox from "../utils/spf_sandbox"
     import EvalModal from "./eval_modal"
     import AllPartExplanations from "./all_part_explanations"
-    import GHLink from "./gh_link"
+    import ghLink from "../../templates/gh_link"
 
     export default {
         name: "App",
@@ -78,7 +78,7 @@ limitations under the License.
             NoSPFRecords,
             EvalModal,
             AllPartExplanations,
-            GHLink,
+            ghLink,
         },
         data() {
             return {

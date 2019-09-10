@@ -19,7 +19,7 @@ limitations under the License.
         <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
 
         <div class="header">
-            <GHLink repo="https://github.com/do-community/dns-tool"></GHLink>
+            <ghLink repo="https://github.com/do-community/dns-tool"></ghLink>
             <div class="container">
                 <h1>{{ i18n.templates.app.title }}</h1>
                 <p>{{ i18n.templates.app.description }}</p>
@@ -84,7 +84,7 @@ limitations under the License.
     import i18n from "../i18n"
     import { reports } from "../plain_text_reports"
     import RecordSelectionModal from "./record_selection_modal"
-    import GHLink from "./gh_link"
+    import ghLink from "../../templates/gh_link"
     import cfDNS from "../utils/cfDNS"
     import NoSearch from "./skeletons/no_search"
     import RecordSkeleton from "./skeletons/record"
@@ -103,7 +103,7 @@ limitations under the License.
             DODNS,
             RecordJumps,
             RecordSelectionModal,
-            GHLink,
+            ghLink,
             ExternalLink,
         },
         data() {
