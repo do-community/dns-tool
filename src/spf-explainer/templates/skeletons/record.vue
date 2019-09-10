@@ -48,7 +48,7 @@ limitations under the License.
 </template>
 
 <script>
-    import { getRandomInt, getSkeletonStyle } from "../../utils/skeletonStyle"
+    import { getRandomInt, getSkeletonStyle } from "../../../utils/skeletonStyle"
     export default {
         name: "RecordSkeleton",
         props: { loading: Boolean, },
