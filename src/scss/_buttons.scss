@@ -104,11 +104,18 @@ limitations under the License.
 
 .fa,
 .far,
+.fas,
 .fab {
   &.help {
+    color: $text;
     cursor: pointer;
     display: inline-block;
     font-size: 1em;
     margin: 0;
+  }
+
+  &.fa-external-link-alt {
+    font-size: .8em;
+    opacity: .6;
   }
 }

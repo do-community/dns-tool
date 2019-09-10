@@ -41,6 +41,10 @@ hr {
   box-sizing: content-box;
   height: 0;
   margin: $margin 0;
+
+  &.hr-small-pad {
+    margin-top: $margin / 4;
+  }
 }
 
 // Margins
@@ -74,19 +78,15 @@ figure {
 }
 
 // Body
-.all {
+& {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
 
   .main.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     flex-grow: 1;
     transition: opacity $transition;
-    width: 100%;
   }
-}
-
-.fas.fa-external-link-alt {
-  font-size: .8em;
-  opacity: .6;
 }

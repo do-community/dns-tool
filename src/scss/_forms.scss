@@ -161,6 +161,10 @@ input {
       }
     }
   }
+
+  &[type='text'] + button.button {
+    margin-top: $margin;
+  }
 }
 
 textarea {

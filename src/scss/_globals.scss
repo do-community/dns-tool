@@ -1,6 +1,5 @@
 /*
 Copyright 2019 DigitalOcean
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -31,7 +30,7 @@ $text: #333 !default;
 $heading: #222 !default;
 $panel: #fafafa !default;
 $muted: rgba($text, .75);
-$header: #00f !default;
+$header: #f00 !default;
 $header-hover: darken($header, 5);
 $dark-blue: #031b4e !default;
 $modal: rgba(#444, .95) !default;

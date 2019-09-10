@@ -14,5 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-$header: #005ff8;
-@import "../../scss/style.scss";
+.dns-tool {
+  $header: #005ff8;
+  @import "../../scss/style.scss";
+}

@@ -46,3 +46,9 @@ limitations under the License.
     opacity: .7;
   }
 }
+
+.skeleton-table {
+  border-collapse: separate;
+  border-color: white !important;
+  border-spacing: ($margin / 4) !important;
+}

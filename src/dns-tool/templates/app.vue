@@ -17,11 +17,13 @@ limitations under the License.
 <template>
     <div class="all dns-tool">
         <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
+
         <div class="header">
             <GHLink repo="https://github.com/do-community/dns-tool"></GHLink>
             <div class="container">
                 <h1>{{ i18n.templates.app.title }}</h1>
                 <p>{{ i18n.templates.app.description }}</p>
+
                 <form autocomplete="on" @submit.prevent="searchDNSEvent">
                     <div class="input-container">
                         <label for="DomainInput" class="hidden">Search</label>
@@ -39,6 +41,7 @@ limitations under the License.
                 </form>
             </div>
         </div>
+
         <div class="main container" :style="{opacity: contentOpacity}">
             <div id="content">
                 <RecordJumps :loaded="data !== ''" :loading="siteLoading"></RecordJumps>
@@ -54,6 +57,7 @@ limitations under the License.
                 </div>
             </div>
         </div>
+
         <div class="footer">
             <div class="container">
                 <p><a href="#top" class="button is-primary is-small">{{ i18n.templates.app.backToTop }}</a></p>

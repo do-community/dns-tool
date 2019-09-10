@@ -22,6 +22,7 @@ limitations under the License.
             <div class="container">
                 <h1>{{ i18n.templates.app.title }}</h1>
                 <p>{{ i18n.templates.app.description }}</p>
+
                 <form autocomplete="on" @submit.prevent="searchEvent">
                     <div class="input-container">
                         <label for="DomainInput" class="hidden">Search</label>
@@ -42,15 +43,19 @@ limitations under the License.
 
         <div class="main container">
             <p>
-                <a @click="openMechanismModal">{{ i18n.templates.app.whatDoTheyDo }}</a>
+                <a @click="openMechanismModal" class="button is-header is-mini">
+                    {{ i18n.templates.app.whatDoTheyDo }}
+                </a>
             </p>
             <hr>
             <SPFBase ref="SPFBase" :records="records"></SPFBase>
         </div>
 
-        <div class="container spf-footer">
-            <p><a href="#top" class="button is-primary is-small">{{ i18n.templates.app.backToTop }}</a></p>
-            <p v-html="i18n.templates.app.oss"></p>
+        <div class="footer">
+            <div class="container">
+                <p><a href="#top" class="button is-primary is-small">{{ i18n.templates.app.backToTop }}</a></p>
+                <p v-html="i18n.templates.app.oss"></p>
+            </div>
         </div>
     </div>
 </template>

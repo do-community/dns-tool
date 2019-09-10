@@ -15,18 +15,16 @@ limitations under the License.
 */
 
 .spf-explainer {
-  @import 'globals';
-  @import '../../../node_modules/bulma/bulma.sass';
-  @import 'base';
-  @import 'typography';
-  @import 'header';
-  @import 'github';
-  @import 'buttons';
-  @import 'forms';
-  @import 'tables';
-  @import 'footer';
-  @import 'modals';
-  @import 'tags';
-  @import 'skeletons';
-  @import 'no-search';
+  $header: #005FF8;
+  @import '../../scss/style.scss';
+
+  .main.container {
+    .record-group {
+      padding-left: $margin * 2;
+    }
+  }
+
+  .no-search {
+    top: $margin * 3;
+  }
 }
