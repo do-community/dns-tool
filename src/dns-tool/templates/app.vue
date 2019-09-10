@@ -18,7 +18,13 @@ limitations under the License.
     <div class="all dns-tool">
         <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
 
-        <Header :title="i18n.templates.app.title" :description="i18n.templates.app.description" :search-placeholder="i18n.templates.app.domain" :init-value="getInitDomainValue()" @search-event="searchDNSEvent">
+        <Header
+            :title="i18n.templates.app.title"
+            :description="i18n.templates.app.description"
+            :search-placeholder="i18n.templates.app.domain"
+            :init-value="getInitDomainValue()"
+            @search-event="searchDNSEvent"
+        >
             <button id="SearchButton" class="button is-header is-inverted">
                 {{ i18n.templates.app.searchButton }}
             </button>

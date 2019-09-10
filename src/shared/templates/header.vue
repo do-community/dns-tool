@@ -25,7 +25,13 @@ limitations under the License.
                 <div class="input-container">
                     <label for="DomainInput" class="hidden">Search</label>
                     <i class="fas fa-search"></i>
-                    <input id="DomainInput" v-model="d" class="input" type="text" :placeholder="$props.searchPlaceholder" @input="execSetText">
+                    <input id="DomainInput"
+                           v-model="d"
+                           class="input"
+                           type="text"
+                           :placeholder="$props.searchPlaceholder"
+                           @input="execSetText"
+                    />
                 </div>
                 <div class="buttons">
                     <slot></slot>

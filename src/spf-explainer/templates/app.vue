@@ -17,11 +17,22 @@ limitations under the License.
         <EvalModal ref="EvalModal"></EvalModal>
         <AllPartExplanations ref="AllPartExplanations"></AllPartExplanations>
 
-        <Header :title="i18n.templates.app.title" :description="i18n.templates.app.description" :search-placeholder="i18n.templates.app.domain" :init-value="getInitDomainValue()" @search-event="searchEvent" @set-text="setDomain">
+        <Header
+            :title="i18n.templates.app.title"
+            :description="i18n.templates.app.description"
+            :search-placeholder="i18n.templates.app.domain"
+            :init-value="getInitDomainValue()"
+            @search-event="searchEvent"
+            @set-text="setDomain"
+        >
             <button id="DomainSearch" :class="`button is-header is-inverted is-link${loading ? ' is-loading' : ''}`">
                 {{ i18n.templates.app.searchButton }}
             </button>
-            <button v-if="!SPFSandbox.empty()" :class="`button is-header is-inverted is-link${loading ? ' is-loading' : ''}`" @click="openEvalModal">
+            <button
+                v-if="!SPFSandbox.empty()"
+                :class="`button is-header is-inverted is-link${loading ? ' is-loading' : ''}`"
+                @click="openEvalModal"
+            >
                 {{ i18n.templates.app.eval }}
             </button>
         </Header>
