@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import footer from "./footer"
 import ghLink from "./gh_link"
 
-export default { ghLink } as {[key: string]: {[key: string]: string}}
+export default { footer, ghLink } as {[key: string]: {[key: string]: string}}

@@ -51,12 +51,7 @@ limitations under the License.
             <SPFBase ref="SPFBase" :records="records"></SPFBase>
         </div>
 
-        <div class="footer">
-            <div class="container">
-                <p><a href="#top" class="button is-primary is-small">{{ i18n.templates.app.backToTop }}</a></p>
-                <p v-html="i18n.templates.app.oss"></p>
-            </div>
-        </div>
+        <Footer></Footer>
     </div>
 </template>
 
@@ -70,6 +65,7 @@ limitations under the License.
     import EvalModal from "./eval_modal"
     import AllPartExplanations from "./all_part_explanations"
     import ghLink from "../../templates/gh_link"
+    import Footer from "../../templates/footer"
 
     export default {
         name: "App",
@@ -79,6 +75,7 @@ limitations under the License.
             EvalModal,
             AllPartExplanations,
             ghLink,
+            Footer,
         },
         data() {
             return {

@@ -38,8 +38,8 @@ limitations under the License.
 
 <script>
     import i18n from "../i18n"
-    import dataUrlParser from "../utils/dataUrlParser"
-    import ExternalLink from "./ext_link"
+    import dataUrlParser from "../../utils/dataUrlParser"
+    import ExternalLink from "../../templates/ext_link"
 
     let recordType, recordHost
     const deeplink = () => {

@@ -19,8 +19,6 @@ export default {
     description: "Find the records you're looking for.",
     domain: "Domain",
     searchButton: "Search SPF Records",
-    backToTop: "Back To Top",
     eval: "Evaluate IP",
     whatDoTheyDo: "What are all the SPF mechanisms and what do they all do?",
-    oss: `This tool is <a href="https://github.com/do-community/spf-explainer">open-source on GitHub</a> under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a> license! We welcome feedback and contributions.`,
 } as {[key: string]: string}

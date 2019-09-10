@@ -120,7 +120,7 @@ limitations under the License.
     import i18n from "../i18n"
     import DNSDiff from "./dns_diff"
     import { reports } from "../plain_text_reports"
-    import ExternalLink from "./ext_link"
+    import ExternalLink from "../../templates/ext_link"
     import DMARCExplainerModal from "./dmarc_explainer_modal"
 
     const trimmers = {}

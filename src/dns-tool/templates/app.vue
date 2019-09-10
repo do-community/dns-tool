@@ -58,21 +58,7 @@ limitations under the License.
             </div>
         </div>
 
-        <div class="footer">
-            <div class="container">
-                <p><a href="#top" class="button is-primary is-small">{{ i18n.templates.app.backToTop }}</a></p>
-                <p>
-                    <span v-for="part in splitUrlText(i18n.templates.app.oss)">
-                        <span v-if="typeof part === 'string'">
-                            {{ part }}
-                        </span>
-                        <span v-else>
-                            <ExternalLink :text="part[0]" :link="part[1]"></ExternalLink>
-                        </span>
-                    </span>
-                </p>
-            </div>
-        </div>
+        <Footer></Footer>
     </div>
 </template>
 
@@ -84,12 +70,11 @@ limitations under the License.
     import i18n from "../i18n"
     import { reports } from "../plain_text_reports"
     import RecordSelectionModal from "./record_selection_modal"
-    import ghLink from "../../templates/gh_link"
     import cfDNS from "../utils/cfDNS"
     import NoSearch from "./skeletons/no_search"
     import RecordSkeleton from "./skeletons/record"
-    import ExternalLink from "./ext_link"
-    import dataUrlParser from "../utils/dataUrlParser"
+    import ghLink from "../../templates/gh_link"
+    import Footer from "../../templates/footer"
 
     const stripHttps = /(https*:\/\/)*(.+)*/
     const isHostname = /.*\.[a-z]+/
@@ -104,7 +89,7 @@ limitations under the License.
             RecordJumps,
             RecordSelectionModal,
             ghLink,
-            ExternalLink,
+            Footer,
         },
         data() {
             return {
@@ -125,9 +110,6 @@ limitations under the License.
             }
         },
         methods: {
-            splitUrlText(text) {
-                return dataUrlParser(text)
-            },
             error(message) {
                 alert(message)
                 this.$data.contentOpacity = 1
