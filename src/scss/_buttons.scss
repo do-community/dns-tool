@@ -14,14 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-@mixin button_style($text, $bg, $outline, $hover-background) {
-  color: $text;
+@mixin button-style($text, $bg, $outline, $hover-background) {
   background: $bg;
+  color: $text;
 
   &.is-outline {
-    color: $outline;
-    border: $border-size solid $outline;
     background: transparent;
+    border: $border-size solid $outline;
+    color: $outline;
   }
 
   &:not(.is-disabled):hover,
@@ -38,75 +38,77 @@ limitations under the License.
 }
 
 .button {
+  @include button-style($text, #ececec, $text, darken(#ececec, 5));
+
+  border: 0;
+  border-radius: 5px;
   font-size: $font-size;
   font-weight: 600;
-  text-transform: none;
   height: $height;
-  border-radius: 5px;
-  border: none;
-  padding: 0 (2 * $margin);
   margin: 0;
-  vertical-align: middle;
   overflow: visible;
+  padding: 0 (2 * $margin);
   text-decoration: none;
+  text-transform: none;
   transition: all $transition;
-
-  @include button_style($text, #ececec, $text, darken(#ececec, 5));
+  vertical-align: middle;
 
   &.is-primary,
   &.is-link,
   &.is-info {
-    @include button_style($background, $primary, $primary, $primary-hover);
+    @include button-style($background, $primary, $primary, $primary-hover);
   }
 
   &.is-header {
-    @include button_style($background, $header, $header, $header-hover);
+    @include button-style($background, $header, $header, $header-hover);
 
     &.is-inverted {
-      @include button_style($header, $background, $background, darken($background, 5));
+      @include button-style($header, $background, $background, darken($background, 5));
     }
   }
 
   &.is-secondary {
-    @include button_style($background, $secondary, $secondary, $secondary-hover);
+    @include button-style($background, $secondary, $secondary, $secondary-hover);
   }
 
   &.is-success {
-    @include button_style($background, $success, $success, $success-hover);
+    @include button-style($background, $success, $success, $success-hover);
   }
 
   &.is-warning {
-    @include button_style($background, $warning, $warning, $warning-hover);
+    @include button-style($background, $warning, $warning, $warning-hover);
   }
 
   &.is-danger {
-    @include button_style($background, $danger, $danger, $danger-hover);
+    @include button-style($background, $danger, $danger, $danger-hover);
   }
 
   &.is-disabled {
-    opacity: $disabled;
     cursor: not-allowed;
+    opacity: $disabled;
   }
 
   &.is-mini {
-    line-height: 34px;
     height: 34px;
-    padding: 0px 16px;
+    line-height: 34px;
+    padding: 0 16px;
   }
 
   &.is-small {
     font-size: 14px;
-    line-height: 40px;
     height: 40px;
-    padding: 0px 24px;
+    line-height: 40px;
+    padding: 0 24px;
   }
 }
 
-.fa, .far, .fab {
+.fa,
+.far,
+.fab {
   &.help {
+    cursor: pointer;
     display: inline-block;
     font-size: 1em;
     margin: 0;
-    cursor: pointer;
   }
 }
