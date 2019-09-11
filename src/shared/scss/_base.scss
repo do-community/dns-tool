@@ -85,8 +85,8 @@ figure {
   .main.container {
     display: flex;
     flex-direction: column;
-    width: 100%;
     flex-grow: 1;
     transition: opacity $transition;
+    width: 100%;
   }
 }

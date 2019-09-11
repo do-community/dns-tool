@@ -16,7 +16,7 @@
     "test": "npm run test:ts-vue && npm run test:scss",
     "test:ts-vue": "tsc && eslint './src/**/*.{vue,ts}'",
     "test:scss": "sass-lint ./src/**/*.scss --verbose --no-exit --config .sasslintrc",
-    "test:ts-vue:fix": "tsc && eslint './src/**/*.{vue,ts}' --fix",
+    "test:ts-vue:fix": "tsc && eslint './src/**/*.{vue,ts}' --fix"
   },
   "repository": {
     "type": "git",

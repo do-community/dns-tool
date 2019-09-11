@@ -162,7 +162,7 @@ input {
     }
   }
 
-  &[type='text'] + button.button {
+  &[type="text"] + button.button {
     margin-top: $margin;
   }
 }
