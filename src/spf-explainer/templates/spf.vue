@@ -116,22 +116,38 @@ limitations under the License.
                 return data.replace(lt, "&lt;").replace(gt, "&gt;").replace(ap, "&#39;").replace(ic, "&#34;")
             },
             async init() {
+                // These are the parts which are given to Vue in a way which is easy to iterate.
                 const parts = []
+
+                // Splits the data into string parts.
                 const dataSplit = this.$props.data.split(/ (?!\")/)
+
+                // Chunks the records together by the same name. This is so we can combine ip4/ip6 values.
                 const chunks = {}
 
+                // Goes through each part of the raw data.
                 for (const part of dataSplit) {
+                    // Ignore blank parts.
                     if (part === "") continue
+                    
+                    // Defines if a match was found.
                     let done = false
+
+                    // Iterate through the explanation keys.
                     for (const key of explanations.keys()) {
+                        // Defines if the match is recursive (this means it'll lookup the argument and call the SPF object for it).
                         const recursive = key instanceof Array ? key[1] : false
+
+                        // Defines if something matches the part.
                         const match = part.match(key instanceof Array ? key[0] : key)
-
                         if (match) {
+                            // This is the record included with the SPF record. If this is defined, the SPF object will be called with this.
                             let include
-                            let lookup = match[1] ? match[1].replace(/\" \"/g, "") : undefined
 
+                            // Defines the regex match for the URL to get the record to include from.
+                            let lookup = match[1] ? match[1].replace(/\" \"/g, "") : undefined
                             if (recursive && lookup !== "") {
+                                // Looks up the TXT record for the domain specified. If it exists and getting it was ok, set include to the data. 
                                 const res = await cfDNS(lookup, "TXT")
                                 if (res.ok) {
                                     const json = await res.json()
@@ -146,14 +162,19 @@ limitations under the License.
                                 }
                             }
 
+                            // Defines all included IP's.
                             const ipInclude = []
+
+                            // Defines the record type to do a IP result lookup in. This might be undefined, in which case it will not be done.
                             const recordType = key[2]
 
+                            // Splits by the last space.
                             const splitLastSpace = text => {
                                 const mSplit = text.split(/ /)
                                 return mSplit[mSplit.length - 1]
                             }
 
+                            // Runs the request against Cloudflare DNS. If everything is ok, append all responses to ipInclude.
                             const cfRun = async host => {
                                 const cfRecord = await cfDNS(host, recordType)
                                 if (cfRecord.ok) {
@@ -167,10 +188,13 @@ limitations under the License.
                                 }
                             }
 
+                            // If record type exists, run the IP lookup.
                             if (recordType) await cfRun(splitLastSpace(match[1] ? match[1] : this.$props.hostname))
 
+                            // Get the record part to chunk by.
                             const recordChunk = part.split(/:|=/)[0]
 
+                            // Finalise this bit by setting the chunk value and breaking.
                             const arr = [match, include, ipInclude, key]
                             if (chunks[recordChunk] === undefined) chunks[recordChunk] = [arr]
                             else chunks[recordChunk].push(arr)
@@ -178,17 +202,25 @@ limitations under the License.
                             break
                         }
                     }
+
+                    // If the mechanism was not found, return unknown.
                     if (!done) {
                         parts.push([part, i18n.data.explanations.unknown])
                         this.$data.links[part] = part
                     }
                 }
 
+                // Defines all IP addresses. This is used in the SPF sandbox.
                 const ips = []
 
                 for (const chunk in chunks) {
+                    // Defines the chunk.
                     const chunkArr = chunks[chunk]
+
+                    // Get the description.
                     let v = explanations.get(chunkArr[0][3])
+
+                    // Sort out the "??<value>??" operator. This adds the text in the question marks if the length is greater than 0.
                     const gt0Matches = v.match(/\?\?(.+)\?\?/g) || []
                     for (const m of gt0Matches) {
                         const x = m.substr(2).slice(0, -2)
@@ -196,6 +228,7 @@ limitations under the License.
                     }
 
                     if (v.includes("{R}")) {
+                        // This neatly writes out all of the IP addresses in a chunk.
                         let key = chunkArr.length === 1 ? chunkArr[0][0][0] : chunk
                         let commaSepList = []
                         if (key.match(/^ip[0-9]$/)) key = `${key}:<IP range>`
@@ -209,6 +242,7 @@ limitations under the License.
                         let value = v.replace("{R}", commaSepList.join(`</code>, <code class="slim">`))
                         parts.push([key, value, chunkArr[0][1], chunkArr[0][2], chunk])
                     } else {
+                        // This just handles the basic templating. We do not need to worry about iteration of all values, just go through each bit seperately.
                         for (const chunkItem of chunkArr) {
                             let value = v
                             const numberMatches = v.match(/\{[0-9]+\}/g)
@@ -232,6 +266,7 @@ limitations under the License.
                                 chunkItem[2] = i
                             }
 
+                            // Adds this to parts (described above).
                             parts.push([chunkItem[0][0].trim(), value, chunkItem[1], chunkItem[2], chunk])
                         }
                     }
@@ -241,6 +276,7 @@ limitations under the License.
                 const action = chunks["~all"] ? true : chunks["-all"] ? false : undefined
                 SPFSandbox.import(chunks, ips, action)
 
+                // Sets the parts to the component and emits that it is done loading.
                 this.$data.parts = parts
                 this.$emit("done-loading")
             },
