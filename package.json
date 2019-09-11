@@ -15,8 +15,10 @@
     "build:html:index": "node ./build/buildIndex.js",
     "dev": "npm run build:js:svg && npm run build:html:template && npm run dev:parcel",
     "dev:parcel": "parcel ./src/index.html --out-dir dev",
-    "lint": "tsc && eslint ./src/**/*.ts && eslint ./src/**/*.vue",
-    "lint-and-fix": "tsc && eslint ./src/**/*.ts --fix && eslint ./src/**/*.vue --fix"
+    "test": "npm run test:ts-vue && npm run test:scss",
+    "test:ts-vue": "tsc && eslint ./src/**/*.ts && eslint ./src/**/*.vue",
+    "test:scss": "sass-lint ./src/**/*.scss --verbose --no-exit --config .sasslintrc",
+    "test:ts-vue:fix": "tsc && eslint ./src/**/*.ts --fix && eslint ./src/**/*.vue --fix"
   },
   "repository": {
     "type": "git",
@@ -51,6 +53,7 @@
     "posthtml": "^0.11.4",
     "posthtml-extend": "^0.3.0",
     "sass": "^1.22.9",
+    "sass-lint": "^1.13.1",
     "typescript": "^3.5.3",
     "vue-template-compiler": "^2.6.10"
   }

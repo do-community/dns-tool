@@ -18,21 +18,21 @@ $table-border-size: 2px;
 $table-border: $table-border-size solid $border;
 
 table.table {
-  border-spacing: 0;
   border: $table-border;
   border-radius: $border-radius;
+  border-spacing: 0;
   box-shadow: none;
-  table-layout: unset;
   margin: 0;
+  table-layout: unset;
 
   thead {
     th {
-      vertical-align: bottom;
-      font-weight: 600;
       background: $panel;
-      border: none;
+      border: 0;
+      font-weight: 600;
       padding: ($margin / 2) $margin;
       text-align: left;
+      vertical-align: bottom;
 
       .is-with-border & {
         border-right: $table-border;
@@ -45,19 +45,19 @@ table.table {
   }
 
   tr {
-    display: table-row;
-    box-shadow: none;
+    background: $background;
     border: 0 none;
+    box-shadow: none;
+    display: table-row;
     margin-bottom: 0;
     padding: 0;
-    background: $background;
 
     td {
-      text-align: left;
-      vertical-align: top;
       border: $table-border;
       border-width: $table-border-size 0 0;
       padding: $margin;
+      text-align: left;
+      vertical-align: top;
 
       .is-with-border & {
         border-right-width: $table-border-size;
