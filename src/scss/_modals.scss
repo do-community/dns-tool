@@ -20,36 +20,38 @@ limitations under the License.
   }
 
   .modal-card {
-    box-shadow: rgba($dark-blue, 0.06) 0 2px 4px;
     background: $background;
-    border-radius: 5px;
     border: $thin-border;
+    border-radius: 5px;
+    box-shadow: rgba($dark-blue, .06) 0 2px 4px;
     margin: auto;
     padding: $margin * 2;
 
-    .modal-close, .delete {
+    .modal-close,
+    .delete {
+      align-self: flex-start;
       background: transparent;
       padding: 0;
-      align-self: flex-start;
 
-      &:before {
-        width: 100%;
+      &::before {
         height: 2px;
+        width: 100%;
       }
 
-      &:after {
+      &::after {
         height: 100%;
         width: 2px;
       }
 
-      &:before, &:after {
-        border-radius: 2px;
+      &::before,
+      &::after {
         background: $text;
+        border-radius: 2px;
       }
     }
 
     .modal-card-head {
-      border: none;
+      border: 0;
       border-top-left-radius: inherit;
       border-top-right-radius: inherit;
       padding: 0;
@@ -59,11 +61,11 @@ limitations under the License.
       padding: 0;
 
       .clipboard {
-        white-space: pre-wrap;
-        overflow-x: hidden !important;
-        overflow-wrap: break-word;
-        max-height: 50vh;
         height: auto;
+        max-height: 50vh;
+        overflow-wrap: break-word;
+        overflow-x: hidden !important; // sass-lint:disable-line no-important
+        white-space: pre-wrap;
       }
     }
   }
