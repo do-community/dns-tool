@@ -16,18 +16,14 @@ limitations under the License.
 
 html,
 body {
-  font: $font-weight $font-size unquote('/') $line-height $font-family;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
   background: $background;
-  color: $text;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
   box-sizing: border-box;
-  min-height: 100vh;
+  color: $text;
+  font: $font-weight $font-size unquote("/") $line-height $font-family;
   margin: 0;
+  min-height: 100vh;
   padding: 0;
+  text-rendering: optimizeLegibility;
 }
 
 * {
@@ -40,11 +36,11 @@ body {
 }
 
 hr {
+  border: 0;
+  border-top: 2px solid $border;
   box-sizing: content-box;
   height: 0;
   margin: $margin 0;
-  border: 0;
-  border-top: 2px solid $border;
 }
 
 // Margins
@@ -84,13 +80,13 @@ figure {
   min-height: 100vh;
 
   .main.container {
-    width: 100%;
     flex-grow: 1;
     transition: opacity $transition;
+    width: 100%;
   }
 }
 
 .fas.fa-external-link-alt {
-  font-size: 0.8em;
-  opacity: 0.6;
+  font-size: .8em;
+  opacity: .6;
 }
