@@ -18,7 +18,7 @@
     "lint": "npm run lint:ts-vue && npm run lint:scss",
     "lint:ts-vue": "tsc && eslint ./src/**/*.ts && eslint ./src/**/*.vue",
     "lint:ts-vue:fix": "tsc && eslint ./src/**/*.ts --fix && eslint ./src/**/*.vue --fix",
-    "lint:scss": "sass-lint **/*.scss --verbose --no-exit --config .sasslintrc"
+    "lint:scss": "sass-lint ./src/**/*.scss --verbose --no-exit --config .sasslintrc"
   },
   "repository": {
     "type": "git",
