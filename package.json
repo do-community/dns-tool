@@ -15,10 +15,10 @@
     "build:html:index": "node ./build/buildIndex.js",
     "dev": "npm run build:js:svg && npm run build:html:template && npm run dev:parcel",
     "dev:parcel": "parcel ./src/index.html --out-dir dev",
-    "lint": "npm run lint:ts-vue && npm run lint:scss",
-    "lint:ts-vue": "tsc && eslint ./src/**/*.ts && eslint ./src/**/*.vue",
-    "lint:ts-vue:fix": "tsc && eslint ./src/**/*.ts --fix && eslint ./src/**/*.vue --fix",
-    "lint:scss": "sass-lint ./src/**/*.scss --verbose --no-exit --config .sasslintrc"
+    "test": "npm run test:ts-vue && npm run test:scss",
+    "test:ts-vue": "tsc && eslint ./src/**/*.ts && eslint ./src/**/*.vue",
+    "test:scss": "sass-lint ./src/**/*.scss --verbose --no-exit --config .sasslintrc",
+    "test:ts-vue:fix": "tsc && eslint ./src/**/*.ts --fix && eslint ./src/**/*.vue --fix"
   },
   "repository": {
     "type": "git",
