@@ -31,7 +31,7 @@ const main = () => {
     })
 
     // Locate all SVG asset files
-    const base = `${__dirname}/../src/assets`
+    const base = `${__dirname}/../src/shared/assets`
     const files = fs.readdirSync(base).filter(file => file.endsWith('.svg'))
 
     // Convert to JS & save

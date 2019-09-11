@@ -1,0 +1,121 @@
+/*
+Copyright 2019 DigitalOcean
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+@mixin button-style($text, $bg, $outline, $hover-background) {
+  background: $bg;
+  color: $text;
+
+  &.is-outline {
+    background: transparent;
+    border: $border-size solid $outline;
+    color: $outline;
+  }
+
+  &:not(.is-disabled):hover,
+  &:not(.is-disabled):focus,
+  &:not(.is-disabled).is-active {
+    background: $hover-background;
+    color: rgba($text, .9);
+
+    &.is-outline {
+      background: $outline;
+      color: rgba($background, .9);
+    }
+  }
+}
+
+.button {
+  @include button-style($text, #ececec, $text, darken(#ececec, 5));
+
+  border: 0;
+  border-radius: 5px;
+  font-size: $font-size;
+  font-weight: 600;
+  height: $height;
+  margin: 0;
+  overflow: visible;
+  padding: 0 (2 * $margin);
+  text-decoration: none;
+  text-transform: none;
+  transition: all $transition;
+  vertical-align: middle;
+
+  &.is-primary,
+  &.is-link,
+  &.is-info {
+    @include button-style($background, $primary, $primary, $primary-hover);
+  }
+
+  &.is-header {
+    @include button-style($background, $header, $header, $header-hover);
+
+    &.is-inverted {
+      @include button-style($header, $background, $background, darken($background, 5));
+    }
+  }
+
+  &.is-secondary {
+    @include button-style($background, $secondary, $secondary, $secondary-hover);
+  }
+
+  &.is-success {
+    @include button-style($background, $success, $success, $success-hover);
+  }
+
+  &.is-warning {
+    @include button-style($background, $warning, $warning, $warning-hover);
+  }
+
+  &.is-danger {
+    @include button-style($background, $danger, $danger, $danger-hover);
+  }
+
+  &.is-disabled {
+    cursor: not-allowed;
+    opacity: $disabled;
+  }
+
+  &.is-mini {
+    height: 34px;
+    line-height: 34px;
+    padding: 0 16px;
+  }
+
+  &.is-small {
+    font-size: 14px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 24px;
+  }
+}
+
+.fa,
+.far,
+.fas,
+.fab {
+  &.help {
+    color: $text;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1em;
+    margin: 0;
+  }
+
+  &.fa-external-link-alt {
+    font-size: .8em;
+    opacity: .6;
+  }
+}

@@ -14,21 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const fs = require("fs")
-
-const main = () => {
-    console.log('Cleaning out dist directory...')
-
-    // Create target directory
-    const base = `${__dirname}/../dist`
-    if (!fs.existsSync(base)) {
-        fs.mkdirSync(base)
-    }
-
-    // Remove all existing files
-    fs.rmdirSync(base, { recursive: true })
-
-    console.log('...dist directory cleaned for build.')
-}
-
-main()
+@import "globals";
+@import "../../../node_modules/bulma/bulma";
+@import "base";
+@import "typography";
+@import "header";
+@import "github";
+@import "buttons";
+@import "forms";
+@import "tables";
+@import "footer";
+@import "modals";
+@import "tags";
+@import "skeletons";
+@import "no-search";

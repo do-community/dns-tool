@@ -14,21 +14,41 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const fs = require("fs")
-
-const main = () => {
-    console.log('Cleaning out dist directory...')
-
-    // Create target directory
-    const base = `${__dirname}/../dist`
-    if (!fs.existsSync(base)) {
-        fs.mkdirSync(base)
-    }
-
-    // Remove all existing files
-    fs.rmdirSync(base, { recursive: true })
-
-    console.log('...dist directory cleaned for build.')
+.data-skeleton {
+  animation: skeleton-loading 500ms linear 500ms infinite;
+  animation-play-state: paused;
+  border: 0;
+  max-width: 100%;
 }
 
-main()
+.skeleton-running {
+  animation-play-state: running;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    opacity: .7;
+  }
+
+  25% {
+    opacity: .9;
+  }
+
+  50% {
+    opacity: .7;
+  }
+
+  75% {
+    opacity: .5;
+  }
+
+  100% {
+    opacity: .7;
+  }
+}
+
+.skeleton-table {
+  border-collapse: separate;
+  border-color: $background !important;
+  border-spacing: ($margin / 4) !important;
+}

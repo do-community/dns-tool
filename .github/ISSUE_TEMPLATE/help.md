@@ -13,6 +13,9 @@ If you are in need of help, please follow the following steps:
 
 2.  Delete this line and all above lines before posting your issue! -->
 
+## Tool relating to this issue
+<!-- This will either be the DNS tool or the SPF explainer. -->
+
 ## Information
 <!-- Head to https://www.whatismybrowser.com/ and copy/paste the
   'Send this link to Tech Support to share your system info:' link here -->

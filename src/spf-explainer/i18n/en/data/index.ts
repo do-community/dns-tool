@@ -14,21 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const fs = require("fs")
+import explanations from "./explanations"
+import longDescriptions from "./long_descriptions"
 
-const main = () => {
-    console.log('Cleaning out dist directory...')
-
-    // Create target directory
-    const base = `${__dirname}/../dist`
-    if (!fs.existsSync(base)) {
-        fs.mkdirSync(base)
-    }
-
-    // Remove all existing files
-    fs.rmdirSync(base, { recursive: true })
-
-    console.log('...dist directory cleaned for build.')
-}
-
-main()
+export default { explanations, longDescriptions } as {[key: string]: {[key: string]: string}}

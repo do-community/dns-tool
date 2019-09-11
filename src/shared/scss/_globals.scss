@@ -1,0 +1,60 @@
+/*
+Copyright 2019 DigitalOcean
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+// Colors
+$primary: #0069ff !default;
+$primary-hover: darken($primary, 5);
+$success: #11a95e !default;
+$success-hover: darken($success, 5);
+$secondary: #127c43 !default;
+$secondary-hover: #0aac55 !default;
+$danger: #d91d1d !default;
+$danger-hover: darken($danger, 5);
+$warning: #f56109 !default;
+$warning-hover: darken($warning, 5);
+$background: #fff !default;
+$border: #f1f1f1 !default;
+$text: #333 !default;
+$heading: #222 !default;
+$panel: #fafafa !default;
+$muted: rgba($text, .75);
+$header: #f00 !default;
+$header-hover: darken($header, 5);
+$dark-blue: #031b4e !default;
+$modal: rgba(#444, .95) !default;
+
+// Fonts
+$font-size: 16px;
+$font-family: "Proxima Nova", "proxima-nova", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+$bold-font-family: "Sailec-Bold", system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+$mono-font-family: "Operator Mono", Consolas, monospace, serif;
+$font-weight: 400;
+$line-height: 1.5;
+$disabled: .5;
+
+// Borders
+$border-size: 1px;
+$thin-border: $border-size solid $border;
+$border-radius: 3px;
+
+// Transition
+$transition-speed: 250ms;
+$transition-bezier: cubic-bezier(.645, .045, .355, 1);
+$transition: $transition-speed $transition-bezier;
+
+// Sizing
+$height: 48px;
+$margin: 16px;

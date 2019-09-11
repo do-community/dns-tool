@@ -1,0 +1,248 @@
+/*
+Copyright 2019 DigitalOcean
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+input,
+.input,
+textarea,
+.textarea {
+  border-radius: 0;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  font-size: $font-size;
+  margin: 0;
+}
+
+@mixin disabled-focus {
+  &:focus {
+    background: $background;
+    border-color: $primary;
+    box-shadow: 0 0 2px rgba($success, .5);
+    color: $text;
+    outline: 0;
+  }
+
+  &:disabled {
+    background-color: $panel;
+    border-color: $border;
+    color: $text;
+    cursor: not-allowed;
+    opacity: $disabled;
+    user-select: none;
+  }
+}
+
+input {
+  &:not([type]),
+  &[type="text"],
+  &[type="password"],
+  &[type="email"],
+  &[type="url"],
+  &[type="search"],
+  &[type="tel"],
+  &[type="number"],
+  &[type="datetime"],
+  &[type="range"] {
+    appearance: none;
+  }
+
+  &:not([type]),
+  &[type="text"],
+  &[type="text"],
+  &[type="password"],
+  &[type="datetime"],
+  &[type="datetime-local"],
+  &[type="date"],
+  &[type="month"],
+  &[type="time"],
+  &[type="week"],
+  &[type="number"],
+  &[type="email"],
+  &[type="url"],
+  &[type="search"],
+  &[type="tel"],
+  &[type="color"] {
+    @include disabled-focus;
+
+    background: $background;
+    border: $thin-border;
+    border-radius: $border-radius;
+    color: $text;
+    height: $height;
+    max-width: 100%;
+    padding: 0 $margin;
+    position: relative;
+    transition: all $transition;
+    width: 100%;
+  }
+
+  &::-moz-focus-inner {
+    bottom: 0;
+    padding: 0;
+  }
+
+  &[type="number"] {
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      height: auto;
+    }
+  }
+
+  &[type="search"] {
+    &::-webkit-search-cancel-button,
+    &::-webkit-search-decoration {
+      appearance: none;
+    }
+  }
+
+  &[type="checkbox"] {
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    z-index: -1;
+
+    + label {
+      cursor: pointer;
+      display: inline-block;
+      margin-bottom: $margin / 2;
+      padding-left: 30px;
+      position: relative;
+      user-select: none;
+
+      &::before {
+        border: $thin-border;
+        border-radius: $border-radius;
+        content: "";
+        height: 22px;
+        left: 0;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 22px;
+      }
+    }
+
+    &:checked {
+      + label {
+        color: $primary;
+
+        &::before {
+          border-color: $primary;
+        }
+
+        &::after {
+          background: url("data:image/svg+xml;charset=utf-8,%3Csvg viewBox=\"0 0 32 32\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"%230069ff\" width=\"12\" height=\"12\"%3E%3Cpath d=\"M30.72 5.824a1.816 1.816 0 0 0-2.56 0l-16.64 16.64-7.744-7.744c-.64-.64-1.856-.64-2.496 0a1.816 1.816 0 0 0 0 2.56l8.96 8.96c.32.32.768.512 1.216.512.256 0 .832 0 1.344-.512L30.72 8.32a1.739 1.739 0 0 0 0-2.496z\"/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-size: contain;
+          content: "";
+          display: inline-block;
+          fill: $primary;
+          height: 12px;
+          left: 5px;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 12px;
+          z-index: 2;
+        }
+      }
+    }
+  }
+
+  &[type="text"] + button.button {
+    margin-top: $margin;
+  }
+}
+
+textarea {
+  @include disabled-focus;
+
+  background: $background;
+  border: $thin-border;
+  border-radius: $border-radius;
+  color: $text;
+  height: auto;
+  max-width: 100%;
+  overflow: auto;
+  padding: $margin;
+  position: relative;
+  resize: vertical;
+  transition: all $transition;
+  vertical-align: top;
+  width: 100%;
+}
+
+::-moz-placeholder {
+  opacity: 1;
+}
+
+:invalid {
+  box-shadow: none;
+}
+
+:-ms-input-placeholder {
+  color: $muted !important; // sass-lint:disable-line no-important
+
+  &:disabled {
+    color: $text !important; // sass-lint:disable-line no-important
+  }
+}
+
+::-moz-placeholder { // sass-lint:disable-line no-mergeable-selectors
+  color: $muted;
+
+  &:disabled {
+    color: $text;
+  }
+}
+
+::-webkit-input-placeholder {
+  color: $muted;
+
+  &:disabled {
+    color: $text;
+  }
+}
+
+.input-container {
+  border-radius: $border-radius;
+  box-shadow: none;
+  margin: 0 0 $margin;
+  position: relative;
+  text-align: left;
+  width: 100%;
+
+  i {
+    color: rgba($text, .6);
+    font-size: 18px;
+    left: $margin;
+    position: absolute;
+    top: 18px;
+    z-index: 1;
+  }
+
+  input {
+    border: 0;
+    border-radius: $border-radius;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 400;
+    height: auto;
+    line-height: normal;
+    padding: $margin ($margin * 2) $margin ($margin * 2 + 18);
+    width: 100%;
+  }
+}

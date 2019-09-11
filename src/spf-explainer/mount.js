@@ -14,21 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const fs = require("fs")
+import "babel-polyfill"
 
-const main = () => {
-    console.log('Cleaning out dist directory...')
+import Vue from "vue"
+import App from "./templates/app.vue"
+import i18n from "./i18n"
 
-    // Create target directory
-    const base = `${__dirname}/../dist`
-    if (!fs.existsSync(base)) {
-        fs.mkdirSync(base)
-    }
+document.head.title = i18n.templates.app.title
 
-    // Remove all existing files
-    fs.rmdirSync(base, { recursive: true })
-
-    console.log('...dist directory cleaned for build.')
-}
-
-main()
+new Vue({
+    render: h => h(App),
+}).$mount("#app")

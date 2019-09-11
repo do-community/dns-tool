@@ -14,21 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const fs = require("fs")
+.spf-explainer {
+  $header: #0071fe;
+  @import "../../shared/scss/style.scss";
 
-const main = () => {
-    console.log('Cleaning out dist directory...')
-
-    // Create target directory
-    const base = `${__dirname}/../dist`
-    if (!fs.existsSync(base)) {
-        fs.mkdirSync(base)
+  .main.container {
+    .record-group {
+      padding-left: $margin * 2;
     }
+  }
 
-    // Remove all existing files
-    fs.rmdirSync(base, { recursive: true })
-
-    console.log('...dist directory cleaned for build.')
+  .no-search {
+    top: $margin * 3;
+  }
 }
-
-main()

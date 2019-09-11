@@ -14,21 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const fs = require("fs")
+import i18n from "../i18n"
 
-const main = () => {
-    console.log('Cleaning out dist directory...')
-
-    // Create target directory
-    const base = `${__dirname}/../dist`
-    if (!fs.existsSync(base)) {
-        fs.mkdirSync(base)
-    }
-
-    // Remove all existing files
-    fs.rmdirSync(base, { recursive: true })
-
-    console.log('...dist directory cleaned for build.')
+export default {
+    a: i18n.data.longDescriptions.a,
+    v: i18n.data.longDescriptions.v,
+    mx: i18n.data.longDescriptions.mx,
+    include: i18n.data.longDescriptions.include,
+    ptr: i18n.data.longDescriptions.ptr,
+    ip4: i18n.data.longDescriptions.ip4,
+    ip6: i18n.data.longDescriptions.ip6,
 }
-
-main()

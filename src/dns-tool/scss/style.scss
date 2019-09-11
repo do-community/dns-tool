@@ -14,21 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const fs = require("fs")
-
-const main = () => {
-    console.log('Cleaning out dist directory...')
-
-    // Create target directory
-    const base = `${__dirname}/../dist`
-    if (!fs.existsSync(base)) {
-        fs.mkdirSync(base)
-    }
-
-    // Remove all existing files
-    fs.rmdirSync(base, { recursive: true })
-
-    console.log('...dist directory cleaned for build.')
+.dns-tool {
+  $header: #005ff8;
+  @import "../../shared/scss/style.scss";
 }
-
-main()

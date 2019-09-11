@@ -1,0 +1,92 @@
+/*
+Copyright 2019 DigitalOcean
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+html,
+body {
+  background: $background;
+  box-sizing: border-box;
+  color: $text;
+  font: $font-weight $font-size unquote("/") $line-height $font-family;
+  margin: 0;
+  min-height: 100vh;
+  padding: 0;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: inherit;
+
+  &::before,
+  &::after {
+    box-sizing: inherit;
+  }
+}
+
+hr {
+  border: 0;
+  border-top: 2px solid $border;
+  box-sizing: content-box;
+  height: 0;
+  margin: $margin 0;
+
+  &.hr-small-pad {
+    margin-top: $margin / 4;
+  }
+}
+
+// Margins
+blockquote,
+figure {
+  margin: 0;
+}
+
+p,
+ul,
+ol,
+dl,
+blockquote,
+pre,
+address,
+fieldset,
+figure {
+  margin: 0 0 $margin;
+}
+
+* + p,
+* + ul,
+* + ol,
+* + dl,
+* + blockquote,
+* + pre,
+* + address,
+* + fieldset,
+* + figure {
+  margin-top: $margin;
+}
+
+// Body
+& {
+  display: flex;
+  flex-direction: column;
+
+  .main.container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    transition: opacity $transition;
+    width: 100%;
+  }
+}

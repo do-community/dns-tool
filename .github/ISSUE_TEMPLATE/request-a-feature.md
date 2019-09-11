@@ -29,6 +29,9 @@ If you have a feature suggestion for the tool, read through the following steps:
 
 5.  Delete this line and all above lines before posting your issue! -->
 
+## Tool relating to this issue
+<!-- This will either be the DNS tool or the SPF explainer. -->
+
 ## Feature request
 
 ### Feature description

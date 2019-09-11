@@ -14,21 +14,23 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const fs = require("fs")
+// Imports the line generator.
+import LineGenerator from "./line_generator"
 
-const main = () => {
-    console.log('Cleaning out dist directory...')
+// Defines the active line.
+let activeLine: LineGenerator | undefined
 
-    // Create target directory
-    const base = `${__dirname}/../dist`
-    if (!fs.existsSync(base)) {
-        fs.mkdirSync(base)
-    }
-
-    // Remove all existing files
-    fs.rmdirSync(base, { recursive: true })
-
-    console.log('...dist directory cleaned for build.')
+// Destroys the line.
+const destroy = () => {
+    if (activeLine) activeLine.destroy()
+    activeLine = undefined
 }
 
-main()
+// Spawns the line.
+export default (lineRef: HTMLElement[] | undefined) => {
+    destroy()
+    if (lineRef) activeLine = new LineGenerator(lineRef[0], lineRef[1])
+}
+
+// Despawn the line on resize.
+window.addEventListener("resize", destroy)

@@ -1,4 +1,4 @@
-/*
+<!--
 Copyright 2019 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,23 +12,16 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+-->
 
-const fs = require("fs")
-
-const main = () => {
-    console.log('Cleaning out dist directory...')
-
-    // Create target directory
-    const base = `${__dirname}/../dist`
-    if (!fs.existsSync(base)) {
-        fs.mkdirSync(base)
-    }
-
-    // Remove all existing files
-    fs.rmdirSync(base, { recursive: true })
-
-    console.log('...dist directory cleaned for build.')
-}
-
-main()
+<extends src="../build/base.html">
+    <block name="title">SPF Explainer | </block>
+    <block name="head">
+        <link rel="stylesheet" href="scss/style.scss">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" integrity="sha256-UzFD2WYH2U1dQpKDjjZK72VtPeWP50NoJjd26rnAdUI=" crossorigin="anonymous" />
+    </block>
+    <block name="content">
+        <div id="app"></div>
+        <script src="mount.js"></script>
+    </block>
+</extends>
