@@ -1,32 +1,32 @@
 .no-search {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: auto;
+  align-items: center;
+  background: linear-gradient(to bottom, hsla(0, 0%, 100%, .7) 0%, hsla(0, 0%, 100%, .5) 90%, hsla(0, 0%, 100%, 0) 100%);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  z-index: 1;
+  height: auto;
+  left: 0;
   padding: 0 0 10%;
-  background: linear-gradient(to bottom, hsla(0, 0%, 100%, 0.7) 0%, hsla(0, 0%, 100%, 0.5) 90%, hsla(0, 0%, 100%, 0) 100%);
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
 
   h2 {
-    padding: $margin * 2;
-    margin: 0;
-    background: hsla(0, 0%, 100%, 0.2);
+    background: hsla(0, 0%, 100%, .2);
     color: #505159;
+    margin: 0;
+    padding: $margin * 2;
   }
 
   .graphic {
-    display: flex;
-    width: 100%;
     align-items: center;
+    display: flex;
     flex-direction: column;
+    width: 100%;
 
     svg {
-      width: 512px;
       max-width: 90%;
+      width: 512px;
     }
   }
 }
