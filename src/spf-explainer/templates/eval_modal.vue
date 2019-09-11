@@ -13,7 +13,7 @@ limitations under the License.
 -->
 
 <template>
-    <div :class="`modal ${toggled ? 'is-active' : ''}`">
+    <div :class="`modal${toggled ? ' is-active' : ''}`">
         <div class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head">

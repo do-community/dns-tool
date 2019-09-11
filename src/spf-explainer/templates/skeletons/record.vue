@@ -23,7 +23,7 @@ limitations under the License.
         <div class="record-group">
             <table class="table skeleton-table">
                 <tbody>
-                    <tr v-for="index in 5" :key="index">
+                    <tr v-for="_ in 5">
                         <td :class="getClass()" :style="getSkeletonStyle(40, 90)"></td>
                         <td :class="getClass()" :style="getSkeletonStyle(300, 400)"></td>
                     </tr>
@@ -37,7 +37,7 @@ limitations under the License.
             <div class="record-group">
                 <table class="table skeleton-table">
                     <tbody>
-                        <tr v-for="index in 2" :key="index">
+                        <tr v-for="__ in 2">
                             <td :class="getClass()" :style="getSkeletonStyle(40, 90)"></td>
                             <td :class="getClass()" :style="getSkeletonStyle(300, 800)"></td>
                         </tr>
@@ -57,7 +57,7 @@ limitations under the License.
             getRandomInt,
             getSkeletonStyle,
             getClass() {
-                return `data-skeleton ${this.$props.loading ? 'skeleton-running' : ''}`
+                return `data-skeleton${this.$props.loading ? ' skeleton-running' : ''}`
             }
         },
     }

@@ -42,7 +42,7 @@ limitations under the License.
             getRandomInt,
             getSkeletonStyle,
             getClass() {
-                return `data-skeleton ${this.$props.loading ? 'skeleton-running' : ''}`
+                return `data-skeleton${this.$props.loading ? ' skeleton-running' : ''}`
             }
         },
     }

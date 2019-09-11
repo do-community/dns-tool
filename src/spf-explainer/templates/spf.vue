@@ -24,7 +24,10 @@ limitations under the License.
             <div :ref="part[0]">
                 <p>
                     <code class="slim">{{ part[0] }}</code>
-                    <a v-if="part[4] !== undefined && longDescriptionExists(part[4])" @click="displayLongDescription(part[4])">
+                    <a
+                        v-if="part[4] !== undefined && longDescriptionExists(part[4])"
+                        @click="displayLongDescription(part[4])"
+                    >
                         <i class="far fa-question-circle help"></i>
                     </a>
                     : <span v-html="part[1]"></span>
@@ -164,18 +167,13 @@ limitations under the License.
                                 }
                             }
 
-                            if (recordType) {
-                                await cfRun(splitLastSpace(match[1] ? match[1] : this.$props.hostname))
-                            }
+                            if (recordType) await cfRun(splitLastSpace(match[1] ? match[1] : this.$props.hostname))
 
                             const recordChunk = part.split(/:|=/)[0]
 
                             const arr = [match, include, ipInclude, key]
-                            if (chunks[recordChunk] === undefined) {
-                                chunks[recordChunk] = [arr]
-                            } else {
-                                chunks[recordChunk].push(arr)
-                            }
+                            if (chunks[recordChunk] === undefined) chunks[recordChunk] = [arr]
+                            else chunks[recordChunk].push(arr)
                             done = true
                             break
                         }

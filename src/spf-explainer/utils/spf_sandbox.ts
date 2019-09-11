@@ -49,8 +49,7 @@ class SPFRule {
                 end = ".+"
             }
 
-            const partSplit = range.split(":")
-            for (const part of partSplit) parts.push(part)
+            parts.push(...range.split(":"))
 
             if (end) parts.push(end)
 
