@@ -14,7 +14,7 @@ fetch(
         headers: {
             "Content-Type": "application/json",
             Accept: "application/vnd.github.v3+json",
-            Authorization: `Basic ${Buffer.from(`JakeMakesStuff:${process.env.GITHUB_ACCESS_TOKEN}`).toString("base64")}`,
+            Authorization: `Basic ${Buffer.from(`github-actions:${process.env.GITHUB_ACCESS_TOKEN}`).toString("base64")}`,
         }
     },
 ).then(async x => {
