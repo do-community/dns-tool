@@ -18,7 +18,7 @@ jobs:
         npm run build
         npm test
     - name: Build and Deploy
-      if: $GITHUB_REF == "master"
+      if: GITHUB_REF == "master"
       uses: JamesIves/github-pages-deploy-action@master
       env:
         ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
