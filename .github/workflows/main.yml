@@ -1,0 +1,27 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js v12.10.0
+      uses: actions/setup-node@v1
+      with:
+        node-version: v12.10.0
+    - name: npm install, build, and test
+      run: |
+        npm install
+        npm run build
+        npm test
+    - name: Build and Deploy
+      if: $GITHUB_REF == "master"
+      uses: JamesIves/github-pages-deploy-action@master
+      env:
+        ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+        BASE_BRANCH: master
+        BRANCH: gh-pages
+        FOLDER: build
