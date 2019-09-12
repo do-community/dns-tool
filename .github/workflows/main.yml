@@ -33,8 +33,8 @@ jobs:
         BRANCH: gh-pages
         FOLDER: dist
 
-    - uses: chrislennon/action-aws-cli@v1.1
     - name: Deploy commit to DigitalOcean Spaces
+      uses: chrislennon/action-aws-cli@v1.1
       run: aws s3 sync ./dist s3://${{ secrets.SPACES_BUCKET }}/${{ github.sha }} --endpoint=https://${{ secrets.SPACES_REGION }}.digitaloceanspaces.com --acl public-read
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.SPACES_ACCESS_KEY_ID }}
