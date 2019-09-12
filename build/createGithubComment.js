@@ -12,10 +12,11 @@ fetch(
             body: comment,
         }),
         headers: {
+            "Content-Type": "application/json",
             Accept: "application/vnd.github.v3+json",
-            Authorization: `Basic JakeMakesStuff:${(new Buffer(process.env.GITHUB_ACCESS_TOKEN)).toString("base64")}`,
+            Authorization: `Basic ${Buffer.from(`JakeMakesStuff:${process.env.GITHUB_ACCESS_TOKEN}`).toString("base64")}`,
         }
     },
-).then(x => {
-    if (!x.ok) throw x
-}).catch(e => { throw e })
+).then(async x => {
+    if (!x.ok) { console.log(await x.json()); process.exit(1); }
+}).catch(async e => { console.log(await e.json()); process.exit(1); })
