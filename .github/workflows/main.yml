@@ -18,10 +18,10 @@ jobs:
         npm run build
         npm test
     - name: Deploy
-      if: github.ref == 'master'
+      if: github.ref == 'gh-actions'
       uses: JamesIves/github-pages-deploy-action@master
       env:
         ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
         BASE_BRANCH: master
-        BRANCH: gh-pages
+        BRANCH: gh-pages-test
         FOLDER: dist
