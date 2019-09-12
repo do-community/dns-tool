@@ -125,7 +125,7 @@ export default class LineGenerator {
         const svg = this._createInnerSvg(container)
 
         // Gets the left side of B.
-        const bLeft = bRect.left - 2
+        const bLeft = bRect.left - 10
 
         try {
             // If bLeft is less than 0, return.
@@ -152,7 +152,7 @@ export default class LineGenerator {
             this.drawLine(svg, lineColor, this.downX!, aBestX, aBestY, aBestY)
 
             // Draws the claw.
-            drawClaw(bLeft, bRect.top - 3, bRect.bottom + 3, this, svg)
+            drawClaw(bLeft, bRect.top - 6, bRect.bottom + 6, this, svg)
 
             // bLeft being greater than bTop means there isn't enough room. Return and destroy.
             if (this.downX! > bLeft) return this.destroy()
