@@ -85,6 +85,7 @@ limitations under the License.
         },
         watch: {
             data() {
+                this.$data.links = {}
                 this.init()
             },
         },
