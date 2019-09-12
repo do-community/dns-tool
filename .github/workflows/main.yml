@@ -24,4 +24,4 @@ jobs:
         ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
         BASE_BRANCH: master
         BRANCH: gh-pages
-        FOLDER: build
+        FOLDER: dist
