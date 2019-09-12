@@ -18,7 +18,7 @@ jobs:
         npm run build
         npm test
     - name: Deploy
-      if: github.ref == 'gh-actions'
+      if: github.ref == 'gh_actions'
       uses: JamesIves/github-pages-deploy-action@master
       env:
         ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
