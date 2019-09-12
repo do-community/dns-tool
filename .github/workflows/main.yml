@@ -1,6 +1,6 @@
 name: CI
 
-on: [push]
+on: push
 
 jobs:
   build:
@@ -8,25 +8,33 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Use Node.js v12.10.0
+
+    - name: Read .nvmrc
+      run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
+      id: nvm
+
+    - name: Use Node.js (.nvmrc)
       uses: actions/setup-node@v1
       with:
-        node-version: v12.10.0
-    - name: npm install, build, and test
+        node-version: "${{ steps.nvm.outputs.NVMRC }}"
+
+    - name: npm ci, test, and build
       run: |
-        npm install
-        npm run build
+        npm ci
         npm test
-    - name: Deploy to GitHub Pages
+        npm run build
+
+    - name: Deploy master to GitHub Pages
       if: github.ref == 'refs/heads/master'
-      uses: JamesIves/github-pages-deploy-action@master
+      uses: JamesIves/github-pages-deploy-action@v2
       env:
         ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
         BASE_BRANCH: master
         BRANCH: gh-pages
         FOLDER: dist
+
     - uses: chrislennon/action-aws-cli@v1.1
-    - name: Deploy to DigitalOcean Spaces
+    - name: Deploy commit to DigitalOcean Spaces
       run: aws s3 sync ./dist s3://${{ secrets.SPACES_BUCKET }}/${{ github.sha }} --endpoint=https://${{ secrets.SPACES_REGION }}.digitaloceanspaces.com --acl public-read
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.SPACES_ACCESS_KEY_ID }}
