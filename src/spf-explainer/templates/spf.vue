@@ -23,7 +23,7 @@ limitations under the License.
         </h5>
         <div v-for="part in parts" :key="part[0]">
             <hr class="hr-small-pad">
-            <div :ref="part[0]">
+            <div :ref="part[0]" class="spf-scroll-offset">
                 <p>
                     <code class="slim">{{ part[0] }}</code>
                     <a
