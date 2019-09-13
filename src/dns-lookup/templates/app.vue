@@ -15,7 +15,7 @@ limitations under the License.
 -->
 
 <template>
-    <div class="all dns-tool">
+    <div class="all dns-lookup">
         <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
 
         <Header

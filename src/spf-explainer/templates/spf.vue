@@ -18,7 +18,7 @@ limitations under the License.
     <div v-if="!loading">
         <h5 class="title is-5">
             <span v-for="(_, key) in links" :key="key" :ref="key">
-                <a @click="goToIndex(key)" @mouseover="markActive(key)">{{ key }}&nbsp;</a>
+                <a @click="goToIndex(key)" @mouseover="markActive(key)">{{ key }} </a>
             </span>
         </h5>
         <div v-for="part in parts" :key="part[0]">
@@ -85,6 +85,7 @@ limitations under the License.
         },
         watch: {
             data() {
+                this.$data.links = {}
                 this.init()
             },
         },

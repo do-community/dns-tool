@@ -18,7 +18,7 @@ If you are reporting a bug, please follow the following steps:
 4.  Delete this line and all above lines before posting your issue! -->
 
 ## Tool relating to this issue
-<!-- This will either be the DNS tool or the SPF explainer. -->
+<!-- This will either be the DNS lookup tool or the SPF explainer. -->
 
 ## Information
 <!-- Head to https://www.whatismybrowser.com/ and copy/paste the

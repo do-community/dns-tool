@@ -63,10 +63,13 @@ const index = async (file, out) => {
     const post = posthtml(plugins)
 
     // Process
-    const result = await post.process(source)
+    const html = (await post.process(source)).html
+
+    // Remove comments before HTML
+    const result = html.replace(/^(<!--.+?-->[\w\n]*)*/gms, '')
 
     // Export
-    fs.writeFileSync(Path.join(__dirname, '..', out), result.html, { flag: 'w+' })
+    fs.writeFileSync(Path.join(__dirname, '..', out), result, { flag: 'w+' })
     console.log(`...build successfully, saved to ${out}`)
 }
 
