@@ -7,14 +7,14 @@ A set of browser-based DNS tools for DigitalOcean Community.
 To setup the build/develop environment, you will need to run `npm i` with Node 12+ installed. This will install the
  dependencies to allow you to build the project.
 
-To develop for the DNS tool run `npm run dev:tools:dns-tool`, and to develop for the SPF explainer run
+To develop for the DNS tool run `npm run dev:tools:dns-lookup`, and to develop for the SPF explainer run
  `npm run dev:tools:spf-explainer`.\
 This will start a development server that will automatically reload the codebase when changes occur.
 
 If you wish to host these tools on a service, simply run `npm run build`. This will run all the necessary build scripts
  automatically to build all the tools present in the source folder.\
 You can then take the `dist` folder and put it on your web server/bucket. The `dist` folder will contain the folders
- `dns-tool` and `spf-explainer` which will each have their respective tools inside.\
+ `dns-lookup` and `spf-explainer` which will each have their respective tools inside.\
 Travis CI does this automatically for this repository to deploy to gh-pages.
 
 ## Source Structure
@@ -27,7 +27,7 @@ In this directory, there is the [`src/shared`](./src/shared) directory which con
  the tools, such as the main Community styling which is located in [`src/shared/scss`](./src/shared/scss) and the
  generic templates used by all tools in [`src/shared/templates`](./src/shared/templates).
  
-Within this directory are also the main tool source directories ([`src/dns-tool`](./src/dns-tool) &
+Within this directory are also the main tool source directories ([`src/dns-lookup`](./src/dns-lookup) &
  [`src/spf-explainer`](./src/spf-explainer)).\
 These directories contain the specific source for that tool, which includes custom templates and style inheritance from
  the centralised styles.
