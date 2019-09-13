@@ -27,7 +27,8 @@ const main = async () => {
     let rawHTML = await res.text()
 
     // Parse
-    const { document } = (new JSDOM(rawHTML)).window
+    const dom = new JSDOM(rawHTML)
+    const { document } = dom.window
     const nav = document.querySelector('nav.do_nav')
 
     // Nuke top log in button
@@ -58,8 +59,13 @@ const main = async () => {
         }
     })
 
+    // Inject charset
+    const charset = document.createElement('meta')
+    charset.setAttribute('charset', 'utf8')
+    document.head.insertBefore(charset, document.head.firstChild)
+
     // Convert back to raw
-    rawHTML = document.documentElement.innerHTML
+    rawHTML = dom.serialize()
 
     // Inject title block
     rawHTML = rawHTML.replace(/<title>(.+?)<\/title>/, '<title><block name="title"></block>$1</title>')
@@ -72,7 +78,7 @@ const main = async () => {
         '<block name="content"></block><div class="clearfix"></div>')
 
     // Inject last fetch comment
-    rawHTML = rawHTML.replace('<head>', `<head><!-- Last fetch from www.digitalocean.com @ ${(new Date()).toISOString()} -->`)
+    rawHTML = rawHTML.replace('<head>', `<!-- Last fetch from www.digitalocean.com @ ${(new Date()).toISOString()} -->\n<head>`)
 
     // Export
     fs.writeFileSync(`${__dirname}/base.html`, rawHTML, { flag: 'w+' })
