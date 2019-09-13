@@ -28,7 +28,7 @@ jobs:
       if: github.ref == 'refs/heads/master'
       uses: JamesIves/github-pages-deploy-action@2.0.0
       env:
-        ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ACCESS_TOKEN: ${{ secrets.DEV_GITHUB_TOKEN }}
         BASE_BRANCH: master
         BRANCH: gh-pages
         FOLDER: dist
