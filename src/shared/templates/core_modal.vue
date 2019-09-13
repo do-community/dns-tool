@@ -15,32 +15,36 @@ limitations under the License.
 -->
 
 <template>
-    <CoreModal ref="CoreModal" :title="i18n.templates.partExplanation.allMechanisms">
-        <p v-for="(value, key) in longDescriptions" :key="key">
-            <code class="slim">{{ key }}</code>: <span v-html="value"></span>
-        </p>
-    </CoreModal>
+    <div :class="`modal${toggled ? ' is-active' : ''}`">
+        <div class="modal-background" @click="toggle"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">
+                    {{ $props.title }}
+                </p>
+                <button class="delete" @click="toggle"></button>
+            </header>
+            <section class="modal-card-body">
+                <slot></slot>
+            </section>
+        </div>
+    </div>
 </template>
 
 <script>
-    import i18n from "../i18n"
-    import longDescriptions from "../data/long_descriptions"
-    import CoreModal from "../../shared/templates/core_modal"
-
     export default {
-        name: "AllPartExplanations",
-        components: {
-            CoreModal,
+        name: "CoreModal",
+        props: {
+            title: String,
         },
         data() {
             return {
-                i18n,
-                longDescriptions,
+                toggled: false,
             }
         },
         methods: {
             toggle() {
-                this.$refs.CoreModal.toggle()
+                this.$data.toggled = !this.$data.toggled
             },
         },
     }
