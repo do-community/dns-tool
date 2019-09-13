@@ -14,6 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+// Defines the main gap size.
+const mainGapSize = 8
+
 // The line multiplier.
 const lineMultiplier = 0.05
 
@@ -125,7 +128,7 @@ export default class LineGenerator {
         const svg = this._createInnerSvg(container)
 
         // Gets the left side of B.
-        const bLeft = bRect.left - 8
+        const bLeft = bRect.left - mainGapSize
 
         try {
             // If bLeft is less than 0, return.
@@ -152,7 +155,7 @@ export default class LineGenerator {
             this.drawLine(svg, lineColor, this.downX!, aBestX, aBestY, aBestY)
 
             // Draws the claw.
-            drawClaw(bLeft, bRect.top - 8, bRect.bottom + 8, this, svg)
+            drawClaw(bLeft, bRect.top - mainGapSize, bRect.bottom + mainGapSize, this, svg)
 
             // bLeft being greater than bTop means there isn't enough room. Return and destroy.
             if (this.downX! > bLeft) return this.destroy()
