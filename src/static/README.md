@@ -6,7 +6,7 @@ A set of browser-based DNS tools for DigitalOcean Community.
 
 A simple browser-based tool to perform DNS lookups. Type a domain, search, and instantly get results.
 
-### [:arrow_right: Use now](./dns-tool)
+### [:arrow_right: Use now](./dns-lookup)
 
 ## SPF Explainer
 
