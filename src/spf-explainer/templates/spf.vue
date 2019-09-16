@@ -103,7 +103,9 @@ limitations under the License.
                 setFreezeSpawning(true)
                 const refArr = this.$refs[this.$data.links[index]]
                 const ref = refArr[refArr.length - 1]
-                ref.scrollIntoView()
+                window.scrollTo({
+                    top: ref.getBoundingClientRect().y + window.pageYOffset - 32,
+                })
                 setTimeout(() => setFreezeSpawning(false), 500)
             },
             markActive(index) {
