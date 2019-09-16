@@ -102,7 +102,9 @@ limitations under the License.
             goToIndex(index) {
                 const refArr = this.$refs[this.$data.links[index]]
                 const ref = refArr[refArr.length - 1]
-                ref.scrollIntoView()
+                window.scrollTo({
+                    top: ref.getBoundingClientRect().y + window.pageYOffset - 32,
+                })
             },
             markActive(index) {
                 const from = this.$refs[index][0]
