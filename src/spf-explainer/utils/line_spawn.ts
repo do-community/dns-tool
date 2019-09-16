@@ -20,6 +20,10 @@ import LineGenerator from "./line_generator"
 // Defines the active line.
 let activeLine: LineGenerator | undefined
 
+// Freezes line spawing.
+let freezeSpawning = false
+export const setFreezeSpawning = (t: boolean) => { freezeSpawning = t }
+
 // Destroys the line.
 const destroy = () => {
     if (activeLine) activeLine.destroy()
@@ -27,7 +31,8 @@ const destroy = () => {
 }
 
 // Spawns the line.
-export default (lineRef: HTMLElement[] | undefined) => {
+export const spawnLine = (lineRef: HTMLElement[] | undefined) => {
+    if (freezeSpawning) return
     destroy()
     if (lineRef) activeLine = new LineGenerator(lineRef[0], lineRef[1])
 }
