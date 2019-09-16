@@ -60,7 +60,7 @@ limitations under the License.
     import i18n from "../i18n"
     import cfDNS from "../../shared/utils/cfDNS"
     import explanations from "../data/explanations"
-    import spawnLine from "../utils/line_spawn"
+    import { spawnLine, setFreezeSpawning } from "../utils/line_spawn"
     import longDescriptions from "../data/long_descriptions"
     import PartExplanation from "./part_explanation"
     import SPFSandbox from "../utils/spf_sandbox"
@@ -100,11 +100,13 @@ limitations under the License.
                 this.$refs.PartExplanation.show(slug, longDescriptions[slug])
             },
             goToIndex(index) {
+                setFreezeSpawning(true)
                 const refArr = this.$refs[this.$data.links[index]]
                 const ref = refArr[refArr.length - 1]
                 window.scrollTo({
                     top: ref.getBoundingClientRect().y + window.pageYOffset - 32,
                 })
+                setTimeout(() => setFreezeSpawning(false), 500)
             },
             markActive(index) {
                 const from = this.$refs[index][0]

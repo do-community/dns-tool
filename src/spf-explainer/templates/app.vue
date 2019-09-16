@@ -58,7 +58,7 @@ limitations under the License.
     import i18n from "../i18n"
     import cfDNS from "../../shared/utils/cfDNS"
     import SPFBase from "./spf_base"
-    import spawnLine from "../utils/line_spawn"
+    import { spawnLine } from "../utils/line_spawn"
     import NoSPFRecords from "./no_spf_records"
     import SPFSandbox from "../utils/spf_sandbox"
     import EvalModal from "./eval_modal"
