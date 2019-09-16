@@ -15,31 +15,21 @@ limitations under the License.
 -->
 
 <template>
-    <div :class="`modal${toggled ? ' is-active' : ''}`">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-            <header class="modal-card-head">
-                <p class="modal-card-title">
-                    {{ i18n.templates.propagationModal.title }}
-                </p>
-                <button class="delete" :aria-label="i18n.common.close" @click="toggle"></button>
-            </header>
-            <section class="modal-card-body">
-                <span v-for="part in splitUrlText(tutorial)">
-                    <span v-if="typeof part === 'string'" v-html="part"></span>
-                    <span v-else>
-                        <ExternalLink :text="part[0]" :link="part[1]"></ExternalLink>
-                    </span>
-                </span>
-            </section>
-        </div>
-    </div>
+    <CoreModal ref="CoreModal" :title="i18n.templates.propagationModal.title">
+        <span v-for="part in splitUrlText(tutorial)">
+            <span v-if="typeof part === 'string'" v-html="part"></span>
+            <span v-else>
+                <ExternalLink :text="part[0]" :link="part[1]"></ExternalLink>
+            </span>
+        </span>
+    </CoreModal>
 </template>
 
 <script>
     import i18n from "../i18n"
     import dataUrlParser from "../../shared/utils/dataUrlParser"
     import ExternalLink from "../../shared/templates/ext_link"
+    import CoreModal from "../../shared/templates/core_modal"
 
     let recordType, recordHost
     const deeplink = () => {
@@ -53,11 +43,11 @@ limitations under the License.
         name: "PropagationModal",
         components: {
             ExternalLink,
+            CoreModal,
         },
         data() {
             return {
                 tutorial: content(),
-                toggled: false,
                 i18n,
             }
         },
@@ -71,7 +61,7 @@ limitations under the License.
                 this.$data.tutorial = content()
             },
             toggle() {
-                this.$data.toggled = !this.$data.toggled
+                this.$refs.CoreModal.toggle()
             },
         },
     }
