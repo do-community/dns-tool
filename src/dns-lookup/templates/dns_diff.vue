@@ -15,7 +15,10 @@ limitations under the License.
 -->
 
 <template>
-    <CoreModal ref="CoreModal" :title="`${i18n.templates.dnsDiff.title} ${i18n.templates.dnsDiff.XRecords.replace('{record}', this.$props.recordType)}`">
+    <CoreModal
+        ref="CoreModal"
+        :title="`${i18n.templates.dnsDiff.title} ${i18n.templates.dnsDiff.XRecords.replace('{record}', this.$props.recordType)}`"
+    >
         <table class="table is-bordered">
             <thead>
                 <tr>

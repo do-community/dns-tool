@@ -22,7 +22,7 @@ limitations under the License.
                 <p class="modal-card-title">
                     {{ $props.title }}
                 </p>
-                <button class="delete" @click="toggle"></button>
+                <button class="delete" @click="toggle" :aria-label="i18n.common.close"></button>
             </header>
             <section class="modal-card-body">
                 <slot></slot>
@@ -32,6 +32,8 @@ limitations under the License.
 </template>
 
 <script>
+    import i18n from "../i18n"
+
     export default {
         name: "CoreModal",
         props: {
@@ -40,6 +42,7 @@ limitations under the License.
         data() {
             return {
                 toggled: false,
+                i18n,
             }
         },
         methods: {
