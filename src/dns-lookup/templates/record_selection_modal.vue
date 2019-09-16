@@ -16,31 +16,20 @@ limitations under the License.
 
 <template>
     <div>
-        <div :class="`modal${toggled ? ' is-active' : ''}`">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">
-                        {{ i18n.templates.recordSelectionModal.downloadRecords }}
-                    </p>
-                    <button class="delete" :aria-label="i18n.common.close" @click="toggle"></button>
-                </header>
-                <section class="modal-card-body">
-                    <div v-for="key in recordKeys">
-                        <input :id="`dl-select-${key}`" :ref="key" type="checkbox" checked>
-                        <label :for="`dl-select-${key}`">{{ key }} {{ i18n.common.records }}</label>
-                    </div>
-                    <a class="button is-link is-small" style="margin-top: 10px" @click="downloadRecords(false)">
-                        {{ i18n.templates.recordSelectionModal.downloadTextForm }}</a>
-                    <a class="button is-link is-small" style="margin-top: 10px" @click="copyRecords(false)">
-                        {{ i18n.templates.recordSelectionModal.copyTextForm }}</a>
-                    <a class="button is-link is-small" style="margin-top: 10px" @click="downloadRecords(true)">
-                        {{ i18n.templates.recordSelectionModal.downloadMd }}</a>
-                    <a class="button is-link is-small" style="margin-top: 10px" @click="copyRecords(true)">
-                        {{ i18n.templates.recordSelectionModal.copyMd }}</a>
-                </section>
+        <CoreModal ref="CoreModal" :title="i18n.templates.recordSelectionModal.downloadRecords">
+            <div v-for="key in recordKeys">
+                <input :id="`dl-select-${key}`" :ref="key" type="checkbox" checked>
+                <label :for="`dl-select-${key}`">{{ key }} {{ i18n.common.records }}</label>
             </div>
-        </div>
+            <a class="button is-link is-small" style="margin-top: 10px" @click="downloadRecords(false)">
+                {{ i18n.templates.recordSelectionModal.downloadTextForm }}</a>
+            <a class="button is-link is-small" style="margin-top: 10px" @click="copyRecords(false)">
+                {{ i18n.templates.recordSelectionModal.copyTextForm }}</a>
+            <a class="button is-link is-small" style="margin-top: 10px" @click="downloadRecords(true)">
+                {{ i18n.templates.recordSelectionModal.downloadMd }}</a>
+            <a class="button is-link is-small" style="margin-top: 10px" @click="copyRecords(true)">
+                {{ i18n.templates.recordSelectionModal.copyMd }}</a>
+        </CoreModal>
         <ClipboardModal ref="ClipboardModal" @toggle-root="toggle"></ClipboardModal>
     </div>
 </template>
@@ -50,6 +39,7 @@ limitations under the License.
     import i18n from "../i18n"
     import recordsDataset from "../data/records"
     import ClipboardModal from "./clipboard_modal"
+    import CoreModal from "../../shared/templates/core_modal"
 
     const recordKeys = Object.keys(recordsDataset)
 
@@ -57,17 +47,17 @@ limitations under the License.
         name: "RecordSelectionModal",
         components: {
             ClipboardModal,
+            CoreModal,
         },
         data() {
             return {
-                toggled: false,
                 i18n,
                 recordKeys,
             }
         },
         methods: {
             toggle() {
-                this.$data.toggled = !this.$data.toggled
+                this.$refs.CoreModal.toggle()
             },
             download(text, filename) {
                 const a = document.createElement("a")
@@ -83,7 +73,7 @@ limitations under the License.
                 const refs = Object.keys(this.$refs)
                 const allowedRecords = []
                 for (const i of refs) {
-                    if (i === "ClipboardModal") continue
+                    if (i === "ClipboardModal" || i === "CoreModal") continue
                     const input = this.$refs[i][0]
                     if (input.checked) allowedRecords.push(i)
                 }
@@ -104,7 +94,7 @@ limitations under the License.
                 document.execCommand("copy")
                 textarea.remove()
                 this.$refs.ClipboardModal.show(textReport)
-                this.$data.toggled = false
+                this.$refs.CoreModal.toggle()
             },
         },
     }

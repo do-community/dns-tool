@@ -15,38 +15,39 @@ limitations under the License.
 -->
 
 <template>
-    <CoreModal ref="CoreModal" :title="i18n.templates.dmarcExplainer.title">
-        <div v-html="i18n.templates.dmarcExplainer.intro"></div>
-        <hr>
-        <p v-for="(value, key) in dmarc" :key="key">
-            <b>{{ key }}</b>: <span v-html="value"></span>
-        </p>
-        <hr>
-        <p>
-            {{ i18n.templates.dmarcExplainer.learnMore }}
-            <ExternalLink link="https://dmarc.org/" text="dmarc.org"></ExternalLink>.
-        </p>
-    </CoreModal>
+    <div :class="`modal${toggled ? ' is-active' : ''}`">
+        <div class="modal-background" @click="toggle"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">
+                    {{ $props.title }}
+                </p>
+                <button class="delete" @click="toggle" :aria-label="i18n.common.close"></button>
+            </header>
+            <section class="modal-card-body">
+                <slot></slot>
+            </section>
+        </div>
+    </div>
 </template>
 
 <script>
     import i18n from "../i18n"
-    import dmarc from "../data/dmarc"
-    import ExternalLink from "../../shared/templates/ext_link"
-    import CoreModal from "../../shared/templates/core_modal"
 
     export default {
-        name: "DMARCExplainerModal",
-        components: { CoreModal, ExternalLink },
+        name: "CoreModal",
+        props: {
+            title: String,
+        },
         data() {
             return {
+                toggled: false,
                 i18n,
-                dmarc,
             }
         },
         methods: {
             toggle() {
-                this.$refs.CoreModal.toggle()
+                this.$data.toggled = !this.$data.toggled
             },
         },
     }

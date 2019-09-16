@@ -15,55 +15,50 @@ limitations under the License.
 -->
 
 <template>
-    <div :class="`modal${toggled ? ' is-active' : ''}`">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-            <header class="modal-card-head">
-                <p class="modal-card-title">
-                    {{ i18n.templates.dnsDiff.title }} {{ i18n.templates.dnsDiff.XRecords.replace("{record}", this.$props.recordType) }}
-                </p>
-                <button class="delete" :aria-label="i18n.common.close" @click="toggle"></button>
-            </header>
-            <section class="modal-card-body">
-                <table class="table is-bordered">
-                    <thead>
-                        <tr>
-                            <th>{{ i18n.templates.dnsDiff.host }}</th>
-                            <th>{{ i18n.templates.dnsDiff.cfDns }}</th>
-                            <th>{{ i18n.templates.dnsDiff.gDns }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="row in $props.dnsDifferences">
-                            <td v-for="value in row">
-                                <p>{{ value ? value : i18n.common.none }}</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-        </div>
-    </div>
+    <CoreModal
+        ref="CoreModal"
+        :title="`${i18n.templates.dnsDiff.title} ${i18n.templates.dnsDiff.XRecords.replace('{record}', this.$props.recordType)}`"
+    >
+        <table class="table is-bordered">
+            <thead>
+                <tr>
+                    <th>{{ i18n.templates.dnsDiff.host }}</th>
+                    <th>{{ i18n.templates.dnsDiff.cfDns }}</th>
+                    <th>{{ i18n.templates.dnsDiff.gDns }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="row in $props.dnsDifferences">
+                    <td v-for="value in row">
+                        <p>{{ value ? value : i18n.common.none }}</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </CoreModal>
 </template>
 
 <script>
     import i18n from "../i18n"
+    import CoreModal from "../../shared/templates/core_modal"
 
     export default {
         name: "DNSDiff",
+        components: {
+            CoreModal,
+        },
         props: {
             dnsDifferences: Array,
             recordType: String,
         },
         data() {
             return {
-                toggled: false,
                 i18n,
             }
         },
         methods: {
             toggle() {
-                this.$data.toggled = !this.$data.toggled
+                this.$refs.CoreModal.toggle()
             },
         },
     }

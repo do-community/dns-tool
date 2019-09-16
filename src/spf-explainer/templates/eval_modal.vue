@@ -15,46 +15,38 @@ limitations under the License.
 -->
 
 <template>
-    <div :class="`modal${toggled ? ' is-active' : ''}`">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-            <header class="modal-card-head">
-                <p class="modal-card-title">
-                    {{ i18n.templates.evalModal.title }}
-                </p>
-                <button class="delete" @click="toggle"></button>
-            </header>
-            <section class="modal-card-body">
-                <p>
-                    <b>{{ i18n.templates.evalModal.in }}:</b>
-                </p>
-                <div v-if="message !== ''" class="notification is-primary">
-                    <button class="delete" @click="wipeMessage"></button>
-                    {{ message }}
-                </div>
-                <form autocomplete="on" @submit.prevent="runEval">
-                    <input v-model="text" class="input" type="text" :placeholder="i18n.templates.evalModal.in">
-                    <button class="button">
-                        {{ i18n.templates.evalModal.run }}
-                    </button>
-                </form>
-            </section>
+    <CoreModal ref="CoreModal" :title="i18n.templates.evalModal.title">
+        <p>
+            <b>{{ i18n.templates.evalModal.in }}:</b>
+        </p>
+        <div v-if="message !== ''" class="notification is-primary">
+            <button class="delete" @click="wipeMessage"></button>
+            {{ message }}
         </div>
-    </div>
+        <form autocomplete="on" @submit.prevent="runEval">
+            <input v-model="text" class="input" type="text" :placeholder="i18n.templates.evalModal.in">
+            <button class="button">
+                {{ i18n.templates.evalModal.run }}
+            </button>
+        </form>
+    </CoreModal>
 </template>
 
 <script>
     import i18n from "../i18n"
     import SPFSandbox from "../utils/spf_sandbox"
+    import CoreModal from "../../shared/templates/core_modal"
 
     export default {
         name: "EvalModal",
+        components: {
+            CoreModal,
+        },
         data() {
             return {
                 i18n,
                 text: "",
                 message: "",
-                toggled: false,
             }
         },
         methods: {
@@ -63,7 +55,7 @@ limitations under the License.
             },
             toggle() {
                 this.wipeMessage()
-                this.$data.toggled = !this.$data.toggled
+                this.$refs.CoreModal.toggle()
             },
             runEval() {
                 const res = SPFSandbox.eval(this.$data.text)

@@ -15,41 +15,32 @@ limitations under the License.
 -->
 
 <template>
-    <div :class="`modal${toggled ? ' is-active' : ''}`">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-            <header class="modal-card-head">
-                <p class="modal-card-title">
-                    {{ i18n.templates.partExplanation.mechanism.replace("$", slug) }}
-                </p>
-                <button class="delete" @click="hide"></button>
-            </header>
-            <section class="modal-card-body" v-html="text"></section>
-        </div>
-    </div>
+    <CoreModal ref="CoreModal" :title="i18n.templates.partExplanation.mechanism.replace('$', slug)">
+        <span v-html="text"></span>
+    </CoreModal>
 </template>
 
 <script>
     import i18n from "../i18n"
+    import CoreModal from "../../shared/templates/core_modal"
 
     export default {
         name: "PartExplanation",
+        components: {
+            CoreModal,
+        },
         data() {
             return {
                 slug: "",
                 text: "",
-                toggled: false,
                 i18n,
             }
         },
         methods: {
             show(slug, text) {
-                this.$data.toggled = true
+                this.$refs.CoreModal.toggle()
                 this.$data.slug = slug.trim()
                 this.$data.text = text
-            },
-            hide() {
-                this.$data.toggled = false
             },
         },
     }
