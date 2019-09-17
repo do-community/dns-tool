@@ -10,6 +10,6 @@ A simple browser-based tool to perform DNS lookups. Type a domain, search, and i
 
 ## SPF Explainer
 
-Recursively explore and evaluate SPF records. Type a domain, search & evaluate an IP for mail sending.
+A tool that explains a domain's SPF records. Search a domain and either explore its records or evaluate an IP for mail sending.
 
 ### [:arrow_right: Use now](./spf-explainer)
