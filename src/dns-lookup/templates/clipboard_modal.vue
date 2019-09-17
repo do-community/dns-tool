@@ -15,49 +15,41 @@ limitations under the License.
 -->
 
 <template>
-    <div :class="`modal${toggled ? ' is-active' : ''}`">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-            <header class="modal-card-head">
-                <p class="modal-card-title">
-                    {{ i18n.templates.clipboardModal.clipboardResult }}
-                </p>
-                <button class="delete" :aria-label="i18n.common.close" @click="hide"></button>
-            </header>
-            <section class="modal-card-body">
-                <p>
-                    <span class="tag is-success">
-                        {{ i18n.templates.clipboardModal.thisHasBeenCopied }}
-                    </span>
-                </p>
-                <pre class="clipboard textarea has-fixed-size"><code>{{ textReport }}</code></pre>
-            </section>
-        </div>
-    </div>
+    <CoreModal ref="CoreModal" :title="i18n.templates.clipboardModal.clipboardResult">
+        <p>
+            <span class="tag is-success">
+                {{ i18n.templates.clipboardModal.thisHasBeenCopied }}
+            </span>
+        </p>
+        <pre class="clipboard textarea has-fixed-size"><code>{{ textReport }}</code></pre>
+    </CoreModal>
 </template>
 
 <script>
     import i18n from "../i18n"
+    import CoreModal from "../../shared/templates/core_modal"
 
     export default {
         name: "ClipboardModal",
+        components: {
+            CoreModal,
+        },
         data() {
             return {
                 textReport: "",
-                toggled: false,
                 i18n,
             }
         },
         methods: {
             show(textReport) {
                 this.$data.textReport = textReport
-                this.$data.toggled = true
+                this.$refs.CoreModal.toggle()
             },
             hide() {
-                this.$data.toggled = false
+                this.$refs.CoreModal.toggle()
             },
             showParent() {
-                this.$data.toggled = false
+                this.$refs.CoreModal.toggle()
                 this.$emit("toggle-root")
             },
         },
