@@ -2,6 +2,30 @@
 
 A set of browser-based DNS tools for DigitalOcean Community.
 
+---
+
+<a href="https://do-community.github.io/dns-tool/dns-lookup">
+    <img src="src/static/dns-lookup.svg" alt="" align="left" width="150"/>
+</a>
+
+## DNS Lookup
+
+A simple browser-based tool to perform DNS lookups. Type a domain, search, and instantly get results.
+
+### [➡️ Use now](https://do-community.github.io/dns-tool/dns-lookup)
+
+---
+
+<a href="https://do-community.github.io/dns-tool/spf-explainer">
+    <img src="src/static/spf-explainer.svg" alt="" align="left" width="150"/>
+</a>
+
+## SPF Explainer
+
+A tool that explains a domain's SPF records. Search a domain and either explore its records or evaluate an IP for mail sending.
+
+### [➡️ Use now](https://do-community.github.io/dns-tool/spf-explainer)
+
 ## Development/Building
 
 To setup the build/develop environment, you will need to run `npm i` with Node 12+ installed. This will install the
