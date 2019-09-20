@@ -57,7 +57,9 @@ limitations under the License.
         },
         watch: {
             records() {
-                this.$data.hostname = this.$props.records[0].name
+                const r = this.$props.records[0]
+                if (!r) return
+                this.$data.hostname = r.name
                 if (this.$data.hostname.endsWith(".")) this.$data.hostname = this.$data.hostname.slice(0, -1)
             },
             loading() {
