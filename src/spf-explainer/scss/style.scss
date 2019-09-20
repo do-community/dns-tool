@@ -21,12 +21,12 @@ limitations under the License.
   @import "../../shared/scss/style";
 
   .main.container {
+    h5.title.is-5 {
+      line-height: 1.35;
+    }
+
     .record-group {
       padding-left: $margin * 2;
     }
-  }
-
-  .no-search {
-    top: $margin * 3;
   }
 }
