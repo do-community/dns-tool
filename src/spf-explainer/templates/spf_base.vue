@@ -23,7 +23,6 @@ limitations under the License.
             <hr v-if="loading">
         </div>
         <div v-if="loading || hostname === ''">
-            <NoSearch v-if="firstSearch && !loading"></NoSearch>
             <RecordSkeleton :loading="loading"></RecordSkeleton>
         </div>
         <hr>
@@ -38,14 +37,12 @@ limitations under the License.
     import i18n from "../i18n"
     import SPF from "./spf"
     import RecordSkeleton from "./skeletons/record"
-    import NoSearch from "./skeletons/no_search"
 
     export default {
         name: "SPFBase",
         components: {
             SPF,
             RecordSkeleton,
-            NoSearch,
         },
         props: {
             records: Array,
@@ -54,7 +51,6 @@ limitations under the License.
             return {
                 hostname: "",
                 loading: false,
-                firstSearch: true,
                 i18n,
             }
         },

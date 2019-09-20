@@ -234,6 +234,10 @@ textarea {
     left: $margin;
     position: absolute;
     z-index: 1;
+
+    + input {
+      padding-left: $margin * 2 + 18;
+    }
   }
 
   input {
@@ -243,7 +247,7 @@ textarea {
     font-size: 18px;
     font-weight: 400;
     line-height: normal;
-    padding: 0 ($margin * 2) 0 ($margin * 2 + 18);
+    padding: 0 $margin;
     width: 100%;
 
     + button.button {

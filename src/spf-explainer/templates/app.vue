@@ -16,41 +16,60 @@ limitations under the License.
 
 <template>
     <div class="all spf-explainer">
-        <NoSPFRecords ref="NoSPFRecords"></NoSPFRecords>
-        <EvalModal ref="EvalModal"></EvalModal>
-        <AllPartExplanations ref="AllPartExplanations"></AllPartExplanations>
-
-        <Header
+        <Landing
+            v-if="firstSearch"
             :title="i18n.templates.app.title"
             :description="i18n.templates.app.description"
-            :search-placeholder="i18n.templates.app.domain"
+            button-id="DomainSearch"
             :init-value="getInitDomainValue()"
+            :background-top="spfTop"
+            :background-bottom="spfBottom"
             @search-event="searchEvent"
             @set-text="setDomain"
         >
-            <button id="DomainSearch" :class="`button is-header is-inverted is-link${loading ? ' is-loading' : ''}`">
-                {{ i18n.templates.app.searchButton }}
-            </button>
-            <button
-                v-if="!SPFSandbox.empty()"
-                :class="`button is-header is-inverted is-link${loading ? ' is-loading' : ''}`"
-                @click="openEvalModal"
+        </Landing>
+
+        <div v-else>
+            <NoSPFRecords ref="NoSPFRecords"></NoSPFRecords>
+            <EvalModal ref="EvalModal"></EvalModal>
+            <AllPartExplanations ref="AllPartExplanations"></AllPartExplanations>
+
+            <Header
+                :title="i18n.templates.app.title"
+                button-id="DomainSearch"
+                :init-value="getInitDomainValue()"
+                @search-event="searchEvent"
+                @set-text="setDomain"
             >
-                {{ i18n.templates.app.eval }}
-            </button>
-        </Header>
+                <template v-slot:description>
+                    <p>
+                        <a @click="openMechanismModal">{{ i18n.templates.app.whatDoTheyDo }}</a>
+                    </p>
+                </template>
+                <template v-slot:buttons>
+                    <form v-if="!SPFSandbox.empty()" autocomplete="on" @submit.prevent="">
+                        <div class="input-container">
+                            <label for="EvaluateInput" class="hidden">Evaluate</label>
+                            <input id="EvaluateInput"
+                                   class="input"
+                                   type="text"
+                                   placeholder="255.255.255.0"
+                            />
+                            <button class="button is-inline" @click="openEvalModal">
+                                {{ i18n.templates.app.eval }}
+                            </button>
+                        </div>
+                    </form>
+                    <!-- TODO: Make this input work -->
+                </template>
+            </Header>
 
-        <div class="main container">
-            <p>
-                <a class="button is-header is-mini" @click="openMechanismModal">
-                    {{ i18n.templates.app.whatDoTheyDo }}
-                </a>
-            </p>
-            <hr>
-            <SPFBase ref="SPFBase" :records="records"></SPFBase>
+            <div class="main container">
+                <SPFBase ref="SPFBase" :records="records"></SPFBase>
+            </div>
+
+            <Footer></Footer>
         </div>
-
-        <Footer></Footer>
     </div>
 </template>
 
@@ -65,6 +84,9 @@ limitations under the License.
     import AllPartExplanations from "./all_part_explanations"
     import Footer from "../../shared/templates/footer"
     import Header from "../../shared/templates/header"
+    import Landing from "../../shared/templates/landing"
+    import spfTop from "../../../build/svg/spf-top.svg"
+    import spfBottom from "../../../build/svg/spf-bottom.svg"
 
     // A simple hack to handle the back/forward button.
     // This is fine since the site only consists of 3 files which will be cached anyway.
@@ -80,15 +102,19 @@ limitations under the License.
             AllPartExplanations,
             Footer,
             Header,
+            Landing,
         },
         data() {
             return {
+                firstSearch: true,
                 SPFSandbox,
                 i18n,
                 lastDomain: null,
                 domain: "",
                 loading: false,
                 records: [],
+                spfTop,
+                spfBottom,
             }
         },
         mounted() {
@@ -147,17 +173,20 @@ limitations under the License.
                 this.$data.records = records
                 window.history.pushState({}, "", `?domain=${domain}`)
                 SPFSandbox.wipe()
-                this.$refs.SPFBase.firstSearch = false
+                this.$data.firstSearch = false
                 this.$data.lastDomain = domain
             },
             async searchEvent() {
+                const el = document.getElementById("DomainSearch")
+
                 try {
                     spawnLine(undefined)
-                    this.$refs.SPFBase.loading = true
+                    el.classList.add("is-loading")
                     this.$data.loading = true
                     const domain = this.$data.domain
                     await this.lookup(domain)
                 } finally {
+                    el.classList.remove("is-loading")
                     this.$data.loading = false
                 }
             },
