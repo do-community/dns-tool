@@ -16,10 +16,12 @@ limitations under the License.
 
 <template>
     <div class="header">
-        <ghLink repo="https://github.com/do-community/dns-tool"></ghLink>
         <div class="container">
-            <h1>{{ $props.title }}</h1>
-            <p>{{ $props.description }}</p>
+            <div>
+                <h1>{{ $props.title }}</h1>
+                <h3><slot name="description"></slot></h3>
+                <slot name="header"></slot>
+            </div>
 
             <form autocomplete="on" @submit.prevent="emitSearchEvent">
                 <div class="input-container">
@@ -32,9 +34,12 @@ limitations under the License.
                            :placeholder="i18n.common.searchPlaceholder"
                            @input="execSetText"
                     />
+                    <button :id="$props.buttonId" class="button is-inline">
+                        {{ i18n.common.searchButton }}
+                    </button>
                 </div>
                 <div class="buttons">
-                    <slot></slot>
+                    <slot name="buttons"></slot>
                 </div>
             </form>
         </div>
@@ -43,16 +48,12 @@ limitations under the License.
 
 <script>
     import i18n from "../i18n"
-    import ghLink from "./gh_link"
 
     export default {
         name: "Header",
-        components: {
-            ghLink,
-        },
         props: {
             title: String,
-            description: String,
+            buttonId: String,
             initValue: String,
         },
         data() {

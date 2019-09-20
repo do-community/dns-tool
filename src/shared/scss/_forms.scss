@@ -233,12 +233,11 @@ textarea {
     font-size: 18px;
     left: $margin;
     position: absolute;
-    top: 15px;
     z-index: 1;
   }
 
   input {
-    border: 0;
+    border: $border-size solid $dark-grey;
     border-radius: $border-radius;
     display: inline-block;
     font-size: 18px;
@@ -249,7 +248,21 @@ textarea {
 
     + button.button {
       height: 45px;
-      margin: 0 0 0 ($margin * 1);
+      margin: 0 0 0 $margin;
+
+      &.is-inline {
+        background: none;
+        border: 0;
+        color: $primary;
+        font-size: 16px;
+        font-weight: $font-weight;
+        margin: 0;
+        outline: none;
+        padding: 0;
+        position: absolute;
+        right: $margin;
+        z-index: 1;
+      }
     }
   }
 }

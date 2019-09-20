@@ -19,7 +19,6 @@ limitations under the License.
         <p>
             <span v-for="_ in records" class="data-skeleton" :style="{ ...getSkeletonStyle(75, 150), display: 'inline-block', marginRight: '0.2em' }"></span>
         </p>
-        <hr>
     </div>
 </template>
 

@@ -18,8 +18,7 @@ limitations under the License.
   display: flex;
   flex-direction: column;
   height: calc(100vh - 104px); // Account for Community header
-  margin-bottom: -$margin * 4;
-
+  margin-bottom: -$margin * 4; // Account for Community footer
   position: relative;
 
   .container {
@@ -31,7 +30,6 @@ limitations under the License.
     width: 100%;
 
     h1 {
-      color: $dark-blue;
       font-size: 3.5em;
       letter-spacing: -1px;
       text-align: center;
@@ -50,10 +48,6 @@ limitations under the License.
       margin: 0 auto;
       max-width: 800px;
       width: 100%;
-
-      input {
-        border: $border-size solid $dark-grey;
-      }
     }
 
     .github-link {

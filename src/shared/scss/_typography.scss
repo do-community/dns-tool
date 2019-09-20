@@ -89,16 +89,13 @@ pre {
 h1,
 h2,
 h3,
-h4 {
-  color: $heading;
+h4,
+.title {
+  color: $dark-blue;
   font-family: $medium-font-family;
   font-weight: $font-weight;
   margin: 0 0 $margin;
   text-transform: none;
-}
-
-.title {
-  font-weight: $font-weight;
 }
 
 * + h1,

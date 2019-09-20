@@ -15,10 +15,10 @@ limitations under the License.
 -->
 
 <template>
-    <p>
+    <span>
         <span :class="`data-skeleton ${$props.loading ? 'skeleton-running' : ''}`" :style="{ ...getSkeletonStyle(400, 600), display: 'inline-block', marginRight: '0.2em' }"></span>
         <span :class="`data-skeleton ${$props.loading ? 'skeleton-running' : ''}`" :style="{ ...getSkeletonStyle(200, 500), display: 'inline-block', marginRight: '0.2em' }"></span>
-    </p>
+    </span>
 </template>
 
 <script>

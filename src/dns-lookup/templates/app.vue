@@ -33,32 +33,35 @@ limitations under the License.
 
             <Header
                 :title="i18n.templates.app.title"
-                :description="i18n.templates.app.description"
-                :search-placeholder="i18n.templates.app.domain"
+                button-id="SearchButton"
                 :init-value="getInitDomainValue()"
                 @search-event="searchDNSEvent"
             >
-                <button id="SearchButton" class="button is-header is-inverted">
-                    {{ i18n.templates.app.searchButton }}
-                </button>
-                <a v-if="data !== ''" class="button is-header is-inverted" @click="toggleRecordTextModal">
-                    {{ i18n.templates.app.textRecords }}
-                </a>
+                <template v-slot:description>
+                    <DODNS
+                        :style="{opacity: contentOpacity}"
+                        :loaded="data !== ''"
+                        :data="data"
+                        :loading="siteLoading"
+                    ></DODNS>
+                </template>
+                <template v-slot:header>
+                    <RecordJumps
+                        :style="{opacity: contentOpacity}"
+                        :loaded="data !== ''"
+                        :loading="siteLoading"
+                    ></RecordJumps>
+                </template>
+                <template v-slot:buttons>
+                    <a v-if="data !== ''" class="button is-primary" @click="toggleRecordTextModal">
+                        {{ i18n.templates.app.textRecords }}
+                    </a>
+                </template>
             </Header>
 
             <div class="main container" :style="{opacity: contentOpacity}">
                 <div id="content">
-                    <RecordJumps :loaded="data !== ''" :loading="siteLoading"></RecordJumps>
-                    <DODNS :loaded="data !== ''" :data="data" :loading="siteLoading"></DODNS>
-                    <div v-if="firstSearch">
-                        <NoSearch v-if="data === ''"></NoSearch>
-                        <RecordSkeleton :loading="false"></RecordSkeleton>
-                        <RecordSkeleton :loading="false"></RecordSkeleton>
-                        <RecordSkeleton :loading="false"></RecordSkeleton>
-                    </div>
-                    <div :style="`${firstSearch ? 'display: none; visibility: hidden;' : ''}`">
-                        <RecordBase ref="RecordBase" :data="data" :registrar="registrar" :loading="siteLoading"></RecordBase>
-                    </div>
+                    <RecordBase ref="RecordBase" :data="data" :registrar="registrar" :loading="siteLoading"></RecordBase>
                 </div>
             </div>
 
