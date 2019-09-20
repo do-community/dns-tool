@@ -218,19 +218,22 @@ textarea {
 }
 
 .input-container {
+  align-items: center;
   border-radius: $border-radius;
   box-shadow: none;
+  display: flex;
+  flex-direction: row;
   margin: 0 0 $margin;
   position: relative;
   text-align: left;
   width: 100%;
 
   i {
-    color: rgba($text, .6);
+    color: $dark-grey;
     font-size: 18px;
     left: $margin;
     position: absolute;
-    top: 18px;
+    top: 15px;
     z-index: 1;
   }
 
@@ -240,9 +243,13 @@ textarea {
     display: inline-block;
     font-size: 18px;
     font-weight: 400;
-    height: auto;
     line-height: normal;
-    padding: $margin ($margin * 2) $margin ($margin * 2 + 18);
+    padding: 0 ($margin * 2) 0 ($margin * 2 + 18);
     width: 100%;
+
+    + button.button {
+      height: 45px;
+      margin: 0 0 0 ($margin * 1);
+    }
   }
 }

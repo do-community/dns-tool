@@ -15,15 +15,16 @@ limitations under the License.
 -->
 
 <template>
-    <div class="header">
-        <ghLink repo="https://github.com/do-community/dns-tool"></ghLink>
+    <div class="landing">
+        <div class="background-top" v-html="$props.backgroundTop"></div>
+        <div class="background-bottom" v-html="$props.backgroundBottom"></div>
         <div class="container">
             <h1>{{ $props.title }}</h1>
-            <p>{{ $props.description }}</p>
+            <p v-html="$props.description"></p>
 
             <form autocomplete="on" @submit.prevent="emitSearchEvent">
                 <div class="input-container">
-                    <label for="DomainInput" class="hidden">Search</label>
+                    <label for="DomainInput" class="hidden">{{ i18n.common.searchButton }}</label>
                     <i class="fas fa-search"></i>
                     <input id="DomainInput"
                            v-model="d"
@@ -32,28 +33,37 @@ limitations under the License.
                            :placeholder="i18n.common.searchPlaceholder"
                            @input="execSetText"
                     />
-                </div>
-                <div class="buttons">
-                    <slot></slot>
+                    <button :id="$props.buttonId" class="button is-primary">
+                        {{ i18n.common.searchButton }}
+                    </button>
                 </div>
             </form>
+
+            <ExternalLink
+                class="github-link"
+                :text="i18n.templates.landing.github"
+                link="https://github.com/do-community/dns-tool"
+            ></ExternalLink>
         </div>
     </div>
 </template>
 
 <script>
     import i18n from "../i18n"
-    import ghLink from "./gh_link"
+    import ExternalLink from "./ext_link"
 
     export default {
         name: "Header",
         components: {
-            ghLink,
+            ExternalLink,
         },
         props: {
             title: String,
             description: String,
+            buttonId: String,
             initValue: String,
+            backgroundTop: String,
+            backgroundBottom: String,
         },
         data() {
             return {
