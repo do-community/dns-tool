@@ -218,11 +218,13 @@ textarea {
 }
 
 .input-container {
-  align-items: center;
+  align-items: flex-start;
   border-radius: $border-radius;
   box-shadow: none;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
   margin: 0 0 $margin;
   position: relative;
   text-align: left;
@@ -233,6 +235,7 @@ textarea {
     font-size: 18px;
     left: $margin;
     position: absolute;
+    top: 15px;
     z-index: 1;
 
     + input {
@@ -244,15 +247,18 @@ textarea {
     border: $border-size solid $dark-grey;
     border-radius: $border-radius;
     display: inline-block;
+    flex-grow: 1;
     font-size: 18px;
     font-weight: 400;
     line-height: normal;
+    margin-bottom: $margin / 2;
+    max-width: 100vw;
     padding: 0 $margin;
-    width: 100%;
+    width: 350px;
 
     + button.button {
       height: 45px;
-      margin: 0 0 0 $margin;
+      margin: 1.5px 0 0 $margin;
 
       &.is-inline {
         background: none;
