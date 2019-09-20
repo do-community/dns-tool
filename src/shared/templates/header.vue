@@ -18,7 +18,7 @@ limitations under the License.
     <div class="header">
         <div class="container">
             <div>
-                <h1>{{ $props.title }}</h1>
+                <h1><a href="./">{{ $props.title }}</a></h1>
                 <h3><slot name="description"></slot></h3>
                 <slot name="header"></slot>
             </div>
