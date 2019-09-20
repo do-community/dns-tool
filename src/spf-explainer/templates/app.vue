@@ -31,7 +31,7 @@ limitations under the License.
 
         <div v-else>
             <NoSPFRecords ref="NoSPFRecords"></NoSPFRecords>
-            <EvalModal ref="EvalModal"></EvalModal>
+            <EvalModal ref="EvalModal" :ip="ipEval"></EvalModal>
             <AllPartExplanations ref="AllPartExplanations"></AllPartExplanations>
 
             <Header
@@ -51,6 +51,7 @@ limitations under the License.
                         <div class="input-container">
                             <label for="EvaluateInput" class="hidden">Evaluate</label>
                             <input id="EvaluateInput"
+                                   v-model="ipEval"
                                    class="input"
                                    type="text"
                                    placeholder="255.255.255.0"
@@ -113,6 +114,7 @@ limitations under the License.
                 domain: "",
                 loading: false,
                 records: [],
+                ipEval: "",
                 spfTop,
                 spfBottom,
             }

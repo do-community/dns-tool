@@ -22,7 +22,7 @@ limitations under the License.
                 <p class="modal-card-title">
                     {{ $props.title }}
                 </p>
-                <button class="delete" @click="toggle" :aria-label="i18n.common.close"></button>
+                <button class="delete" :aria-label="i18n.common.close" @click="toggle"></button>
             </header>
             <section class="modal-card-body">
                 <slot></slot>
