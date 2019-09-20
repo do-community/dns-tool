@@ -21,7 +21,7 @@ limitations under the License.
             :title="i18n.templates.app.title"
             :description="i18n.templates.app.description"
             button-id="DomainSearch"
-            :init-value="getInitDomainValue()"
+            :init-value="domain"
             :background-top="spfTop"
             :background-bottom="spfBottom"
             @search-event="searchEvent"
@@ -37,7 +37,7 @@ limitations under the License.
             <Header
                 :title="i18n.templates.app.title"
                 button-id="DomainSearch"
-                :init-value="getInitDomainValue()"
+                :init-value="domain"
                 @search-event="searchEvent"
                 @set-text="setDomain"
             >
@@ -128,11 +128,6 @@ limitations under the License.
             }
         },
         methods: {
-            getInitDomainValue() {
-                const query = new URLSearchParams(window.location.search)
-                if (query.has("domain")) return query.get("domain")
-                return ""
-            },
             setDomain(d) {
                 this.$data.domain = d
             },
