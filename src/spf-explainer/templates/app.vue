@@ -17,7 +17,7 @@ limitations under the License.
 <template>
     <div class="all spf-explainer">
         <Landing
-            v-if="firstSearch"
+            v-if="firstSearch && !loading"
             :title="i18n.templates.app.title"
             :description="i18n.templates.app.description"
             button-id="DomainSearch"
@@ -61,14 +61,15 @@ limitations under the License.
                             </button>
                         </div>
                     </form>
-                    <!-- TODO: Make this input work -->
                 </template>
             </Header>
+        </div>
 
-            <div class="main container">
-                <SPFBase ref="SPFBase" :records="records"></SPFBase>
-            </div>
+        <div class="main container">
+            <SPFBase v-if="(firstSearch && loading) || !firstSearch" ref="SPFBase" :records="records" :loading="loading"></SPFBase>
+        </div>
 
+        <div v-if="!firstSearch">
             <Footer></Footer>
         </div>
     </div>
@@ -142,12 +143,11 @@ limitations under the License.
                 this.$refs.EvalModal.toggle()
             },
             error(message) {
-                this.$refs.SPFBase.loading = false
                 alert(message)
             },
             async lookup(domain) {
                 domain = domain.toLowerCase().replace(/^https*:\/\//, "").replace(/\/+$/, "")
-                if (this.$data.lastDomain === domain) return this.$refs.SPFBase.loading = false
+                if (this.$data.lastDomain === domain) this.$data.records = []
 
                 const res = await cfDNS(domain, "TXT")
                 if (!res.ok) return this.error("Invalid domain.")
@@ -168,7 +168,6 @@ limitations under the License.
                     if (answer.data.startsWith("v=spf1")) records.push(answer)
                 }
                 if (records.length === 0) {
-                    this.$refs.SPFBase.loading = false
                     return this.$refs.NoSPFRecords.toggle()
                 }
 

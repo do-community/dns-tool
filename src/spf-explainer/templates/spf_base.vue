@@ -20,10 +20,10 @@ limitations under the License.
             <p>
                 <b>{{ i18n.templates.spfBase.results.replace("{hostname}", hostname) }}</b>
             </p>
-            <hr v-if="loading">
+            <hr v-if="loadingInner">
         </div>
         <div v-if="loading || hostname === ''">
-            <RecordSkeleton :loading="loading"></RecordSkeleton>
+            <RecordSkeleton :loading="loadingInner"></RecordSkeleton>
         </div>
         <hr>
         <div v-for="record of $props.records">
@@ -46,12 +46,13 @@ limitations under the License.
         },
         props: {
             records: Array,
+            loading: Boolean,
         },
         data() {
             return {
                 hostname: "",
-                loading: false,
                 i18n,
+                loadingInner: false,
             }
         },
         watch: {
@@ -59,11 +60,14 @@ limitations under the License.
                 this.$data.hostname = this.$props.records[0].name
                 if (this.$data.hostname.endsWith(".")) this.$data.hostname = this.$data.hostname.slice(0, -1)
             },
+            loading() {
+                this.$data.loadingInner = this.$props.loading
+            },
         },
         methods: {
             doneLoading() {
-                this.$data.loading = false
-            }
-        }
+                this.$data.loadingInner = false
+            },
+        },
     }
 </script>
