@@ -33,8 +33,9 @@ $panel: #fafafa !default;
 $muted: #8390af !default;
 $header: #f00 !default;
 $header-hover: darken($header, 5);
-$modal: rgba(#444, .95) !default;
 $dark-grey: #5b6987 !default;
+$mono-blue: #010e28 !default;
+$modal: rgba($mono-blue, .8) !default;
 
 // Fonts
 $font-size: 16px;
