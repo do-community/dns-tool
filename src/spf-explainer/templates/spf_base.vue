@@ -47,6 +47,7 @@ limitations under the License.
         props: {
             records: Array,
             loading: Boolean,
+            d: String,
         },
         data() {
             return {
@@ -56,13 +57,9 @@ limitations under the License.
             }
         },
         watch: {
-            records() {
-                const r = this.$props.records[0]
-                if (!r) return
-                this.$data.hostname = r.name
-                if (this.$data.hostname.endsWith(".")) this.$data.hostname = this.$data.hostname.slice(0, -1)
-            },
             loading() {
+                this.$data.hostname = this.$props.d
+                if (this.$data.hostname.endsWith(".")) this.$data.hostname = this.$data.hostname.slice(0, -1)
                 this.$data.loadingInner = this.$props.loading
             },
         },

@@ -66,7 +66,13 @@ limitations under the License.
         </div>
 
         <div class="main container">
-            <SPFBase v-if="(firstSearch && loading) || !firstSearch" ref="SPFBase" :records="records" :loading="loading"></SPFBase>
+            <SPFBase
+                v-if="(firstSearch && loading) || !firstSearch"
+                ref="SPFBase"
+                :records="records"
+                :loading="loading"
+                :d="domain"
+            ></SPFBase>
         </div>
 
         <div v-if="!firstSearch">
@@ -140,10 +146,7 @@ limitations under the License.
             error(message) {
                 alert(message)
             },
-            async lookup(domain) {
-                domain = domain.toLowerCase().replace(/^https*:\/\//, "").replace(/\/+$/, "")
-                if (this.$data.lastDomain === domain) this.$data.records = []
-
+            async cfPart(domain) {
                 const res = await cfDNS(domain, "TXT")
                 if (!res.ok) return this.error("Invalid domain.")
                 let json
@@ -154,8 +157,17 @@ limitations under the License.
                     // That has happened here.
                     return this.error("Invalid domain.")
                 }
+
                 if (json.Status !== 0) return this.error("Invalid domain.")
-                if (!json.Answer) return this.$refs.NoSPFRecords.toggle()
+                if (!json.Answer) {
+                    this.$refs.NoSPFRecords.toggle()
+                    return false
+                }
+
+                return json
+            },
+            async lookup(domain, json) {
+                if (this.$data.lastDomain === domain) this.$data.records = []
 
                 const records = []
                 for (const answer of json.Answer) {
@@ -176,11 +188,13 @@ limitations under the License.
                 const el = document.getElementById("DomainSearch")
 
                 try {
-                    spawnLine(undefined)
                     el.classList.add("is-loading")
+                    const domain = this.$data.domain.toLowerCase().replace(/^https*:\/\//, "").replace(/\/+$/, "")
+                    const j = await this.cfPart(domain)
+                    if (!j) return
                     this.$data.loading = true
-                    const domain = this.$data.domain
-                    await this.lookup(domain)
+                    spawnLine(undefined)
+                    await this.lookup(domain, j)
                 } finally {
                     el.classList.remove("is-loading")
                     this.$data.loading = false
