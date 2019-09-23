@@ -154,7 +154,7 @@ limitations under the License.
 
                     this.setRegistrar(text)
 
-                    if (!this.$data.linked) window.history.replaceState({}, "", `?domain=${encodeURIComponent(text)}`)
+                    if (!this.$data.linked) window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
 
                     reports.clear()
                     this.$data.linked = null
