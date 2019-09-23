@@ -31,7 +31,7 @@ export default (input: RequestInfo, init?: RequestInit): Promise<Response> => ne
     // Defines if it is active.
     let active = true
 
-    // Defines the promise.
+    // Defines the method to kill the promise.
     pendingMethods.push(() => active = false)
 
     // Defines the current backoff.
