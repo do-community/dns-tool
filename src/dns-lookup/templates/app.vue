@@ -68,6 +68,11 @@ limitations under the License.
     import Header from "../../shared/templates/header"
     import { remakeController } from "../../shared/utils/backoffFetch"
 
+    // A simple hack to handle the back/forward button.
+    // This is fine since the site only consists of 3 files which will be cached anyway.
+    // Reloading just ensures that it's a clean slate everytime (this could be why the user is going back - to try and solve a bug).
+    window.addEventListener("popstate", () => window.location.reload())
+
     const stripHttps = /(https*:\/\/)*(.+)*/
     const isHostname = /.*\.[a-z]+/
 

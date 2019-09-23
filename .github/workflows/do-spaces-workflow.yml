@@ -1,4 +1,4 @@
-name: CI
+name: Test and Deploy to DigitalOcean Spaces
 
 on: push
 
@@ -23,15 +23,6 @@ jobs:
         npm ci
         npm test
         npm run build
-
-    - name: Deploy master to GitHub Pages
-      if: github.ref == 'refs/heads/master'
-      uses: JamesIves/github-pages-deploy-action@2.0.0
-      env:
-        ACCESS_TOKEN: ${{ secrets.DEV_GITHUB_TOKEN }}
-        BASE_BRANCH: master
-        BRANCH: gh-pages
-        FOLDER: dist
 
     - name: Deploy commit to DigitalOcean Spaces
       run: aws s3 sync ./dist s3://${{ secrets.SPACES_BUCKET }}/${{ github.sha }} --endpoint=https://${{ secrets.SPACES_REGION }}.digitaloceanspaces.com --acl public-read --content-encoding utf8
