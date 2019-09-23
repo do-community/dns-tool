@@ -145,7 +145,7 @@ limitations under the License.
                 }
 
                 this.$data.records = records
-                window.history.replaceState({}, "", `?domain=${domain}`)
+                window.history.pushState({}, "", `?domain=${domain}`)
                 SPFSandbox.wipe()
                 this.$refs.SPFBase.firstSearch = false
                 this.$data.lastDomain = domain
