@@ -14,16 +14,31 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+// Defines all pending methods.
+const pendingMethods: (() => void)[] = []
+
 // Defines the maximum backoff.
 const maxBackoff = 512
 
+// Cancels all pending requests.
+export const cancel = () => {
+    for (const m of pendingMethods) m()
+    pendingMethods.length = 0
+}
+
 // A fetch client that will behave exactly like fetch except it will backoff for 429/5XX errors.
 export default (input: RequestInfo, init?: RequestInit): Promise<Response> => new Promise(async (res, rej) => {
+    // Defines if it is active.
+    let active = true
+
+    // Defines the promise.
+    pendingMethods.push(() => active = false)
+
     // Defines the current backoff.
     let currentBackoff = 1    
 
-    // Loop until the promise is resolved/rejected.
-    for (;;) {
+    // Loop until the promise is resolved/rejected or it is inactive.
+    while (active) {
         // Get the fetch response.
         let r
         try {
@@ -57,4 +72,7 @@ export default (input: RequestInfo, init?: RequestInit): Promise<Response> => ne
         // Wait for the backoff period.
         await new Promise(x => setTimeout(x, backoff * 1000))
     }
+
+    // Breaking out the loop here means that it is cancelled.
+    rej("Request cancelled.")
 })
