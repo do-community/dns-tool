@@ -28,7 +28,7 @@ A tool that explains a domain's SPF records. Search a domain and either explore 
 
 ## Development/Building
 
-To setup the build/develop environment, you will need to run `npm i` with Node 12+ installed. This will install the
+To setup the build/develop environment, you will need to run `npm i` with Node 10+ installed. This will install the
  dependencies to allow you to build the project.
 
 To develop for the DNS tool run `npm run dev:tools:dns-lookup`, and to develop for the SPF explainer run

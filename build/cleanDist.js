@@ -15,6 +15,7 @@ limitations under the License.
 */
 
 const fs = require("fs")
+const rmfr = require("rmfr")
 
 const main = () => {
     console.log('Cleaning out dist directory...')
@@ -26,9 +27,12 @@ const main = () => {
     }
 
     // Remove all existing files
-    fs.rmdirSync(base, { recursive: true })
-
-    console.log('...dist directory cleaned for build.')
+    rmfr(base)
+        .then(() => console.log('...dist directory cleaned for build.'))
+        .catch(e => {
+            console.log(e)
+            process.exit(1)
+        })
 }
 
 main()
