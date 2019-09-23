@@ -56,7 +56,6 @@
     "sass": "^1.22.9",
     "sass-lint": "^1.13.1",
     "typescript": "^3.5.3",
-    "vue-template-compiler": "^2.6.10",
-    "rmfr": "2.0.0"
+    "vue-template-compiler": "^2.6.10"
   }
 }
