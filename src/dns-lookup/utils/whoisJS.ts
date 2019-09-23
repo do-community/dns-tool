@@ -14,12 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import backoffFetch from "../../shared/utils/backoffFetch"
+
 export default async (name: string) => {
     const nameSplit = name.split(".")
     const ending = nameSplit.pop()!
     const domain = nameSplit.pop()!
     const domainFull = `${domain}.${ending}`
-    return await fetch(
+    return await backoffFetch(
         `https://whoisjs.com/api/v1/${encodeURIComponent(domainFull)}`,
         {
             headers: {

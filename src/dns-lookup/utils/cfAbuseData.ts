@@ -14,8 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import backoffFetch from "../../shared/utils/backoffFetch"
+
 export default async (ip: string) => {
-    return await fetch(
+    return await backoffFetch(
         `https://abuse.ts.cfdata.org/get/${ip}`,
         {
             headers: {

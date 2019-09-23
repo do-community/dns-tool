@@ -14,8 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import backoffFetch from "../../shared/utils/backoffFetch"
+
 export default async (name: string, type: string) => {
-    return await fetch(
+    return await backoffFetch(
         `https://dns.google/resolve?name=${encodeURIComponent(name)}&type=${encodeURIComponent(type)}`,
     )
 }
