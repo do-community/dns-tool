@@ -1,9 +1,4 @@
-name: Lint/Deploy to DigitalOcean Spaces
-
-on:
-  push:
-    branches-ignore:
-      - master
+name: Test and Deploy to DigitalOcean Spaces
 
 jobs:
   build:

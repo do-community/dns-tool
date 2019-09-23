@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Test and Deploy to GitHub Pages
 
 on:
   push:
@@ -21,9 +21,10 @@ jobs:
       with:
         node-version: "${{ steps.nvm.outputs.NVMRC }}"
 
-    - name: npm ci and build
+    - name: npm ci, test, and build
       run: |
         npm ci
+        npm test
         npm run build
 
     - name: Deploy master to GitHub Pages
