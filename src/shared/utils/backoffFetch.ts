@@ -14,34 +14,38 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Defines all pending methods.
-const pendingMethods: (() => void)[] = []
-
 // Defines the maximum backoff.
 const maxBackoff = 512
 
-// Cancels all pending requests.
-export const cancel = () => {
-    for (const m of pendingMethods) m()
-    pendingMethods.length = 0
+// Defines the abort controller.
+let controller: AbortController | undefined
+
+// Remakes the controller.
+export const remakeController = () => {
+    if (controller) controller.abort()
+    controller = new AbortController()
 }
 
 // A fetch client that will behave exactly like fetch except it will backoff for 429/5XX errors.
 export default (input: RequestInfo, init?: RequestInit): Promise<Response> => new Promise(async (res, rej) => {
-    // Defines if it is active.
-    let active = true
-
-    // Defines the method to kill the promise.
-    pendingMethods.push(() => active = false)
+    // If the controller doesn't exist, make it.
+    if (!controller) remakeController()
 
     // Defines the current backoff.
     let currentBackoff = 1    
 
     // Loop until the promise is resolved/rejected or it is inactive.
-    while (active) {
+    for (;;) {
         // Get the fetch response.
-        let r
+        let r: Response
         try {
+            if (init === undefined) {
+                init = {
+                    signal: controller!.signal,
+                }
+            } else {
+                init.signal = controller!.signal
+            }
             r = await fetch(input, init)
         } catch (e) {
             // Something really bad with the network/CORS has happened. Pass through this exception.
@@ -49,21 +53,29 @@ export default (input: RequestInfo, init?: RequestInit): Promise<Response> => ne
         }
 
         // If it is not a 429/5XX, let the function deal with this.
-        if (r.status !== 429 && 500 > r.status) return res(r)
+        if (r.status !== 429 && Math.floor(r.status / 100) !== 5) return res(r)
 
         // Defines the amount of time to backoff.
         let backoff: number
         const createBackoffTime = () => {
             currentBackoff *= 2
-            if (currentBackoff > maxBackoff) currentBackoff = maxBackoff
+            if (currentBackoff > maxBackoff) return res(r)
             return currentBackoff 
         }
         if (r.headers.get("Retry-After")) {
             const header = Number(r.headers.get("Retry-After"))
-            if (header === NaN) backoff = createBackoffTime()
-            else backoff = header
+            if (header === NaN) {
+                const b = createBackoffTime()
+                if (!b) return
+                backoff = b
+            }
+            else {
+                backoff = header
+            }
         } else {
-            backoff = createBackoffTime()
+            const b = createBackoffTime()
+            if (!b) return
+            backoff = b
         }
 
         // Create the console warning.
@@ -72,7 +84,4 @@ export default (input: RequestInfo, init?: RequestInit): Promise<Response> => ne
         // Wait for the backoff period.
         await new Promise(x => setTimeout(x, backoff * 1000))
     }
-
-    // Breaking out the loop here means that it is cancelled.
-    rej("Request cancelled.")
 })

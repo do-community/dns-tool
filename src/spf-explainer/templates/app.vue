@@ -65,7 +65,7 @@ limitations under the License.
     import AllPartExplanations from "./all_part_explanations"
     import Footer from "../../shared/templates/footer"
     import Header from "../../shared/templates/header"
-    import { cancel } from "../../shared/utils/backoffFetch"
+    import { remakeController } from "../../shared/utils/backoffFetch"
 
     export default {
         name: "App",
@@ -143,7 +143,7 @@ limitations under the License.
                 this.$data.records = records
                 window.history.pushState({}, "", `?domain=${domain}`)
                 SPFSandbox.wipe()
-                cancel()
+                remakeController()
                 this.$refs.SPFBase.firstSearch = false
                 this.$data.lastDomain = domain
             },

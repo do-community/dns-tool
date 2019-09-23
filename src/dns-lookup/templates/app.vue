@@ -66,7 +66,7 @@ limitations under the License.
     import RecordSkeleton from "./skeletons/record"
     import Footer from "../../shared/templates/footer"
     import Header from "../../shared/templates/header"
-    import { cancel } from "../../shared/utils/backoffFetch"
+    import { remakeController } from "../../shared/utils/backoffFetch"
 
     const stripHttps = /(https*:\/\/)*(.+)*/
     const isHostname = /.*\.[a-z]+/
@@ -153,7 +153,7 @@ limitations under the License.
                     if (!this.$data.linked) window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
 
                     reports.clear()
-                    cancel()
+                    remakeController()
                     this.$data.linked = null
                     this.$data.data = text
                     await this.searchWait()
