@@ -1,5 +1,7 @@
 name: Test and Deploy to DigitalOcean Spaces
 
+on: push
+
 jobs:
   build:
     runs-on: ubuntu-latest
