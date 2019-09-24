@@ -61,7 +61,7 @@ export default (input: RequestInfo, init?: RequestInit): Promise<Response> => ne
         const createBackoffTime = () => {
             currentBackoff *= 2
             if (currentBackoff > maxBackoff) {
-                console.log("Given up backing off! Returning the response to the function.")
+                console.warn(`Given up backing off for ${input}! Returning the response to the function.`)
                 return res(r)
             }
             return currentBackoff 
