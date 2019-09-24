@@ -49,6 +49,7 @@ export default (input: RequestInfo, init?: RequestInit): Promise<Response> => ne
             r = await fetch(input, init)
         } catch (e) {
             // Something really bad with the network/CORS has happened. Pass through this exception.
+            if (e.name === "AbortError") console.info(`Request to ${input} was aborted.`)
             return rej(e)
         }
 
@@ -59,7 +60,10 @@ export default (input: RequestInfo, init?: RequestInit): Promise<Response> => ne
         let backoff: number
         const createBackoffTime = () => {
             currentBackoff *= 2
-            if (currentBackoff > maxBackoff) return res(r)
+            if (currentBackoff > maxBackoff) {
+                console.log("Given up backing off! Returning the response to the function.")
+                return res(r)
+            }
             return currentBackoff 
         }
         if (r.headers.get("Retry-After")) {
