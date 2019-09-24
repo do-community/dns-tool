@@ -26,11 +26,11 @@ export const remakeController = () => {
     controller = new AbortController()
 }
 
+// Creates the controller initially.
+remakeController()
+
 // A fetch client that will behave exactly like fetch except it will backoff for 429/5XX errors.
 export default (input: RequestInfo, init?: RequestInit): Promise<Response> => new Promise(async (res, rej) => {
-    // If the controller doesn't exist, make it.
-    if (!controller) remakeController()
-
     // Defines the current backoff.
     let currentBackoff = 1    
 
