@@ -17,8 +17,10 @@ limitations under the License.
 import * as psl from "psl"
 
 export default async (name: string) => {
+    const parsed = psl.parse(name)
+    if (parsed.error || !parsed.domain) return
     return await fetch(
-        `https://whoisjs.com/api/v1/${encodeURIComponent(psl.parse(name).domain)}`,
+        `https://whoisjs.com/api/v1/${encodeURIComponent(parsed.domain)}`,
         {
             headers: {
                 Accept: "application/json",
