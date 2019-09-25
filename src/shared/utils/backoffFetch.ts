@@ -68,7 +68,7 @@ export default (input: RequestInfo, init?: RequestInit): Promise<Response> => ne
         }
         const h = r.headers.get("Retry-After")
         if (h) {
-            const headerParsed = Number()
+            const headerParsed = Number(h)
             if (headerParsed === NaN) {
                 // We will try parsing as a date.
                 try {
@@ -76,7 +76,6 @@ export default (input: RequestInfo, init?: RequestInit): Promise<Response> => ne
                     if (d.getTime() === NaN) throw new Error()
                     // Is a date! Get difference between current date and this date.
                     backoff = Math.floor((d.getTime() - (new Date()).getTime()) / 1000)
-                    if (0 > backoff) backoff = 1
                 } catch (_) {
                     // Nope! This is not a date.
                     const b = createBackoffTime()
