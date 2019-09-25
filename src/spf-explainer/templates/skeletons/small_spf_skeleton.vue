@@ -16,12 +16,12 @@ limitations under the License.
 
 <template>
     <div>
-        <div class="record-group data-skeleton skeleton-running">
+        <div class="record-group">
             <table class="table skeleton-table">
                 <tbody>
-                    <tr v-for="_ in 10">
-                        <td :style="getSkeletonStyle(40, 90)"></td>
-                        <td :style="getSkeletonStyle(300, 400)"></td>
+                    <tr v-for="outerIndex in 10">
+                        <td :class="classes[outerIndex - 1][0]" :style="getSkeletonStyle(40, 90)"></td>
+                        <td :class="classes[outerIndex - 1][1]" :style="getSkeletonStyle(300, 400)"></td>
                     </tr>
                 </tbody>
             </table>
@@ -31,11 +31,42 @@ limitations under the License.
 
 <script>
     import { getRandomInt, getSkeletonStyle } from "../../../shared/utils/skeletonStyle"
+
+    const getInitParts = () => {
+        const parts = []
+        for (let i = 0; i < 10; i++) {
+            parts.push([
+                "data-skeleton",
+                "data-skeleton",
+            ])
+        }
+        return parts
+    }
+
     export default {
         name: "SmallSPFSkeleton",
+        data() {
+            return {
+                classes: getInitParts(),
+            }
+        },
+        mounted() {
+            for (const index in this.$data.classes) {
+                (async() => {
+                    this.$set(this.$data.classes, index, [
+                        await this.getClass(),
+                        await this.getClass(),
+                    ])
+                })()
+            }
+        },
         methods: {
             getRandomInt,
             getSkeletonStyle,
+            async getClass() {
+                await new Promise(x => setTimeout(x, getRandomInt(10, 30)))
+                return "data-skeleton skeleton-running"
+            },
         },
     }
 </script>
