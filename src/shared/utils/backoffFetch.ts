@@ -66,15 +66,25 @@ export default (input: RequestInfo, init?: RequestInit): Promise<Response> => ne
             }
             return currentBackoff 
         }
-        if (r.headers.get("Retry-After")) {
-            const header = Number(r.headers.get("Retry-After"))
-            if (header === NaN) {
-                const b = createBackoffTime()
-                if (!b) return
-                backoff = b
+        const h = r.headers.get("Retry-After")
+        if (h) {
+            const headerParsed = Number()
+            if (headerParsed === NaN) {
+                // We will try parsing as a date.
+                try {
+                    const d = new Date(h)
+                    // Is a date! Get difference between current date and this date.
+                    backoff = Math.floor((d.getTime() - (new Date()).getTime()) / 1000)
+                    if (0 > backoff) backoff = 1
+                } catch (_) {
+                    // Nope! This is not a date.
+                    const b = createBackoffTime()
+                    if (!b) return
+                    backoff = b
+                }
             }
             else {
-                backoff = header
+                backoff = headerParsed
             }
         } else {
             const b = createBackoffTime()
