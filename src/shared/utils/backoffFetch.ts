@@ -73,6 +73,7 @@ export default (input: RequestInfo, init?: RequestInit): Promise<Response> => ne
                 // We will try parsing as a date.
                 try {
                     const d = new Date(h)
+                    if (d.getTime() === NaN) throw new Error()
                     // Is a date! Get difference between current date and this date.
                     backoff = Math.floor((d.getTime() - (new Date()).getTime()) / 1000)
                     if (0 > backoff) backoff = 1
