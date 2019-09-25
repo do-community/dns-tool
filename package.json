@@ -37,6 +37,7 @@
     "babel-polyfill": "^6.26.0",
     "bulma": "^0.7.5",
     "parcel-bundler": "1.12.3",
+    "psl": "^1.4.0",
     "vue": "^2.6.10",
     "vue-hot-reload-api": "^2.3.3",
     "vue-tippy": "^4.0.0-beta.4"
