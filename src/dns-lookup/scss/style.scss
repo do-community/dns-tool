@@ -14,7 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+@import "../../shared/scss/global";
+
 .dns-lookup {
   $header: #005ff8;
-  @import "../../shared/scss/style.scss";
+  @import "../../shared/scss/style";
 }
