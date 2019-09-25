@@ -14,9 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+@import "../../shared/scss/global";
+
 .spf-explainer {
   $header: #0071fe;
-  @import "../../shared/scss/style.scss";
+  @import "../../shared/scss/style";
 
   .main.container {
     .record-group {
