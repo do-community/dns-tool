@@ -75,7 +75,7 @@ const main = async () => {
 
     // Inject content block
     rawHTML = rawHTML.replace(/<div class=['"]wrapper layout-wrapper['"]>\s+?<div class=['"]clearfix['"]><\/div>\s+?<\/div>/,
-        '<block name="content"></block><div class="clearfix"></div>')
+        '<div class="wrapper layout-wrapper"><block name="content"></block><div class="clearfix"></div></div>')
 
     // Inject last fetch comment
     rawHTML = rawHTML.replace('<head>', `<!-- Last fetch from www.digitalocean.com @ ${(new Date()).toISOString()} -->\n<head>`)
