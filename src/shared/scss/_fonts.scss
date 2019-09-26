@@ -1,0 +1,40 @@
+/*
+Copyright 2019 DigitalOcean
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+@font-face {
+  font-display: swap;
+  font-family: "Sailec-Light";
+  font-weight: normal;
+  src: url("https://assets.digitalocean.com/labs/fonts/Sailec-Light.woff") format("woff"), url("https://assets.digitalocean.com/labs/fonts/Sailec-Light.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Sailec-Regular";
+  font-weight: normal;
+  src: url("https://assets.digitalocean.com/labs/fonts/Sailec-Regular.woff") format("woff"), url("https://assets.digitalocean.com/labs/fonts/Sailec-Regular.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Sailec-Medium";
+  font-weight: bold;
+  src: url("https://assets.digitalocean.com/labs/fonts/Sailec-Medium.woff") format("woff"), url("https://assets.digitalocean.com/labs/fonts/Sailec-Medium.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Sailec-Bold";
+  font-weight: bolder;
+  src: url("https://assets.digitalocean.com/labs/fonts/Sailec-Bold.woff") format("woff"), url("https://assets.digitalocean.com/labs/fonts/Sailec-Bold.woff2") format("woff2");
+}
