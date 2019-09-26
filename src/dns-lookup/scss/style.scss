@@ -20,4 +20,12 @@ limitations under the License.
 .dns-lookup {
   $header: #005ff8;
   @import "../../shared/scss/style";
+
+  h3.title.is-3 {
+    font-family: $bold-font-family;
+  }
+
+  hr {
+    margin: ($margin *  2) 0;
+  }
 }

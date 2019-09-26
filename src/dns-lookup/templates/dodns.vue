@@ -18,17 +18,16 @@ limitations under the License.
     <span>
         <span v-if="loaded">
             <span v-if="dodns">
-                <p><b>{{ i18n.templates.dodns.using }}</b> <a href="https://www.digitalocean.com/docs/networking/dns/">{{ i18n.templates.dodns.learnMore }}</a></p>
+                {{ i18n.templates.dodns.using }} <a href="https://www.digitalocean.com/docs/networking/dns/">{{ i18n.templates.dodns.learnMore }}</a>
             </span>
             <span v-else>
-                <p v-if="subdomain"><b>{{ i18n.templates.dodns.subdomain }}</b></p>
-                <p v-else><b>{{ i18n.templates.dodns.notUsing }}</b> <a href="https://www.digitalocean.com/docs/networking/dns/">{{ i18n.templates.dodns.learnMore }}</a></p>
+                <span v-if="subdomain">{{ i18n.templates.dodns.subdomain }}</span>
+                <span v-else>{{ i18n.templates.dodns.notUsing }} <a href="https://www.digitalocean.com/docs/networking/dns/">{{ i18n.templates.dodns.learnMore }}</a></span>
             </span>
         </span>
         <span v-else>
             <DODNSSkeleton :loading="$props.loading"></DODNSSkeleton>
         </span>
-        <hr>
     </span>
 </template>
 

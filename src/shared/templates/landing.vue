@@ -15,17 +15,16 @@ limitations under the License.
 -->
 
 <template>
-    <div class="header">
+    <div class="landing">
+        <div class="background-top" v-html="$props.backgroundTop"></div>
+        <div class="background-bottom" v-html="$props.backgroundBottom"></div>
         <div class="container">
-            <div>
-                <h1><a href="./">{{ $props.title }}</a></h1>
-                <h3><slot name="description"></slot></h3>
-                <slot name="header"></slot>
-            </div>
+            <h1>{{ $props.title }}</h1>
+            <p v-html="$props.description"></p>
 
             <form autocomplete="on" @submit.prevent="emitSearchEvent">
                 <div class="input-container">
-                    <label for="DomainInput" class="hidden">Search</label>
+                    <label for="DomainInput" class="hidden">{{ i18n.common.searchButton }}</label>
                     <i class="fas fa-search"></i>
                     <input id="DomainInput"
                            v-model="d"
@@ -34,27 +33,37 @@ limitations under the License.
                            :placeholder="i18n.common.searchPlaceholder"
                            @input="execSetText"
                     />
-                    <button :id="$props.buttonId" class="button is-inline">
+                    <button :id="$props.buttonId" class="button is-primary">
                         {{ i18n.common.searchButton }}
                     </button>
                 </div>
-                <div class="buttons">
-                    <slot name="buttons"></slot>
-                </div>
             </form>
+
+            <ExternalLink
+                class="github-link"
+                :text="i18n.templates.landing.github"
+                link="https://github.com/do-community/dns-tool"
+            ></ExternalLink>
         </div>
     </div>
 </template>
 
 <script>
     import i18n from "../i18n"
+    import ExternalLink from "./ext_link"
 
     export default {
         name: "Header",
+        components: {
+            ExternalLink,
+        },
         props: {
             title: String,
+            description: String,
             buttonId: String,
             initValue: String,
+            backgroundTop: String,
+            backgroundBottom: String,
         },
         data() {
             return {

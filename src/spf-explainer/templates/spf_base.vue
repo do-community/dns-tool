@@ -20,11 +20,10 @@ limitations under the License.
             <p>
                 <b>{{ i18n.templates.spfBase.results.replace("{hostname}", hostname) }}</b>
             </p>
-            <hr v-if="loading">
+            <hr v-if="loadingInner">
         </div>
         <div v-if="loading || hostname === ''">
-            <NoSearch v-if="firstSearch && !loading"></NoSearch>
-            <RecordSkeleton :loading="loading"></RecordSkeleton>
+            <RecordSkeleton :loading="loadingInner"></RecordSkeleton>
         </div>
         <hr>
         <div v-for="record of $props.records">
@@ -38,36 +37,36 @@ limitations under the License.
     import i18n from "../i18n"
     import SPF from "./spf"
     import RecordSkeleton from "./skeletons/record"
-    import NoSearch from "./skeletons/no_search"
 
     export default {
         name: "SPFBase",
         components: {
             SPF,
             RecordSkeleton,
-            NoSearch,
         },
         props: {
             records: Array,
+            loading: Boolean,
+            d: String,
         },
         data() {
             return {
                 hostname: "",
-                loading: false,
-                firstSearch: true,
                 i18n,
+                loadingInner: false,
             }
         },
         watch: {
-            records() {
-                this.$data.hostname = this.$props.records[0].name
+            loading() {
+                this.$data.hostname = this.$props.d
                 if (this.$data.hostname.endsWith(".")) this.$data.hostname = this.$data.hostname.slice(0, -1)
+                this.$data.loadingInner = this.$props.loading
             },
         },
         methods: {
             doneLoading() {
-                this.$data.loading = false
-            }
-        }
+                this.$data.loadingInner = false
+            },
+        },
     }
 </script>

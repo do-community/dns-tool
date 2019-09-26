@@ -15,47 +15,70 @@ limitations under the License.
 */
 
 .header {
-  background: $header;
-  margin: 0 0 26px;
   padding: 60px 0 40px;
   position: relative;
 
   .container {
-    align-items: center;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+
+    > div {
+      margin: 0 $margin 0 0;
+    }
 
     h1 {
-      color: #fff;
-      font-size: 50px;
-      letter-spacing: .1px;
-      text-align: center;
+      display: inline-block;
+      font-size: 2.75em;
+      letter-spacing: -.5px;
+      margin-right: $margin;
+
+      a {
+        color: rgba($dark-blue, 1);
+
+        &:hover {
+          color: rgba($dark-blue, .9);
+        }
+      }
+    }
+
+    h3 {
+      color: rgba($dark-blue, .8);
+      display: inline-block;
+      font-size: .9em;
+      font-weight: 400;
+      margin: 0;
+
+      a {
+        text-decoration: underline;
+      }
     }
 
     p {
-      color: #fff;
-      font-size: 18px;
-      font-weight: $font-weight;
-      margin: 0 auto 20px;
-      text-align: center;
+      color: $dark-blue;
+      font-size: .9em;
     }
 
     form {
       display: flex;
       flex-direction: column;
-      margin: 0 auto;
-      max-width: 800px;
-      width: 100%;
+      margin: 0 0 0 auto;
+
+      .input-container {
+        width: auto;
+
+        input {
+          font-size: 16px;
+        }
+      }
 
       .buttons {
         display: flex;
-        flex-direction: row;
-        justify-content: center;
+        flex-direction: column;
+
+        > .button {
+          width: 100%;
+        }
       }
     }
   }
-}
-
-.button.is-header.is-mini {
-  margin: 0 ($margin / 4) ($margin / 2);
 }
