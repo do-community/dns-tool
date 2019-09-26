@@ -68,7 +68,7 @@ const main = async () => {
     rawHTML = dom.serialize()
 
     // Inject title block
-    rawHTML = rawHTML.replace(/<title>(.+?)<\/title>/, '<title><block name="title"></block>$1</title>')
+    rawHTML = rawHTML.replace(/<title>(.+?)<\/title>/, '<title><block name="title"></block>DigitalOcean</title>')
 
     // Inject head block
     rawHTML = rawHTML.replace('</head>', '<block name="head"></block></head>')
