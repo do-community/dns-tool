@@ -88,7 +88,13 @@ limitations under the License.
     // A simple hack to handle the back/forward button.
     // This is fine since the site only consists of 3 files which will be cached anyway.
     // Reloading just ensures that it's a clean slate everytime (this could be why the user is going back - to try and solve a bug).
-    window.addEventListener("popstate", () => window.location.reload())
+    const getUrlQuery = () => new URLSearchParams(window.location.search)
+    const query = getUrlQuery()
+    let domainQuery = query.has("domain") ? query.get("domain") : undefined
+    window.addEventListener("popstate", () => {
+        if (domainQuery === getUrlQuery().get("domain")) return
+        window.location.reload()
+    })
 
     const stripHttps = /(https*:\/\/)*(.+)*/
     const isHostname = /.*\.[a-z]+/
@@ -118,16 +124,14 @@ limitations under the License.
             }
         },
         mounted() {
-            this.$data.linked = (new URLSearchParams(window.location.search)).get("domain")
+            this.$data.linked = domainQuery
             if (this.$data.linked) {
                 this.searchDNSEvent()
             }
         },
         methods: {
             getInitDomainValue() {
-                const query = new URLSearchParams(window.location.search)
-                if (query.has("domain")) return query.get("domain")
-                return ""
+                return domainQuery || ""
             },
             error(message) {
                 alert(message)
@@ -173,7 +177,10 @@ limitations under the License.
 
                     this.setRegistrar(text)
 
-                    if (!this.$data.linked) window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
+                    if (!this.$data.linked) {
+                        domainQuery = text
+                        window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
+                    }
 
                     reports.clear()
                     this.$data.linked = null
