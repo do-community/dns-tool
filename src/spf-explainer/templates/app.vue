@@ -31,7 +31,6 @@ limitations under the License.
 
         <div v-else>
             <NoSPFRecords ref="NoSPFRecords"></NoSPFRecords>
-            <EvalModal ref="EvalModal" :ip="ipEval"></EvalModal>
             <AllPartExplanations ref="AllPartExplanations"></AllPartExplanations>
 
             <Header
@@ -46,6 +45,9 @@ limitations under the License.
                         <a @click="openMechanismModal">{{ i18n.templates.app.whatDoTheyDo }}</a>
                     </p>
                 </template>
+                <template v-slot:header>
+                    <EvalNotif ref="EvalNotif" :ip="ipEval"></EvalNotif>
+                </template>
                 <template v-slot:buttons>
                     <form v-if="!SPFSandbox.empty()" autocomplete="on" @submit.prevent="">
                         <div class="input-container">
@@ -56,7 +58,7 @@ limitations under the License.
                                    type="text"
                                    placeholder="255.255.255.0"
                             />
-                            <button class="button is-inline" @click="openEvalModal">
+                            <button class="button is-inline" @click="openEvalNotif">
                                 {{ i18n.templates.app.eval }}
                             </button>
                         </div>
@@ -88,7 +90,7 @@ limitations under the License.
     import { spawnLine } from "../utils/line_spawn"
     import NoSPFRecords from "./no_spf_records"
     import SPFSandbox from "../utils/spf_sandbox"
-    import EvalModal from "./eval_modal"
+    import EvalNotif from "./eval_notif"
     import AllPartExplanations from "./all_part_explanations"
     import Footer from "../../shared/templates/footer"
     import Header from "../../shared/templates/header"
@@ -106,7 +108,7 @@ limitations under the License.
         components: {
             SPFBase,
             NoSPFRecords,
-            EvalModal,
+            EvalNotif,
             AllPartExplanations,
             Footer,
             Header,
@@ -140,8 +142,8 @@ limitations under the License.
             openMechanismModal() {
                 this.$refs.AllPartExplanations.toggle()
             },
-            openEvalModal() {
-                this.$refs.EvalModal.toggle()
+            openEvalNotif() {
+                this.$refs.EvalNotif.open()
             },
             error(message) {
                 alert(message)
