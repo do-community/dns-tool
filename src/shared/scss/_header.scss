@@ -28,7 +28,6 @@ limitations under the License.
     h1 {
       color: #fff;
       font-size: 50px;
-      font-weight: 600;
       letter-spacing: .1px;
       text-align: center;
     }
@@ -36,7 +35,7 @@ limitations under the License.
     p {
       color: #fff;
       font-size: 18px;
-      font-weight: 400;
+      font-weight: $font-weight;
       margin: 0 auto 20px;
       text-align: center;
     }
