@@ -34,7 +34,7 @@ article.message {
 
   .message-body {
     border: solid $message-color;
-    border-width: 0 ($border-size * 2) ($border-size * 2);
+    border-width: 0 $thick-border-size $thick-border-size;
     padding: $margin;
 
     p {

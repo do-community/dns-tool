@@ -14,61 +14,76 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-$table-border-size: 2px;
-$table-border: $table-border-size solid $border;
+$table-border: $thick-border-size solid $border;
 
-table.table {
-  border: $table-border;
-  border-radius: $border-radius;
-  border-spacing: 0;
-  box-shadow: none;
-  margin: 0;
-  table-layout: unset;
+.table-container {
+  padding: ($margin / 2);
 
-  thead {
-    th {
-      background: $panel;
-      border: 0;
-      font-weight: 600;
-      padding: ($margin / 2) $margin;
-      text-align: left;
-      vertical-align: bottom;
+  @media (min-width: $breakpoint) {
+    padding: 0;
+  }
 
-      .is-with-border & {
-        border-right: $table-border;
+  table.table {
+    border: $table-border;
+    border-radius: $border-radius;
+    border-spacing: 0;
+    box-shadow: none;
+    margin: 0;
+    table-layout: unset;
 
-        &:last-child {
-          border-right: 0;
+    thead {
+      th {
+        background: $panel;
+        border: 0;
+        font-weight: 600;
+        padding: ($margin / 2);
+        text-align: left;
+        vertical-align: bottom;
+
+        @media (min-width: $breakpoint) {
+          padding: ($margin / 2) $margin;
+        }
+
+        .is-with-border & {
+          border-right: $table-border;
+
+          &:last-child {
+            border-right: 0;
+          }
         }
       }
     }
-  }
 
-  tr {
-    background: $background;
-    border: 0 none;
-    box-shadow: none;
-    display: table-row;
-    margin-bottom: 0;
-    padding: 0;
+    tr {
+      background: $background;
+      border: 0 none;
+      box-shadow: none;
+      display: table-row;
+      margin-bottom: 0;
+      padding: 0;
 
-    td {
-      border: $table-border;
-      border-width: $table-border-size 0 0;
-      padding: $margin;
-      text-align: left;
-      vertical-align: top;
+      td {
+        border: $table-border;
+        border-width: $thick-border-size 0 0;
+        padding: ($margin / 2);
+        text-align: left;
+        vertical-align: top;
 
-      .is-with-border & {
-        border-right-width: $table-border-size;
-
-        &:last-child {
-          border-right: 0;
+        @media (min-width: $breakpoint) {
+          padding: $margin;
         }
-      }
 
-      p {
-        margin: 0;
+        .is-with-border & {
+          border-right-width: $thick-border-size;
+
+          &:last-child {
+            border-right: 0;
+          }
+        }
+
+        p {
+          margin: 0;
+        }
       }
     }
   }

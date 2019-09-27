@@ -35,50 +35,52 @@ limitations under the License.
                 <p v-if="$props.recordType === 'DMARC'">
                     <a @click="openDmarcModal">{{ i18n.templates.records.dmarcMechanisms }}</a>
                 </p>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th v-for="recordKey in recordKeys">
-                                {{ recordKey }}
-                                <i v-if="recordKey in recordKeyHelp"
-                                   v-tippy
-                                   :title="recordKeyHelp[recordKey]"
-                                   class="far fa-question-circle help"
-                                ></i>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="row in recordRows">
-                            <td v-for="valueNode in row">
-                                <div v-for="value in valueNode.values">
-                                    <div v-if="value.truncated">
-                                        <TruncatedRecord
-                                            :value="value.result"
-                                            :truncated="value.truncated"
-                                        />
-                                    </div>
-                                    <div v-else>
-                                        {{ value.result }}
-                                        <div v-if="value.hostname">
-                                            <hr style="margin: 5px">
-                                            <WHOIS :ip="value.ip"></WHOIS>
-                                            <div v-if="$props.recordType === 'MX'">
-                                                <MXBlacklist :ip="value.ip" :hostname="value.hostname ? value.hostname : ''"></MXBlacklist>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th v-for="recordKey in recordKeys">
+                                    {{ recordKey }}
+                                    <i v-if="recordKey in recordKeyHelp"
+                                       v-tippy
+                                       :title="recordKeyHelp[recordKey]"
+                                       class="far fa-question-circle help"
+                                    ></i>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="row in recordRows">
+                                <td v-for="valueNode in row">
+                                    <div v-for="value in valueNode.values">
+                                        <div v-if="value.truncated">
+                                            <TruncatedRecord
+                                                :value="value.result"
+                                                :truncated="value.truncated"
+                                            />
+                                        </div>
+                                        <div v-else>
+                                            {{ value.result }}
+                                            <div v-if="value.hostname">
+                                                <hr style="margin: 5px">
+                                                <WHOIS :ip="value.ip"></WHOIS>
+                                                <div v-if="$props.recordType === 'MX'">
+                                                    <MXBlacklist :ip="value.ip" :hostname="value.hostname ? value.hostname : ''"></MXBlacklist>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div v-if="valueNode.description">
-                                    <hr style="margin: 5px" />
-                                    <p style="font-size: 11px">
-                                        <b v-html="valueNode.description"></b>
-                                    </p>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                    <div v-if="valueNode.description">
+                                        <hr style="margin: 5px" />
+                                        <p style="font-size: 11px">
+                                            <b v-html="valueNode.description"></b>
+                                        </p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <p style="margin-top: 20px">
                 <a @click="propagationToggle">{{ i18n.templates.records.propagation }}</a>

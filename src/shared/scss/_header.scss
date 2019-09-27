@@ -20,17 +20,21 @@ limitations under the License.
 
   .container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+
+    @media (min-width: $breakpoint) {
+      flex-direction: row;
+    }
 
     > div {
-      margin: 0 $margin 0 0;
+      margin: 0 $margin $margin 0;
     }
 
     h1 {
       display: inline-block;
       font-size: 2.75em;
       letter-spacing: -.5px;
-      margin-right: $margin;
+      margin: 0 $margin $margin 0;
 
       a {
         color: rgba($dark-blue, 1);
@@ -46,7 +50,7 @@ limitations under the License.
       display: inline-block;
       font-size: .9em;
       font-weight: 400;
-      margin: 0;
+      margin: 0 0 $margin 0;
 
       a {
         text-decoration: underline;
@@ -61,7 +65,11 @@ limitations under the License.
     form {
       display: flex;
       flex-direction: column;
-      margin: 0 0 0 auto;
+      margin: 0;
+
+      @media (min-width: $breakpoint) {
+        margin: 0 0 0 auto;
+      }
 
       .input-container {
         width: auto;

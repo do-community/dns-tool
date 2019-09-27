@@ -49,6 +49,7 @@ $disabled: .5;
 
 // Borders
 $border-size: 1px;
+$thick-border-size: 2px;
 $thin-border: $border-size solid $border;
 $border-radius: 3px;
 
@@ -60,3 +61,4 @@ $transition: $transition-speed $transition-bezier;
 // Sizing
 $height: 48px;
 $margin: 16px;
+$breakpoint: 960px;
