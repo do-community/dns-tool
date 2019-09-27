@@ -18,7 +18,7 @@ limitations under the License.
     <div class="header">
         <div class="container">
             <div>
-                <h1><a href="./">{{ $props.title }}</a></h1>
+                <h1><a :href="baseUrl">{{ $props.title }}</a></h1>
                 <h3><slot name="description"></slot></h3>
                 <slot name="header"></slot>
             </div>
@@ -49,6 +49,8 @@ limitations under the License.
 <script>
     import i18n from "../i18n"
 
+    const baseUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}`
+
     export default {
         name: "Header",
         props: {
@@ -59,6 +61,7 @@ limitations under the License.
         data() {
             return {
                 i18n,
+                baseUrl,
                 d: this.$props.initValue,
             }
         },
