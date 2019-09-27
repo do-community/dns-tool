@@ -218,31 +218,61 @@ textarea {
 }
 
 .input-container {
+  align-items: flex-start;
   border-radius: $border-radius;
   box-shadow: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
   margin: 0 0 $margin;
   position: relative;
   text-align: left;
   width: 100%;
 
   i {
-    color: rgba($text, .6);
+    color: $dark-grey;
     font-size: 18px;
     left: $margin;
     position: absolute;
-    top: 18px;
+    top: 15px;
     z-index: 1;
+
+    + input {
+      padding-left: $margin * 2 + 18;
+    }
   }
 
   input {
-    border: 0;
+    border: $border-size solid $dark-grey;
     border-radius: $border-radius;
     display: inline-block;
+    flex-grow: 1;
     font-size: 18px;
     font-weight: 400;
-    height: auto;
     line-height: normal;
-    padding: $margin ($margin * 2) $margin ($margin * 2 + 18);
-    width: 100%;
+    margin-bottom: $margin / 2;
+    max-width: 100vw;
+    padding: 0 $margin;
+    width: 350px;
+
+    + button.button {
+      height: 45px;
+      margin: 1.5px 0 0 $margin;
+
+      &.is-inline {
+        background: none;
+        border: 0;
+        color: $primary;
+        font-size: 16px;
+        font-weight: $font-weight;
+        margin: 0;
+        outline: none;
+        padding: 0;
+        position: absolute;
+        right: $margin;
+        z-index: 1;
+      }
+    }
   }
 }

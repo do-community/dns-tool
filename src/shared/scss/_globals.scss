@@ -28,18 +28,20 @@ $warning-hover: darken($warning, 5);
 $background: #fff !default;
 $border: #f1f1f1 !default;
 $text: #333 !default;
-$heading: #222 !default;
+$dark-blue: #031b4e !default;
 $panel: #fafafa !default;
-$muted: rgba($text, .75);
+$muted: #8390af !default;
 $header: #f00 !default;
 $header-hover: darken($header, 5);
-$dark-blue: #031b4e !default;
-$modal: rgba(#444, .95) !default;
+$dark-grey: #5b6987 !default;
+$mono-blue: #010e28 !default;
+$modal: rgba($mono-blue, .8) !default;
 
 // Fonts
 $font-size: 16px;
 $font-family: "Proxima Nova", "proxima-nova", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 $bold-font-family: "Sailec-Bold", system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+$medium-font-family: "Sailec-Medium", system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
 $mono-font-family: "Operator Mono", Consolas, monospace, serif;
 $font-weight: 400;
 $line-height: 1.5;

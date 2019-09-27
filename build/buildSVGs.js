@@ -36,7 +36,7 @@ const main = () => {
 
     // Convert to JS & save
     files.forEach(svg => {
-        const xml = fs.readFileSync(`${base}/dns.svg`)
+        const xml = fs.readFileSync(`${base}/${svg}`)
         fs.writeFileSync(
             `${__dirname}/svg/${svg}.js`,
             `// This file was automatically generated.\nexport default \`\n${xml}\n\`\n`,

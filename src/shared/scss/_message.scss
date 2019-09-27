@@ -14,19 +14,33 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-@import "../../shared/scss/global";
+article.message {
+  $message-color: #c4c4c4;
 
-.spf-explainer {
-  $header: #0071fe;
-  @import "../../shared/scss/style";
+  .message-header {
+    background: $message-color;
+    border-radius: $border-radius $border-radius 0 0;
+    padding: ($margin / 2) $margin;
 
-  .main.container {
-    h5.title.is-5 {
-      line-height: 1.35;
+    p {
+      color: #000;
+      font-family: $medium-font-family;
+      font-size: 1em;
+      font-weight: $font-weight;
+      line-height: 1.5;
+      margin: 0;
     }
+  }
 
-    .record-group {
-      padding-left: $margin * 2;
+  .message-body {
+    border: solid $message-color;
+    border-width: 0 ($border-size * 2) ($border-size * 2);
+    padding: $margin;
+
+    p {
+      color: #000;
+      font-size: .9em;
+      margin: 0;
     }
   }
 }

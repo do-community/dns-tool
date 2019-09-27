@@ -21,9 +21,9 @@ limitations under the License.
 
   .modal-card {
     background: $background;
-    border: $thin-border;
+    border: 0;
     border-radius: 5px;
-    box-shadow: rgba($dark-blue, .06) 0 2px 4px;
+    box-shadow: none;
     margin: auto;
     padding: $margin * 2;
 
@@ -55,6 +55,10 @@ limitations under the License.
       border-top-left-radius: inherit;
       border-top-right-radius: inherit;
       padding: 0;
+
+      .modal-card-title {
+        font-family: $medium-font-family;
+      }
     }
 
     .modal-card-body {

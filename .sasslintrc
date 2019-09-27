@@ -30,6 +30,8 @@
     "force-pseudo-nesting": 0,
     "nesting-depth": 0,
     "no-qualifying-elements": 0,
-    "indentation": 1
+    "indentation": 1,
+    "no-url-domains": 0,
+    "no-url-protocols": 0
   }
 }

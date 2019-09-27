@@ -16,40 +16,57 @@ limitations under the License.
 
 <template>
     <div class="all dns-lookup">
-        <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
-
-        <Header
+        <Landing
+            v-if="firstSearch"
             :title="i18n.templates.app.title"
             :description="i18n.templates.app.description"
-            :search-placeholder="i18n.templates.app.domain"
+            button-id="SearchButton"
             :init-value="getInitDomainValue()"
+            :background-top="dnsTop"
+            :background-bottom="dnsBottom"
             @search-event="searchDNSEvent"
         >
-            <button id="SearchButton" class="button is-header is-inverted">
-                {{ i18n.templates.app.searchButton }}
-            </button>
-            <a v-if="data !== ''" class="button is-header is-inverted" @click="toggleRecordTextModal">
-                {{ i18n.templates.app.textRecords }}
-            </a>
-        </Header>
+        </Landing>
 
-        <div class="main container" :style="{opacity: contentOpacity}">
-            <div id="content">
-                <RecordJumps :loaded="data !== ''" :loading="siteLoading"></RecordJumps>
-                <DODNS :loaded="data !== ''" :data="data" :loading="siteLoading"></DODNS>
-                <div v-if="firstSearch">
-                    <NoSearch v-if="data === ''"></NoSearch>
-                    <RecordSkeleton :loading="false"></RecordSkeleton>
-                    <RecordSkeleton :loading="false"></RecordSkeleton>
-                    <RecordSkeleton :loading="false"></RecordSkeleton>
-                </div>
-                <div :style="`${firstSearch ? 'display: none; visibility: hidden;' : ''}`">
+        <div v-else>
+            <RecordSelectionModal ref="RecordSelectionModal"></RecordSelectionModal>
+
+            <Header
+                :title="i18n.templates.app.title"
+                button-id="SearchButton"
+                :init-value="getInitDomainValue()"
+                @search-event="searchDNSEvent"
+            >
+                <template v-slot:description>
+                    <DODNS
+                        :style="{opacity: contentOpacity}"
+                        :loaded="data !== ''"
+                        :data="data"
+                        :loading="siteLoading"
+                    ></DODNS>
+                </template>
+                <template v-slot:header>
+                    <RecordJumps
+                        :style="{opacity: contentOpacity}"
+                        :loaded="data !== ''"
+                        :loading="siteLoading"
+                    ></RecordJumps>
+                </template>
+                <template v-slot:buttons>
+                    <a v-if="data !== ''" class="button is-primary" @click="toggleRecordTextModal">
+                        {{ i18n.templates.app.textRecords }}
+                    </a>
+                </template>
+            </Header>
+
+            <div class="main container" :style="{opacity: contentOpacity}">
+                <div id="content">
                     <RecordBase ref="RecordBase" :data="data" :registrar="registrar" :loading="siteLoading"></RecordBase>
                 </div>
             </div>
-        </div>
 
-        <Footer></Footer>
+            <Footer></Footer>
+        </div>
     </div>
 </template>
 
@@ -62,16 +79,23 @@ limitations under the License.
     import { reports } from "../plain_text_reports"
     import RecordSelectionModal from "./record_selection_modal"
     import cfDNS from "../../shared/utils/cfDNS"
-    import NoSearch from "./skeletons/no_search"
-    import RecordSkeleton from "./skeletons/record"
     import Footer from "../../shared/templates/footer"
     import Header from "../../shared/templates/header"
+    import Landing from "../../shared/templates/landing"
+    import dnsTop from "../../../build/svg/dns-top.svg"
+    import dnsBottom from "../../../build/svg/dns-bottom.svg"
     import { remakeController } from "../../shared/utils/backoffFetch"
 
     // A simple hack to handle the back/forward button.
     // This is fine since the site only consists of 3 files which will be cached anyway.
     // Reloading just ensures that it's a clean slate everytime (this could be why the user is going back - to try and solve a bug).
-    window.addEventListener("popstate", () => window.location.reload())
+    const getUrlQuery = () => new URLSearchParams(window.location.search)
+    const query = getUrlQuery()
+    let domainQuery = query.has("domain") ? query.get("domain") : undefined
+    window.addEventListener("popstate", () => {
+        if (domainQuery === getUrlQuery().get("domain")) return
+        window.location.reload()
+    })
 
     const stripHttps = /(https*:\/\/)*(.+)*/
     const isHostname = /.*\.[a-z]+/
@@ -79,14 +103,13 @@ limitations under the License.
     export default {
         name: "App",
         components: {
-            NoSearch,
-            RecordSkeleton,
             RecordBase,
             DODNS,
             RecordJumps,
             RecordSelectionModal,
             Footer,
             Header,
+            Landing,
         },
         data() {
             return {
@@ -97,19 +120,19 @@ limitations under the License.
                 siteLoading: false,
                 registrar: "",
                 contentOpacity: 1,
+                dnsTop,
+                dnsBottom,
             }
         },
         mounted() {
-            this.$data.linked = (new URLSearchParams(window.location.search)).get("domain")
+            this.$data.linked = domainQuery
             if (this.$data.linked) {
                 this.searchDNSEvent()
             }
         },
         methods: {
             getInitDomainValue() {
-                const query = new URLSearchParams(window.location.search)
-                if (query.has("domain")) return query.get("domain")
-                return ""
+                return domainQuery || ""
             },
             error(message) {
                 alert(message)
@@ -155,7 +178,10 @@ limitations under the License.
 
                     this.setRegistrar(text)
 
-                    if (!this.$data.linked) window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
+                    if (!this.$data.linked) {
+                        domainQuery = text
+                        window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
+                    }
 
                     reports.clear()
                     remakeController()

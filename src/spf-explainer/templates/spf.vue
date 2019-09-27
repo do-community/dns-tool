@@ -21,7 +21,10 @@ limitations under the License.
                 <a @click="goToIndex(key)" @mouseover="markActive(key)">{{ key }} </a>
             </span>
         </h5>
-        <div v-for="part in parts" :key="part[0]">
+        <div v-if="parts.length === 0">
+            <SmallSPFSkeleton></SmallSPFSkeleton>
+        </div>
+        <div v-for="part in parts" v-else :key="part[0]">
             <hr class="hr-small-pad">
             <div :ref="part[0]">
                 <p>
@@ -64,11 +67,13 @@ limitations under the License.
     import longDescriptions from "../data/long_descriptions"
     import PartExplanation from "./part_explanation"
     import SPFSandbox from "../utils/spf_sandbox"
+    import SmallSPFSkeleton from "./skeletons/small_spf_skeleton"
 
     export default {
         name: "SPF",
         components: {
             PartExplanation,
+            SmallSPFSkeleton,
         },
         props: {
             data: String,

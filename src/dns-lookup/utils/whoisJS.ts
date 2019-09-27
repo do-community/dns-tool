@@ -14,15 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import * as psl from "psl"
 import backoffFetch from "../../shared/utils/backoffFetch"
 
 export default async (name: string) => {
-    const nameSplit = name.split(".")
-    const ending = nameSplit.pop()!
-    const domain = nameSplit.pop()!
-    const domainFull = `${domain}.${ending}`
+    const parsed = psl.parse(name)
+    if (parsed.error || !parsed.domain) return
     return await backoffFetch(
-        `https://whoisjs.com/api/v1/${encodeURIComponent(domainFull)}`,
+        `https://whoisjs.com/api/v1/${encodeURIComponent(parsed.domain)}`,
         {
             headers: {
                 Accept: "application/json",

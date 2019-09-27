@@ -16,41 +16,70 @@ limitations under the License.
 
 <template>
     <div class="all spf-explainer">
-        <NoSPFRecords ref="NoSPFRecords"></NoSPFRecords>
-        <EvalModal ref="EvalModal"></EvalModal>
-        <AllPartExplanations ref="AllPartExplanations"></AllPartExplanations>
-
-        <Header
+        <Landing
+            v-if="firstSearch && !loading"
             :title="i18n.templates.app.title"
             :description="i18n.templates.app.description"
-            :search-placeholder="i18n.templates.app.domain"
-            :init-value="getInitDomainValue()"
+            button-id="DomainSearch"
+            :init-value="domain"
+            :background-top="spfTop"
+            :background-bottom="spfBottom"
             @search-event="searchEvent"
             @set-text="setDomain"
         >
-            <button id="DomainSearch" :class="`button is-header is-inverted is-link${loading ? ' is-loading' : ''}`">
-                {{ i18n.templates.app.searchButton }}
-            </button>
-            <button
-                v-if="!SPFSandbox.empty()"
-                :class="`button is-header is-inverted is-link${loading ? ' is-loading' : ''}`"
-                @click="openEvalModal"
-            >
-                {{ i18n.templates.app.eval }}
-            </button>
-        </Header>
+        </Landing>
 
-        <div class="main container">
-            <p>
-                <a class="button is-header is-mini" @click="openMechanismModal">
-                    {{ i18n.templates.app.whatDoTheyDo }}
-                </a>
-            </p>
-            <hr>
-            <SPFBase ref="SPFBase" :records="records"></SPFBase>
+        <div v-else>
+            <NoSPFRecords ref="NoSPFRecords"></NoSPFRecords>
+            <AllPartExplanations ref="AllPartExplanations"></AllPartExplanations>
+
+            <Header
+                :title="i18n.templates.app.title"
+                button-id="DomainSearch"
+                :init-value="domain"
+                @search-event="searchEvent"
+                @set-text="setDomain"
+            >
+                <template v-slot:description>
+                    <p>
+                        <a @click="openMechanismModal">{{ i18n.templates.app.whatDoTheyDo }}</a>
+                    </p>
+                </template>
+                <template v-slot:header>
+                    <EvalNotif ref="EvalNotif" :ip="ipEval"></EvalNotif>
+                </template>
+                <template v-slot:buttons>
+                    <form v-if="!SPFSandbox.empty()" autocomplete="on" @submit.prevent="">
+                        <div class="input-container">
+                            <label for="EvaluateInput" class="hidden">Evaluate</label>
+                            <input id="EvaluateInput"
+                                   v-model="ipEval"
+                                   class="input"
+                                   type="text"
+                                   placeholder="255.255.255.0"
+                            />
+                            <button class="button is-inline" @click="openEvalNotif">
+                                {{ i18n.templates.app.eval }}
+                            </button>
+                        </div>
+                    </form>
+                </template>
+            </Header>
         </div>
 
-        <Footer></Footer>
+        <div class="main container">
+            <SPFBase
+                v-if="(firstSearch && loading) || !firstSearch"
+                ref="SPFBase"
+                :records="records"
+                :loading="loading"
+                :d="domain"
+            ></SPFBase>
+        </div>
+
+        <div v-if="!firstSearch">
+            <Footer></Footer>
+        </div>
     </div>
 </template>
 
@@ -61,10 +90,13 @@ limitations under the License.
     import { spawnLine } from "../utils/line_spawn"
     import NoSPFRecords from "./no_spf_records"
     import SPFSandbox from "../utils/spf_sandbox"
-    import EvalModal from "./eval_modal"
+    import EvalNotif from "./eval_notif"
     import AllPartExplanations from "./all_part_explanations"
     import Footer from "../../shared/templates/footer"
     import Header from "../../shared/templates/header"
+    import Landing from "../../shared/templates/landing"
+    import spfTop from "../../../build/svg/spf-top.svg"
+    import spfBottom from "../../../build/svg/spf-bottom.svg"
     import { remakeController } from "../../shared/utils/backoffFetch"
 
     // A simple hack to handle the back/forward button.
@@ -77,19 +109,24 @@ limitations under the License.
         components: {
             SPFBase,
             NoSPFRecords,
-            EvalModal,
+            EvalNotif,
             AllPartExplanations,
             Footer,
             Header,
+            Landing,
         },
         data() {
             return {
+                firstSearch: true,
                 SPFSandbox,
                 i18n,
                 lastDomain: null,
                 domain: "",
                 loading: false,
                 records: [],
+                ipEval: "",
+                spfTop,
+                spfBottom,
             }
         },
         mounted() {
@@ -100,28 +137,19 @@ limitations under the License.
             }
         },
         methods: {
-            getInitDomainValue() {
-                const query = new URLSearchParams(window.location.search)
-                if (query.has("domain")) return query.get("domain")
-                return ""
-            },
             setDomain(d) {
                 this.$data.domain = d
             },
             openMechanismModal() {
                 this.$refs.AllPartExplanations.toggle()
             },
-            openEvalModal() {
-                this.$refs.EvalModal.toggle()
+            openEvalNotif() {
+                this.$refs.EvalNotif.open()
             },
             error(message) {
-                this.$refs.SPFBase.loading = false
                 alert(message)
             },
-            async lookup(domain) {
-                domain = domain.toLowerCase().replace(/^https*:\/\//, "").replace(/\/+$/, "")
-                if (this.$data.lastDomain === domain) return this.$refs.SPFBase.loading = false
-
+            async cfPart(domain) {
                 const res = await cfDNS(domain, "TXT")
                 if (!res.ok) return this.error("Invalid domain.")
                 let json
@@ -132,8 +160,17 @@ limitations under the License.
                     // That has happened here.
                     return this.error("Invalid domain.")
                 }
+
                 if (json.Status !== 0) return this.error("Invalid domain.")
-                if (!json.Answer) return this.$refs.NoSPFRecords.toggle()
+                if (!json.Answer) {
+                    this.$refs.NoSPFRecords.toggle()
+                    return false
+                }
+
+                return json
+            },
+            async lookup(domain, json) {
+                if (this.$data.lastDomain === domain) this.$data.records = []
 
                 const records = []
                 for (const answer of json.Answer) {
@@ -141,7 +178,6 @@ limitations under the License.
                     if (answer.data.startsWith("v=spf1")) records.push(answer)
                 }
                 if (records.length === 0) {
-                    this.$refs.SPFBase.loading = false
                     return this.$refs.NoSPFRecords.toggle()
                 }
 
@@ -149,17 +185,22 @@ limitations under the License.
                 window.history.pushState({}, "", `?domain=${domain}`)
                 SPFSandbox.wipe()
                 remakeController()
-                this.$refs.SPFBase.firstSearch = false
+                this.$data.firstSearch = false
                 this.$data.lastDomain = domain
             },
             async searchEvent() {
+                const el = document.getElementById("DomainSearch")
+
                 try {
-                    spawnLine(undefined)
-                    this.$refs.SPFBase.loading = true
+                    el.classList.add("is-loading")
+                    const domain = this.$data.domain.toLowerCase().replace(/^https*:\/\//, "").replace(/\/+$/, "")
+                    const j = await this.cfPart(domain)
+                    if (!j) return
                     this.$data.loading = true
-                    const domain = this.$data.domain
-                    await this.lookup(domain)
+                    spawnLine(undefined)
+                    await this.lookup(domain, j)
                 } finally {
+                    el.classList.remove("is-loading")
                     this.$data.loading = false
                 }
             },

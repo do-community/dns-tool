@@ -118,4 +118,15 @@ limitations under the License.
     font-size: .8em;
     opacity: .6;
   }
+
+  &.fa-link {
+    color: $muted;
+    font-size: .5em;
+  }
+}
+
+.jump-link {
+  color: $muted;
+  display: inline-block;
+  margin: 0 ($margin / 4 * 3) ($margin / 2) ($margin / 4);
 }

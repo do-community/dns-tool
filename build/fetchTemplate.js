@@ -68,14 +68,14 @@ const main = async () => {
     rawHTML = dom.serialize()
 
     // Inject title block
-    rawHTML = rawHTML.replace(/<title>(.+?)<\/title>/, '<title><block name="title"></block>$1</title>')
+    rawHTML = rawHTML.replace(/<title>(.+?)<\/title>/, '<title><block name="title"></block>DigitalOcean</title>')
 
     // Inject head block
     rawHTML = rawHTML.replace('</head>', '<block name="head"></block></head>')
 
     // Inject content block
     rawHTML = rawHTML.replace(/<div class=['"]wrapper layout-wrapper['"]>\s+?<div class=['"]clearfix['"]><\/div>\s+?<\/div>/,
-        '<block name="content"></block><div class="clearfix"></div>')
+        '<div class="wrapper layout-wrapper"><block name="content"></block><div class="clearfix"></div></div>')
 
     // Inject last fetch comment
     rawHTML = rawHTML.replace('<head>', `<!-- Last fetch from www.digitalocean.com @ ${(new Date()).toISOString()} -->\n<head>`)
