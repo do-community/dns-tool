@@ -14,8 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-$table-border-size: 2px;
-$table-border: $table-border-size solid $border;
+$table-border: $thick-border-size solid $border;
 
 .table-container {
   padding: ($margin / 2);
@@ -65,7 +64,7 @@ $table-border: $table-border-size solid $border;
 
       td {
         border: $table-border;
-        border-width: $table-border-size 0 0;
+        border-width: $thick-border-size 0 0;
         padding: ($margin / 2);
         text-align: left;
         vertical-align: top;
@@ -75,7 +74,7 @@ $table-border: $table-border-size solid $border;
         }
 
         .is-with-border & {
-          border-right-width: $table-border-size;
+          border-right-width: $thick-border-size;
 
           &:last-child {
             border-right: 0;
