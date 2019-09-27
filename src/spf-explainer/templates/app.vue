@@ -97,6 +97,7 @@ limitations under the License.
     import Landing from "../../shared/templates/landing"
     import spfTop from "../../../build/svg/spf-top.svg"
     import spfBottom from "../../../build/svg/spf-bottom.svg"
+    import { remakeController } from "../../shared/utils/backoffFetch"
 
     // A simple hack to handle the back/forward button.
     // This is fine since the site only consists of 3 files which will be cached anyway.
@@ -183,6 +184,7 @@ limitations under the License.
                 this.$data.records = records
                 window.history.pushState({}, "", `?domain=${domain}`)
                 SPFSandbox.wipe()
+                remakeController()
                 this.$data.firstSearch = false
                 this.$data.lastDomain = domain
             },

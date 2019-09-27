@@ -84,6 +84,7 @@ limitations under the License.
     import Landing from "../../shared/templates/landing"
     import dnsTop from "../../../build/svg/dns-top.svg"
     import dnsBottom from "../../../build/svg/dns-bottom.svg"
+    import { remakeController } from "../../shared/utils/backoffFetch"
 
     // A simple hack to handle the back/forward button.
     // This is fine since the site only consists of 3 files which will be cached anyway.
@@ -183,6 +184,7 @@ limitations under the License.
                     }
 
                     reports.clear()
+                    remakeController()
                     this.$data.linked = null
                     this.$data.data = text
                     await this.searchWait()
