@@ -77,6 +77,18 @@ $table-border: $thick-border-size solid $border;
 
         p {
           margin: 0;
+
+          small {
+            font-size: $font-size * .75;
+          }
+        }
+
+        hr {
+          margin: ($margin / 4) 0;
+
+          @media (min-width: $breakpoint) {
+            margin: ($margin / 2) 0;
+          }
         }
 
         .button.is-mini {

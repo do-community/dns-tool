@@ -62,7 +62,7 @@ limitations under the License.
                                         <div v-else>
                                             {{ value.result }}
                                             <div v-if="value.hostname">
-                                                <hr style="margin: 5px">
+                                                <hr />
                                                 <WHOIS :ip="value.ip"></WHOIS>
                                                 <div v-if="$props.recordType === 'MX'">
                                                     <MXBlacklist :ip="value.ip" :hostname="value.hostname ? value.hostname : ''"></MXBlacklist>
@@ -71,9 +71,11 @@ limitations under the License.
                                         </div>
                                     </div>
                                     <div v-if="valueNode.description">
-                                        <hr style="margin: 5px" />
-                                        <p style="font-size: 11px">
-                                            <b v-html="valueNode.description"></b>
+                                        <hr />
+                                        <p>
+                                            <small>
+                                                <b v-html="valueNode.description"></b>
+                                            </small>
                                         </p>
                                     </div>
                                     <a v-if="valueNode.button"
