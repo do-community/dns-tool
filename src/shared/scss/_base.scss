@@ -88,5 +88,10 @@ figure {
     flex-grow: 1;
     transition: opacity $transition;
     width: 100%;
+    padding: 0 $margin;
+
+    @media (min-width: $breakpoint) {
+      padding: 0;
+    }
   }
 }

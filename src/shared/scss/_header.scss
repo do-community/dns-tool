@@ -15,8 +15,12 @@ limitations under the License.
 */
 
 .header {
-  padding: 60px 0 40px;
+  padding: ($margin * 2) $margin ($margin * 2.5);
   position: relative;
+
+  @media (min-width: $breakpoint) {
+    padding: ($margin * 3.75) 0 ($margin * 2.5);
+  }
 
   .container {
     display: flex;
@@ -83,7 +87,8 @@ limitations under the License.
         display: flex;
         flex-direction: column;
 
-        > .button {
+        > * {
+          flex-grow: 1;
           width: 100%;
         }
       }
