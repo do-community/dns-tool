@@ -76,6 +76,10 @@ limitations under the License.
                                             <b v-html="valueNode.description"></b>
                                         </p>
                                     </div>
+                                    <a v-if="valueNode.button"
+                                       :href="valueNode.button.link"
+                                       class="button is-primary is-mini"
+                                    >{{ valueNode.button.text }}</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -323,6 +327,12 @@ limitations under the License.
                                     }
                                     if (txtFragments[truncated]) data.description = txtFragments[truncated]
                                     if (part.length > 20) data.values[0].truncated = truncated
+                                    if (truncated === "v=spf1") {
+                                        data.button = {
+                                            link: `https://www.digitalocean.com/community/tools/spf?domain=${text}`,
+                                            text: "Explore and evaluate SPF record",
+                                        }
+                                    }
                                 } else if (key === "DMARC") {
                                     const split = part.split("=")
                                     const whitespaceGone = split[0].trim()

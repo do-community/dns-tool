@@ -78,6 +78,13 @@ $table-border: $thick-border-size solid $border;
         p {
           margin: 0;
         }
+
+        .button.is-mini {
+          font-size: $font-size * .75;
+          height: $margin * 2;
+          line-height: $margin * 2;
+          margin-top: $margin / 2;
+        }
       }
     }
   }
