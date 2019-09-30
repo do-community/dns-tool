@@ -15,25 +15,43 @@ limitations under the License.
 -->
 
 <template>
-    <span v-if="done">
-        <p style="font-size: 11px">
-            <b>{{ i18n.templates.whois.owner }}:</b> <a @click="toggleExpand">{{ netname }}</a>
-            <span
-                id="countryInfo"
-                v-tippy
-                :class="`flag-icon flag-icon-${countryCode}`"
-                :title="countryInfo"
-            />
+    <div v-if="done">
+        <p>
+            <small>
+                <b>{{ i18n.templates.whois.owner }}:</b> <a @click="toggleExpand">{{ netname }}</a>
+                <span
+                    id="countryInfo"
+                    v-tippy
+                    :class="`flag-icon flag-icon-${countryCode}`"
+                    :title="countryInfo"
+                />
+            </small>
         </p>
-        <span v-if="expand">
-            <p style="font-size: 11px"><b>ASN:</b> {{ asn }}</p>
-            <p style="font-size: 11px"><b>CIDR:</b> {{ cidr }}</p>
-            <p style="font-size: 11px"><b>{{ i18n.templates.whois.abuseContact }}:</b> {{ abuse }}</p>
-        </span>
-    </span>
-    <span v-else>
-        <p style="font-size: 11px"><i>{{ i18n.templates.whois.loading }}</i></p>
-    </span>
+        <div v-if="expand">
+            <p>
+                <small>
+                    <b>ASN:</b> {{ asn }}
+                </small>
+            </p>
+            <p>
+                <small>
+                    <b>CIDR:</b> {{ cidr }}
+                </small>
+            </p>
+            <p>
+                <small>
+                    <b>{{ i18n.templates.whois.abuseContact }}:</b> {{ abuse }}
+                </small>
+            </p>
+        </div>
+    </div>
+    <div v-else>
+        <p>
+            <small>
+                <i>{{ i18n.templates.whois.loading }}</i>
+            </small>
+        </p>
+    </div>
 </template>
 
 <script>

@@ -62,7 +62,7 @@ limitations under the License.
                                         <div v-else>
                                             {{ value.result }}
                                             <div v-if="value.hostname">
-                                                <hr style="margin: 5px">
+                                                <hr />
                                                 <WHOIS :ip="value.ip"></WHOIS>
                                                 <div v-if="$props.recordType === 'MX'">
                                                     <MXBlacklist :ip="value.ip" :hostname="value.hostname ? value.hostname : ''"></MXBlacklist>
@@ -71,11 +71,17 @@ limitations under the License.
                                         </div>
                                     </div>
                                     <div v-if="valueNode.description">
-                                        <hr style="margin: 5px" />
-                                        <p style="font-size: 11px">
-                                            <b v-html="valueNode.description"></b>
+                                        <hr />
+                                        <p>
+                                            <small>
+                                                <b v-html="valueNode.description"></b>
+                                            </small>
                                         </p>
                                     </div>
+                                    <a v-if="valueNode.button"
+                                       :href="valueNode.button.link"
+                                       class="button is-primary is-mini"
+                                    >{{ valueNode.button.text }}</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -323,6 +329,12 @@ limitations under the License.
                                     }
                                     if (txtFragments[truncated]) data.description = txtFragments[truncated]
                                     if (part.length > 20) data.values[0].truncated = truncated
+                                    if (truncated === "v=spf1") {
+                                        data.button = {
+                                            link: `https://www.digitalocean.com/community/tools/spf?domain=${text}`,
+                                            text: "Explore and evaluate SPF record",
+                                        }
+                                    }
                                 } else if (key === "DMARC") {
                                     const split = part.split("=")
                                     const whitespaceGone = split[0].trim()

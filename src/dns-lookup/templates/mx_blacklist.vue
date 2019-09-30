@@ -16,19 +16,27 @@ limitations under the License.
 
 <template>
     <div v-if="this.$props.hostname !== ''">
-        <hr style="margin: 5px">
+        <hr />
         <div v-if="blacklists.length !== 0">
-            <p v-for="item in blacklists" style="font-size: 11px">
-                <b>{{ item }}</b>
+            <p v-for="item in blacklists">
+                <small>
+                    <b>{{ item }}</b>
+                </small>
             </p>
         </div>
         <div v-else>
-            <p style="font-size: 11px">
-                <b>{{ i18n.templates.mxBlacklist.notBlacklisted }}</b>
+            <p>
+                <small>
+                    <b>{{ i18n.templates.mxBlacklist.notBlacklisted }}</b>
+                </small>
             </p>
         </div>
-        <p style="font-size: 11px">
-            <ExternalLink :text="i18n.templates.mxBlacklist.whatDoesItMean" link="https://www.techwalla.com/articles/what-does-it-mean-if-an-email-address-is-blacklisted"></ExternalLink>
+        <p>
+            <small>
+                <ExternalLink :text="i18n.templates.mxBlacklist.whatDoesItMean"
+                              link="https://www.techwalla.com/articles/what-does-it-mean-if-an-email-address-is-blacklisted"
+                ></ExternalLink>
+            </small>
         </p>
     </div>
 </template>
