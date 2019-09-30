@@ -88,6 +88,7 @@ export default class LineGenerator {
         div.style.top = "0"
         div.style.left = "0"
         div.style.overflow = "show"
+        div.style.pointerEvents = "none"
         document.body.appendChild(div)
         return div
     }
@@ -113,7 +114,7 @@ export default class LineGenerator {
     public setup() {
         // Locks the initialiser.
         lock = true
-    
+
         // Gets the positions of A/B.
         const aRect = this.a.getBoundingClientRect() as DOMRect
         const bRect = this.b.getBoundingClientRect()
