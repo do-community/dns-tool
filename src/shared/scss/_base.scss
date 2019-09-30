@@ -86,7 +86,12 @@ figure {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    padding: 0 $margin;
     transition: opacity $transition;
     width: 100%;
+
+    @media (min-width: $breakpoint) {
+      padding: 0;
+    }
   }
 }

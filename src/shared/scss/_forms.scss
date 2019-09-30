@@ -218,17 +218,22 @@ textarea {
 }
 
 .input-container {
-  align-items: flex-start;
+  align-items: center;
   border-radius: $border-radius;
   box-shadow: none;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: center;
   margin: 0 0 $margin;
   position: relative;
   text-align: left;
   width: 100%;
+
+  @media (min-width: $breakpoint) {
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
 
   i {
     color: $dark-grey;
@@ -252,13 +257,23 @@ textarea {
     font-weight: 400;
     line-height: normal;
     margin-bottom: $margin / 2;
-    max-width: 100vw;
+    max-width: 100%;
     padding: 0 $margin;
-    width: 350px;
+    width: 100%;
+
+    @media (min-width: $breakpoint) {
+      width: 350px;
+    }
 
     + button.button {
       height: 45px;
-      margin: 1.5px 0 0 $margin;
+      margin: 0;
+      width: 100%;
+
+      @media (min-width: $breakpoint) {
+        margin: 1.5px 0 0 $margin;
+        width: auto;
+      }
 
       &.is-inline {
         background: none;
@@ -271,6 +286,8 @@ textarea {
         padding: 0;
         position: absolute;
         right: $margin;
+        top: 0;
+        width: auto;
         z-index: 1;
       }
     }

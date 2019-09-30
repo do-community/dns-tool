@@ -17,12 +17,6 @@ limitations under the License.
 $table-border: $thick-border-size solid $border;
 
 .table-container {
-  padding: ($margin / 2);
-
-  @media (min-width: $breakpoint) {
-    padding: 0;
-  }
-
   table.table {
     border: $table-border;
     border-radius: $border-radius;

@@ -17,8 +17,8 @@ limitations under the License.
 .landing {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 104px); // Account for Community header
-  margin-bottom: -$margin * 4; // Account for Community footer
+  margin-bottom: -$margin * 4; // Account for Community header
+  min-height: calc(100vh - 104px); // Account for Community footer
   position: relative;
 
   .container {
@@ -26,6 +26,7 @@ limitations under the License.
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: ($margin * 1.5) $margin ($margin * 2.5);
     position: relative;
     width: 100%;
 
@@ -38,9 +39,13 @@ limitations under the License.
     p {
       color: rgba($dark-blue, .8);
       font-size: 1.25em;
-      margin: 0 auto ($margin * 6);
+      margin: 0 auto ($margin * 2);
       max-width: 600px;
       text-align: center;
+
+      @media (min-width: $breakpoint) {
+        margin: 0 auto ($margin * 6);
+      }
     }
 
     form {
