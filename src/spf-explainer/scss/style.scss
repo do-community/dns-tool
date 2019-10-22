@@ -14,12 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-@import "../../shared/scss/global";
+$header: #0071fe;
+@import "../../../node_modules/do-bulma/src/style";
 
-.spf-explainer {
-  $header: #0071fe;
-  @import "../../shared/scss/style";
-
+.do-bulma {
   .main.container {
     h5.title.is-5 {
       line-height: 1.35;

@@ -15,7 +15,7 @@ limitations under the License.
 -->
 
 <template>
-    <div class="all spf-explainer">
+    <div class="all do-bulma">
         <Landing
             v-if="firstSearch && !loading"
             :title="i18n.templates.app.title"
