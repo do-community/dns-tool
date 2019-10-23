@@ -15,7 +15,7 @@ limitations under the License.
 -->
 
 <template>
-    <div class="all dns-lookup">
+    <div class="all do-bulma">
         <Landing
             v-if="firstSearch"
             :title="i18n.templates.app.title"
