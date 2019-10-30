@@ -38,6 +38,11 @@ export default {
         url: "https://help.fasthosts.co.uk/app/answers/detail/a_id/1548/~/dns-aaaa-records",
         expectsHost: true,
     },
+    CNAME: {
+        info: i18n.data.records.CNAME,
+        url: "https://support.google.com/a/answer/112037?hl=en",
+        expectsHost: true,
+    },
     CAA: {
         info: i18n.data.records.CAA,
         url: "https://www.digitalocean.com/docs/networking/dns/how-to/caa/",
@@ -58,7 +63,7 @@ export default {
     },
     SSHFP: {
         info: i18n.data.records.SSHFP,
-        url: "https://en.wikipedia.org/wiki/SSHFP_record",   
+        url: "https://en.wikipedia.org/wiki/SSHFP_record",
     },
     TLSA: {
         info: i18n.data.records.TLSA,
