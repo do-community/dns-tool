@@ -15,8 +15,8 @@ limitations under the License.
 -->
 
 <template>
-    <CoreModal
-        ref="CoreModal"
+    <Modal
+        ref="Modal"
         :title="`${i18n.templates.dnsDiff.title} ${i18n.templates.dnsDiff.XRecords.replace('{record}', this.$props.recordType)}`"
     >
         <table class="table is-bordered">
@@ -35,17 +35,17 @@ limitations under the License.
                 </tr>
             </tbody>
         </table>
-    </CoreModal>
+    </Modal>
 </template>
 
 <script>
     import i18n from "../i18n"
-    import CoreModal from "../../shared/templates/core_modal"
+    import Modal from "do-vue/src/templates/modal"
 
     export default {
         name: "DNSDiff",
         components: {
-            CoreModal,
+            Modal,
         },
         props: {
             dnsDifferences: Array,
@@ -58,7 +58,7 @@ limitations under the License.
         },
         methods: {
             toggle() {
-                this.$refs.CoreModal.toggle()
+                this.$refs.Modal.toggle()
             },
         },
     }

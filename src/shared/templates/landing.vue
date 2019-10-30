@@ -15,47 +15,39 @@ limitations under the License.
 -->
 
 <template>
-    <div class="landing">
-        <div class="background-top" v-html="$props.backgroundTop"></div>
-        <div class="background-bottom" v-html="$props.backgroundBottom"></div>
-        <div class="container">
-            <h1>{{ $props.title }}</h1>
-            <p v-html="$props.description"></p>
-
-            <form autocomplete="on" @submit.prevent="emitSearchEvent">
-                <div class="input-container">
-                    <label for="DomainInput" class="hidden">{{ i18n.common.searchButton }}</label>
-                    <i class="fas fa-search"></i>
-                    <input id="DomainInput"
-                           v-model="d"
-                           class="input"
-                           type="text"
-                           :placeholder="i18n.common.searchPlaceholder"
-                           @input="execSetText"
-                    />
-                    <button :id="$props.buttonId" class="button is-primary">
-                        {{ i18n.common.searchButton }}
-                    </button>
-                </div>
-            </form>
-
-            <ExternalLink
-                class="github-link"
-                :text="i18n.templates.landing.github"
-                link="https://github.com/do-community/dns-tool"
-            ></ExternalLink>
-        </div>
-    </div>
+    <Landing :background-top="this.$props.backgroundTop"
+             :background-bottom="this.$props.backgroundTop"
+             :title="this.$props.title"
+             :description="this.$props.description"
+             github="https://github.com/do-community/dns-tool"
+    >
+        <form autocomplete="on" @submit.prevent="emitSearchEvent">
+            <div class="input-container">
+                <label for="DomainInput" class="hidden">{{ i18n.common.searchButton }}</label>
+                <i class="fas fa-search"></i>
+                <input id="DomainInput"
+                       v-model="d"
+                       class="input"
+                       type="text"
+                       :placeholder="i18n.common.searchPlaceholder"
+                       @input="execSetText"
+                />
+                <button :id="$props.buttonId" class="button is-primary">
+                    {{ i18n.common.searchButton }}
+                </button>
+            </div>
+        </form>
+    </Landing>
 </template>
 
 <script>
+    import Landing from "do-vue/src/templates/landing"
     import i18n from "../i18n"
-    import ExternalLink from "./ext_link"
 
     export default {
-        name: "Header",
+        name: "DNSLanding",
         components: {
-            ExternalLink,
+            Landing,
         },
         props: {
             title: String,

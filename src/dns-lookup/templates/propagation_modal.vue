@@ -15,21 +15,21 @@ limitations under the License.
 -->
 
 <template>
-    <CoreModal ref="CoreModal" :title="i18n.templates.propagationModal.title">
+    <Modal ref="Modal" :title="i18n.templates.propagationModal.title">
         <span v-for="part in splitUrlText(tutorial)">
             <span v-if="typeof part === 'string'" v-html="part"></span>
             <span v-else>
                 <ExternalLink :text="part[0]" :link="part[1]"></ExternalLink>
             </span>
         </span>
-    </CoreModal>
+    </Modal>
 </template>
 
 <script>
     import i18n from "../i18n"
-    import dataUrlParser from "../../shared/utils/dataUrlParser"
-    import ExternalLink from "../../shared/templates/ext_link"
-    import CoreModal from "../../shared/templates/core_modal"
+    import dataUrlParser from "do-vue/src/utils/dataUrlParser"
+    import ExternalLink from "do-vue/src/templates/external_link"
+    import Modal from "do-vue/src/templates/modal"
 
     let recordType, recordHost
     const deeplink = () => {
@@ -43,7 +43,7 @@ limitations under the License.
         name: "PropagationModal",
         components: {
             ExternalLink,
-            CoreModal,
+            Modal,
         },
         data() {
             return {
@@ -61,7 +61,7 @@ limitations under the License.
                 this.$data.tutorial = content()
             },
             toggle() {
-                this.$refs.CoreModal.toggle()
+                this.$refs.Modal.toggle()
             },
         },
     }

@@ -15,44 +15,39 @@ limitations under the License.
 -->
 
 <template>
-    <div class="header">
-        <div class="container">
-            <div>
-                <h1><a :href="baseUrl">{{ $props.title }}</a></h1>
-                <h3><slot name="description"></slot></h3>
-                <slot name="header"></slot>
-            </div>
+    <Header :title="this.$props.title" @form-event="emitSearchEvent">
+        <template v-slot:description><slot name="description"></slot></template>
+        <template v-slot:header><slot name="header"></slot></template>
+        <template v-slot:buttons><slot name="buttons"></slot></template>
 
-            <form autocomplete="on" @submit.prevent="emitSearchEvent">
-                <div class="input-container">
-                    <label for="DomainInput" class="hidden">Search</label>
-                    <i class="fas fa-search"></i>
-                    <input id="DomainInput"
-                           v-model="d"
-                           class="input"
-                           type="text"
-                           :placeholder="i18n.common.searchPlaceholder"
-                           @input="execSetText"
-                    />
-                    <button :id="$props.buttonId" class="button is-inline">
-                        {{ i18n.common.searchButton }}
-                    </button>
-                </div>
-                <div class="buttons">
-                    <slot name="buttons"></slot>
-                </div>
-            </form>
-        </div>
-    </div>
+        <template v-slot:input>
+            <label for="DomainInput" class="hidden">Search</label>
+            <i class="fas fa-search"></i>
+            <input id="DomainInput"
+                   v-model="d"
+                   class="input"
+                   type="text"
+                   :placeholder="i18n.common.searchPlaceholder"
+                   @input="execSetText"
+            />
+            <button :id="$props.buttonId" class="button is-inline">
+                {{ i18n.common.searchButton }}
+            </button>
+        </template>
+    </Header>
 </template>
 
 <script>
+    import Header from "do-vue/src/templates/header"
     import i18n from "../i18n"
 
     const baseUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}`
 
     export default {
-        name: "Header",
+        name: "DNSHeader",
+        components: {
+            Header,
+        },
         props: {
             title: String,
             buttonId: String,

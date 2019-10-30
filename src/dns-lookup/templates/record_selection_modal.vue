@@ -16,7 +16,7 @@ limitations under the License.
 
 <template>
     <div>
-        <CoreModal ref="CoreModal" :title="i18n.templates.recordSelectionModal.downloadRecords">
+        <Modal ref="Modal" :title="i18n.templates.recordSelectionModal.downloadRecords">
             <div v-for="key in recordKeys">
                 <input :id="`dl-select-${key}`" :ref="key" type="checkbox" checked>
                 <label :for="`dl-select-${key}`">{{ key }} {{ i18n.common.records }}</label>
@@ -29,7 +29,7 @@ limitations under the License.
                 {{ i18n.templates.recordSelectionModal.downloadMd }}</a>
             <a class="button is-link is-small" style="margin-top: 10px" @click="copyRecords(true)">
                 {{ i18n.templates.recordSelectionModal.copyMd }}</a>
-        </CoreModal>
+        </Modal>
         <ClipboardModal ref="ClipboardModal" @toggle-root="toggle"></ClipboardModal>
     </div>
 </template>
@@ -39,7 +39,7 @@ limitations under the License.
     import i18n from "../i18n"
     import recordsDataset from "../data/records"
     import ClipboardModal from "./clipboard_modal"
-    import CoreModal from "../../shared/templates/core_modal"
+    import Modal from "do-vue/src/templates/modal"
 
     const recordKeys = Object.keys(recordsDataset)
 
@@ -47,7 +47,7 @@ limitations under the License.
         name: "RecordSelectionModal",
         components: {
             ClipboardModal,
-            CoreModal,
+            Modal,
         },
         data() {
             return {
@@ -57,7 +57,7 @@ limitations under the License.
         },
         methods: {
             toggle() {
-                this.$refs.CoreModal.toggle()
+                this.$refs.Modal.toggle()
             },
             download(text, filename) {
                 const a = document.createElement("a")
@@ -73,7 +73,7 @@ limitations under the License.
                 const refs = Object.keys(this.$refs)
                 const allowedRecords = []
                 for (const i of refs) {
-                    if (i === "ClipboardModal" || i === "CoreModal") continue
+                    if (i === "ClipboardModal" || i === "Modal") continue
                     const input = this.$refs[i][0]
                     if (input.checked) allowedRecords.push(i)
                 }
@@ -94,7 +94,7 @@ limitations under the License.
                 document.execCommand("copy")
                 textarea.remove()
                 this.$refs.ClipboardModal.show(textReport)
-                this.$refs.CoreModal.toggle()
+                this.$refs.Modal.toggle()
             },
         },
     }
