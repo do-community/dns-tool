@@ -19,7 +19,7 @@ limitations under the License.
 </template>
 
 <script>
-    import Footer from "do-vue/src/templates/Footer"
+    import Footer from "do-vue/src/templates/footer"
     import i18n from "../i18n"
 
     export default {
