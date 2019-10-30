@@ -6,8 +6,8 @@
   "scripts": {
     "build": "npm run build:clean && npm run build:svg && npm run build:template && npm run build:static && npm run build:tools",
     "build:clean": "node ./build/cleanDist.js",
-    "build:svg": "node ./build/buildSVGs.js",
-    "build:template": "node ./build/fetchTemplate.js",
+    "build:svg": "do-vue svgs src/shared/assets",
+    "build:template": "do-vue template",
     "build:static": "copyfiles --up 2 ./src/static/{*,**/*} dist",
     "build:tool": "node ./build/buildTool.js",
     "build:tools": "npm run build:tool dns-lookup && npm run build:tool spf-explainer",
