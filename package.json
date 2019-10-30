@@ -10,6 +10,7 @@
     "build:template": "do-vue template",
     "build:static": "copyfiles --up 2 ./src/static/{*,**/*} dist",
     "build:tools": "do-vue tool src/dns-lookup dist/dns-lookup && do-vue tool src/spf-explainer dist/spf-explainer",
+    "deploy:spaces:comment": "do-vue comment dns-lookup:dist/dns-lookup spf-explainer:dist/spf-explainer",
     "dev:prep": "npm run build:svg && npm run build:template && npm run dev:static",
     "dev:static": "copyfiles --up 2 ./src/static/{*,**/*} dev",
     "dev:tools:spf-explainer": "npm run dev:prep && parcel ./src/spf-explainer/index.html --out-dir ./dev/spf-explainer --port 8001",

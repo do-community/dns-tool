@@ -32,8 +32,9 @@ jobs:
         AWS_DEFAULT_REGION: ${{ secrets.SPACES_REGION }}
 
     - name: Leave a comment
-      run: node ./build/createGithubComment.js
+      run: npm run deploy:spaces:comment
       env:
+        REPO_NAME: ${{ github.repository }}
         COMMIT_SHA: ${{ github.sha }}
         GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SPACES_REGION: ${{ secrets.SPACES_REGION }}
