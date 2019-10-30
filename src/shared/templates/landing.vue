@@ -16,7 +16,7 @@ limitations under the License.
 
 <template>
     <Landing :background-top="this.$props.backgroundTop"
-             :background-bottom="this.$props.backgroundTop"
+             :background-bottom="this.$props.backgroundBottom"
              :title="this.$props.title"
              :description="this.$props.description"
              github="https://github.com/do-community/dns-tool"
