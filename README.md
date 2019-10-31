@@ -55,6 +55,11 @@ Within this directory are also the main tool source directories ([`src/dns-looku
  [`src/spf-explainer`](./src/spf-explainer)).\
 These directories contain the specific source for that tool, which includes custom templates and style inheritance from
  the centralised styles.
+
+Anything that is data which is used in a tool should be stored in `src/<tool name>/data`.
+Any helper functions should be stored in `src/<tool name>/utils`.
+Vue templates should be stored in `src/<tool name>/templates` with a name that makes sense for what it does.
+The `src/<tool name>/index.html` file should only be used to handle basic head information and initialise the app.
  
 ### [`build`](./build)
 
