@@ -38,8 +38,10 @@ This will start a development server that will automatically reload the codebase
 If you wish to host these tools on a service, simply run `npm run build`. This will run all the necessary build scripts
  automatically to build all the tools present in the source folder.\
 You can then take the `dist` folder and put it on your web server/bucket. The `dist` folder will contain the folders
- `dns-lookup` and `spf-explainer` which will each have their respective tools inside.\
-Travis CI does this automatically for this repository to deploy to gh-pages.
+ `dns-lookup` and `spf-explainer` which will each have their respective tools inside.
+
+GitHub Actions is setup to do this automatically for this repository to deploy to gh-pages.
+It is also configured to deploy each PR commit to DigitalOcean Spaces for PR previews.
 
 ## Source Structure
 
