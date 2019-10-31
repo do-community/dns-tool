@@ -38,8 +38,10 @@ This will start a development server that will automatically reload the codebase
 If you wish to host these tools on a service, simply run `npm run build`. This will run all the necessary build scripts
  automatically to build all the tools present in the source folder.\
 You can then take the `dist` folder and put it on your web server/bucket. The `dist` folder will contain the folders
- `dns-lookup` and `spf-explainer` which will each have their respective tools inside.\
-Travis CI does this automatically for this repository to deploy to gh-pages.
+ `dns-lookup` and `spf-explainer` which will each have their respective tools inside.
+
+GitHub Actions is setup to do this automatically for this repository to deploy to gh-pages.
+It is also configured to deploy each PR commit to DigitalOcean Spaces for PR previews.
 
 ## Source Structure
 
@@ -55,6 +57,11 @@ Within this directory are also the main tool source directories ([`src/dns-looku
  [`src/spf-explainer`](./src/spf-explainer)).\
 These directories contain the specific source for that tool, which includes custom templates and style inheritance from
  the centralised styles.
+
+Anything that is data which is used in a tool should be stored in `src/<tool name>/data`.
+Any helper functions should be stored in `src/<tool name>/utils`.
+Vue templates should be stored in `src/<tool name>/templates` with a name that makes sense for what it does.
+The `src/<tool name>/index.html` file should only be used to handle basic head information and initialise the app.
  
 ### [`build`](./build)
 
