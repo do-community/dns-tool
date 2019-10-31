@@ -17,7 +17,7 @@ limitations under the License.
 @import url("https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css");
 
 $header: #005ff8;
-@import "../../../node_modules/do-bulma/src/style";
+@import "~do-bulma/src/style";
 
 .do-bulma {
   h3.title.is-3 {
