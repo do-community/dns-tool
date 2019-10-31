@@ -15,44 +15,22 @@ limitations under the License.
 -->
 
 <template>
-    <div class="footer">
-        <div class="container">
-            <p>
-                <a href="#top" class="button is-primary is-small">{{ i18n.templates.footer.backToTop }}</a>
-            </p>
-            <p>
-                <span v-for="part in splitUrlText(i18n.templates.footer.oss)">
-                    <span v-if="typeof part === 'string'">
-                        {{ part }}
-                    </span>
-                    <span v-else>
-                        <ExternalLink :text="part[0]" :link="part[1]"></ExternalLink>
-                    </span>
-                </span>
-            </p>
-        </div>
-    </div>
+    <Footer :text="i18n.templates.footer.oss" />
 </template>
 
 <script>
+    import Footer from "do-vue/src/templates/footer"
     import i18n from "../i18n"
-    import ExternalLink from "./ext_link"
-    import dataUrlParser from "../utils/dataUrlParser"
 
     export default {
-        name: "Footer",
+        name: "DNSFooter",
         components: {
-            ExternalLink
+            Footer
         },
         data() {
             return {
                 i18n,
             }
         },
-        methods: {
-            splitUrlText(text) {
-                return dataUrlParser(text)
-            },
-        }
     }
 </script>

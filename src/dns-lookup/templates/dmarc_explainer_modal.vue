@@ -15,7 +15,7 @@ limitations under the License.
 -->
 
 <template>
-    <CoreModal ref="CoreModal" :title="i18n.templates.dmarcExplainer.title">
+    <Modal ref="Modal" :title="i18n.templates.dmarcExplainer.title">
         <div v-html="i18n.templates.dmarcExplainer.intro"></div>
         <hr>
         <p v-for="(value, key) in dmarc" :key="key">
@@ -26,18 +26,18 @@ limitations under the License.
             {{ i18n.templates.dmarcExplainer.learnMore }}
             <ExternalLink link="https://dmarc.org/" text="dmarc.org"></ExternalLink>.
         </p>
-    </CoreModal>
+    </Modal>
 </template>
 
 <script>
     import i18n from "../i18n"
     import dmarc from "../data/dmarc"
-    import ExternalLink from "../../shared/templates/ext_link"
-    import CoreModal from "../../shared/templates/core_modal"
+    import ExternalLink from "do-vue/src/templates/external_link"
+    import Modal from "do-vue/src/templates/modal"
 
     export default {
         name: "DMARCExplainerModal",
-        components: { CoreModal, ExternalLink },
+        components: { Modal, ExternalLink },
         data() {
             return {
                 i18n,
@@ -46,7 +46,7 @@ limitations under the License.
         },
         methods: {
             toggle() {
-                this.$refs.CoreModal.toggle()
+                this.$refs.Modal.toggle()
             },
         },
     }

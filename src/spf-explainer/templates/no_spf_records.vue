@@ -15,19 +15,19 @@ limitations under the License.
 -->
 
 <template>
-    <CoreModal ref="CoreModal" :title="i18n.templates.noSpfRecords.title">
+    <Modal ref="Modal" :title="i18n.templates.noSpfRecords.title">
         {{ i18n.templates.noSpfRecords.description }}
-    </CoreModal>
+    </Modal>
 </template>
 
 <script>
     import i18n from "../i18n"
-    import CoreModal from "../../shared/templates/core_modal"
+    import Modal from "do-vue/src/templates/modal"
 
     export default {
         name: "NoSPFRecords",
         components: {
-            CoreModal,
+            Modal,
         },
         data() {
             return {
@@ -36,7 +36,7 @@ limitations under the License.
         },
         methods: {
             toggle() {
-                this.$refs.CoreModal.toggle()
+                this.$refs.Modal.toggle()
             },
         },
     }

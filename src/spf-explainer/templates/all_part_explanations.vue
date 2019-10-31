@@ -15,22 +15,22 @@ limitations under the License.
 -->
 
 <template>
-    <CoreModal ref="CoreModal" :title="i18n.templates.partExplanation.allMechanisms">
+    <Modal ref="Modal" :title="i18n.templates.partExplanation.allMechanisms">
         <p v-for="(value, key) in longDescriptions" :key="key">
             <code class="slim">{{ key }}</code>: <span v-html="value"></span>
         </p>
-    </CoreModal>
+    </Modal>
 </template>
 
 <script>
     import i18n from "../i18n"
     import longDescriptions from "../data/long_descriptions"
-    import CoreModal from "../../shared/templates/core_modal"
+    import Modal from "do-vue/src/templates/modal"
 
     export default {
         name: "AllPartExplanations",
         components: {
-            CoreModal,
+            Modal,
         },
         data() {
             return {
@@ -40,7 +40,7 @@ limitations under the License.
         },
         methods: {
             toggle() {
-                this.$refs.CoreModal.toggle()
+                this.$refs.Modal.toggle()
             },
         },
     }

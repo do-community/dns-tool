@@ -15,24 +15,24 @@ limitations under the License.
 -->
 
 <template>
-    <CoreModal ref="CoreModal" :title="i18n.templates.clipboardModal.clipboardResult">
+    <Modal ref="Modal" :title="i18n.templates.clipboardModal.clipboardResult">
         <p>
             <span class="tag is-success">
                 {{ i18n.templates.clipboardModal.thisHasBeenCopied }}
             </span>
         </p>
         <pre class="clipboard textarea has-fixed-size"><code>{{ textReport }}</code></pre>
-    </CoreModal>
+    </Modal>
 </template>
 
 <script>
     import i18n from "../i18n"
-    import CoreModal from "../../shared/templates/core_modal"
+    import Modal from "do-vue/src/templates/modal"
 
     export default {
         name: "ClipboardModal",
         components: {
-            CoreModal,
+            Modal,
         },
         data() {
             return {
@@ -43,13 +43,13 @@ limitations under the License.
         methods: {
             show(textReport) {
                 this.$data.textReport = textReport
-                this.$refs.CoreModal.toggle()
+                this.$refs.Modal.toggle()
             },
             hide() {
-                this.$refs.CoreModal.toggle()
+                this.$refs.Modal.toggle()
             },
             showParent() {
-                this.$refs.CoreModal.toggle()
+                this.$refs.Modal.toggle()
                 this.$emit("toggle-root")
             },
         },

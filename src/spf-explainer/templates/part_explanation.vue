@@ -15,19 +15,19 @@ limitations under the License.
 -->
 
 <template>
-    <CoreModal ref="CoreModal" :title="i18n.templates.partExplanation.mechanism.replace('$', slug)">
+    <Modal ref="Modal" :title="i18n.templates.partExplanation.mechanism.replace('$', slug)">
         <span v-html="text"></span>
-    </CoreModal>
+    </Modal>
 </template>
 
 <script>
     import i18n from "../i18n"
-    import CoreModal from "../../shared/templates/core_modal"
+    import Modal from "do-vue/src/templates/modal"
 
     export default {
         name: "PartExplanation",
         components: {
-            CoreModal,
+            Modal,
         },
         data() {
             return {
@@ -38,7 +38,7 @@ limitations under the License.
         },
         methods: {
             show(slug, text) {
-                this.$refs.CoreModal.toggle()
+                this.$refs.Modal.toggle()
                 this.$data.slug = slug.trim()
                 this.$data.text = text
             },
