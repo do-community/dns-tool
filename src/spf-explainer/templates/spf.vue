@@ -62,6 +62,7 @@ limitations under the License.
 <script>
     import i18n from "../i18n"
     import cfDNS from "../../shared/utils/cfDNS"
+    import sanitize from "../../shared/utils/sanitize"
     import explanations from "../data/explanations"
     import { spawnLine, setFreezeSpawning } from "../utils/line_spawn"
     import longDescriptions from "../data/long_descriptions"
@@ -119,14 +120,6 @@ limitations under the License.
                 const ref = refArr[refArr.length - 1]
                 spawnLine([from, ref])
             },
-            sanitize(data) {
-                const lt = /</g,
-                      gt = />/g,
-                      ap = /'/g,
-                      ic = /"/g
-
-                return data.replace(lt, "&lt;").replace(gt, "&gt;").replace(ap, "&#39;").replace(ic, "&#34;")
-            },
             async init() {
                 // These are the parts which are given to Vue in a way which is easy to iterate.
                 const parts = []
@@ -141,7 +134,7 @@ limitations under the License.
                 for (const part of dataSplit) {
                     // Ignore blank parts.
                     if (part === "") continue
-                    
+
                     // Defines if a match was found.
                     let done = false
 
@@ -159,7 +152,7 @@ limitations under the License.
                             // Defines the regex match for the URL to get the record to include from.
                             let lookup = match[1] ? match[1].replace(/\" \"/g, "") : undefined
                             if (recursive && lookup !== "") {
-                                // Looks up the TXT record for the domain specified. If it exists and getting it was ok, set include to the data. 
+                                // Looks up the TXT record for the domain specified. If it exists and getting it was ok, set include to the data.
                                 const res = await cfDNS(lookup, "TXT")
                                 if (res.ok) {
                                     const json = await res.json()
@@ -246,7 +239,7 @@ limitations under the License.
                         if (key.match(/^ip[0-9]$/)) key = `${key}:<IP range>`
                         for (const chunkItem of chunkArr) {
                             ips.push(chunkItem[0][0])
-                            const san = this.sanitize(chunkItem[0][1])
+                            const san = sanitize(chunkItem[0][1])
                             if (commaSepList.includes(san)) continue
                             commaSepList.push(san)
                             this.$data.links[chunkItem[0][0]] = key
@@ -261,7 +254,7 @@ limitations under the License.
                             if (numberMatches) {
                                 for (const n of numberMatches) {
                                     const x = Number(n.substr(1).slice(0, -1))
-                                    value = v.replace(n, this.sanitize(chunkItem[0][x]))
+                                    value = v.replace(n, sanitize(chunkItem[0][x]))
                                 }
                             }
                             this.$data.links[chunkItem[0][0]] = chunkItem[0][0]
