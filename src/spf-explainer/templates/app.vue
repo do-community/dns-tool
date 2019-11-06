@@ -80,11 +80,14 @@ limitations under the License.
         <div v-if="!firstSearch">
             <Footer></Footer>
         </div>
+
+        <ErrorModal ref="ErrorModal" :message="errorMessage"></ErrorModal>
     </div>
 </template>
 
 <script>
     import i18n from "../i18n"
+    import i18nShared from "../../shared/i18n"
     import cfDNS from "../../shared/utils/cfDNS"
     import SPFBase from "./spf_base"
     import { spawnLine } from "../utils/line_spawn"
@@ -92,6 +95,7 @@ limitations under the License.
     import SPFSandbox from "../utils/spf_sandbox"
     import EvalNotif from "./eval_notif"
     import AllPartExplanations from "./all_part_explanations"
+    import ErrorModal from "../../shared/templates/error_modal"
     import Footer from "../../shared/templates/footer"
     import Header from "../../shared/templates/header"
     import Landing from "../../shared/templates/landing"
@@ -111,6 +115,7 @@ limitations under the License.
             NoSPFRecords,
             EvalNotif,
             AllPartExplanations,
+            ErrorModal,
             Footer,
             Header,
             Landing,
@@ -125,6 +130,7 @@ limitations under the License.
                 loading: false,
                 records: [],
                 ipEval: "",
+                errorMessage: "",
                 spfTop,
                 spfBottom,
             }
@@ -147,21 +153,22 @@ limitations under the License.
                 this.$refs.EvalNotif.open()
             },
             error(message) {
-                alert(message)
+                this.$data.errorMessage = `<p>${message}</p>`
+                this.$refs.ErrorModal.open()
             },
             async cfPart(domain) {
                 const res = await cfDNS(domain, "TXT")
-                if (!res.ok) return this.error("Invalid domain.")
+                if (!res.ok) return this.error(i18nShared.common.invalidDomain)
                 let json
                 try {
                     json = await res.json()
                 } catch(_) {
                     // Sometimes Cloudflare's DNS sends invalid JSON in the event that it is invalid.
                     // That has happened here.
-                    return this.error("Invalid domain.")
+                    return this.error(i18nShared.common.invalidDomain)
                 }
 
-                if (json.Status !== 0) return this.error("Invalid domain.")
+                if (json.Status !== 0) return this.error(i18nShared.common.invalidDomain)
                 if (!json.Answer) {
                     this.$refs.NoSPFRecords.toggle()
                     return false
