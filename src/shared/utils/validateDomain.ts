@@ -15,6 +15,7 @@ limitations under the License.
 */
 
 import cfDNS from "./cfDNS"
+import sanitize from "./sanitize"
 import i18n from "../i18n"
 
 const stripHttps = /(https*:\/\/)*(.+)*/
@@ -41,7 +42,7 @@ export default async (name: string) => {
     }
     if (json.Status !== 0) {
         let msg = i18n.common.invalidDomain
-        if (json.Comment) msg += `</p><p>${json.Comment}`
+        if (json.Comment) msg += `</p><p>${sanitize(json.Comment)}`
         return [null, msg]
     }
 
