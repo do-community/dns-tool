@@ -78,9 +78,10 @@ limitations under the License.
     import RecordBase from "./record_base"
     import RecordJumps from "./record_jumps"
     import i18n from "../i18n"
+    import i18nShared from "../../shared/i18n"
     import { reports } from "../plain_text_reports"
     import RecordSelectionModal from "./record_selection_modal"
-    import ErrorModal from "./error_modal"
+    import ErrorModal from "../../shared/templates/error_modal"
     import cfDNS from "../../shared/utils/cfDNS"
     import Footer from "../../shared/templates/footer"
     import Header from "../../shared/templates/header"
@@ -170,13 +171,13 @@ limitations under the License.
 
                     const regexpExec = stripHttps.exec(domainInput.value.toLowerCase())
                     const text = regexpExec[2] ? regexpExec[2].replace(/\//g, "") : ""
-                    if (!text.match(isHostname)) return this.error(i18n.templates.app.invalidDomain)
+                    if (!text.match(isHostname)) return this.error(i18nShared.common.invalidDomain)
 
                     if (this.$data.data === text) this.$data.data = ""
 
                     const domainLookup = await cfDNS(text, "NULL")
                     const json = await domainLookup.json()
-                    if (json.Status !== 0) return this.error(i18n.templates.app.invalidDomain)
+                    if (json.Status !== 0) return this.error(i18nShared.common.invalidDomain)
 
                     this.$data.firstSearch = false
                     this.$data.siteLoading = true

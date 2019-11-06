@@ -4,5 +4,4 @@ export default {
     searchButton: "Search DNS Records",
     textRecords: "Download/Copy Records",
     domain: "Domain name",
-    invalidDomain: "The domain you entered isn't valid.",
 } as {[key: string]: string}
