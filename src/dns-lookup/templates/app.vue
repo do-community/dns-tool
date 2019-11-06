@@ -67,6 +67,8 @@ limitations under the License.
 
             <Footer></Footer>
         </div>
+
+        <ErrorModal ref="ErrorModal" :message="errorMessage"></ErrorModal>
     </div>
 </template>
 
@@ -78,6 +80,7 @@ limitations under the License.
     import i18n from "../i18n"
     import { reports } from "../plain_text_reports"
     import RecordSelectionModal from "./record_selection_modal"
+    import ErrorModal from "./error_modal"
     import cfDNS from "../../shared/utils/cfDNS"
     import Footer from "../../shared/templates/footer"
     import Header from "../../shared/templates/header"
@@ -107,6 +110,7 @@ limitations under the License.
             DODNS,
             RecordJumps,
             RecordSelectionModal,
+            ErrorModal,
             Footer,
             Header,
             Landing,
@@ -120,6 +124,7 @@ limitations under the License.
                 siteLoading: false,
                 registrar: "",
                 contentOpacity: 1,
+                errorMessage: "",
                 dnsTop,
                 dnsBottom,
             }
@@ -135,7 +140,8 @@ limitations under the License.
                 return domainQuery || ""
             },
             error(message) {
-                alert(message)
+                this.$data.errorMessage = `<p>${message}</p>`
+                this.$refs.ErrorModal.open()
                 this.$data.contentOpacity = 1
             },
             async searchWait() {
@@ -164,13 +170,13 @@ limitations under the License.
 
                     const regexpExec = stripHttps.exec(domainInput.value.toLowerCase())
                     const text = regexpExec[2] ? regexpExec[2].replace(/\//g, "") : ""
-                    if (!text.match(isHostname)) return this.error("Invalid domain.")
+                    if (!text.match(isHostname)) return this.error(i18n.templates.app.invalidDomain)
 
                     if (this.$data.data === text) this.$data.data = ""
 
                     const domainLookup = await cfDNS(text, "NULL")
                     const json = await domainLookup.json()
-                    if (json.Status !== 0) return this.error("Invalid domain.")
+                    if (json.Status !== 0) return this.error(i18n.templates.app.invalidDomain)
 
                     this.$data.firstSearch = false
                     this.$data.siteLoading = true
