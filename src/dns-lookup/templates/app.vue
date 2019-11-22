@@ -78,17 +78,16 @@ limitations under the License.
     import RecordBase from "./record_base"
     import RecordJumps from "./record_jumps"
     import i18n from "../i18n"
-    import i18nShared from "../../shared/i18n"
     import { reports } from "../plain_text_reports"
     import RecordSelectionModal from "./record_selection_modal"
     import ErrorModal from "../../shared/templates/error_modal"
-    import cfDNS from "../../shared/utils/cfDNS"
     import Footer from "../../shared/templates/footer"
     import Header from "../../shared/templates/header"
     import Landing from "../../shared/templates/landing"
     import dnsTop from "../../../build/svg/dns-top.svg"
     import dnsBottom from "../../../build/svg/dns-bottom.svg"
     import { remakeController } from "../../shared/utils/backoffFetch"
+    import validateDomain from "../../shared/utils/validateDomain"
 
     // A simple hack to handle the back/forward button.
     // This is fine since the site only consists of 3 files which will be cached anyway.
@@ -100,9 +99,6 @@ limitations under the License.
         if (domainQuery === getUrlQuery().get("domain")) return
         window.location.reload()
     })
-
-    const stripHttps = /(https*:\/\/)*(.+)*/
-    const isHostname = /.*\.[a-z]+/
 
     export default {
         name: "App",
@@ -167,33 +163,27 @@ limitations under the License.
                     if (this.$data.siteLoading) return
                     this.$data.contentOpacity = 0
 
-                    const domainInput = document.getElementById("DomainInput")
+                    const domainInput = document.getElementById("DomainInput").value
+                    const [domain, result] = await validateDomain(domainInput)
+                    if (result !== null) return this.error(result)
 
-                    const regexpExec = stripHttps.exec(domainInput.value.toLowerCase())
-                    const text = regexpExec[2] ? regexpExec[2].replace(/\//g, "") : ""
-                    if (!text.match(isHostname)) return this.error(i18nShared.common.invalidDomain)
-
-                    if (this.$data.data === text) this.$data.data = ""
-
-                    const domainLookup = await cfDNS(text, "NULL")
-                    const json = await domainLookup.json()
-                    if (json.Status !== 0) return this.error(i18nShared.common.invalidDomain)
+                    if (this.$data.data === domain) this.$data.data = ""
 
                     this.$data.firstSearch = false
                     this.$data.siteLoading = true
                     this.$data.contentOpacity = 1
 
-                    this.setRegistrar(text)
+                    this.setRegistrar(domain)
 
                     if (!this.$data.linked) {
-                        domainQuery = text
-                        window.history.pushState({}, "", `?domain=${encodeURIComponent(text)}`)
+                        domainQuery = domain
+                        window.history.pushState({}, "", `?domain=${encodeURIComponent(domain)}`)
                     }
 
                     reports.clear()
                     remakeController()
                     this.$data.linked = null
-                    this.$data.data = text
+                    this.$data.data = domain
                     await this.searchWait()
                 } finally {
                     el.classList.remove("is-loading")

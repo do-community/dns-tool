@@ -87,7 +87,6 @@ limitations under the License.
 
 <script>
     import i18n from "../i18n"
-    import i18nShared from "../../shared/i18n"
     import cfDNS from "../../shared/utils/cfDNS"
     import SPFBase from "./spf_base"
     import { spawnLine } from "../utils/line_spawn"
@@ -102,6 +101,7 @@ limitations under the License.
     import spfTop from "../../../build/svg/spf-top.svg"
     import spfBottom from "../../../build/svg/spf-bottom.svg"
     import { remakeController } from "../../shared/utils/backoffFetch"
+    import validateDomain from "../../shared/utils/validateDomain"
 
     // A simple hack to handle the back/forward button.
     // This is fine since the site only consists of 3 files which will be cached anyway.
@@ -156,19 +156,21 @@ limitations under the License.
                 this.$data.errorMessage = `<p>${message}</p>`
                 this.$refs.ErrorModal.open()
             },
-            async cfPart(domain) {
+            async cfPart(input) {
+                const [domain, result] = await validateDomain(input)
+                if (result !== null) return this.error(result)
+
                 const res = await cfDNS(domain, "TXT")
-                if (!res.ok) return this.error(i18nShared.common.invalidDomain)
+                if (!res.ok) return this.error(i18n.templates.app.fetchError)
                 let json
                 try {
                     json = await res.json()
-                } catch(_) {
+                } catch {
                     // Sometimes Cloudflare's DNS sends invalid JSON in the event that it is invalid.
                     // That has happened here.
-                    return this.error(i18nShared.common.invalidDomain)
+                    return this.error(i18n.templates.app.fetchError)
                 }
 
-                if (json.Status !== 0) return this.error(i18nShared.common.invalidDomain)
                 if (!json.Answer) {
                     this.$refs.NoSPFRecords.toggle()
                     return false
