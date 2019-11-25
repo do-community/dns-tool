@@ -38,7 +38,7 @@
     "abortcontroller-polyfill": "^1.3.0",
     "babel-polyfill": "^6.26.0",
     "do-bulma": "git+https://github.com/do-community/do-bulma.git",
-    "do-vue": "git+https://github.com/do-community/do-vue.git#spaces_endpoint_change",
+    "do-vue": "git+https://github.com/do-community/do-vue.git",
     "parcel-bundler": "1.12.3",
     "psl": "^1.4.0",
     "vue": "^2.6.10",
