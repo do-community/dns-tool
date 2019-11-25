@@ -24,8 +24,15 @@ jobs:
         npm test
         npm run build
 
-    - name: Deploy commit to DigitalOcean Spaces
-      run: aws s3 sync ./dist s3://${{ secrets.SPACES_BUCKET }}/${{ github.sha }} --endpoint=https://${{ secrets.SPACES_REGION }}.digitaloceanspaces.com --acl public-read --content-encoding utf8
+    - name: Deploy DNS lookup commit to DigitalOcean Spaces
+      run: aws s3 sync ./dist/dns-lookup s3://${{ secrets.SPACES_BUCKET }}/commits/dns-lookup/${{ github.sha }} --endpoint=https://${{ secrets.SPACES_REGION }}.digitaloceanspaces.com --acl public-read --content-encoding utf8
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.SPACES_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.SPACES_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.SPACES_REGION }}
+
+    - name: Deploy SPF explainer commit to DigitalOcean Spaces
+      run: aws s3 sync ./dist/spf-explainer s3://${{ secrets.SPACES_BUCKET }}/commits/spf-explainer/${{ github.sha }} --endpoint=https://${{ secrets.SPACES_REGION }}.digitaloceanspaces.com --acl public-read --content-encoding utf8
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.SPACES_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.SPACES_SECRET_ACCESS_KEY }}
