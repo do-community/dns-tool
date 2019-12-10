@@ -39,7 +39,7 @@
     "babel-polyfill": "^6.26.0",
     "do-bulma": "git+https://github.com/do-community/do-bulma.git",
     "do-vue": "git+https://github.com/do-community/do-vue.git",
-    "parcel-bundler": "1.12.3",
+    "parcel-bundler": "^1.12.4",
     "psl": "^1.4.0",
     "vue": "^2.6.10",
     "vue-hot-reload-api": "^2.3.3",
