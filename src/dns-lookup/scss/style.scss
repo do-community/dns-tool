@@ -20,6 +20,12 @@ $header: #005ff8;
 @import "~do-bulma/src/style";
 
 .do-bulma {
+  &.landing {
+    + .helpfulness-cont {
+      display: none;
+    }
+  }
+
   h3.title.is-3 {
     font-family: $bold-font-family;
   }
