@@ -18,6 +18,12 @@ $header: #0071fe;
 @import "~do-bulma/src/style";
 
 .do-bulma {
+  &.landing {
+    + .helpfulness-cont {
+      display: none;
+    }
+  }
+
   .main.container {
     h5.title.is-5 {
       line-height: 1.35;
