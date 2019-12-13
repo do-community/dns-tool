@@ -15,7 +15,7 @@ limitations under the License.
 -->
 
 <template>
-    <div class="all do-bulma">
+    <div :class="`all do-bulma${firstSearch && !loading? ' landing' : ''}`">
         <Landing
             v-if="firstSearch && !loading"
             :title="i18n.templates.app.title"
