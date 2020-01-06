@@ -16,9 +16,15 @@ limitations under the License.
 
 <template>
     <Header :title="this.$props.title" @form-event="emitSearchEvent">
-        <template v-slot:description><slot name="description"></slot></template>
-        <template v-slot:header><slot name="header"></slot></template>
-        <template v-slot:buttons><slot name="buttons"></slot></template>
+        <template v-slot:description>
+            <slot name="description"></slot>
+        </template>
+        <template v-slot:header>
+            <slot name="header"></slot>
+        </template>
+        <template v-slot:buttons>
+            <slot name="buttons"></slot>
+        </template>
 
         <template v-slot:input>
             <label for="DomainInput" class="hidden">Search</label>
