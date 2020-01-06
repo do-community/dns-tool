@@ -58,13 +58,15 @@ limitations under the License.
                     </a>
                 </template>
             </Header>
+        </div>
 
-            <div class="main container" :style="{opacity: contentOpacity}">
-                <div id="content">
-                    <RecordBase ref="RecordBase" :data="data" :registrar="registrar" :loading="siteLoading"></RecordBase>
-                </div>
+        <div class="main container" :style="{opacity: contentOpacity}">
+            <div id="content">
+                <RecordBase ref="RecordBase" :data="data" :registrar="registrar" :loading="siteLoading" :first-search="firstSearch"></RecordBase>
             </div>
+        </div>
 
+        <div v-if="!firstSearch">
             <Footer></Footer>
         </div>
 

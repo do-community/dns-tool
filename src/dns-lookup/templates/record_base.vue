@@ -28,6 +28,7 @@ limitations under the License.
                 :data="$props.data"
                 :expects-host="record.expectsHost"
                 :loading="$props.loading"
+                :style="{display: firstSearch ? 'none' : 'initial'}"
                 @propagation-toggle="toggleModal(record.name)"
             />
         </div>
@@ -50,6 +51,7 @@ limitations under the License.
             data: String,
             registrar: String,
             loading: Boolean,
+            firstSearch: Boolean,
         },
         data() {
             return {
