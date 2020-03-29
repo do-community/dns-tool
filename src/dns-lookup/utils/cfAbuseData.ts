@@ -18,7 +18,7 @@ import backoffFetch from "../../shared/utils/backoffFetch"
 
 export default async (ip: string) => {
     return await backoffFetch(
-        `https://abuse.ts.cfdata.org/get/${ip}`,
+        `https://cfwho.com/api/v1/${ip}`,
         {
             headers: {
                 Accept: "application/json",
