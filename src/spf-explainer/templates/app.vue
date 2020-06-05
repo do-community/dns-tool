@@ -183,8 +183,10 @@ limitations under the License.
 
                 const records = []
                 for (const answer of json.Answer) {
-                    answer.data = answer.data.substr(1).slice(0, -1)
-                    if (answer.data.startsWith("v=spf1")) records.push(answer)
+                    if (answer.data.startsWith("v=spf1")) {
+                        answer.data = answer.data.replace(/\\ /g, " ")
+                        records.push(answer)
+                    }
                 }
                 if (records.length === 0) {
                     return this.$refs.NoSPFRecords.toggle()
