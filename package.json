@@ -9,7 +9,7 @@
     "build:svg": "do-vue svgs src/shared/assets",
     "build:template": "do-vue template",
     "build:static": "copyfiles --up 2 ./src/static/{*,**/*} dist",
-    "build:tools": "do-vue tool src/dns-lookup dist/dns-lookup && do-vue tool src/spf-explainer dist/spf-explainer",
+    "build:tools": "do-vue tool src/dns-lookup dist/dns-lookup --scope-hoisting && do-vue tool src/spf-explainer dist/spf-explainer --scope-hoisting",
     "deploy:spaces:comment": "do-vue comment dns-lookup spf-explainer",
     "dev:prep": "npm run build:svg && npm run build:template && npm run dev:static",
     "dev:static": "copyfiles --up 2 ./src/static/{*,**/*} dev",
