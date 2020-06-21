@@ -30,9 +30,6 @@ limitations under the License.
         </Landing>
 
         <div v-else>
-            <NoSPFRecords ref="NoSPFRecords"></NoSPFRecords>
-            <AllPartExplanations ref="AllPartExplanations"></AllPartExplanations>
-
             <Header
                 :title="i18n.templates.app.title"
                 button-id="DomainSearch"
@@ -81,6 +78,8 @@ limitations under the License.
             <Footer></Footer>
         </div>
 
+        <NoSPFRecords ref="NoSPFRecords"></NoSPFRecords>
+        <AllPartExplanations ref="AllPartExplanations"></AllPartExplanations>
         <ErrorModal ref="ErrorModal" :message="errorMessage"></ErrorModal>
     </div>
 </template>
