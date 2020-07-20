@@ -213,10 +213,9 @@ limitations under the License.
                 this.$refs.DNSDiff.toggle()
             },
             async wait() {
-                const vm = this
                 return new Promise(res => {
                     const checkIfTrue = () => {
-                        if (vm.$data.active) {
+                        if (this.$data.active) {
                             res()
                             return
                         }

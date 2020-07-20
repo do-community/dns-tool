@@ -22,7 +22,7 @@ class SPFRule {
 
     // Turns the IP range into a regex.
     private _regexFromString(range: string) {
-        let regexParts: string[] = []
+        const regexParts: string[] = []
         let regex = ""
         range = range.split("/").shift()!
         if (range.match(/^ip[4-6]:/)) range = range.substr(4)

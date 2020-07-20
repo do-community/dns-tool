@@ -19,7 +19,7 @@ import recordsDataset from "./data/records"
 export const reports = new Map<string, any>()
 
 const format = (data: any) => {
-    let formattedParts: string[] = []
+    const formattedParts: string[] = []
     for (const key of Object.keys(data)) {
         const value = data[key]
         formattedParts.push(`${key[0].toUpperCase()}${key.substr(1)}: ${value}`)
