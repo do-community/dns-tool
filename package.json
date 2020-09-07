@@ -33,33 +33,33 @@
   },
   "homepage": "https://github.com/do-community/dns-tool#readme",
   "dependencies": {
-    "@babel/runtime": "^7.10.5",
+    "@babel/runtime": "^7.11.2",
     "@types/psl": "^1.1.0",
-    "abortcontroller-polyfill": "^1.3.0",
+    "abortcontroller-polyfill": "^1.5.0",
     "babel-polyfill": "^6.26.0",
     "do-bulma": "git+https://github.com/do-community/do-bulma.git",
     "do-vue": "git+https://github.com/do-community/do-vue.git",
     "parcel-bundler": "^1.12.4",
     "psl": "^1.8.0",
-    "vue": "^2.6.10",
+    "vue": "^2.6.12",
     "vue-hot-reload-api": "^2.3.3",
-    "vue-tippy": "^4.5.1"
+    "vue-tippy": "^4.7.0"
   },
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.10.5",
-    "@typescript-eslint/eslint-plugin": "^3.6.1",
-    "@typescript-eslint/parser": "^3.6.1",
-    "@vue/component-compiler-utils": "^3.1.2",
+    "@babel/plugin-transform-runtime": "^7.11.5",
+    "@typescript-eslint/eslint-plugin": "^3.10.1",
+    "@typescript-eslint/parser": "^3.10.1",
+    "@vue/component-compiler-utils": "^3.2.0",
     "copyfiles": "^2.3.0",
-    "eslint": "^7.5.0",
+    "eslint": "^7.8.1",
     "eslint-plugin-vue": "^6.2.2",
-    "jsdom": "^16.3.0",
-    "node-fetch": "^2.6.0",
-    "posthtml": "^0.13.1",
-    "posthtml-extend": "^0.3.0",
+    "jsdom": "^16.4.0",
+    "node-fetch": "^2.6.1",
+    "posthtml": "^0.13.3",
+    "posthtml-extend": "^0.5.0",
     "sass": "^1.26.10",
     "sass-lint": "^1.13.1",
     "typescript": "^3.9.7",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.12"
   }
 }
