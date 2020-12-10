@@ -1,5 +1,5 @@
 <!--
-Copyright 2019 DigitalOcean
+Copyright 2020 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -37,15 +37,15 @@ limitations under the License.
                 @search-event="searchEvent"
                 @set-text="setDomain"
             >
-                <template v-slot:description>
+                <template #description>
                     <p>
                         <a @click="openMechanismModal">{{ i18n.templates.app.whatDoTheyDo }}</a>
                     </p>
                 </template>
-                <template v-slot:header>
+                <template #header>
                     <EvalNotif ref="EvalNotif" :ip="ipEval"></EvalNotif>
                 </template>
-                <template v-slot:buttons>
+                <template #buttons>
                     <form v-if="!SPFSandbox.empty()" autocomplete="on" @submit.prevent="">
                         <div class="input-container">
                             <label for="EvaluateInput" class="hidden">Evaluate</label>
