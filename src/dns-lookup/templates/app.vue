@@ -1,5 +1,5 @@
 <!--
-Copyright 2019 DigitalOcean
+Copyright 2020 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ limitations under the License.
                 :init-value="getInitDomainValue()"
                 @search-event="searchDNSEvent"
             >
-                <template v-slot:description>
+                <template #description>
                     <DODNS
                         :style="{opacity: contentOpacity}"
                         :loaded="data !== ''"
@@ -45,14 +45,14 @@ limitations under the License.
                         :loading="siteLoading"
                     ></DODNS>
                 </template>
-                <template v-slot:header>
+                <template #header>
                     <RecordJumps
                         :style="{opacity: contentOpacity}"
                         :loaded="data !== ''"
                         :loading="siteLoading"
                     ></RecordJumps>
                 </template>
-                <template v-slot:buttons>
+                <template #buttons>
                     <a v-if="data !== ''" class="button is-primary" @click="toggleRecordTextModal">
                         {{ i18n.templates.app.textRecords }}
                     </a>
