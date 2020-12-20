@@ -65,7 +65,7 @@ limitations under the License.
                                                 <hr />
                                                 <WHOIS :ip="value.ip"></WHOIS>
                                                 <div v-if="$props.recordType === 'MX'">
-                                                    <MXBlacklist :ip="value.ip" :hostname="value.hostname ? value.hostname : ''"></MXBlacklist>
+                                                    <MXBlocklist :ip="value.ip" :hostname="value.hostname ? value.hostname : ''"></MXBlocklist>
                                                 </div>
                                             </div>
                                         </div>
@@ -123,7 +123,7 @@ limitations under the License.
     import registrarRegexp from "../data/registrar_regexp"
     import nsRegexp from "../data/ns_regexp"
     import RecordTutorials from "../data/record_tutorials"
-    import MXBlacklist from "./mx_blacklist"
+    import MXBlocklist from "./mx_blocklist"
     import RecordSkeleton from "./skeletons/record"
     import i18n from "../i18n"
     import DNSDiff from "./dns_diff"
@@ -156,7 +156,7 @@ limitations under the License.
         components: {
             TruncatedRecord,
             WHOIS,
-            MXBlacklist,
+            MXBlocklist,
             RecordSkeleton,
             DNSDiff,
             ExternalLink,

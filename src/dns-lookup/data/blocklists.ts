@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-export const ipBlacklists = [
+export const ipBlocklists = [
     "zen.spamhaus.org",
     "sbl.spamhaus.org",
     "xbl.spamhaus.org",
@@ -22,7 +22,7 @@ export const ipBlacklists = [
     "spam.spamrats.com",
 ]
 
-export const domainBlacklists = [
+export const domainBlocklists = [
     "dbl.spamhaus.org",
     "0spam.org",
     "dbl.suomispam.net",

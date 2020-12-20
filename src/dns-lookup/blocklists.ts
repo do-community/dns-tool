@@ -14,57 +14,57 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { ipBlacklists, domainBlacklists } from "./data/blacklists"
+import { ipBlocklists, domainBlocklists } from "./data/blocklists"
 import cfDNS from "../shared/utils/cfDNS"
 
 // Reverses the IP address for DNSBL lookups.
 const reverseIp = (ip: string) => ip.split(".").reverse().join(".")
 
-// Get the result of a blacklist check
-const checkBlacklist = async (name: string, blacklist: string, type: string) => {
-    const res = await cfDNS(`${name}.${blacklist}`, "A")
+// Get the result of a blocklist check
+const checkBlocklist = async (name: string, blocklist: string, type: string) => {
+    const res = await cfDNS(`${name}.${blocklist}`, "A")
     if (!res.ok) return
     if ((await res.json()).Answer) {
         const resp = {} as any
-        resp[type] = blacklist
+        resp[type] = blocklist
         return resp
     }
 }
 
-const checkIpBlacklists = (ip: string) => {
+const checkIpBlocklists = (ip: string) => {
     const promises = []
-    for (const blacklist of ipBlacklists) {
-        promises.push(checkBlacklist(reverseIp(ip), blacklist, "ip"))
+    for (const blocklist of ipBlocklists) {
+        promises.push(checkBlocklist(reverseIp(ip), blocklist, "ip"))
     }
     return promises
 }
 
-const checkDomainBlacklists = (domain: string) => {
+const checkDomainBlocklists = (domain: string) => {
     const promises = []
-    for (const blacklist of domainBlacklists) {
-        promises.push(checkBlacklist(domain, blacklist, "domain"))
+    for (const blocklist of domainBlocklists) {
+        promises.push(checkBlocklist(domain, blocklist, "domain"))
     }
     return promises
 }
 
-// Gets any blacklists that the IP/domain is in.
-const getBlacklists = async (ip: string, domain: string) => {
-    const blacklists = {
+// Gets any blocklists that the IP/domain is in.
+const getBlocklists = async (ip: string, domain: string) => {
+    const blocklists = {
         ip: [],
         domain: [],
     } as any
 
-    const promises = [...checkIpBlacklists(ip)]
-    if (domain) promises.push(...checkDomainBlacklists(domain))
+    const promises = [...checkIpBlocklists(ip)]
+    if (domain) promises.push(...checkDomainBlocklists(domain))
 
     const data = await Promise.all(promises)
     data.forEach(item => {
         if (!item) return
-        if (item.ip) blacklists.domain.push(item.ip)
-        if (item.domain) blacklists.domain.push(item.domain)
+        if (item.ip) blocklists.domain.push(item.ip)
+        if (item.domain) blocklists.domain.push(item.domain)
     })
 
-    return blacklists
+    return blocklists
 }
 
-export default getBlacklists
+export default getBlocklists

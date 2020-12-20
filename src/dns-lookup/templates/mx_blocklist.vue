@@ -17,8 +17,8 @@ limitations under the License.
 <template>
     <div v-if="this.$props.hostname !== ''">
         <hr />
-        <div v-if="blacklists.length !== 0">
-            <p v-for="item in blacklists">
+        <div v-if="blocklists.length !== 0">
+            <p v-for="item in blocklists">
                 <small>
                     <b>{{ item }}</b>
                 </small>
@@ -27,14 +27,14 @@ limitations under the License.
         <div v-else>
             <p>
                 <small>
-                    <b>{{ i18n.templates.mxBlacklist.notBlacklisted }}</b>
+                    <b>{{ i18n.templates.mxBlocklist.notBlocked }}</b>
                 </small>
             </p>
         </div>
         <p>
             <small>
-                <ExternalLink :text="i18n.templates.mxBlacklist.whatDoesItMean"
-                              link="https://www.techwalla.com/articles/what-does-it-mean-if-an-email-address-is-blacklisted"
+                <ExternalLink :text="i18n.templates.mxBlocklist.whatDoesItMean"
+                              link="https://www.mailchannels.com/what-are-email-blocklists/"
                 ></ExternalLink>
             </small>
         </p>
@@ -42,12 +42,12 @@ limitations under the License.
 </template>
 
 <script>
-    import getBlacklists from "../blacklists"
+    import getBlocklists from "../blocklists"
     import i18n from "../i18n"
     import ExternalLink from "do-vue/src/templates/external_link"
 
     export default {
-        name: "MXBlacklist",
+        name: "MXBlocklist",
         components: {
             ExternalLink,
         },
@@ -57,7 +57,7 @@ limitations under the License.
         },
         data() {
             return {
-                blacklists: [],
+                blocklists: [],
                 i18n,
             }
         },
@@ -74,15 +74,15 @@ limitations under the License.
         },
         methods: {
             async init() {
-                this.$data.blacklists = []
+                this.$data.blocklists = []
                 const hostname = this.$props.hostname
                 if (hostname !== "") {
                     const ip = this.$props.ip
-                    const blacklists = await getBlacklists(ip, hostname)
-                    for (const ipBlacklisted of blacklists.ip)
-                        this.$data.blacklists.push(`IP blacklisted by ${ipBlacklisted}.`)
-                    for (const domainBlacklisted of blacklists.domain)
-                        this.$data.blacklists.push(`Domain blacklisted by ${domainBlacklisted}.`)
+                    const blocklists = await getBlocklists(ip, hostname)
+                    for (const blocklist of blocklists.ip)
+                        this.$data.blocklists.push(i18n.templates.mxBlocklist.ipBlocked.replace("BLOCKLIST", blocklist))
+                    for (const blocklist of blocklists.domain)
+                        this.$data.blocklists.push(i18n.templates.mxBlocklist.domainBlocked.replace("BLOCKLIST", blocklist))
                 }
             },
         },
