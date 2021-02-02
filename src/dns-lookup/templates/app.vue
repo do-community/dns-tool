@@ -1,5 +1,5 @@
 <!--
-Copyright 2020 DigitalOcean
+Copyright 2021 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -151,10 +151,7 @@ limitations under the License.
             },
             async setRegistrar(text) {
                 const whoisLookup = await whoisJS(text)
-                if (!whoisLookup.ok) return this.$data.registrar = ""
-                const lookupJson = await whoisLookup.json()
-                const registrarObject = lookupJson.registrar || {}
-                this.$data.registrar = registrarObject.url || ""
+                this.$data.registrar = whoisLookup && whoisLookup.registrar || ""
             },
             async searchDNSEvent() {
                 const el = document.getElementById("SearchButton")

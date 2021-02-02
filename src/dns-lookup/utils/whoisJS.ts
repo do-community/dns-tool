@@ -1,5 +1,5 @@
 /*
-Copyright 2019 DigitalOcean
+Copyright 2021 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,18 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import * as psl from "psl"
-import backoffFetch from "../../shared/utils/backoffFetch"
+import whois from "web-whois"
 
-export default async (name: string) => {
-    const parsed = psl.parse(name)
-    if (parsed.error || !parsed.domain) return
-    return await backoffFetch(
-        `https://whoisjs.com/api/v1/${encodeURIComponent(parsed.domain)}`,
-        {
-            headers: {
-                Accept: "application/json",
-            },
-        }
-    )
+export default async (query: string) => {
+    return await whois(encodeURIComponent(query), true)
 }
