@@ -265,24 +265,28 @@ limitations under the License.
             async recordInit() {
                 if (this.$props.data === "") return
 
+                // Reset the records
                 this.$data.recordKeys = []
                 this.$data.recordRows = []
 
+                // If we're requesting DMARC, actually look at _dmarc.hostname w/ TXT
                 const key = this.$props.recordType
                 let changedKey = this.$props.recordType
-
                 let text = this.$props.data
                 if (key === "DMARC") {
                     text = `_dmarc.${text}`
                     changedKey = "TXT"
                 }
 
+                // Get the raw result from Cloudflare DoH
                 const fetchRes = await cfDNS(text, changedKey)
                 if (!fetchRes.ok) throw fetchRes
                 const json = await fetchRes.json()
 
+                // Reset the Cloudflare/Google differences
                 this.$data.dnsDifferences = []
 
+                // If no results, exit early
                 if (!json.Answer) {
                     this.$data.active = true
                     this.$data.recordRows = []
@@ -291,17 +295,52 @@ limitations under the License.
                     return
                 }
 
-                this.handleSecondaryLookup(json.Answer, changedKey, text)
+                // Handle hex rdata
+                for (const answer of json.Answer) {
+                    if (answer.data.startsWith('\\#')) {
+                        const words = answer.data.split(' ')
+                        const length = words.length > 1 ? Number(words[1]) : 0
 
+                        // Drop the # and length, and any extra bytes beyond the declared length
+                        words.splice(0, 2)
+                        words.splice(length)
+
+                        // CAA
+                        if (changedKey === 'CAA' && words.length > 1) {
+                            const tagLength = Number(words[1])
+                            words.splice(0, 2)
+
+                            // Get the tag, dropping any non alpha-numeric bytes per
+                            //  https://tools.ietf.org/html/rfc6844#section-5.1
+                            const tag = words.splice(0, tagLength)
+                                .map(part => String.fromCharCode(parseInt(part, 16))).join('').trim()
+                                .replace(/[^a-z0-9]/gi, '')
+
+                            // Get the value
+                            const value = words.map(part => String.fromCharCode(parseInt(part, 16))).join('').trim()
+
+                            // Combine and output
+                            answer.data = `${tag} "${value}"`
+                            continue
+                        }
+
+                        // Normal hex data
+                        answer.data = words.map(part => String.fromCharCode(parseInt(part, 16))).join('').trim()
+                    }
+                }
+
+                // Run the Google difference lookup in the background
+                this.handleSecondaryLookup(json.Answer, changedKey, text).then()
+
+                // Standardise the records for display
                 const recordsJoined = {}
                 const txtRecordFragments = {}
-
                 standardiseRecords(key, json, txtRecordFragments, recordsJoined, /[=: ]/)
                 this.$data.recordKeys = Object.keys(recordsJoined)
                 const largestRecordPart = getLargestRecordPart(Object.values(recordsJoined))
 
+                // Process the records into the output rows
                 let recordRows = []
-
                 for (let i = 0; i < largestRecordPart; i++) {
                     let row = []
                     for (const collectionKey of this.$data.recordKeys) {
