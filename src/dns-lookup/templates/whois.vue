@@ -1,5 +1,5 @@
 <!--
-Copyright 2019 DigitalOcean
+Copyright 2021 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -55,7 +55,7 @@ limitations under the License.
 </template>
 
 <script>
-    import cfAbuseData from "../utils/cfAbuseData"
+    import whoisJS from "../utils/whoisJS"
     import geoJS from "../utils/geoJS"
     import VueTippy from "vue-tippy"
     import Vue from "vue"
@@ -94,13 +94,14 @@ limitations under the License.
                 this.$data.expand = !this.$data.expand
             },
             async handleInit() {
-                const json = await (await cfAbuseData(this.$props.ip)).json()
+                const json = await whoisJS(this.$props.ip)
+                console.log(json)
                 const geoIpJson = await (await geoJS(this.$props.ip)).json()
                 this.countryCode = geoIpJson.country_code ? geoIpJson.country_code.toLowerCase() : ""
-                this.netname = json.results[0].netname ? json.results[0].netname : i18n.templates.whois.notSpecified
-                this.asn = json.results[0].asn ? json.results[0].asn[0] : i18n.common.none
-                this.cidr = json.results[0].cidr ? json.results[0].cidr : i18n.common.none
-                this.abuse = json.results[0].services.abusix[0]
+                this.netname = json && json.name || i18n.templates.whois.notSpecified
+                this.asn = json && json.asn || i18n.common.none
+                this.cidr = json && json.cidr || i18n.common.none
+                this.abuse = json && json.abuse || i18n.common.none
                 this.countryInfo = geoIpJson.city ? `${geoIpJson.city}, ${geoIpJson.country}` : geoIpJson.country
                 this.done = true
             },
