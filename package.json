@@ -36,9 +36,8 @@
     "abortcontroller-polyfill": "^1.5.0",
     "babel-polyfill": "^6.26.0",
     "do-bulma": "git+https://github.com/do-community/do-bulma.git",
-    "do-vue": "git+https://github.com/do-community/do-vue.git#8f3b94fe7cda8192f77a3999ee59a07d33971d6e",
+    "do-vue": "git+https://github.com/do-community/do-vue.git#05161653e2b8047e120092e4adf756ac2d573d0e",
     "vue": "^2.6.12",
-    "vue-hot-reload-api": "^2.3.3",
     "vue-tippy": "^4.7.2",
     "web-whois": "0.0.2"
   },
@@ -55,7 +54,6 @@
     "sass": "^1.30.0",
     "sass-lint": "^1.13.1",
     "typescript": "^4.1.2",
-    "vue-loader": "^15.9.6",
     "vue-template-compiler": "^2.6.12"
   }
 }
