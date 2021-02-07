@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import "babel-polyfill"
+import "./scss/style"
 
 import Vue from "vue"
 import App from "./templates/app.vue"
