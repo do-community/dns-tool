@@ -36,7 +36,7 @@
     "abortcontroller-polyfill": "^1.5.0",
     "babel-polyfill": "^6.26.0",
     "do-bulma": "git+https://github.com/do-community/do-bulma.git",
-    "do-vue": "git+https://github.com/do-community/do-vue.git#0248ee7dce2b31809bb023ec94e4223c0c6896dc",
+    "do-vue": "git+https://github.com/do-community/do-vue.git#f13494d7a58ba8f00d121e15bc4fcbbc36234701",
     "vue": "^2.6.12",
     "vue-tippy": "^4.7.2",
     "web-whois": "0.0.2"
