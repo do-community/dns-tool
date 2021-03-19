@@ -16,7 +16,7 @@ limitations under the License.
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import whois from "web-whois"
+import * as whois from "web-whois"
 
 export default async (query: string) => {
     return await whois(encodeURIComponent(query), true)
