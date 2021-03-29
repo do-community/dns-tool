@@ -27,7 +27,7 @@ $header: #005ff8;
   }
 
   h3.title.is-3 {
-    font-family: $bold-font-family;
+    @include font-bold;
   }
 
   hr {
