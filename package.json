@@ -17,7 +17,7 @@
     "dev:tools:dns-lookup": "npm run dev:prep && do-vue dev src/dns-lookup dev/dns-lookup 8002",
     "test": "npm run test:ts-vue && npm run test:scss",
     "test:ts-vue": "tsc -noEmit && eslint './src/**/*.{vue,ts}'",
-    "test:scss": "sass-lint ./src/**/*.scss --verbose --no-exit --config .sasslintrc",
+    "test:scss": "stylelint ./src/**/*.scss --config node_modules/do-bulma/.stylelintrc.json",
     "test:ts-vue:fix": "tsc && eslint './src/**/*.{vue,ts}' --fix"
   },
   "repository": {
@@ -52,7 +52,8 @@
     "posthtml": "^0.15.2",
     "posthtml-extend": "^0.6.0",
     "sass": "^1.32.10",
-    "sass-lint": "git+https://github.com/do-community/sass-lint.git",
+    "stylelint": "^13.13.1",
+    "stylelint-order": "^4.1.0",
     "typescript": "^4.2.4",
     "vue-template-compiler": "^2.6.12"
   }
