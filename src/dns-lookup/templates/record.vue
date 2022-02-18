@@ -1,5 +1,5 @@
 <!--
-Copyright 2019 DigitalOcean
+Copyright 2022 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,22 +17,22 @@ limitations under the License.
 <template>
     <div>
         <div v-if="active">
-            <h3 :id="`${this.$props.recordType}-Records`" class="title is-3">
-                {{ this.$props.recordType }} {{ i18n.common.records }}
-                <a :href="`#${this.$props.recordType}-Records`">
+            <h3 :id="`${recordType}-Records`" class="title is-3">
+                {{ recordType }} {{ i18n.common.records }}
+                <a :href="`#${recordType}-Records`">
                     <i class="fas fa-link"></i>
                 </a>
             </h3>
             <p>
-                <span v-html="this.$props.recordDescription"></span>
-                <ExternalLink :link="this.$props.recordUrl" :text="i18n.templates.records.learnMore"></ExternalLink>
+                <span v-html="recordDescription"></span>
+                <ExternalLink :link="recordUrl" :text="i18n.templates.records.learnMore" />
             </p>
             <div v-if="recordKeys.length === 0">
                 <p><b>{{ i18n.templates.records.noRecords }}</b></p>
-                <p v-if="this.$props.recordType === 'SRV' || this.$props.recordType === 'TLSA'" v-html="insertHtmlPlaceholders()"></p>
+                <p v-if="recordType === 'SRV' || recordType === 'TLSA'" v-html="insertHtmlPlaceholders()"></p>
             </div>
             <div v-else>
-                <p v-if="$props.recordType === 'DMARC'">
+                <p v-if="recordType === 'DMARC'">
                     <a @click="openDmarcModal">{{ i18n.templates.records.dmarcMechanisms }}</a>
                 </p>
                 <div class="table-container">
@@ -41,10 +41,11 @@ limitations under the License.
                             <tr>
                                 <th v-for="recordKey in recordKeys">
                                     {{ recordKey }}
-                                    <i v-if="recordKey in recordKeyHelp"
-                                       v-tippy
-                                       :title="recordKeyHelp[recordKey]"
-                                       class="far fa-question-circle help"
+                                    <i
+                                        v-if="recordKey in recordKeyHelp"
+                                        v-tippy
+                                        :title="recordKeyHelp[recordKey]"
+                                        class="far fa-question-circle help"
                                     ></i>
                                 </th>
                             </tr>
@@ -64,7 +65,7 @@ limitations under the License.
                                             <div v-if="value.hostname">
                                                 <hr />
                                                 <WHOIS :ip="value.ip"></WHOIS>
-                                                <div v-if="$props.recordType === 'MX'">
+                                                <div v-if="recordType === 'MX'">
                                                     <MXBlocklist :ip="value.ip" :hostname="value.hostname ? value.hostname : ''"></MXBlocklist>
                                                 </div>
                                             </div>
@@ -78,9 +79,10 @@ limitations under the License.
                                             </small>
                                         </p>
                                     </div>
-                                    <a v-if="valueNode.button"
-                                       :href="valueNode.button.link"
-                                       class="button is-primary is-mini"
+                                    <a
+                                        v-if="valueNode.button"
+                                        :href="valueNode.button.link"
+                                        class="button is-primary is-mini"
                                     >{{ valueNode.button.text }}</a>
                                 </td>
                             </tr>
@@ -96,13 +98,14 @@ limitations under the License.
                 <DNSDiff ref="DNSDiff" :dns-differences="dnsDifferences" :record-type="recordType"></DNSDiff>
             </div>
             <p v-if="learnMore" style="margin-top: 20px">
-                <ExternalLink :link="learnMore"
-                              :text="i18n.templates.records.learnHow.replace('{record}', this.$props.recordType)"
+                <ExternalLink
+                    :link="learnMore"
+                    :text="i18n.templates.records.learnHow.replace('{record}', recordType)"
                 ></ExternalLink>
             </p>
         </div>
         <div v-else>
-            <RecordSkeleton :loading="$props.loading"></RecordSkeleton>
+            <RecordSkeleton :loading="loading"></RecordSkeleton>
         </div>
         <hr>
         <DMARCExplainerModal ref="DMARCExplainerModal"></DMARCExplainerModal>

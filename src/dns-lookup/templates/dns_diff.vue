@@ -1,5 +1,5 @@
 <!--
-Copyright 2019 DigitalOcean
+Copyright 2022 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ limitations under the License.
 <template>
     <Modal
         ref="Modal"
-        :title="`${i18n.templates.dnsDiff.title} ${i18n.templates.dnsDiff.XRecords.replace('{record}', this.$props.recordType)}`"
+        :title="`${i18n.templates.dnsDiff.title} ${i18n.templates.dnsDiff.XRecords.replace('{record}', recordType)}`"
     >
         <table class="table is-bordered">
             <thead>
@@ -28,7 +28,7 @@ limitations under the License.
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="row in $props.dnsDifferences">
+                <tr v-for="row in dnsDifferences">
                     <td v-for="value in row">
                         <p>{{ value ? value : i18n.common.none }}</p>
                     </td>

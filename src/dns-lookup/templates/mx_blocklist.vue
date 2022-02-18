@@ -1,5 +1,5 @@
 <!--
-Copyright 2019 DigitalOcean
+Copyright 2022 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@ limitations under the License.
 -->
 
 <template>
-    <div v-if="this.$props.hostname !== ''">
+    <div v-if="hostname !== ''">
         <hr />
         <div v-if="blocklists.length !== 0">
             <p v-for="item in blocklists">
@@ -33,8 +33,9 @@ limitations under the License.
         </div>
         <p>
             <small>
-                <ExternalLink :text="i18n.templates.mxBlocklist.whatDoesItMean"
-                              link="https://www.mailchannels.com/what-are-email-blocklists/"
+                <ExternalLink
+                    :text="i18n.templates.mxBlocklist.whatDoesItMean"
+                    link="https://www.mailchannels.com/what-are-email-blocklists/"
                 ></ExternalLink>
             </small>
         </p>
