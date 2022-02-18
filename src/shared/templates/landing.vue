@@ -1,5 +1,5 @@
 <!--
-Copyright 2019 DigitalOcean
+Copyright 2022 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,24 +15,26 @@ limitations under the License.
 -->
 
 <template>
-    <Landing :background-top="this.$props.backgroundTop"
-             :background-bottom="this.$props.backgroundBottom"
-             :title="this.$props.title"
-             :description="this.$props.description"
-             github="https://github.com/do-community/dns-tool"
+    <Landing
+        :background-top="backgroundTop"
+        :background-bottom="backgroundBottom"
+        :title="title"
+        :description="description"
+        github="https://github.com/do-community/dns-tool"
     >
         <form autocomplete="on" @submit.prevent="emitSearchEvent">
             <div class="input-container">
                 <label for="DomainInput" class="hidden">{{ i18n.common.searchButton }}</label>
                 <i class="fas fa-search"></i>
-                <input id="DomainInput"
-                       v-model="d"
-                       class="input"
-                       type="text"
-                       :placeholder="i18n.common.searchPlaceholder"
-                       @input="execSetText"
+                <input
+                    id="DomainInput"
+                    v-model="d"
+                    class="input"
+                    type="text"
+                    :placeholder="i18n.common.searchPlaceholder"
+                    @input="execSetText"
                 />
-                <button :id="$props.buttonId" class="button is-primary">
+                <button :id="buttonId" class="button is-primary">
                     {{ i18n.common.searchButton }}
                 </button>
             </div>

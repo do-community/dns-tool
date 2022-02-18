@@ -1,5 +1,5 @@
 <!--
-Copyright 2020 DigitalOcean
+Copyright 2022 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@ limitations under the License.
 -->
 
 <template>
-    <Header :title="this.$props.title" @form-event="emitSearchEvent">
+    <Header :title="title" @form-event="emitSearchEvent">
         <template #description>
             <slot name="description"></slot>
         </template>
@@ -29,14 +29,15 @@ limitations under the License.
         <template #input>
             <label for="DomainInput" class="hidden">Search</label>
             <i class="fas fa-search"></i>
-            <input id="DomainInput"
-                   v-model="d"
-                   class="input"
-                   type="text"
-                   :placeholder="i18n.common.searchPlaceholder"
-                   @input="execSetText"
+            <input
+                id="DomainInput"
+                v-model="d"
+                class="input"
+                type="text"
+                :placeholder="i18n.common.searchPlaceholder"
+                @input="execSetText"
             />
-            <button :id="$props.buttonId" class="button is-inline">
+            <button :id="buttonId" class="button is-inline">
                 {{ i18n.common.searchButton }}
             </button>
         </template>

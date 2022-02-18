@@ -1,5 +1,5 @@
 /*
-Copyright 2019 DigitalOcean
+Copyright 2022 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ remakeController()
 // A fetch client that will behave exactly like fetch except it will backoff for 429/5XX errors.
 export default (input: RequestInfo, init?: RequestInit): Promise<Response> => new Promise(async (res, rej) => {
     // Defines the current backoff.
-    let currentBackoff = 1    
+    let currentBackoff = 1
 
     // Loop until the promise is resolved/rejected or it is inactive.
     for (;;) {
@@ -49,7 +49,7 @@ export default (input: RequestInfo, init?: RequestInit): Promise<Response> => ne
             r = await fetch(input, init)
         } catch (e) {
             // Something really bad with the network/CORS has happened. Pass through this exception.
-            if (e.name === "AbortError") console.info(`Request to ${input} was aborted.`)
+            if ((e as Error).name === "AbortError") console.info(`Request to ${input} was aborted.`)
             return rej(e)
         }
 
@@ -64,16 +64,16 @@ export default (input: RequestInfo, init?: RequestInit): Promise<Response> => ne
                 console.warn(`Given up backing off for ${input}! Returning the response to the function.`)
                 return res(r)
             }
-            return currentBackoff 
+            return currentBackoff
         }
         const h = r.headers.get("Retry-After")
         if (h) {
             const headerParsed = Number(h)
-            if (headerParsed === NaN) {
+            if (isNaN(headerParsed)) {
                 // We will try parsing as a date.
                 try {
                     const d = new Date(h)
-                    if (d.getTime() === NaN) throw new Error()
+                    if (isNaN(d.getTime())) throw new Error()
                     // Is a date! Get difference between current date and this date.
                     backoff = Math.floor((d.getTime() - (new Date()).getTime()) / 1000)
                 } catch (_) {

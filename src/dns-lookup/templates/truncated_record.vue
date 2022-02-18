@@ -1,5 +1,5 @@
 <!--
-Copyright 2019 DigitalOcean
+Copyright 2022 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,10 +16,10 @@ limitations under the License.
 
 <template>
     <div v-if="truncate">
-        <p>{{ this.$props.truncated }} <a @click="toggleTruncation">{{ i18n.templates.truncatedRecord.showMore }}</a></p>
+        <p>{{ truncated }} <a @click="toggleTruncation">{{ i18n.templates.truncatedRecord.showMore }}</a></p>
     </div>
     <div v-else>
-        <p>{{ this.$props.value }} <a @click="toggleTruncation">{{ i18n.templates.truncatedRecord.showLess }}</a></p>
+        <p>{{ value }} <a @click="toggleTruncation">{{ i18n.templates.truncatedRecord.showLess }}</a></p>
     </div>
 </template>
 

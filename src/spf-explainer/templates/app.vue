@@ -1,5 +1,5 @@
 <!--
-Copyright 2020 DigitalOcean
+Copyright 2022 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -49,11 +49,12 @@ limitations under the License.
                     <form v-if="!SPFSandbox.empty()" autocomplete="on" @submit.prevent="">
                         <div class="input-container">
                             <label for="EvaluateInput" class="hidden">Evaluate</label>
-                            <input id="EvaluateInput"
-                                   v-model="ipEval"
-                                   class="input"
-                                   type="text"
-                                   placeholder="255.255.255.0"
+                            <input
+                                id="EvaluateInput"
+                                v-model="ipEval"
+                                class="input"
+                                type="text"
+                                placeholder="255.255.255.0"
                             />
                             <button class="button is-inline" @click="openEvalNotif">
                                 {{ i18n.templates.app.eval }}

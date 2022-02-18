@@ -1,5 +1,5 @@
 <!--
-Copyright 2019 DigitalOcean
+Copyright 2022 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,19 +15,20 @@ limitations under the License.
 -->
 
 <template>
-    <div v-if="this.$props.loaded">
+    <div v-if="loaded">
         <p>
             <b>Jump to:</b>
             <span v-for="record in records">
-                <a :href="`#${record.name}-Records`"
-                   class="jump-link"
-                   v-text="`${record.name} ${i18n.common.records}`"
+                <a
+                    :href="`#${record.name}-Records`"
+                    class="jump-link"
+                    v-text="`${record.name} ${i18n.common.records}`"
                 ></a>
             </span>
         </p>
     </div>
     <div v-else>
-        <RecordJumpsSkeleton :loading="$props.loading"></RecordJumpsSkeleton>
+        <RecordJumpsSkeleton :loading="loading"></RecordJumpsSkeleton>
     </div>
 </template>
 
