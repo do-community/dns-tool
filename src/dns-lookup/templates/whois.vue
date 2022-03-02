@@ -1,5 +1,5 @@
 <!--
-Copyright 2021 DigitalOcean
+Copyright 2022 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -55,16 +55,16 @@ limitations under the License.
 </template>
 
 <script>
+    import { directive } from "vue-tippy"
     import whoisJS from "../utils/whoisJS"
     import geoJS from "../utils/geoJS"
-    import VueTippy from "vue-tippy"
-    import Vue from "vue"
     import i18n from "../i18n"
-
-    Vue.use(VueTippy)
 
     export default {
         name: "WHOIS",
+        directives: {
+            tippy: directive,
+        },
         props: {
             ip: String,
         },
