@@ -35,8 +35,8 @@
   "dependencies": {
     "abortcontroller-polyfill": "^1.7.3",
     "babel-polyfill": "^6.26.0",
-    "do-bulma": "git+https://github.com/do-community/do-bulma.git#MattIPv4/vue-3",
-    "do-vue": "git+https://github.com/do-community/do-vue.git#MattIPv4/vue-3",
+    "do-bulma": "git+https://github.com/do-community/do-bulma.git",
+    "do-vue": "git+https://github.com/do-community/do-vue.git",
     "vue": "^3.2.31",
     "vue-tippy": "^6.0.0-alpha.54",
     "web-whois": "0.0.6"
