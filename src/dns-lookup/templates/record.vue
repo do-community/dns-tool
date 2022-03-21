@@ -113,6 +113,7 @@ limitations under the License.
 </template>
 
 <script>
+    import { directive } from "vue-tippy"
     import TruncatedRecord from "./truncated_record"
     import WHOIS from "./whois"
     import cfDNS from "../../shared/utils/cfDNS"
@@ -164,6 +165,9 @@ limitations under the License.
             DNSDiff,
             ExternalLink,
             DMARCExplainerModal,
+        },
+        directives: {
+            tippy: directive,
         },
         props: {
             recordUrl: String,
