@@ -29,6 +29,7 @@ module.exports =  {
     "@typescript-eslint/indent": 0,
     "vue/no-unused-vars": 0,
     "vue/multi-word-component-names": 0,
+    "vue/no-reserved-component-names": 0,
     "@typescript-eslint/no-object-literal-type-assertion": 0,
   },
 }
