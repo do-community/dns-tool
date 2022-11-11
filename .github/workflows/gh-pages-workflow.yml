@@ -5,36 +5,36 @@ on:
     branches:
       - master
 
+permissions:
+  contents: write
+
+concurrency:
+  group: gh-pages-workflow
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+
+    - name: Use Node.js
+      uses: actions/setup-node@v3
       with:
-        persist-credentials: false
+        node-version-file: .nvmrc
+        cache: npm
 
-    - name: Read .nvmrc
-      run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
-      id: nvm
-
-    - name: Use Node.js (.nvmrc)
-      uses: actions/setup-node@v1
-      with:
-        node-version: "${{ steps.nvm.outputs.NVMRC }}"
-
-    - name: npm ci, test, and build
+    - name: Install dependencies, test, and build
       run: |
         npm ci
         npm test
         npm run build
 
     - name: Deploy master to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@3.7.1
+      uses: JamesIves/github-pages-deploy-action@v4
       with:
-        ACCESS_TOKEN: ${{ secrets.DEV_GITHUB_TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: dist
-        CLEAN: true
-        SINGLE_COMMIT: true
+        folder: dist
+        clean: true
+        single-commit: true
