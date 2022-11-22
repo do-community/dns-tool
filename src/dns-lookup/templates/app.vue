@@ -1,5 +1,5 @@
 <!--
-Copyright 2021 DigitalOcean
+Copyright 2022 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -184,6 +184,8 @@ limitations under the License.
                     this.$data.linked = null
                     this.$data.data = domain
                     await this.searchWait()
+                } catch(e) {
+                    console.error(e)
                 } finally {
                     el.classList.remove("is-loading")
                     this.$data.siteLoading = false

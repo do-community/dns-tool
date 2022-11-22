@@ -1,5 +1,5 @@
 /*
-Copyright 2019 DigitalOcean
+Copyright 2022 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ export default async (name: string) => {
     }
     if (json.Status !== 0) {
         let msg = i18n.common.invalidDomain
-        if (json.Comment) msg += `</p><p>${sanitize(json.Comment)}`
+        if (json.Comment) msg += `</p><p>${sanitize(json.Comment.toString())}`
         return [null, msg]
     }
 
