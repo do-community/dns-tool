@@ -208,6 +208,8 @@ limitations under the License.
                     this.$data.loading = true
                     spawnLine(undefined)
                     await this.lookup(domain, j)
+                } catch(e) {
+                    console.error(e)
                 } finally {
                     el.classList.remove("is-loading")
                     this.$data.loading = false
