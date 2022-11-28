@@ -33,30 +33,30 @@
   },
   "homepage": "https://github.com/do-community/dns-tool#readme",
   "dependencies": {
-    "abortcontroller-polyfill": "^1.7.3",
+    "abortcontroller-polyfill": "^1.7.5",
     "babel-polyfill": "^6.26.0",
     "do-bulma": "github:do-community/do-bulma",
     "do-vue": "github:do-community/do-vue",
-    "vue": "^3.2.37",
-    "vue-tippy": "^6.0.0-alpha.62",
+    "vue": "^3.2.45",
+    "vue-tippy": "^6.0.0-alpha.65",
     "web-whois": "0.0.6"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.30.7",
-    "@typescript-eslint/parser": "^5.30.7",
+    "@typescript-eslint/eslint-plugin": "^5.44.0",
+    "@typescript-eslint/parser": "^5.44.0",
     "@vue/component-compiler-utils": "^3.3.0",
     "copyfiles": "^2.4.1",
-    "eslint": "^8.20.0",
-    "eslint-plugin-vue": "^9.2.0",
-    "postcss": "^8.4.14",
+    "eslint": "^8.28.0",
+    "eslint-plugin-vue": "^9.7.0",
+    "postcss": "^8.4.19",
     "posthtml": "^0.16.6",
     "posthtml-extend": "^0.6.3",
-    "sass": "^1.53.0",
-    "stylelint": "^14.9.1",
-    "stylelint-config-standard-scss": "^5.0.0",
+    "sass": "^1.56.1",
+    "stylelint": "^14.15.0",
+    "stylelint-config-standard-scss": "^6.1.0",
     "stylelint-order": "^5.0.0",
-    "typescript": "^4.7.4",
-    "vue-template-compiler": "^2.7.7"
+    "typescript": "^4.9.3",
+    "vue-template-compiler": "^2.7.14"
   },
   "overrides": {
     "do-vue": {
