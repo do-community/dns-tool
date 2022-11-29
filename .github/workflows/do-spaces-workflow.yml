@@ -1,4 +1,4 @@
-name: Test and Deploy to DigitalOcean Spaces
+name: Deploy to DigitalOcean Spaces
 
 on: push
 
@@ -6,7 +6,7 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  deploy-spaces:
     runs-on: ubuntu-latest
 
     steps:
