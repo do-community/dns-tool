@@ -36,7 +36,7 @@
     "abortcontroller-polyfill": "^1.7.5",
     "babel-polyfill": "^6.26.0",
     "do-bulma": "github:do-community/do-bulma#MattIPv4/update-dependencies",
-    "do-vue": "github:do-community/do-vue#MattIPv4/update-dependencies",
+    "do-vue": "github:do-community/do-vue",
     "vue": "^3.2.47",
     "vue-tippy": "^6.0.0",
     "web-whois": "0.0.6"
