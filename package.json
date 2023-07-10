@@ -52,7 +52,7 @@
     "posthtml": "^0.16.6",
     "posthtml-extend": "^0.6.5",
     "sass": "^1.62.0",
-    "stylelint": "^15.6.0",
+    "stylelint": "^15.10.1",
     "stylelint-config-standard-scss": "^9.0.0",
     "stylelint-order": "^6.0.3",
     "typescript": "^5.0.4",
