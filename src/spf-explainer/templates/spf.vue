@@ -1,5 +1,5 @@
 <!--
-Copyright 2019 DigitalOcean
+Copyright 2023 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,7 +18,10 @@ limitations under the License.
     <div v-if="!loading">
         <h5 class="title is-5">
             <span v-for="(_, key) in links" :key="key" :ref="key">
-                <a @click="goToIndex(key)" @mouseover="markActive(key)">{{ key }} </a>
+                <a @click="goToIndex(key)" @mouseover="markActive(key)">
+                    {{ key }}
+                </a>
+                {{ " " }}
             </span>
         </h5>
         <div v-if="parts.length === 0">
@@ -29,6 +32,7 @@ limitations under the License.
             <div :ref="part[0]">
                 <p>
                     <code class="slim">{{ part[0] }}</code>
+                    {{ " " }}
                     <a
                         v-if="part[4] !== undefined && longDescriptionExists(part[4])"
                         @click="displayLongDescription(part[4])"
