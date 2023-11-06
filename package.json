@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "A set of simple DNS tools for DigitalOcean Community.",
   "license": "Apache-2.0",
+  "private": true,
+  "engines": {
+    "node": "20.9.0"
+  },
   "scripts": {
     "build": "npm run build:clean && npm run build:svg && npm run build:template && npm run build:static && npm run build:tools",
     "build:clean": "do-vue clean",
