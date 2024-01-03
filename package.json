@@ -39,6 +39,7 @@
   "dependencies": {
     "abortcontroller-polyfill": "^1.7.5",
     "babel-polyfill": "^6.26.0",
+    "cidr-matcher": "^2.1.1",
     "do-bulma": "github:do-community/do-bulma",
     "do-vue": "github:do-community/do-vue",
     "vue": "^3.3.4",
@@ -46,6 +47,7 @@
     "web-whois": "0.0.6"
   },
   "devDependencies": {
+    "@types/cidr-matcher": "^2.1.2",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
     "@vue/component-compiler-utils": "^3.3.0",

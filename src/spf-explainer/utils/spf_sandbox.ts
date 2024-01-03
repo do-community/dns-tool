@@ -14,53 +14,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import CIDRMatcher from "cidr-matcher"
+
 // Defines a SPF rule.
 class SPFRule {
     // Defines public values in the class.
     public rule: boolean | undefined
-    public range: RegExp
-
-    // Turns the IP range into a regex.
-    private _regexFromString(range: string) {
-        const regexParts: string[] = []
-        let regex = ""
-        range = range.split("/").shift()!
-        if (range.includes(".")) {
-            // This is a IPv4 address.
-            const partSplit = range.split(".")
-            for (const part of partSplit) {
-                if (part === "0") regexParts.push("[0-9]+")
-                else regexParts.push(part)
-            }
-            regex = `${regexParts.join("\\.")}.*`
-        } else {
-            // This is a IPv6 address.
-            let end: string | undefined
-            const parts: string[] = []
-
-            if (range.startsWith("::")) {
-                range = range.slice(2)
-                parts.push(".+")
-            }
-
-            if (range.endsWith("::")) {
-                range = range.slice(0, -2)
-                end = ".+"
-            }
-
-            parts.push(...range.split(":"))
-
-            if (end) parts.push(end)
-
-            regex = `${parts.join(":")}.*`
-        }
-        return RegExp(regex)
-    }
+    public matcher: CIDRMatcher
 
     // Constructs the rule.
-    public constructor(rule: boolean | undefined, range: string) {
+    public constructor(rule: boolean | undefined, ips: string[]) {
         this.rule = rule
-        this.range = this._regexFromString(range)
+        this.matcher = new CIDRMatcher(ips)
     }
 }
 
@@ -88,23 +53,21 @@ class SPFSandbox {
         const ips = new Set<string>()
         for (const v4 of spf.ip4 || []) ips.add(v4[0][1])
         for (const v6 of spf.ip6 || []) ips.add(v6[0][1])
-        for (const p of ips) this._rules.push(new SPFRule(action, p))
+        this._rules.push(new SPFRule(action, [...ips]))
         this._listeners.forEach(listener => listener())
     }
 
     // Evals the IP address/range given.
+    // Returns null if the IP is allowed, true for a hard fail, false for a soft fail, undefined for a neutral fail.
     public eval(ip: string) {
-        const rulesCpy: SPFRule[] = []
-        for (const r of this._rules) rulesCpy.push(r)
+        let hardFail: undefined | boolean
 
-        let hardfail: undefined | boolean
-        for (let ruleIndex = 0; rulesCpy.length > ruleIndex; ruleIndex++) {
-            const rule = rulesCpy[ruleIndex]
-            if (ip.match(rule.range)) return null
-            else hardfail = rule.rule
+        for (const rule of this._rules) {
+            if (rule.matcher.contains(ip)) return null
+            hardFail = rule.rule
         }
 
-        return hardfail
+        return hardFail
     }
 
     // Listen for imports.
