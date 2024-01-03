@@ -25,6 +25,7 @@ limitations under the License.
             </h3>
             <p>
                 <span v-html="recordDescription"></span>
+                {{ " " }}
                 <ExternalLink :link="recordUrl" :text="i18n.templates.records.learnMore" />
             </p>
             <div v-if="recordKeys.length === 0">
