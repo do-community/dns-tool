@@ -1,5 +1,5 @@
 /*
-Copyright 2019 DigitalOcean
+Copyright 2024 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@ class SPFRule {
         const regexParts: string[] = []
         let regex = ""
         range = range.split("/").shift()!
-        if (range.match(/^ip[4-6]:/)) range = range.substr(4)
         if (range.includes(".")) {
             // This is a IPv4 address.
             const partSplit = range.split(".")
@@ -67,26 +66,30 @@ class SPFRule {
 
 // Defines the SPF sandbox.
 class SPFSandbox {
-    // Defines the rules.
+    // Defines the rules and listeners.
     private _rules: SPFRule[]
+    private _listeners: (() => void)[]
 
     // Constructs the sandbox.
     public constructor() {
         this._rules = []
+        this._listeners = []
     }
 
-    // Wipes all current rules.
+    // Wipes all current rules and listeners.
     public wipe() {
         this._rules = []
+        this._listeners = []
     }
 
-    // Imports a SPF string. THIS DOES NOT IMPORT INCLUDES FROM THE STRING! THEY ARE EXPECTED TO BE INCLUDED!
-    public import(spf: any, fetchedIps: string[], action: boolean | undefined) {
-        const ips: string[] = []
-        for (const p of fetchedIps) ips.push(p)
-        for (const v4 of spf.ip4 || []) ips.push(v4[0][1])
-        for (const v6 of spf.ip6 || []) ips.push(v6[0][1])
+    // Imports a SPF string.
+    // THIS DOES NOT IMPORT INCLUDES FROM THE STRING! THEY ARE EXPECTED TO BE INCLUDED!
+    public import(spf: Record<string, any>, action: boolean | undefined) {
+        const ips = new Set<string>()
+        for (const v4 of spf.ip4 || []) ips.add(v4[0][1])
+        for (const v6 of spf.ip6 || []) ips.add(v6[0][1])
         for (const p of ips) this._rules.push(new SPFRule(action, p))
+        this._listeners.forEach(listener => listener())
     }
 
     // Evals the IP address/range given.
@@ -102,6 +105,11 @@ class SPFSandbox {
         }
 
         return hardfail
+    }
+
+    // Listen for imports.
+    public listen(listener: () => void) {
+        this._listeners.push(listener)
     }
 
     // Defines if the sandbox is empty.

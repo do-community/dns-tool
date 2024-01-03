@@ -46,7 +46,7 @@ limitations under the License.
                     <EvalNotif ref="EvalNotif" :ip="ipEval"></EvalNotif>
                 </template>
                 <template #buttons>
-                    <form v-if="!SPFSandbox.empty()" autocomplete="on" @submit.prevent="">
+                    <form v-if="showEvalForm" autocomplete="on" @submit.prevent="">
                         <div class="input-container">
                             <label for="EvaluateInput" class="hidden">Evaluate</label>
                             <input
@@ -130,6 +130,7 @@ limitations under the License.
                 loading: false,
                 records: [],
                 ipEval: "",
+                showEvalForm: false,
                 errorMessage: "",
                 spfTop,
                 spfBottom,
@@ -163,6 +164,10 @@ limitations under the License.
                     return
                 }
 
+                SPFSandbox.wipe()
+                SPFSandbox.listen(() => this.$data.showEvalForm = !SPFSandbox.empty())
+                remakeController()
+
                 if (this.$data.lastDomain === domain) this.$data.records = []
                 this.$data.records = await getSPFRecords(domain)
                 window.history.pushState({}, "", `?domain=${domain}`)
@@ -173,9 +178,6 @@ limitations under the License.
                 } else {
                     this.$refs.NoSPFRecords.close()
                 }
-
-                SPFSandbox.wipe()
-                remakeController()
 
                 this.$data.firstSearch = false
                 this.$data.lastDomain = domain
