@@ -1,6 +1,5 @@
 import app from "./app"
 import dodns from "./dodns"
-import mxBlocklist from "./mx_blocklist"
 import records from "./records"
 import truncatedRecord from "./truncated_record"
 import whois from "./whois"
@@ -11,7 +10,7 @@ import clipboardModal from "./clipboard_modal"
 import dmarcExplainer from "./dmarc_explainer"
 
 export default {
-    app, dodns, mxBlocklist, records, truncatedRecord,
+    app, dodns, records, truncatedRecord,
     whois, propagationModal, recordSelectionModal,
     dnsDiff, clipboardModal, dmarcExplainer,
 } as {[key: string]: {[key: string]: any}}

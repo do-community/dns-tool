@@ -1,5 +1,5 @@
 <!--
-Copyright 2022 DigitalOcean
+Copyright 2024 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ limitations under the License.
             </h3>
             <p>
                 <span v-html="recordDescription"></span>
+                {{ " " }}
                 <ExternalLink :link="recordUrl" :text="i18n.templates.records.learnMore" />
             </p>
             <div v-if="recordKeys.length === 0">
@@ -62,12 +63,9 @@ limitations under the License.
                                         </div>
                                         <div v-else>
                                             {{ value.result }}
-                                            <div v-if="value.hostname">
+                                            <div v-if="value.ip">
                                                 <hr />
                                                 <WHOIS :ip="value.ip"></WHOIS>
-                                                <div v-if="recordType === 'MX'">
-                                                    <MXBlocklist :ip="value.ip" :hostname="value.hostname ? value.hostname : ''"></MXBlocklist>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -127,7 +125,6 @@ limitations under the License.
     import registrarRegexp from "../data/registrar_regexp"
     import nsRegexp from "../data/ns_regexp"
     import RecordTutorials from "../data/record_tutorials"
-    import MXBlocklist from "./mx_blocklist"
     import RecordSkeleton from "./skeletons/record"
     import i18n from "../i18n"
     import DNSDiff from "./dns_diff"
@@ -160,7 +157,6 @@ limitations under the License.
         components: {
             TruncatedRecord,
             WHOIS,
-            MXBlocklist,
             RecordSkeleton,
             DNSDiff,
             ExternalLink,
