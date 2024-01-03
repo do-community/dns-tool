@@ -22,10 +22,11 @@ class SPFRule {
     public rule: boolean | undefined
     public matcher: CIDRMatcher
 
-    // Constructs the rule.
+    // Constructs the rule
+    // Ensures that any bare IP addresses are converted to CIDR ranges.
     public constructor(rule: boolean | undefined, ips: string[]) {
         this.rule = rule
-        this.matcher = new CIDRMatcher(ips)
+        this.matcher = new CIDRMatcher(ips.map(ip => ip.includes("/") ? ip : (/^\d+\.\d+\.\d+\.\d+$/.test(ip) ? `${ip}/32` : `${ip}/128`)))
     }
 }
 
