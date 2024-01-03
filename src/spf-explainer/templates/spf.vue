@@ -1,5 +1,5 @@
 <!--
-Copyright 2023 DigitalOcean
+Copyright 2024 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -72,6 +72,7 @@ limitations under the License.
     import longDescriptions from "../data/long_descriptions"
     import PartExplanation from "./part_explanation"
     import SPFSandbox from "../utils/spf_sandbox"
+    import getSPFRecords from "../utils/spf_records"
     import SmallSPFSkeleton from "./skeletons/small_spf_skeleton"
 
     export default {
@@ -157,18 +158,7 @@ limitations under the License.
                             let lookup = match[1] ? match[1].replace(/\" \"/g, "") : undefined
                             if (recursive && lookup !== "") {
                                 // Looks up the TXT record for the domain specified. If it exists and getting it was ok, set include to the data.
-                                const res = await cfDNS(lookup, "TXT")
-                                if (res.ok) {
-                                    const json = await res.json()
-                                    if (json.Status === 0 && json.Answer) {
-                                        const records = []
-                                        for (const answer of json.Answer) {
-                                            answer.data = answer.data.substr(1).slice(0, -1)
-                                            if (answer.data.startsWith("v=spf1")) records.push(answer.data)
-                                        }
-                                        include = records
-                                    }
-                                }
+                                include = await getSPFRecords(lookup)
                             }
 
                             // Defines all included IP's.

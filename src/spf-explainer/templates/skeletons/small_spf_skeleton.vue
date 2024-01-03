@@ -1,5 +1,5 @@
 <!--
-Copyright 2019 DigitalOcean
+Copyright 2024 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -53,10 +53,12 @@ limitations under the License.
         mounted() {
             for (const index in this.$data.classes) {
                 (async() => {
-                    this.$set(this.$data.classes, index, [
-                        await this.getClass(),
-                        await this.getClass(),
-                    ])
+                    const className = await this.getClass()
+                    this.$data.classes = [
+                        ...this.$data.classes.slice(0, parseInt(index)),
+                        [className, className],
+                        ...this.$data.classes.slice(parseInt(index) + 1),
+                    ]
                 })()
             }
         },

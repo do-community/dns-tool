@@ -1,5 +1,5 @@
 <!--
-Copyright 2019 DigitalOcean
+Copyright 2024 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -35,8 +35,11 @@ limitations under the License.
             }
         },
         methods: {
-            toggle() {
-                this.$refs.Modal.toggle()
+            open() {
+                this.$refs.Modal.open()
+            },
+            close() {
+                this.$refs.Modal.close()
             },
         },
     }
