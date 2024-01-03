@@ -1,5 +1,5 @@
 <!--
-Copyright 2023 DigitalOcean
+Copyright 2024 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -72,6 +72,7 @@ limitations under the License.
     import longDescriptions from "../data/long_descriptions"
     import PartExplanation from "./part_explanation"
     import SPFSandbox from "../utils/spf_sandbox"
+    import getSPFRecords from "../utils/spf_records"
     import SmallSPFSkeleton from "./skeletons/small_spf_skeleton"
 
     export default {
@@ -157,18 +158,7 @@ limitations under the License.
                             let lookup = match[1] ? match[1].replace(/\" \"/g, "") : undefined
                             if (recursive && lookup !== "") {
                                 // Looks up the TXT record for the domain specified. If it exists and getting it was ok, set include to the data.
-                                const res = await cfDNS(lookup, "TXT")
-                                if (res.ok) {
-                                    const json = await res.json()
-                                    if (json.Status === 0 && json.Answer) {
-                                        const records = []
-                                        for (const answer of json.Answer) {
-                                            answer.data = answer.data.substr(1).slice(0, -1)
-                                            if (answer.data.startsWith("v=spf1")) records.push(answer.data)
-                                        }
-                                        include = records
-                                    }
-                                }
+                                include = await getSPFRecords(lookup)
                             }
 
                             // Defines all included IP's.
@@ -264,16 +254,7 @@ limitations under the License.
                             this.$data.links[chunkItem[0][0]] = chunkItem[0][0]
 
                             // Detect IP address record dupes and fix them.
-                            if (chunkItem[2]) {
-                                const i = []
-                                for (const ip of chunkItem[2]) {
-                                    if (!i.includes(ip)) {
-                                        i.push(ip)
-                                        ips.push(ip)
-                                    }
-                                }
-                                chunkItem[2] = i
-                            }
+                            if (chunkItem[2]) chunkItem[2] = [...new Set(chunkItem[2])]
 
                             // Adds this to parts (described above).
                             parts.push([chunkItem[0][0].trim(), value, chunkItem[1], chunkItem[2], chunk])
@@ -283,7 +264,7 @@ limitations under the License.
 
                 // ?all will be undefined anyway, hence it not here.
                 const action = chunks["~all"] ? true : chunks["-all"] ? false : undefined
-                SPFSandbox.import(chunks, ips, action)
+                SPFSandbox.import(chunks, action)
 
                 // Sets the parts to the component and emits that it is done loading.
                 this.$data.parts = parts

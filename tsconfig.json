@@ -3,6 +3,7 @@
         "module": "commonjs",
         "target": "es2018",
         "allowJs": true,
+        "esModuleInterop": true,
         "noImplicitAny": true,
         "noEmit": false,
         "strict": true

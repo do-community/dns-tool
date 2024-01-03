@@ -1,5 +1,5 @@
 <!--
-Copyright 2022 DigitalOcean
+Copyright 2024 DigitalOcean
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ limitations under the License.
                     <EvalNotif ref="EvalNotif" :ip="ipEval"></EvalNotif>
                 </template>
                 <template #buttons>
-                    <form v-if="!SPFSandbox.empty()" autocomplete="on" @submit.prevent="">
+                    <form v-if="showEvalForm" autocomplete="on" @submit.prevent="">
                         <div class="input-container">
                             <label for="EvaluateInput" class="hidden">Evaluate</label>
                             <input
@@ -87,11 +87,11 @@ limitations under the License.
 
 <script>
     import i18n from "../i18n"
-    import cfDNS from "../../shared/utils/cfDNS"
     import SPFBase from "./spf_base"
     import { spawnLine } from "../utils/line_spawn"
     import NoSPFRecords from "./no_spf_records"
     import SPFSandbox from "../utils/spf_sandbox"
+    import getSPFRecords from "../utils/spf_records"
     import EvalNotif from "./eval_notif"
     import AllPartExplanations from "./all_part_explanations"
     import ErrorModal from "../../shared/templates/error_modal"
@@ -130,6 +130,7 @@ limitations under the License.
                 loading: false,
                 records: [],
                 ipEval: "",
+                showEvalForm: false,
                 errorMessage: "",
                 spfTop,
                 spfBottom,
@@ -156,44 +157,28 @@ limitations under the License.
                 this.$data.errorMessage = `<p>${message}</p>`
                 this.$refs.ErrorModal.open()
             },
-            async cfPart(input) {
+            async lookup(input) {
                 const [domain, result] = await validateDomain(input)
-                if (result !== null) return this.error(result)
-
-                const res = await cfDNS(domain, "TXT")
-                if (!res.ok) return this.error(i18n.templates.app.fetchError)
-                let json
-                try {
-                    json = await res.json()
-                } catch {
-                    // Sometimes Cloudflare's DNS sends invalid JSON in the event that it is invalid.
-                    // That has happened here.
-                    return this.error(i18n.templates.app.fetchError)
+                if (result !== null) {
+                    this.error(result)
+                    return
                 }
 
-                if (!json.Answer) {
-                    this.$refs.NoSPFRecords.toggle()
-                    return false
-                }
-
-                return json
-            },
-            async lookup(domain, json) {
-                if (this.$data.lastDomain === domain) this.$data.records = []
-
-                const records = []
-                for (const answer of json.Answer) {
-                    answer.data = answer.data.substr(1).slice(0, -1)
-                    if (answer.data.startsWith("v=spf1")) records.push(answer)
-                }
-                if (records.length === 0) {
-                    return this.$refs.NoSPFRecords.toggle()
-                }
-
-                this.$data.records = records
-                window.history.pushState({}, "", `?domain=${domain}`)
                 SPFSandbox.wipe()
+                SPFSandbox.listen(() => this.$data.showEvalForm = !SPFSandbox.empty())
                 remakeController()
+
+                if (this.$data.lastDomain === domain) this.$data.records = []
+                this.$data.records = await getSPFRecords(domain)
+                window.history.pushState({}, "", `?domain=${domain}`)
+
+                if (this.$data.records.length === 0) {
+                    this.$refs.NoSPFRecords.open()
+                    return
+                } else {
+                    this.$refs.NoSPFRecords.close()
+                }
+
                 this.$data.firstSearch = false
                 this.$data.lastDomain = domain
             },
@@ -202,12 +187,18 @@ limitations under the License.
 
                 try {
                     el.classList.add("is-loading")
-                    const domain = this.$data.domain.toLowerCase().replace(/^https*:\/\//, "").replace(/\/+$/, "")
-                    const j = await this.cfPart(domain)
-                    if (!j) return
                     this.$data.loading = true
+
+                    try {
+                        const domain = this.$data.domain.toLowerCase().replace(/^https*:\/\//, "").replace(/\/+$/, "")
+                        await this.lookup(domain)
+                    } catch {
+                        // Sometimes Cloudflare's DNS sends invalid JSON in the event that it is invalid.
+                        this.error(i18n.templates.app.fetchError)
+                        return
+                    }
+
                     spawnLine(undefined)
-                    await this.lookup(domain, j)
                 } catch(e) {
                     console.error(e)
                 } finally {
