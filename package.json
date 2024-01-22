@@ -58,8 +58,8 @@
     "posthtml": "^0.16.6",
     "posthtml-extend": "^0.6.5",
     "sass": "^1.70.0",
-    "stylelint": "^15.11.0",
-    "stylelint-config-standard-scss": "^10.0.0",
+    "stylelint": "^16.2.0",
+    "stylelint-config-standard-scss": "^13.0.0",
     "stylelint-order": "^6.0.4",
     "typescript": "^5.3.3",
     "vue-template-compiler": "^2.7.16"
