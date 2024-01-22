@@ -40,8 +40,8 @@
     "abortcontroller-polyfill": "^1.7.5",
     "babel-polyfill": "^6.26.0",
     "cidr-matcher": "^2.1.1",
-    "do-bulma": "github:do-community/do-bulma",
-    "do-vue": "github:do-community/do-vue",
+    "do-bulma": "github:do-community/do-bulma#MattIPv4/update-dependencies",
+    "do-vue": "github:do-community/do-vue#MattIPv4/update-dependencies",
     "vue": "^3.3.4",
     "vue-tippy": "^6.2.0",
     "web-whois": "0.0.6"
